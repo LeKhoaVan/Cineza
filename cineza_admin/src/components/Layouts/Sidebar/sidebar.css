@@ -1,0 +1,44 @@
+.button-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    border: none;
+    background: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        border-left: #80a5bd 5px solid;
+
+        .button-context-text {
+            color: white;
+        }
+
+        .button-context-img {
+            filter: invert(100%);
+        }
+    }
+}
+
+.button-context {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
+}
+
+.button-context-img {
+    width: 50px;
+    height: 50px;
+    padding: 0px 20px 0px 20px;
+    filter: invert(80%);
+}
+
+.button-context-text {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: rgb(160, 160, 160);
+}
