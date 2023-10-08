@@ -12,30 +12,47 @@ const sequelize = new Sequelize(development.database, development.username, deve
     logging: false
 });
 
+
 //test connect
-const testConnect = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-}
+// const testConnect = async () => {
+//     try {
+//         await sequelize.authenticate();
+//         console.log('Connection has been established successfully.');
+//     } catch (error) {
+//         console.error('Unable to connect to the database:', error);
+//     }
+// }
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.HierachyStructure = require("./hierarchyStructure")(sequelize, DataTypes);
+db.ValueStructure = require("./valueStructure")(sequelize, DataTypes);
+db.PromotionHeader = require("./promotionHeader")(sequelize, DataTypes);
+db.PromotionLine = require("./promotionLine")(sequelize, DataTypes);
 
-db.MovieType = require("./movieType.js")(sequelize, DataTypes)
-db.Movie = require("./movie.js")(sequelize, DataTypes);
-db.MoviePrice = require("./moviePrice.js")(sequelize, DataTypes);
-db.CinemaMovie = require("./cinemaMovie.js")(sequelize, DataTypes);
-db.Cinema = require("./cinema.js")(sequelize, DataTypes);
-db.Seat = require("./Seat")(sequelize, DataTypes);
-db.Ticket = require("./ticket.js")(sequelize, DataTypes);
-db.User = require("./user.js")(sequelize, DataTypes);
-db.Bill = require("./bill.js")(sequelize, DataTypes)
+db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
+db.ValueStructure.belongsTo(db.HierachyStructure, { foreignKey: "type" });
+
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "parentId" })
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "parentId" });
+
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "countryAddress" })
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "countryAddress" });
+
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "cityAddress" })
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "cityAddress" });
+
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "districtAddress" })
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "districtAddress" });
+
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "wardAddress" })
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
+
+db.PromotionHeader.hasMany(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
+db.PromotionLine.belongsTo(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
 
 module.exports = {
-    testConnect,
-    db
+    // testConnect,
+    db,
+    sequelize
 }

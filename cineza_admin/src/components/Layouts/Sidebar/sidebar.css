@@ -1,3 +1,9 @@
+.sidebar-container {
+    width: 100%;
+    height: 90%;
+    overflow-y: auto;
+}
+
 .button-sidebar {
     display: flex;
     flex-direction: column;
@@ -11,6 +17,7 @@
 
     &:hover {
         border-left: #80a5bd 5px solid;
+        background-color: rgb(196, 196, 196);
 
         .button-context-text {
             color: white;
@@ -31,14 +38,14 @@
 }
 
 .button-context-img {
-    width: 50px;
-    height: 50px;
-    padding: 0px 20px 0px 20px;
-    filter: invert(80%);
+    width: 30px;
+    height: 30px;
+    padding: 0px 10px 0px 10px;
+    filter: invert(0%);
 }
 
 .button-context-text {
     font-size: 0.8rem;
     font-weight: bold;
-    color: rgb(160, 160, 160);
+    color: rgb(0, 0, 0);
 }

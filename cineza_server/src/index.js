@@ -1,10 +1,12 @@
 const express = require("express");
 const path = require("path");
+const cors = require('cors');
 
 const rootRouter = require("./routes/index")
 const { db, testConnect } = require("./models/index.js")
 
 const app = express();
+app.use(cors())
 // format response json
 app.use(express.json())
 
@@ -16,7 +18,7 @@ app.use("/src/public", express.static(publicPath))
 app.use("/cineza/api/v1/", rootRouter);
 
 //test connect database
-testConnect();
+// testConnect();
 
 // function insertMovie() {
 //     try {

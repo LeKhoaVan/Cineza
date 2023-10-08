@@ -1,0 +1,32 @@
+.page_vtdl_container {
+    width: 100%;
+    min-height: 90%;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+/* .page_vtdl_sibar {
+    width: 25%;
+    padding-top: 20px;
+    padding-right: 2px;
+    margin-right: 7px;
+    background-color: rgb(235, 235, 235);
+    border-radius: 20px;
+    border: 1px black solid;
+} */
+
+.page_vtdl_content {
+    width: 90%;
+    position: sticky;
+    top: 7.5rem;
+    left: 24%;
+    height: 100%;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    padding-left: 40px;
+    border-radius: 30px;
+    border: 1px solid black;
+}

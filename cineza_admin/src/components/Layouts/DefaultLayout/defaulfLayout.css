@@ -4,33 +4,46 @@
 }
 
 html {
-    font-size: 16px;
+    font-size: 15px;
+}
+
+:root {
+    --width-layout: 100vh;
+    --width-content: 90vh;
 }
 
 .default-container {
+    position: relative;
     width: 100%;
-    min-height: 700px;
+    max-height: var(--width-layout);
     display: flex;
     flex-direction: column;
 }
 
 .default-header {
-    background-color: #85b4d0;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
     width: 100%;
+    background-color: #85b4d0;
     height: 4rem;
 }
 
 .default-wrapper {
     width: 100%;
-    min-height: 700px;
+    min-height: var(--width-content);
+    margin-top: 4rem;
     display: flex;
     flex-direction: row;
 }
 
 .dedefault-sidebar {
-    background-color: #2b5169;
     width: 20%;
     min-height: 85%;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px black solid;
 }
 
 .default-content {
