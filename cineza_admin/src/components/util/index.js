@@ -1,4 +1,5 @@
-const formatDate = (inputDate) => {
+
+const formatDateHandle = (inputDate) => {
     // Create a new Date object from the input date string
     const date = new Date(inputDate);
 
@@ -13,7 +14,25 @@ const formatDate = (inputDate) => {
     return formattedDate;
 }
 
-export default formatDate;
-// const dateStr = "2000-12-12T00:00:00.000Z";
-// const formattedDate = formatDate(dateStr);
-// console.log(formattedDate); // Output: "12-12-2000"
+const formatFromObjectToDate = (inputDate) => {
+    const date = new Date(inputDate);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    const formattedDate = `${day}-${month}-${year}`;
+    return formattedDate;
+}
+
+// const formatFromDatetoObject = (inputStringDate) => {
+//     const parsedDate = parse(inputStringDate, 'dd-MM-yyyy', new Date());
+//     const formattedDate = format(parsedDate, "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zz)", {
+//         timeZone: 'Asia/Ho_Chi_Minh', // Múi giờ của Việt Nam
+//     });
+//     return formattedDate;
+// }
+
+module.exports = {
+    formatDateHandle,
+    formatFromObjectToDate,
+    // formatFromDatetoObject
+};

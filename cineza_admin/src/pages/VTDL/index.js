@@ -4,6 +4,7 @@ import DataTable from 'react-data-table-component';
 import Table from "../../components/Table";
 import "./viTriDiaLy.css"
 import VTDLDetail from "../VTDLDetail";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
 
 // const columns = [
 //     {
@@ -86,13 +87,32 @@ const VTDL = () => {
     //get data
     const [levelOfAddress, setLevelOfAddress] = useState("");
     const [context, setContext] = useState("")
+    const [openModalAdd, setOpenModelAdd] = useState(false);
     const onClickHandleRow = () => {
 
+    }
+    const onClickHandleBtnAdd = () => {
+        setOpenModelAdd(true);
+    };
+
+    const onClickHandleCloseP = async () => {
+        window.location.href = "http://localhost:3000/cineza/admin/vtdl"
+        setOpenModelAdd(false);
     }
     return (
         <div className="page_vtdl_container">
             <div className="page_vtdl_content">
-                <h3>Vị trí địa lý</h3>
+                <div
+                    style={{ display: "flex", flexDirection: "row", paddingRight: "10px", alignItems: "center", }}
+                >
+                    <h3>Vị trí địa lý</h3>
+                    <img
+                        src={iconAdd}
+                        alt="btn-add"
+                        className="user-btn-add"
+                        onClick={onClickHandleBtnAdd}
+                    />
+                </div>
                 {/* <DataTable
                     columns={columns}
                     data={dataColumn}
@@ -105,6 +125,7 @@ const VTDL = () => {
                 /> */}
                 <Table column={columns} data={dataColumn} onRowClick={onClickHandleRow} toLink={"/vtdl/level?level="} />
             </div>
+            {openModalAdd && <VTDLDetail onClickHandleClose={onClickHandleCloseP} addBtn={true} />}
         </div>
     )
 }

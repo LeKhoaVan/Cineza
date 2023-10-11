@@ -207,3 +207,9 @@
     height: 100%;
     padding-top: 50px;
 }
+
+.date-picker {
+    height: 29px;
+    padding-left: 17px;
+    margin-right: 230px;
+}

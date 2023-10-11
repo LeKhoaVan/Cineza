@@ -21,7 +21,7 @@ const dataStatus = [
     { id: "DESTROY", value: "DESTROY" }
 ]
 
-const VTDLDetail = ({ codeAddressBy, onClickHandleClose }) => {
+const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
     const location = useLocation();
     const levelAddressIN = new URLSearchParams(location.search).get("level");
 
@@ -82,6 +82,11 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose }) => {
     };
 
     useEffect(() => {
+        if (addBtn) {
+            setEditCode(true)
+            setEdit(true)
+            setCreateNew(true)
+        }
         const getAddressByCode = async () => {
             try {
                 const response = await axios.get(`http://localhost:9000/cineza/api/v1/value/address/get-code/` + codeAddressBy);
@@ -132,11 +137,6 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose }) => {
             fullName: nameAddress,
             status: statusAddress
         };
-        console.log("test: " + address.code);
-        console.log("test: " + address.type);
-        console.log("test: " + address.parentId);
-        console.log("test: " + address.fullName);
-        console.log("test: " + address.status);
         try {
             if (editCode) {
                 const response = await axios.post(`http://localhost:9000/cineza/api/v1/value/address/create`, address);

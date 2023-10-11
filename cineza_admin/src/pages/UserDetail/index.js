@@ -13,8 +13,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import formatDate from "../../components/util";
-import { SelectDatepicker } from "react-select-datepicker";
+import { formatDateHandle } from "../../components/util/index";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { parse, format } from 'date-fns';
+import vi from 'date-fns/locale/vi';
+registerLocale('vi', vi)
+
 
 const dataStatus = [
   { id: "ACTIVE", value: "ACTIVE" },
@@ -34,6 +40,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [nameUser, setNameUser] = useState("");
   const [phoneUser, setPhoneUser] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [dateOfBirthShow, setDateOfBirthShow] = useState(new Date());
   const [typeUser, setTypeUser] = useState("");
   const [idTypeUser, setIdTypeUser] = useState("");
   const [levelUser, setLevelUser] = useState("");
@@ -55,6 +62,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [editCode, setEditCode] = useState(false);
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -88,7 +96,29 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const onChangeHandleCode = (text) => {
     setCodeUser(text.target.value);
   };
+
+  useEffect(() => {
+    if (editCode || edit) {
+      if (codeUser.length <= 0) {
+        setIsValid(true);
+      } else {
+        setIsValid(false);
+      }
+    }
+  }, [codeUser]);
+
+  const onHandleFocusCode = () => {
+    console.log("test onclick")
+    if (editCode || edit) {
+      if (codeUser.length <= 0) {
+        setIsValid(true)
+      } else {
+        setIsValid(false)
+      }
+    }
+  }
   const onChangeHandleName = (text) => {
+
     setNameUser(text.target.value);
   };
 
@@ -96,7 +126,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setPhoneUser(text.target.value);
   };
   const onChangeHandleDate = (text) => {
-    setDateOfBirth(text.target.value);
+    setDateOfBirth(text);
+    setDateOfBirthShow(text);
+    console.log(text)
   };
 
   const onChangeHandleType = (text) => {
@@ -112,17 +144,18 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
         setEditCode(true);
         setEdit(true);
         setCreateNew(true);
+        setTypeUser("Người sử dụng");
       }
       try {
         const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/user/get-code/` +
-            codeUserBy
+          `http://localhost:9000/cineza/api/v1/value/user/get-code/` + codeUserBy
         );
         if (response.status === 200) {
           setCodeUser(response.data.code);
           setNameUser(response.data.fullName);
           setPhoneUser(response.data.numberPhone);
-          setDateOfBirth(formatDate(response.data.dateOfBirth));
+          setDateOfBirthShow(new Date(Date.parse(response.data.dateOfBirth)));
+          setDateOfBirth(response.data.dateOfBirth);
           setTypeUser("Người sử dụng");
           setIdTypeUser(response.data.type);
           setLevelUser(response.data.level);
@@ -307,6 +340,14 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     }
   };
 
+  const formatFromDatetoObject = (inputStringDate) => {
+    const parsedDate = parse(inputStringDate, 'dd-MM-yyyy', new Date());
+    const formattedDate = format(parsedDate, 'EEE MMM dd yyyy HH:mm:ss "GMT"X (zz)', {
+      timeZone: 'Asia/Ho_Chi_Minh', // Múi giờ của Việt Nam
+    });
+    return formattedDate;
+  }
+
   return (
     <div className="user-detail-background">
       <div className="user-detail-container">
@@ -359,13 +400,10 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Mã người dùng</label>
               <div className="user-detail-input-dem"></div>
-              <input
-                className="input-user"
-                value={codeUser}
-                readOnly={!editCode}
-                style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleCode(text)}
+              <input className="input-user" value={codeUser} readOnly={!editCode} style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
+                onChange={(text) => onChangeHandleCode(text)} onFocus={onHandleFocusCode}
               />
+              {isValid && <p style={{ color: 'red' }}>Mã người dùng không được trống.</p>}
             </div>
             <div className="user-detail-input">
               <label>Tên người dùng</label>
@@ -401,11 +439,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Level</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={levelUser}
-                  label="Level"
+                <Select labelId="demo-select-small-label" id="demo-select-small" value={levelUser} label="Level"
                   onChange={handleChangeComboboxLevel}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
@@ -448,12 +482,12 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Ngày sinh</label>
               <div className="user-detail-input-dem"></div>
-              <input
-                className="input-user"
-                value={dateOfBirth}
-                readOnly={!edit}
-                style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleDate(text)}
+              {/* <input className="input-user" value={dateOfBirth} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                onChange={(text) => onChangeHandleDate(text)} /> */}
+              <DatePicker locale="vi" dateFormat="dd-MM-yyyy" selected={dateOfBirthShow} readOnly={!edit}
+                onChange={(date) => onChangeHandleDate(date)} fixedHeight="60px"
+                portalId="root-portal"
+                className="date-picker"
               />
             </div>
             <div className="user-detail-input">

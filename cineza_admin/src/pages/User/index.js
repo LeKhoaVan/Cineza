@@ -3,7 +3,7 @@ import axios from "axios";
 import DataTable from "react-data-table-component";
 import Table from "../../components/Table";
 import UserDetail from "../UserDetail";
-import formatDate from "../../components/util";
+import { formatDateHandle } from "../../components/util/index";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import "./user.css";
 
@@ -73,7 +73,7 @@ const User = () => {
           const dataSetup = result.data.map((item) => {
             return {
               ...item,
-              dateOfBirth: formatDate(item.dateOfBirth),
+              dateOfBirth: formatDateHandle(item.dateOfBirth),
             };
           });
           setContext(dataSetup);
