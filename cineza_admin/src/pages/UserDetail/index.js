@@ -62,8 +62,19 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
-  const [isValid, setIsValid] = useState(false);
-  // const [isFormValid, setIsFormValid] = useState(false);
+
+  const [isValidCode, setIsValidCode] = useState(false);
+  const [isValidName, setIsValidName] = useState(false);
+  const [isValidPass, setIsValidPass] = useState(false);
+  const [isValidLevel, setIsValidLevel] = useState(false);
+  const [isValidHome, setIsValidHome] = useState(false);
+  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [isValidStatus, setIsValidStatus] = useState(false);
+  const [isValidBirth, setIsValidBirth] = useState(false);
+
+  const [isValidAddress, setIsValidAddress] = useState(false);
+  const [errorAddress, setErrorAddress] = useState(false);
+
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -98,62 +109,173 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setCodeUser(text.target.value);
   };
 
-  useEffect(() => {
-    onHandleFocusCode();
-  }, [codeUser, nameUser]);
-
-  const onHandleFocusCode = () => {
-    let errors = {};
-    if (editCode || edit) {
-      //Validate mã
-      if (codeUser.length <= 0) {
-        setIsValid(true);
-        errors.codeUser = "Mã người dùng không được trống.";
-      }
-
-      // Validate tên
-      if (!nameUser) {
-        // setIsValid(true);
-        errors.nameUser = "Tên không được để trống";
-      }
-
-      // Validate số điện thoại
-      if (!phoneUser) {
-        errors.phoneUser = "Số điện thoại không được để trống";
-      } else if (!/((09|03|07|08|05)+([0-9]{8})\b)/.test(phoneUser)) {
-        setIsValid(true);
-        errors.phoneUser = "Số điện thoại không đúng";
-      }
-
-      // Validate mật khẩu
-      if (!password) {
-        errors.password = "Mật khẩu không được để trống";
-      } else if (password.length < 8) {
-        setIsValid(true);
-        errors.password = "Mật khẩu ít nhất phải 8 ký tự";
-      }
-
-      //Validate địa chỉ
-      if (!numberHome) {
-        errors.numberHome = "Địa chỉ không được để trống";
-      }
-    }
-
-    // Set the errors and update form validity
-    setErrors(errors);
-    // setIsFormValid(Object.keys(errors).length === 0);
-  };
 
   // const onHandleFocusCode = () => {
-  //   console.log("test onclick");
+  //   let errors = {};
   //   if (editCode || edit) {
+  //     //Validate mã
   //     if (codeUser.length <= 0) {
   //       setIsValid(true);
-  //     } else {
-  //       setIsValid(false);
+  //       errors.codeUser = "Mã người dùng không được trống.";
+  //     }
+
+  //     // Validate tên
+  //     if (!nameUser) {
+  //       // setIsValid(true);
+  //       errors.nameUser = "Tên không được để trống";
+  //     }
+
+  //     // Validate số điện thoại
+  //     if (!phoneUser) {
+  //       errors.phoneUser = "Số điện thoại không được để trống";
+  //     } else if (!/((09|03|07|08|05)+([0-9]{8})\b)/.test(phoneUser)) {
+  //       setIsValid(true);
+  //       errors.phoneUser = "Số điện thoại không đúng";
+  //     }
+
+  //     // Validate mật khẩu
+  //     if (!password) {
+  //       errors.password = "Mật khẩu không được để trống";
+  //     } else if (password.length < 8) {
+  //       setIsValid(true);
+  //       errors.password = "Mật khẩu ít nhất phải 8 ký tự";
+  //     }
+
+  //     //Validate địa chỉ
+  //     if (!numberHome) {
+  //       errors.numberHome = "Địa chỉ không được để trống";
   //     }
   //   }
+
+  //   // Set the errors and update form validity
+  //   setErrors(errors);
+  //   // setIsFormValid(Object.keys(errors).length === 0);
   // };
+  useEffect(() => {
+    onHandleFocusCode();
+  }, [codeUser]);
+
+  const onHandleFocusCode = () => {
+    if (editCode || edit) {
+      if (codeUser.trim().length <= 0) {
+        setIsValidCode(true);
+      } else {
+        setIsValidCode(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusName();
+  }, [nameUser]);
+
+  const onHandleFocusName = () => {
+    if (editCode || edit) {
+      const regex = /^[a-zA-Z]{3,}$/;
+      if (!regex.test(nameUser)) {
+        setIsValidName(true)
+      } else {
+        setIsValidName(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusPass();
+  }, [password]);
+
+  const onHandleFocusPass = () => {
+    if (editCode || edit) {
+      if (password.trim().length < 6) {
+        setIsValidPass(true)
+      } else {
+        setIsValidPass(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusLevel();
+  }, [levelUser]);
+
+  const onHandleFocusLevel = () => {
+    if (editCode || edit) {
+      if (levelUser.length == 0) {
+        setIsValidLevel(true)
+      } else {
+        setIsValidLevel(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusHome();
+  }, [numberHome]);
+
+  const onHandleFocusHome = () => {
+    if (editCode || edit) {
+      const regex = /^[a-zA-Z0-9/]+$/;
+      if (!regex.test(numberHome)) {
+        setIsValidHome(true)
+      } else {
+        setIsValidHome(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusPhone();
+  }, [phoneUser]);
+
+  const onHandleFocusPhone = () => {
+    if (editCode || edit) {
+      const regex = /((09|03|07|08|05)+([0-9]{8}))/
+      if (!regex.test(phoneUser) || phoneUser.trim().length == 0) {
+        setIsValidPhone(true)
+      } else {
+        setIsValidPhone(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusStatus();
+  }, [status]);
+
+  const onHandleFocusStatus = () => {
+    if (editCode || edit) {
+      if (status.length == 0) {
+        setIsValidStatus(true)
+      } else {
+        setIsValidStatus(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusAddress();
+  }, [country, city, ward, district]);
+
+  const onHandleFocusAddress = () => {
+    if (editCode || edit) {
+      if (country.length == 0) {
+        setErrorAddress("Không bỏ trống Quốc Gia")
+        setIsValidAddress(true)
+      } else if (city.length == 0) {
+        setErrorAddress("Không bỏ trống tỉnh/thành phố")
+        setIsValidAddress(true)
+      } else if (district.length == 0) {
+        setErrorAddress("Không bỏ trống quận/huyện")
+        setIsValidAddress(true)
+      } else if (ward.length == 0) {
+        setErrorAddress("Không bỏ trống phường/xã")
+        setIsValidAddress(true)
+      } else {
+        setIsValidAddress(false)
+      }
+    }
+  };
+
   const onChangeHandleName = (text) => {
     setNameUser(text.target.value);
   };
@@ -185,7 +307,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/value/user/get-code/` +
-            codeUserBy
+          codeUserBy
         );
         if (response.status === 200) {
           setCodeUser(response.data.code);
@@ -442,7 +564,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <label>Mã người dùng</label>
               <div className="user-detail-input-dem"></div>
 
-              <div className="user-detail-input-detail">
+              <div className="input-user-container">
                 <input
                   className="input-user"
                   value={codeUser}
@@ -451,7 +573,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   onChange={(text) => onChangeHandleCode(text)}
                   onFocus={onHandleFocusCode}
                 />
-                {isValid && <p style={{ color: "red" }}>{errors.codeUser}</p>}
+                {isValidCode && <p style={{ color: "red" }}>Mã không được bỏ trống</p>}
               </div>
 
               {/* {isValid && (
@@ -461,32 +583,32 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Tên người dùng</label>
               <div className="user-detail-input-dem"></div>
-              <div className="user-detail-input-detail">
+              <div className="input-user-container">
                 <input
                   className="input-user"
                   value={nameUser}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleName(text)}
-                  onFocus={onHandleFocusCode}
+                  onFocus={onHandleFocusName}
                 />
-                {isValid && <p style={{ color: "red" }}>{errors.nameUser}</p>}
+                {isValidName && <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>}
               </div>
             </div>
             {editCode && (
               <div className="user-detail-input">
                 <label>Mật khẩu</label>
                 <div className="user-detail-input-dem"></div>
-                <div className="user-detail-input-detail">
+                <div className="input-user-container">
                   <input
                     className="input-user"
                     value={password}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                     onChange={(text) => onChangeHandlePassword(text)}
-                    onFocus={onHandleFocusCode}
+                    onFocus={onHandleFocusPass}
                   />
-                  {isValid && <p style={{ color: "red" }}>{errors.password}</p>}
+                  {isValidPass && <p style={{ color: "red" }}>"Mật khẩu tối thiểu 6 ký tự"</p>}
                 </div>
               </div>
             )}
@@ -495,35 +617,39 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="user-detail-input-dem"></div>
               {/* <input className="input-user" value={levelUser} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                                 onChange={(text) => onChangeHandleLevel(text)} /> */}
-              <FormControl
-                sx={{ width: "52%", marginRight: "80px" }}
-                size="small"
-              >
-                <InputLabel id="demo-select-small-label">Level</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={levelUser}
-                  label="Level"
-                  onChange={handleChangeComboboxLevel}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+              <div className="input-user-container">
+                <FormControl
+                  sx={{ width: "100%", marginRight: "80px" }}
+                  size="small"
                 >
-                  {dataLevel.map((st, index) => {
-                    return (
-                      <MenuItem key={index} value={st.id}>
-                        {st.value}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+                  <InputLabel id="demo-select-small-label">Level</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={levelUser}
+                    label="Level"
+                    onChange={handleChangeComboboxLevel}
+                    onFocus={onHandleFocusLevel}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataLevel.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.id}>
+                          {st.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidLevel && <p style={{ color: "red" }}>Level không bỏ trống</p>}
+              </div>
             </div>
             <div className="user-detail-input">
               <label>Địa chỉ</label>
               <div className="user-detail-input-dem"></div>
 
-              <div className="user-detail-input-detail">
+              <div className="input-user-container">
                 <input
                   className="input-user"
                   placeholder="số nhà, tên đường"
@@ -531,9 +657,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleNumberHome(text)}
-                  onFocus={onHandleFocusCode}
+                  onFocus={onHandleFocusHome}
                 />
-                {isValid && <p style={{ color: "red" }}>{errors.numberHome}</p>}
+                {isValidHome && <p style={{ color: "red" }}>Không bỏ trống</p>}
               </div>
             </div>
           </div>
@@ -541,16 +667,17 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Số điện thoại</label>
               <div className="user-detail-input-dem"></div>
-              <div className="user-detail-input-detail">
+              <div className="input-user-container">
                 <input
                   className="input-user"
+                  placeholder="0987654321"
                   value={phoneUser}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandlePhone(text)}
-                  onFocus={onHandleFocusCode}
+                  onFocus={onHandleFocusPhone}
                 />
-                {isValid && <p style={{ color: "red" }}>{errors.phoneUser}</p>}
+                {isValidPhone && <p style={{ color: "red" }}>Số điện thoại không đúng</p>}
               </div>
             </div>
             <div className="user-detail-input">
@@ -574,34 +701,38 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="user-detail-input-dem"></div>
               {/* <input className="input-user" value={status} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                                 onChange={(text) => onChangeHandleStatus(text)} /> */}
-              <FormControl
-                sx={{ width: "52%", marginRight: "80px" }}
-                size="small"
-              >
-                <InputLabel id="demo-select-small-label">Status</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={status}
-                  label="Status"
-                  onChange={handleChangeComboboxStatus}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+              <div className="input-user-container">
+                <FormControl
+                  sx={{ width: "52%", marginRight: "80px" }}
+                  size="small"
                 >
-                  {dataStatus.map((st, index) => {
-                    return (
-                      <MenuItem key={index} value={st.id}>
-                        {st.value}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={status}
+                    label="Status"
+                    onChange={handleChangeComboboxStatus}
+                    onFocus={onHandleFocusStatus}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataStatus.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.id}>
+                          {st.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidStatus && <p style={{ color: "red" }}>Không được bỏ trống</p>}
+              </div>
             </div>
             <div className="user-detail-input">
               <label>Loại</label>
               <div className="user-detail-input-dem"></div>
-              <div className="user-detail-input-detail">
+              <div className="input-user-container">
                 <input
                   className="input-user"
                   value={typeUser}
@@ -628,6 +759,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                     label="Quốc gia"
                     onChange={handleChangeComboboxCountry}
                     readOnly={!edit}
+                    onFocus={onHandleFocusAddress}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {country?.map((st, index) => {
@@ -718,6 +850,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                     })}
                   </Select>
                 </FormControl>
+                {isValidAddress && <p style={{ color: "red" }}>{errorAddress}</p>}
               </div>
             </div>
           </div>

@@ -180,7 +180,7 @@
   padding: 10px;
 }
 
-.user-detail-input-detail {
+.input-user-container {
   width: 50%;
   flex-direction: column;
   margin-right: 95px;
