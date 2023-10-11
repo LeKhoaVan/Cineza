@@ -17,10 +17,9 @@ import { formatDateHandle } from "../../components/util/index";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
-import { parse, format } from 'date-fns';
-import vi from 'date-fns/locale/vi';
-registerLocale('vi', vi)
-
+import { parse, format } from "date-fns";
+import vi from "date-fns/locale/vi";
+registerLocale("vi", vi);
 
 const dataStatus = [
   { id: "ACTIVE", value: "ACTIVE" },
@@ -62,7 +61,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [editCode, setEditCode] = useState(false);
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
+  const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
+  // const [isFormValid, setIsFormValid] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -98,27 +99,62 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
-    if (editCode || edit) {
-      if (codeUser.length <= 0) {
-        setIsValid(true);
-      } else {
-        setIsValid(false);
-      }
-    }
-  }, [codeUser]);
+    onHandleFocusCode();
+  }, [codeUser, nameUser]);
 
   const onHandleFocusCode = () => {
-    console.log("test onclick")
+    let errors = {};
     if (editCode || edit) {
+      //Validate mã
       if (codeUser.length <= 0) {
-        setIsValid(true)
-      } else {
-        setIsValid(false)
+        setIsValid(true);
+        errors.codeUser = "Mã người dùng không được trống.";
+      }
+
+      // Validate tên
+      if (!nameUser) {
+        // setIsValid(true);
+        errors.nameUser = "Tên không được để trống";
+      }
+
+      // Validate số điện thoại
+      if (!phoneUser) {
+        errors.phoneUser = "Số điện thoại không được để trống";
+      } else if (!/((09|03|07|08|05)+([0-9]{8})\b)/.test(phoneUser)) {
+        setIsValid(true);
+        errors.phoneUser = "Số điện thoại không đúng";
+      }
+
+      // Validate mật khẩu
+      if (!password) {
+        errors.password = "Mật khẩu không được để trống";
+      } else if (password.length < 8) {
+        setIsValid(true);
+        errors.password = "Mật khẩu ít nhất phải 8 ký tự";
+      }
+
+      //Validate địa chỉ
+      if (!numberHome) {
+        errors.numberHome = "Địa chỉ không được để trống";
       }
     }
-  }
-  const onChangeHandleName = (text) => {
 
+    // Set the errors and update form validity
+    setErrors(errors);
+    // setIsFormValid(Object.keys(errors).length === 0);
+  };
+
+  // const onHandleFocusCode = () => {
+  //   console.log("test onclick");
+  //   if (editCode || edit) {
+  //     if (codeUser.length <= 0) {
+  //       setIsValid(true);
+  //     } else {
+  //       setIsValid(false);
+  //     }
+  //   }
+  // };
+  const onChangeHandleName = (text) => {
     setNameUser(text.target.value);
   };
 
@@ -128,7 +164,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const onChangeHandleDate = (text) => {
     setDateOfBirth(text);
     setDateOfBirthShow(text);
-    console.log(text)
+    console.log(text);
   };
 
   const onChangeHandleType = (text) => {
@@ -148,7 +184,8 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       }
       try {
         const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/user/get-code/` + codeUserBy
+          `http://localhost:9000/cineza/api/v1/value/user/get-code/` +
+            codeUserBy
         );
         if (response.status === 200) {
           setCodeUser(response.data.code);
@@ -341,12 +378,16 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   };
 
   const formatFromDatetoObject = (inputStringDate) => {
-    const parsedDate = parse(inputStringDate, 'dd-MM-yyyy', new Date());
-    const formattedDate = format(parsedDate, 'EEE MMM dd yyyy HH:mm:ss "GMT"X (zz)', {
-      timeZone: 'Asia/Ho_Chi_Minh', // Múi giờ của Việt Nam
-    });
+    const parsedDate = parse(inputStringDate, "dd-MM-yyyy", new Date());
+    const formattedDate = format(
+      parsedDate,
+      'EEE MMM dd yyyy HH:mm:ss "GMT"X (zz)',
+      {
+        timeZone: "Asia/Ho_Chi_Minh", // Múi giờ của Việt Nam
+      }
+    );
     return formattedDate;
-  }
+  };
 
   return (
     <div className="user-detail-background">
@@ -400,33 +441,53 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Mã người dùng</label>
               <div className="user-detail-input-dem"></div>
-              <input className="input-user" value={codeUser} readOnly={!editCode} style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleCode(text)} onFocus={onHandleFocusCode}
-              />
-              {isValid && <p style={{ color: 'red' }}>Mã người dùng không được trống.</p>}
+
+              <div className="user-detail-input-detail">
+                <input
+                  className="input-user"
+                  value={codeUser}
+                  readOnly={!editCode}
+                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleCode(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValid && <p style={{ color: "red" }}>{errors.codeUser}</p>}
+              </div>
+
+              {/* {isValid && (
+                <p style={{ color: "red" }}>Mã người dùng không được trống.</p>
+              )} */}
             </div>
             <div className="user-detail-input">
               <label>Tên người dùng</label>
               <div className="user-detail-input-dem"></div>
-              <input
-                className="input-user"
-                value={nameUser}
-                readOnly={!edit}
-                style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleName(text)}
-              />
+              <div className="user-detail-input-detail">
+                <input
+                  className="input-user"
+                  value={nameUser}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleName(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValid && <p style={{ color: "red" }}>{errors.nameUser}</p>}
+              </div>
             </div>
             {editCode && (
               <div className="user-detail-input">
                 <label>Mật khẩu</label>
                 <div className="user-detail-input-dem"></div>
-                <input
-                  className="input-user"
-                  value={password}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  onChange={(text) => onChangeHandlePassword(text)}
-                />
+                <div className="user-detail-input-detail">
+                  <input
+                    className="input-user"
+                    value={password}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    onChange={(text) => onChangeHandlePassword(text)}
+                    onFocus={onHandleFocusCode}
+                  />
+                  {isValid && <p style={{ color: "red" }}>{errors.password}</p>}
+                </div>
               </div>
             )}
             <div className="user-detail-input">
@@ -439,7 +500,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Level</InputLabel>
-                <Select labelId="demo-select-small-label" id="demo-select-small" value={levelUser} label="Level"
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={levelUser}
+                  label="Level"
                   onChange={handleChangeComboboxLevel}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
@@ -457,35 +522,49 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Địa chỉ</label>
               <div className="user-detail-input-dem"></div>
-              <input
-                className="input-user"
-                placeholder="số nhà, tên đường"
-                value={numberHome}
-                readOnly={!edit}
-                style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleNumberHome(text)}
-              />
+
+              <div className="user-detail-input-detail">
+                <input
+                  className="input-user"
+                  placeholder="số nhà, tên đường"
+                  value={numberHome}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleNumberHome(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValid && <p style={{ color: "red" }}>{errors.numberHome}</p>}
+              </div>
             </div>
           </div>
           <div className="user-detail-content-right">
             <div className="user-detail-input">
               <label>Số điện thoại</label>
               <div className="user-detail-input-dem"></div>
-              <input
-                className="input-user"
-                value={phoneUser}
-                readOnly={!edit}
-                style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandlePhone(text)}
-              />
+              <div className="user-detail-input-detail">
+                <input
+                  className="input-user"
+                  value={phoneUser}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandlePhone(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValid && <p style={{ color: "red" }}>{errors.phoneUser}</p>}
+              </div>
             </div>
             <div className="user-detail-input">
               <label>Ngày sinh</label>
               <div className="user-detail-input-dem"></div>
               {/* <input className="input-user" value={dateOfBirth} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                 onChange={(text) => onChangeHandleDate(text)} /> */}
-              <DatePicker locale="vi" dateFormat="dd-MM-yyyy" selected={dateOfBirthShow} readOnly={!edit}
-                onChange={(date) => onChangeHandleDate(date)} fixedHeight="60px"
+              <DatePicker
+                locale="vi"
+                dateFormat="dd-MM-yyyy"
+                selected={dateOfBirthShow}
+                readOnly={!edit}
+                onChange={(date) => onChangeHandleDate(date)}
+                fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"
               />
@@ -522,13 +601,15 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Loại</label>
               <div className="user-detail-input-dem"></div>
-              <input
-                className="input-user"
-                value={typeUser}
-                readOnly={true}
-                style={{ background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleType(text)}
-              />
+              <div className="user-detail-input-detail">
+                <input
+                  className="input-user"
+                  value={typeUser}
+                  readOnly={true}
+                  style={{ background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleType(text)}
+                />
+              </div>
             </div>
 
             <div className="user-detail-input">
