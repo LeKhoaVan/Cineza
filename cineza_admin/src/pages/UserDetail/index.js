@@ -107,7 +107,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const onChangeHandleCode = (text) => {
     setCodeUser(text.target.value);
   };
-
   // const onHandleFocusCode = () => {
   //   let errors = {};
   //   if (editCode || edit) {
@@ -144,7 +143,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   //       errors.numberHome = "Địa chỉ không được để trống";
   //     }
   //   }
-
   //   setErrors(errors);
   //   // setIsFormValid(Object.keys(errors).length === 0);
   // };
@@ -227,7 +225,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusPhone = () => {
     if (editCode || edit) {
-      const regex = /((09|03|07|08|05)+([0-9]{8}))/;
+      const regex = /((09|03|07|08|05)+([0-9]{8})\b)/;
       if (!regex.test(phoneUser) || phoneUser.trim().length == 0) {
         setIsValidPhone(true);
       } else {
@@ -676,6 +674,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-user-container">
                 <input
                   className="input-user"
+                  placeholder="0987654321"
                   value={phoneUser}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
