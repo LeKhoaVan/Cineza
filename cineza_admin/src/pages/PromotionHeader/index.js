@@ -35,8 +35,8 @@ const PromotionHeader = () => {
   const [openModelDetail, setOpenModelDetail] = useState(false);
   const [codeHeader, setCodeHeader] = useState("");
   const onHandleSelect = (row) => {
-    setCodeHeader(row)
-    setOpenModelDetail(true)
+    setCodeHeader(row);
+    setOpenModelDetail(true);
   };
 
   const onClickHandleBtnAdd = () => {
@@ -46,7 +46,7 @@ const PromotionHeader = () => {
   const onClickHandleCloseP = async () => {
     window.location.href = "/cineza/admin/promotions";
     setOpenModelDetail(false);
-  }
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -55,13 +55,13 @@ const PromotionHeader = () => {
           "http://localhost:9000/cineza/api/v1/promotion-header/get-all"
         );
         if (result.status == 200) {
-          const dataResult = result.data.map(item => {
+          const dataResult = result.data.map((item) => {
             return {
               ...item,
               startDay: formatDateHandle(item.startDay),
-              endDay: formatDateHandle(item.endDay)
-            }
-          })
+              endDay: formatDateHandle(item.endDay),
+            };
+          });
           setContext(dataResult);
         }
       } catch (error) {
@@ -94,7 +94,19 @@ const PromotionHeader = () => {
       <div className="table-all-promotion">
         {/* toPromotion={"/promotion/code?code="}  */}
         <Table column={columns} data={context} onRowClick={onHandleSelect} />
-        {openModelDetail && <PromotionHeaderEdit codePromotion={codeHeader} onClickHandleClose={onClickHandleCloseP} />}
+        {openModelDetail && (
+          <PromotionHeaderEdit
+            codePromotion={codeHeader}
+            onClickHandleClose={onClickHandleCloseP}
+          />
+        )}
+        {openModelAdd && (
+          <PromotionHeaderEdit
+            addBtn={true}
+            codePromotion={codeHeader}
+            onClickHandleClose={onClickHandleCloseP}
+          />
+        )}
       </div>
     </div>
   );
