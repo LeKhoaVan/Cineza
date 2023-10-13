@@ -250,20 +250,20 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     onHandleFocusAddress();
-  }, [country, city, ward, district]);
+  }, [countryId, cityId, wardId, districtId]);
 
   const onHandleFocusAddress = () => {
     if (editCode || edit) {
-      if (country.length == 0) {
+      if (countryId.length == 0) {
         setErrorAddress("Không bỏ trống Quốc Gia");
         setIsValidAddress(true);
-      } else if (city.length == 0) {
+      } else if (cityId.length == 0) {
         setErrorAddress("Không bỏ trống tỉnh/thành phố");
         setIsValidAddress(true);
-      } else if (district.length == 0) {
+      } else if (districtId.length == 0) {
         setErrorAddress("Không bỏ trống quận/huyện");
         setIsValidAddress(true);
-      } else if (ward.length == 0) {
+      } else if (wardId.length == 0) {
         setErrorAddress("Không bỏ trống phường/xã");
         setIsValidAddress(true);
       } else {
@@ -303,7 +303,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/value/user/get-code/` +
-            codeUserBy
+          codeUserBy
         );
         if (response.status === 200) {
           setCodeUser(response.data.code);
@@ -445,9 +445,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   };
 
   const onClickHandleSave = async () => {
-    const address = {
+    const user = {
       code: codeUser,
-      type: idTypeUser,
+      type: "6cadf9a4-4410-4bf3-a99b-e5f020757553",
       numberPhone: phoneUser,
       password: password,
       dateOfBirth: dateOfBirth,
@@ -460,37 +460,52 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       fullName: nameUser,
       status: status,
     };
-
-    try {
-      if (editCode) {
-        const response = await axios.post(
-          `http://localhost:9000/cineza/api/v1/value/user/create`,
-          address
-        );
-        if (response.status === 201) {
-          setMessage("Lưu thành công");
-          setShowAlert(true);
-        } else {
-          setMessage("Lưu thất bại");
-          setShowAlert(true);
+    onHandleFocusCode()
+    onHandleFocusName()
+    onHandleFocusPass()
+    onHandleFocusLevel()
+    onHandleFocusPhone()
+    onHandleFocusHome()
+    onHandleFocusStatus()
+    onHandleFocusAddress()
+    if (!isValidCode & !isValidName & !isValidPass & !isValidLevel & !isValidHome & !isValidPhone & !isValidStatus
+      & !isValidAddress) {
+      try {
+        console.log(user)
+        if (editCode) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/value/user/create`,
+            user
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+        } else if (update) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
+            user
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
         }
-      } else if (update) {
-        const response = await axios.put(
-          `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-          address
-        );
-        if (response.status === 200) {
-          console.log("save success");
-          setMessage("Cập nhật thành công");
-          setShowAlert(true);
-        } else {
-          setMessage("Cập thất bại");
-          setShowAlert(true);
-        }
+      } catch (error) {
+        console.log("save address fail: " + error);
+        setMessage("Lưu thất bại");
+        setShowAlert(true);
       }
-    } catch (error) {
-      console.log("save address fail: " + error);
-      setMessage("Lưu thất bại");
+    } else {
+      console.log("lưu sai")
+      setMessage("Vui lòng nhập đầy đủ");
       setShowAlert(true);
     }
   };
@@ -792,6 +807,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                     value={cityId}
                     label="Tinh/TP"
                     onChange={handleChangeComboboxCity}
+                    onFocus={onHandleFocusAddress}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
@@ -819,6 +835,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                     value={districtId}
                     label="Quân./Huyện"
                     onChange={handleChangeComboboxDistrict}
+                    onFocus={onHandleFocusAddress}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >

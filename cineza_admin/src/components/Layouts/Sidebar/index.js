@@ -15,7 +15,7 @@ const Sidebar = () => {
         { text: "Người sử dụng", image: iconUser, href: "/users" },
         { text: "Rạp", image: iconRap, href: "/rap" },
         { text: "Vé", image: iconVe, href: "#" },
-        { text: "Phim", image: iconPhim, href: "#" },
+        { text: "Phim", image: iconPhim, href: "/movie" },
         { text: "Đồ đi kèm", image: iconOther, href: "#" },
         { text: "Thống kê", image: iconThongKe, href: "#" },
     ]
