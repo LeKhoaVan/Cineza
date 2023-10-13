@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import axios from "axios";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import { formatDateHandle } from "../../components/util";
+import PromotionHeaderEdit from "../PromotionHeaderEdit";
 
 import "./promotionHeader.css";
 const columns = [
@@ -30,11 +32,21 @@ const columns = [
 const PromotionHeader = () => {
   const [context, setContext] = useState([]);
   const [openModelAdd, setOpenModelAdd] = useState(false);
-  const onHandleSelect = (row) => {};
+  const [openModelDetail, setOpenModelDetail] = useState(false);
+  const [codeHeader, setCodeHeader] = useState("");
+  const onHandleSelect = (row) => {
+    setCodeHeader(row)
+    setOpenModelDetail(true)
+  };
 
   const onClickHandleBtnAdd = () => {
     setOpenModelAdd(true);
   };
+
+  const onClickHandleCloseP = async () => {
+    window.location.href = "/cineza/admin/promotions";
+    setOpenModelDetail(false);
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -43,7 +55,14 @@ const PromotionHeader = () => {
           "http://localhost:9000/cineza/api/v1/promotion-header/get-all"
         );
         if (result.status == 200) {
-          setContext(result.data);
+          const dataResult = result.data.map(item => {
+            return {
+              ...item,
+              startDay: formatDateHandle(item.startDay),
+              endDay: formatDateHandle(item.endDay)
+            }
+          })
+          setContext(dataResult);
         }
       } catch (error) {
         console.log("error get api all user " + error);
@@ -73,7 +92,9 @@ const PromotionHeader = () => {
       </div>
 
       <div className="table-all-promotion">
+        {/* toPromotion={"/promotion/code?code="}  */}
         <Table column={columns} data={context} onRowClick={onHandleSelect} />
+        {openModelDetail && <PromotionHeaderEdit codePromotion={codeHeader} onClickHandleClose={onClickHandleCloseP} />}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import SidebarHierarchyStructure from "../components/Layouts/SideBarHierarychStr
 import HierarchyStructure from "../pages/HierarchyStructure";
 import DefaultLayout from "../components/Layouts/DefaultLayout";
 import PromotionHeader from "../pages/PromotionHeader";
+import PromotionLine from "../pages/PromotionLine";
 
 const publicRouter = [
     { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -20,7 +21,9 @@ const publicRouter = [
     { path: "/vtdl/level", componet: VTDLLevel, layout: DefaultLayout, sidebar: SidebarHierarchyStructure },
     { path: "/rap", componet: Rap, layout: DefaultLayout, sidebar: Sidebar },
     { path: "/text", componet: UserDetail, layout: DefaultLayout, sidebar: SidebarHierarchyStructure },
-    { path: "/promotions", componet: PromotionHeader, layout: DefaultLayout, sidebar: SidebarHierarchyStructure }
+    { path: "/promotions", componet: PromotionHeader, layout: DefaultLayout, sidebar: SidebarHierarchyStructure },
+    { path: "/promotion/code", componet: PromotionLine, layout: DefaultLayout, sidebar: SidebarHierarchyStructure },
+    { path: "/movie", componet: Home, layout: DefaultLayout, sidebar: Sidebar }
 ]
 
 const privateRouter = [
