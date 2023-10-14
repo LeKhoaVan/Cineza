@@ -8,6 +8,7 @@ const sequelize = new Sequelize(development.database, development.username, deve
     host: development.host,
     dialect: development.dialect,
 
+    timezone: '+07:00',
     // // hide query sql in sequelize
     logging: false
 });

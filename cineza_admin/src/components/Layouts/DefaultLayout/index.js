@@ -13,6 +13,7 @@ import UserDetail from '../../../pages/UserDetail';
 import VTDLDetail from '../../../pages/VTDLDetail';
 import VTDLLevel from '../../../pages/VTDLLevel';
 import PromotionHeader from '../../../pages/PromotionHeader';
+import PromotionLine from '../../../pages/PromotionLine';
 
 const DefaultLayout = (props) => {
     // gán biến component
@@ -26,7 +27,7 @@ const DefaultLayout = (props) => {
             //lọc page
         } else if (child.type === HierarychyStructure || child.type === VTDL || child.type === Home
             || child.type === User || child.type === VTDLLevel || child.type === UserDetail
-            || child.type === PromotionHeader) {
+            || child.type === PromotionHeader || child.type === PromotionLine) {
             pageComponent = child;
         }
     });

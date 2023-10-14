@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { getAllPromtionHeaderService,
     getPromotionHeaderByCodeService,
     createPromotionHeaderService } = require("../services/promotionHeaderService");
@@ -26,8 +27,18 @@ const createPromotionHeaderController = async (req, res) => {
     }
 }
 
+const getPromotionHeaderByCodeController = async (req, res) => {
+    const { code } = req.params;
+    try {
+        const promotionHeader = await getPromotionHeaderByCodeService(code);
+        res.status(200).send(promotionHeader)
+    } catch (error) {
+        res.status(500).send("error get promotion header: " + error);
+    }
+}
+
 module.exports = {
     getAllPromotionHeaderController,
     createPromotionHeaderController,
-
+    getPromotionHeaderByCodeController,
 }

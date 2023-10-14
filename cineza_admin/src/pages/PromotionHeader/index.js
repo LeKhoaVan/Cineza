@@ -1,59 +1,115 @@
 import { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import axios from "axios";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import { formatDateHandle } from "../../components/util";
+import PromotionHeaderEdit from "../PromotionHeaderEdit";
 
 import "./promotionHeader.css";
 const columns = [
-    {
-        title: 'Code',
-        data: "code",
-        // sortable: true
-    },
-    {
-        title: 'Ngày bắt đầu',
-        data: "startDay"
-    },
-    {
-        title: "Ngày kết thúc",
-        data: "endDay"
-    },
-    {
-        title: 'Trạng thái',
-        data: "promotionStatus",
-    },
-    {
-        title: 'Mô tả',
-        data: "description",
-    },
+  {
+    title: "Code",
+    data: "code",
+    // sortable: true
+  },
+  {
+    title: "Ngày bắt đầu",
+    data: "startDay",
+  },
+  {
+    title: "Ngày kết thúc",
+    data: "endDay",
+  },
+  {
+    title: "Trạng thái",
+    data: "promotionStatus",
+  },
+  {
+    title: "Mô tả",
+    data: "description",
+  },
 ];
 const PromotionHeader = () => {
-    const [context, setContext] = useState([]);
-    const onHandleSelect = (row) => {
-    }
+  const [context, setContext] = useState([]);
+  const [openModelAdd, setOpenModelAdd] = useState(false);
+  const [openModelDetail, setOpenModelDetail] = useState(false);
+  const [codeHeader, setCodeHeader] = useState("");
+  const onHandleSelect = (row) => {
+    setCodeHeader(row);
+    setOpenModelDetail(true);
+  };
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const result = await axios.get("http://localhost:9000/cineza/api/v1/promotion-header/get-all");
-                if (result.status == 200) {
-                    setContext(result.data);
-                }
-            } catch (error) {
-                console.log("error get api all user " + error)
-            }
-        };
+  const onClickHandleBtnAdd = () => {
+    setOpenModelAdd(true);
+  };
 
-        getData();
-    }, [])
+  const onClickHandleCloseP = async () => {
+    window.location.href = "/cineza/admin/promotions";
+    setOpenModelDetail(false);
+  };
 
-    return (
-        <div className="promotion-container">
-            <h3>Chương trình khuyến mãi</h3>
-            <div className="table-all-promotion">
-                <Table column={columns} data={context} onRowClick={onHandleSelect} />
-            </div>
-        </div>
-    )
-}
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:9000/cineza/api/v1/promotion-header/get-all"
+        );
+        if (result.status == 200) {
+          const dataResult = result.data.map((item) => {
+            return {
+              ...item,
+              startDay: formatDateHandle(item.startDay),
+              endDay: formatDateHandle(item.endDay),
+            };
+          });
+          setContext(dataResult);
+        }
+      } catch (error) {
+        console.log("error get api all user " + error);
+      }
+    };
 
-export default PromotionHeader
+    getData();
+  }, []);
+
+  return (
+    <div className="promotion-container">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          paddingRight: "10px",
+          alignItems: "center",
+        }}
+      >
+        <h3>Chương trình khuyến mãi</h3>
+        <img
+          src={iconAdd}
+          alt="btn-add"
+          className="user-btn-add"
+          onClick={onClickHandleBtnAdd}
+        />
+      </div>
+
+      <div className="table-all-promotion">
+        {/* toPromotion={"/promotion/code?code="}  */}
+        <Table column={columns} data={context} onRowClick={onHandleSelect} />
+        {openModelDetail && (
+          <PromotionHeaderEdit
+            codePromotion={codeHeader}
+            onClickHandleClose={onClickHandleCloseP}
+          />
+        )}
+        {openModelAdd && (
+          <PromotionHeaderEdit
+            addBtn={true}
+            codePromotion={codeHeader}
+            onClickHandleClose={onClickHandleCloseP}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default PromotionHeader;
