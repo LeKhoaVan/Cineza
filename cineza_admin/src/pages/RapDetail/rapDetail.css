@@ -81,6 +81,29 @@
   height: 40px;
 }
 
+.rap-detail-header-edit-detail {
+  width: 5%;
+  height: 100%;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-right: 1px solid black;
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    background-color: rgb(201, 201, 201);
+    cursor: pointer;
+  }
+}
+
+.icon-detail {
+  width: 30px;
+  height: 30px;
+}
+
 /* Khoi new delete */
 .rap-detail-header-edit-new-delete {
   width: 10%;
