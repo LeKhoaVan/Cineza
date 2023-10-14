@@ -5,9 +5,11 @@ import iconCreateNew from "../../assets/imageButtons/iconCreateNew.png";
 import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
+import iconDetail from "../../assets/imageButtons/iconDetail.png";
 import Alert from "../../components/Alert";
 import "./rapDetail.css";
 
+import { Link, useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,6 +23,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import { parse, format } from "date-fns";
 import vi from "date-fns/locale/vi";
+import axios from "axios";
 registerLocale("vi", vi);
 
 const dataStatus = [
@@ -29,7 +32,7 @@ const dataStatus = [
   { id: "DESTROY", value: "DESTROY" },
 ];
 
-const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
+const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [numberRap, setNumberRap] = useState("");
@@ -98,6 +101,126 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     // console.log(text);
   };
 
+  useEffect(() => {
+    const getRap = async () => {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/rap/get-by-code/${codeRapBy}`
+      );
+      if (result.status === 200) {
+        // const [country, setCountry] = useState([]);
+        // const [countryId, setCountryId] = useState("");
+        // const [city, setCity] = useState([]);
+        // const [cityId, setCityId] = useState("");
+        // const [district, setDistrict] = useState([]);
+        // const [districtId, setDistrictId] = useState("");
+        // const [ward, setWard] = useState([]);
+        // const [wardId, setWardId] = useState("");
+        setCode(result.data.code);
+        setName(result.data.name);
+        setNumberRap(result.data.numberRap);
+        setOpenTime(result.data.openTime);
+        setCloseTime(result.data.closeTime);
+        setStatus(result.data.status);
+
+        setCountryId(result.data.countryAddress);
+        setCityId(result.data.cityAddress);
+        setDistrictId(result.data.districtAddress);
+        setWardId(result.data.wardAddress);
+      }
+    };
+    getRap();
+  }, []);
+
+  //combobox country
+  useEffect(() => {
+    const getAllCountry = async () => {
+      try {
+        const allCountry = await axios.get(
+          `http://localhost:9000/cineza/api/v1/value/get-level?level=QUOCGIA`
+        );
+        if (allCountry.status === 200) {
+          setCountry(allCountry.data);
+        } else {
+          console.error("get all country error");
+        }
+      } catch (error) {
+        console.error("get all country error: " + error);
+      }
+    };
+    getAllCountry();
+  }, []);
+
+  //combobox city
+  useEffect(() => {
+    const getAllCountry = async () => {
+      try {
+        const allCity = await axios.get(
+          `http://localhost:9000/cineza/api/v1/value/get-level?level=TINH/TP`
+        );
+        if (allCity.status === 200) {
+          setCity(allCity.data);
+        } else {
+          console.error("get all city error");
+        }
+      } catch (error) {
+        console.error("get all country error: " + error);
+      }
+    };
+    getAllCountry();
+  }, []);
+
+  //combobox district
+  useEffect(() => {
+    const getAllCountry = async () => {
+      try {
+        const allDistrict = await axios.get(
+          `http://localhost:9000/cineza/api/v1/value/get-level?level=HUYEN/QUAN`
+        );
+        if (allDistrict.status === 200) {
+          setDistrict(allDistrict.data);
+        } else {
+          console.error("get all country error");
+        }
+      } catch (error) {
+        console.error("get all country error: " + error);
+      }
+    };
+    getAllCountry();
+  }, []);
+
+  //combobox ward
+  useEffect(() => {
+    const getAllCountry = async () => {
+      try {
+        const allWard = await axios.get(
+          `http://localhost:9000/cineza/api/v1/value/get-level?level=XA/PHUONG`
+        );
+        if (allWard.status === 200) {
+          setWard(allWard.data);
+        } else {
+          console.error("get all country error");
+        }
+      } catch (error) {
+        console.error("get all country error: " + error);
+      }
+    };
+    getAllCountry();
+  }, []);
+
+  const onClickHandleEdit = () => {
+    setUpdate(true);
+    setCreateNew(false);
+    setEdit(true);
+    setEditCode(false);
+  };
+
+  const onClickHandleNew = () => {
+    setUpdate(false);
+    setCreateNew(true);
+    setEditCode(true);
+    setEdit(true);
+  };
+
   return (
     <div className="rap-detail-background">
       <div className="rap-detail-container">
@@ -117,6 +240,13 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
+            <Link
+              className="rap-detail-header-edit-detail"
+              to={"/rap/code?code=" + code}
+            >
+              <img className="icon-detail" src={iconDetail} alt="update" />
+              <p>Danh sách phòng</p>
+            </Link>
             <div
               className="rap-detail-header-edit-new-delete"
               // onClick={onClickHandleNew}
@@ -154,9 +284,9 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-rap-container">
                 <input
                   className="input-rap"
-                  // value={code}
-                  // readOnly={!editCode}
-                  // style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
+                  value={code}
+                  readOnly={!editCode}
+                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   // onChange={(text) => onChangeHandleCode(text)}
                   // onFocus={onHandleFocusCode}
                 />
@@ -171,9 +301,9 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-rap-container">
                 <input
                   className="input-rap"
-                  // value={name}
-                  // readOnly={!edit}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  value={name}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   // onChange={(text) => onChangeHandleName(text)}
                   // onFocus={onHandleFocusName}
                 />
@@ -188,9 +318,9 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-rap-container">
                 <input
                   className="input-rap"
-                  // value={position}
-                  // readOnly={!edit}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  value={numberRap}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   // onChange={(text) => onChangeHandlePosition(text)}
                   // onFocus={onHandleFocusPosition}
                 />
@@ -211,6 +341,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-rap-container">
                 <TimePicker
                   placeholder="Select Time"
+                  // value={openTime}
                   use12Hours
                   showSecond={false}
                   focusOnOpen={true}
@@ -225,6 +356,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-rap-container">
                 <TimePicker
                   placeholder="Select Time"
+                  // value={closeTime}
                   use12Hours
                   showSecond={false}
                   focusOnOpen={true}
@@ -251,7 +383,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                     label="Status"
                     // onChange={handleChangeComboboxStatus}
                     // onFocus={onHandleFocusStatus}
-                    // readOnly={!edit}
+                    readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {dataStatus.map((st, index) => {
@@ -290,7 +422,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {country?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
@@ -316,7 +448,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {city?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
@@ -344,7 +476,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {district?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
@@ -372,7 +504,7 @@ const RapDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {ward?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );

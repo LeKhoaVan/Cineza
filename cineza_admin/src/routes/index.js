@@ -11,6 +11,7 @@ import HierarchyStructure from "../pages/HierarchyStructure";
 import DefaultLayout from "../components/Layouts/DefaultLayout";
 import PromotionHeader from "../pages/PromotionHeader";
 import PromotionLine from "../pages/PromotionLine";
+import Room from "../pages/Room";
 
 const publicRouter = [
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -41,6 +42,12 @@ const publicRouter = [
   {
     path: "/rap",
     componet: Rap,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
+  {
+    path: "/rap/code",
+    componet: Room,
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
