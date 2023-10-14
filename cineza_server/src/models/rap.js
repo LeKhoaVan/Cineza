@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const ValueStructure = sequelize.define("ValueStructure", {
+    const Rap = sequelize.define("Rap", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -11,44 +11,21 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true
         },
-        type: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
-            references: {
-                model: "HierachyStructure",
-                key: "code",
-            }
         },
-        parentId: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            references: {
-                model: "ValueStructure",
-                key: "code"
-            }
+        openTime: {
+            type: DataTypes.TIME,
+            allowNull: false,
         },
-        level: {
+        closeTime: {
+            type: DataTypes.TIME,
+            allowNull: false,
+        },
+        numberRap: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                isIn: [["ADMIN", "USER", "COMUNITY", "VIP", "NUOC", "BAP", "QUOCGIA", "TINH/TP", "HUYEN/QUAN", "XA/PHUONG"]]
-            }
-        },
-        fullName: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        numberPhone: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        dateOfBirth: {
-            type: DataTypes.DATE,
-            allowNull: true,
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: true,
         },
         countryAddress: {
             type: DataTypes.STRING,
@@ -76,27 +53,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         wardAddress: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: "ValueStructure",
                 key: "code"
             }
-        },
-        numberHome: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        buyAt: {
-            type: DataTypes.DATE,
-            allowNull: true,
-        },
-        ticketEffecticeAt: {
-            type: DataTypes.DATE,
-            allowNull: true,
-        },
-        ticketEffecticeAt: {
-            type: DataTypes.DATE,
-            allowNull: true,
         },
         status: {
             type: DataTypes.STRING,
@@ -105,13 +66,14 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]]
             }
-        }
+        },
+
     },
         {
             sequelize,
-            modelName: "ValueStructure",
-            tableName: "ValueStructure",
+            modelName: "Rap",
+            tableName: "Rap",
             timestamps: true,
         })
-    return ValueStructure;
+    return Rap;
 }
