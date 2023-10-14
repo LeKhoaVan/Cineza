@@ -30,6 +30,10 @@ db.HierachyStructure = require("./hierarchyStructure")(sequelize, DataTypes);
 db.ValueStructure = require("./valueStructure")(sequelize, DataTypes);
 db.PromotionHeader = require("./promotionHeader")(sequelize, DataTypes);
 db.PromotionLine = require("./promotionLine")(sequelize, DataTypes);
+db.Movie = require("./movie")(sequelize, DataTypes);
+db.MovieType = require("./movieType")(sequelize, DataTypes);
+db.Rap = require("./rap")(sequelize, DataTypes);
+db.Room = require("./room")(sequelize, DataTypes);
 
 db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
 db.ValueStructure.belongsTo(db.HierachyStructure, { foreignKey: "type" });
@@ -51,6 +55,25 @@ db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
 
 db.PromotionHeader.hasMany(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
 db.PromotionLine.belongsTo(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
+
+db.MovieType.hasMany(db.Movie, { foreignKey: "movieType" });
+db.Movie.belongsTo(db.MovieType, { foreignKey: "movieType" });
+
+db.ValueStructure.hasMany(db.Rap, { foreignKey: "countryAddress" });
+db.Rap.belongsTo(db.ValueStructure, { foreignKey: "countryAddress" });
+
+db.ValueStructure.hasMany(db.Rap, { foreignKey: "cityAddress" });
+db.Rap.belongsTo(db.ValueStructure, { foreignKey: "cityAddress" });
+
+db.ValueStructure.hasMany(db.Rap, { foreignKey: "districtAddress" });
+db.Rap.belongsTo(db.ValueStructure, { foreignKey: "districtAddress" });
+
+db.ValueStructure.hasMany(db.Rap, { foreignKey: "wardAddress" });
+db.Rap.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
+
+db.Rap.hasMany(db.Room, { foreignKey: "codeRap" });
+db.Room.belongsTo(db.Rap, { foreignKey: "codeRap" });
+
 
 module.exports = {
     // testConnect,

@@ -30,8 +30,8 @@ const getValueStructureByLevelService = async (level) => {
 const getAddressByCodeService = async (code) => {
     const query = `select vs.id, vs.code, vs.fullName, vs.level, vs.type, vs.parentId, vs.status, pavs.fullName as fullNameParent, hc.value
             from ValueStructure as vs 
-            join ValueStructure as pavs on vs.parentId = pavs.id 
-            join HierachyStructure as hc on hc.id = vs.type
+            join ValueStructure as pavs on vs.parentId = pavs.code 
+            join HierachyStructure as hc on hc.code = vs.type
             where vs.code = "${code}"`;
     const [address, metadata] = await db.sequelize.query(query);
     return address[0]
@@ -39,8 +39,8 @@ const getAddressByCodeService = async (code) => {
 const getValueAddressByLevelService = async (level) => {
     const query = `select vs.id, vs.code, vs.fullName, vs.level, vs.type, vs.parentId, vs.status, pavs.fullName as fullNameParent, hc.value 
         from ValueStructure as vs 
-        join ValueStructure as pavs on vs.parentId = pavs.id
-        join HierachyStructure as hc on hc.id = vs.type
+        join ValueStructure as pavs on vs.parentId = pavs.code
+        join HierachyStructure as hc on hc.code = vs.type
     where vs.level = "`+ level + '"';
     const [valueStructure, metadata] = await db.sequelize.query(query);
     return valueStructure;
@@ -49,7 +49,7 @@ const getValueAddressByLevelService = async (level) => {
 const getValueAddressByLevelQuocGiaService = async (level) => {
     const query = `select vs.id, vs.code, vs.fullName, vs.level, vs.type, vs.parentId, vs.status, hc.value 
         from ValueStructure as vs 
-        join HierachyStructure as hc on hc.id = vs.type
+        join HierachyStructure as hc on hc.code = vs.type
         where vs.level = "`+ level + '"';
     const [valueStructure, metadata] = await db.sequelize.query(query);
     return valueStructure;
@@ -72,8 +72,8 @@ const updateAddressService = async (code, address) => {
 
 const getAllAddressService = async () => {
     const query = `select vs.id, vs.code, vs.type, vs.level, vs.parentId, vs.fullName, vs.status, pavs.fullName as parentName from ValueStructure as vs 
-            left join ValueStructure as pavs on vs.parentId = pavs.id 
-            where vs.type = "6ca0cb42-42c3-4df2-a7a3-31045df8387e";`
+            left join ValueStructure as pavs on vs.parentId = pavs.code
+            where vs.type = "vtdl";`
     const [addressList, metadata] = await db.sequelize.query(query);
     return addressList;
 }
@@ -90,10 +90,10 @@ const getValueUserByCodeService = async (code) => {
             dt.fullName as districtName, dt.id as districtId,
             wd.fullName as wardName, wd.id as wardId,
             us.numberHome 
-        from ValueStructure as us join ValueStructure as cnt on us.countryAddress = cnt.id 
-        join ValueStructure as ct on ct.id = us.cityAddress 
-        join ValueStructure as dt on us.districtAddress = dt.id 
-        join ValueStructure as wd on us.wardAddress = wd.id
+        from ValueStructure as us join ValueStructure as cnt on us.countryAddress = cnt.code 
+        join ValueStructure as ct on ct.code = us.cityAddress 
+        join ValueStructure as dt on us.districtAddress = dt.code 
+        join ValueStructure as wd on us.wardAddress = wd.code
         where us.code = '` + code + "'";
     const [user, metadata] = await db.sequelize.query(query);
     return user[0];
@@ -108,11 +108,11 @@ const getAllUserService = async () => {
         dt.fullName as districtName, 
         wd.fullName as wardName, 
         us.numberHome
-        from ValueStructure as us join ValueStructure as cnt on us.countryAddress = cnt.id 
-        join ValueStructure as ct on ct.id = us.cityAddress 
-        join ValueStructure as dt on us.districtAddress = dt.id 
-        join ValueStructure as wd on us.wardAddress = wd.id
-        where us.type = "6cadf9a4-4410-4bf3-a99b-e5f020757553"`;
+        from ValueStructure as us join ValueStructure as cnt on us.countryAddress = cnt.code 
+        join ValueStructure as ct on ct.code = us.cityAddress 
+        join ValueStructure as dt on us.districtAddress = dt.code
+        join ValueStructure as wd on us.wardAddress = wd.code
+        where us.type = "user"`;
     const [listUser, metadata] = await db.sequelize.query(query);
     return listUser;
 }
