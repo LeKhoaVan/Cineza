@@ -65,12 +65,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
 
-  //time picker
-  const [time, setTime] = useState("");
-  // const handleTimeChange = (momentObj) => {
-  //   setTime(momentObj.format("HH:mm"));
-  // };
-
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
@@ -117,7 +111,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusCode = () => {
     if (editCode || edit) {
-      if (code.length <= 0) {
+      if (code == undefined || code.length <= 0) {
         setIsValidCode(true);
       } else {
         setIsValidCode(false);
@@ -131,7 +125,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusName = () => {
     if (editCode || edit) {
-      if (name.length <= 0) {
+      if (name == undefined || name.length <= 0) {
         setIsValidName(true);
       } else {
         setIsValidName(false);
@@ -145,7 +139,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusNumberRap = () => {
     if (editCode || edit) {
-      if (numberRap.length <= 0) {
+      if (numberRap == undefined || numberRap.length <= 0) {
         setIsValidNumberRap(true);
       } else {
         setIsValidNumberRap(false);
@@ -159,7 +153,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusStatus = () => {
     if (editCode || edit) {
-      if (status.length == 0) {
+      if (status == undefined || status.length == 0) {
         setIsValidStatus(true);
       } else {
         setIsValidStatus(false);
@@ -173,16 +167,16 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusAddress = () => {
     if (editCode || edit) {
-      if (countryId.length == 0) {
+      if (countryId == undefined || countryId.length == 0) {
         setErrorAddress("Không bỏ trống Quốc Gia");
         setIsValidAddress(true);
-      } else if (cityId.length == 0) {
+      } else if (cityId == undefined || cityId.length == 0) {
         setErrorAddress("Không bỏ trống tỉnh/thành phố");
         setIsValidAddress(true);
-      } else if (districtId.length == 0) {
+      } else if (districtId == undefined || districtId.length == 0) {
         setErrorAddress("Không bỏ trống quận/huyện");
         setIsValidAddress(true);
-      } else if (wardId.length == 0) {
+      } else if (wardId == undefined || wardId.length == 0) {
         setErrorAddress("Không bỏ trống phường/xã");
         setIsValidAddress(true);
       } else {
@@ -192,12 +186,12 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
+    }
     const getRap = async () => {
-      // if (addBtn) {
-      //   setEditCode(true);
-      //   setEdit(true);
-      //   setCreateNew(true);
-      // }
       const result = await axios.get(
         `http://localhost:9000/cineza/api/v1/rap/get-by-code/${codeRapBy}`
       );
@@ -431,15 +425,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
               <label>Thời gian mở</label>
               <div className="rap-detail-input-dem"></div>
               <div className="input-rap-container">
-                {/* <TimePicker
-                  placeholder="Select Time"
-                  value={openTime}
-                  use12Hours={true}
-                  showSecond={true}
-                  focusOnOpen={true}
-                  format="hh:mm:ss"
-                  onChange={(e) => setTime(e.format("LT"))}
-                /> */}
                 <TimePicker
                   format="hh:mm:ss a"
                   openClockOnFocus={false}
