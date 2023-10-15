@@ -44,7 +44,7 @@ const Rap = () => {
   const [code, setCode] = useState("");
 
   const onHandleSelect = (row) => {
-    console.log(row);
+    // console.log(row);
     setCode(row);
     setOpenModalDetail(!openModalDetail);
   };
@@ -67,10 +67,10 @@ const Rap = () => {
         );
         if (result.status == 200) {
           setContext(result.data);
-          console.log(result.data);
+          // console.log(result.data);
         }
       } catch (error) {
-        console.log("error get api all user " + error);
+        console.log("error get api all rap " + error);
       }
     };
 
@@ -95,15 +95,6 @@ const Rap = () => {
         />
       </div>
       <div className="table-all-rap">
-        {/* <DataTable
-                    columns={columns}
-                    data={context != null ? (context.length != 0 ? context : "") : ""}
-                    fixedHeader
-                    fixedHeaderScrollHeight="300px"
-                    // selectableRows
-                    onRowClicked={(row) => onHandleSelect(row)}
-                    actions
-                /> */}
         <Table column={columns} data={context} onRowClick={onHandleSelect} />
         {openModalDetail && (
           <RapDetail
@@ -111,12 +102,9 @@ const Rap = () => {
             onClickHandleClose={onClickHandleCloseP}
           />
         )}
-        {/* {openModelAdd && (
-          <RapDetail
-            addBtn={true}
-            onClickHandleClose={onClickHandleCloseP}
-          />
-        )} */}
+        {openModelAdd && (
+          <RapDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+        )}
       </div>
     </div>
   );
