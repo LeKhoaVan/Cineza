@@ -1,6 +1,7 @@
 import "./vtdlLevel.css";
 import Table from "../../components/Table";
 import VTDLDetail from "../VTDLDetail";
+import iconBack from "../../assets/imageButtons/iconBack.png"
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -42,6 +43,10 @@ const VTDLLevel = () => {
     const location = useLocation();
     const levelAddress = new URLSearchParams(location.search).get("level");
 
+    const onClickHandleBack = () => {
+        window.location.href = "http://localhost:3000/cineza/admin/vtdl";
+    }
+
     const handleRowClick = (row) => {
         console.log(row)
         setCodeAddress(row)
@@ -68,6 +73,7 @@ const VTDLLevel = () => {
     return (
         <div className="address-level-container">
             <div className="address-level-content">
+                <img src={iconBack} className="vtdllevl-btn-back" onClick={onClickHandleBack} />
                 <h3>Vị trí địa lý</h3>
                 <div className="table-all-address">
                     <Table column={titleColumn} data={address} onRowClick={handleRowClick} />

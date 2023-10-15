@@ -8,6 +8,17 @@
     align-items: center;
 }
 
+.vtdllevl-btn-back {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding: 10px;
+
+    &:hover {
+        background-color: rgb(212, 212, 212);
+    }
+}
+
 .address-level-content {
     width: 90%;
     height: 90%;

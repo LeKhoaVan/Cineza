@@ -113,16 +113,6 @@ const VTDL = () => {
                         onClick={onClickHandleBtnAdd}
                     />
                 </div>
-                {/* <DataTable
-                    columns={columns}
-                    data={dataColumn}
-                    fixedHeader
-                    fixedHeaderScrollHeight="300px"
-                    selectableRowsSingle
-                    selectableRowsRadio
-                    // selectableRows
-                    onSelectedRowsChange={console.log("test")}
-                /> */}
                 <Table column={columns} data={dataColumn} onRowClick={onClickHandleRow} toLink={"/vtdl/level?level="} />
             </div>
             {openModalAdd && <VTDLDetail onClickHandleClose={onClickHandleCloseP} addBtn={true} />}
