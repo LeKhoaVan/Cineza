@@ -1,6 +1,10 @@
-const express = require("express")
+const express = require("express");
 
-const { createRapController, getAllRapController, getRapByCodeController } = require("../controller/rapController")
+const {
+  createRapController,
+  getAllRapController,
+  getRapByCodeController,
+} = require("../controller/rapController");
 
 const rapRouter = express.Router();
 

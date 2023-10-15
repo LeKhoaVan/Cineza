@@ -3,6 +3,7 @@ import Table from "../../components/Table";
 import RapDetail from "../RapDetail";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import "./rap.css";
+import axios from "axios";
 
 const columns = [
   {
@@ -11,7 +12,7 @@ const columns = [
   },
   {
     title: "Tên",
-    data: "cinemaName",
+    data: "name",
   },
   {
     title: "Thời gian mở ",
@@ -23,18 +24,18 @@ const columns = [
   },
   {
     title: "Trạng thái",
-    data: "cinemaStatus",
+    data: "status",
   },
 ];
-const data = [
-  {
-    code: "rap1",
-    cinemaName: "Vincom Gò Vấp",
-    openTime: "8:00",
-    closeTime: "23:00",
-    cinemaStatus: "ACTIVE",
-  },
-];
+// const data = [
+//   {
+//     code: "rap1",
+//     cinemaName: "Vincom Gò Vấp",
+//     openTime: "8:00",
+//     closeTime: "23:00",
+//     cinemaStatus: "ACTIVE",
+//   },
+// ];
 const Rap = () => {
   const [context, setContext] = useState([]);
 
@@ -43,7 +44,7 @@ const Rap = () => {
   const [code, setCode] = useState("");
 
   const onHandleSelect = (row) => {
-    console.log(row);
+    // console.log(row);
     setCode(row);
     setOpenModalDetail(!openModalDetail);
   };
@@ -58,28 +59,23 @@ const Rap = () => {
     console.log(openModelAdd);
   };
 
-  //   useEffect(() => {
-  //     const getData = async () => {
-  //       try {
-  //         const result = await axios.get(
-  //           "http://localhost:9000/cineza/api/v1/value/user/get-all"
-  //         );
-  //         if (result.status == 200) {
-  //           const dataSetup = result.data.map((item) => {
-  //             return {
-  //               ...item,
-  //               dateOfBirth: formatDateHandle(item.dateOfBirth),
-  //             };
-  //           });
-  //           setContext(dataSetup);
-  //         }
-  //       } catch (error) {
-  //         console.log("error get api all user " + error);
-  //       }
-  //     };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:9000/cineza/api/v1/rap/get-all"
+        );
+        if (result.status == 200) {
+          setContext(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.log("error get api all rap " + error);
+      }
+    };
 
-  //     getData();
-  //   }, []);
+    getData();
+  }, []);
   return (
     <div className="rap-container">
       <div
@@ -99,28 +95,15 @@ const Rap = () => {
         />
       </div>
       <div className="table-all-rap">
-        {/* <DataTable
-                    columns={columns}
-                    data={context != null ? (context.length != 0 ? context : "") : ""}
-                    fixedHeader
-                    fixedHeaderScrollHeight="300px"
-                    // selectableRows
-                    onRowClicked={(row) => onHandleSelect(row)}
-                    actions
-                /> */}
-        <Table column={columns} data={data} onRowClick={onHandleSelect} />
+        <Table column={columns} data={context} onRowClick={onHandleSelect} />
         {openModalDetail && (
           <RapDetail
-            codeUserBy={code}
+            codeRapBy={code}
             onClickHandleClose={onClickHandleCloseP}
           />
         )}
         {openModelAdd && (
-          <RapDetail
-            addBtn={true}
-            codeUserBy={code}
-            onClickHandleClose={onClickHandleCloseP}
-          />
+          <RapDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
         )}
       </div>
     </div>

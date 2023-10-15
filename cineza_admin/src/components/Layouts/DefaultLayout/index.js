@@ -15,6 +15,7 @@ import VTDLLevel from "../../../pages/VTDLLevel";
 import PromotionHeader from "../../../pages/PromotionHeader";
 import PromotionLine from "../../../pages/PromotionLine";
 import Rap from "../../../pages/Rap";
+import Room from "../../../pages/Room";
 
 const DefaultLayout = (props) => {
   // gán biến component
@@ -35,7 +36,8 @@ const DefaultLayout = (props) => {
       child.type === UserDetail ||
       child.type === PromotionHeader ||
       child.type === PromotionLine ||
-      child.type === Rap
+      child.type === Rap ||
+      child.type === Room
     ) {
       pageComponent = child;
     }
