@@ -305,6 +305,78 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setName("");
     setStatus("");
     setNumberRap("");
+    setOpenTime("");
+    setCloseTime("");
+    setCountryId("");
+    setCityId("");
+    setDistrictId("");
+    setWardId("");
+  };
+
+  const onClickHandleSave = async () => {
+    const rap = {
+      code: code,
+      name: name,
+      numberRap: numberRap,
+      openTime: openTime,
+      closeTime: closeTime,
+      countryAddress: countryId,
+      cityAddress: cityId,
+      districtAddress: districtId,
+      wardAddress: wardId,
+      status: status,
+    };
+    onHandleFocusCode();
+    onHandleFocusName();
+    onHandleFocusNumberRap();
+    onHandleFocusStatus();
+    onHandleFocusAddress();
+    if (
+      !isValidCode &
+      !isValidName &
+      !isValidNumberRap &
+      !isValidStatus &
+      !isValidAddress
+    ) {
+      try {
+        console.log(rap);
+        if (editCode) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/rap/create`,
+            rap
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+        }
+        // else if (update) {
+        //   const response = await axios.put(
+        //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
+        //     user
+        //   );
+        //   if (response.status === 200) {
+        //     console.log("save success");
+        //     setMessage("Cập nhật thành công");
+        //     setShowAlert(true);
+        //   } else {
+        //     setMessage("Cập thất bại");
+        //     setShowAlert(true);
+        //   }
+        // }
+      } catch (error) {
+        console.log("save address fail: " + error);
+        setMessage("Lưu thất bại");
+        setShowAlert(true);
+      }
+    } else {
+      console.log("lưu sai");
+      setMessage("Vui lòng nhập đầy đủ");
+      setShowAlert(true);
+    }
   };
 
   return (
@@ -314,7 +386,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
           <div className="rap-detail-header-edit">
             <div
               className="rap-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -494,7 +566,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                     value={countryId}
                     label="Quốc gia"
                     onChange={handleChangeComboboxCountry}
-                    readOnly={!editCode}
+                    readOnly={!edit}
                     onFocus={onHandleFocusAddress}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
@@ -521,7 +593,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                     label="Tinh/TP"
                     onChange={handleChangeComboboxCity}
                     onFocus={onHandleFocusAddress}
-                    readOnly={!editCode}
+                    readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {city?.map((st, index) => {
@@ -549,7 +621,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                     label="Quân./Huyện"
                     onChange={handleChangeComboboxDistrict}
                     onFocus={onHandleFocusAddress}
-                    readOnly={!editCode}
+                    readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {district?.map((st, index) => {
@@ -577,7 +649,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                     label="Phường/Xã"
                     onChange={handleChangeComboboxWard}
                     onFocus={onHandleFocusAddress}
-                    readOnly={!editCode}
+                    readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {ward?.map((st, index) => {

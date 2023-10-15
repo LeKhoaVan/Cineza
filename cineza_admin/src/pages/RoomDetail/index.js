@@ -68,7 +68,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusCode = () => {
     if (editCode || edit) {
-      if (code.trim().length <= 0) {
+      if (code == undefined || code.trim().length <= 0) {
         setIsValidCode(true);
       } else {
         setIsValidCode(false);
@@ -82,7 +82,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusName = () => {
     if (editCode || edit) {
-      if (name.trim().length <= 0) {
+      if (name == undefined || name.trim().length <= 0) {
         setIsValidName(true);
       } else {
         setIsValidName(false);
@@ -96,7 +96,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusStatus = () => {
     if (editCode || edit) {
-      if (status.length == 0) {
+      if (status == undefined || status.length == 0) {
         setIsValidStatus(true);
       } else {
         setIsValidStatus(false);
@@ -105,6 +105,12 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
+      // setCodeRap(codeRap);
+    }
     const getRoom = async () => {
       const result = await axios.get(
         `http://localhost:9000/cineza/api/v1/room/get-by-code/${codeRoom}`
@@ -156,6 +162,58 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     setStatus("");
   };
 
+  const onClickHandleSave = async () => {
+    const room = {
+      code: code,
+      name: name,
+      codeRap: codeRap,
+      status: status,
+    };
+    onHandleFocusCode();
+    onHandleFocusName();
+    onHandleFocusStatus();
+    if (!isValidCode & !isValidName & !isValidStatus) {
+      try {
+        console.log(room);
+        if (editCode) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/room/create`,
+            room
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+        }
+        // else if (update) {
+        //   const response = await axios.put(
+        //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
+        //     user
+        //   );
+        //   if (response.status === 200) {
+        //     console.log("save success");
+        //     setMessage("Cập nhật thành công");
+        //     setShowAlert(true);
+        //   } else {
+        //     setMessage("Cập thất bại");
+        //     setShowAlert(true);
+        //   }
+        // }
+      } catch (error) {
+        console.log("save address fail: " + error);
+        setMessage("Lưu thất bại");
+        setShowAlert(true);
+      }
+    } else {
+      console.log("lưu sai");
+      setMessage("Vui lòng nhập đầy đủ");
+      setShowAlert(true);
+    }
+  };
+
   return (
     <div className="rap-detail-background">
       <div className="rap-detail-container">
@@ -163,7 +221,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
           <div className="rap-detail-header-edit">
             <div
               className="rap-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -295,9 +353,6 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            {/* {editCode && (
-              
-            )} */}
           </div>
 
           <div className="rap-detail-content-right"></div>
