@@ -20,6 +20,25 @@ const dataStatus = [
   { id: "DESTROY", value: "DESTROY" },
 ];
 
+const levelAddressCompobox = [
+  {
+    fullName: "Quốc gia",
+    level: "QUOCGIA",
+  },
+  {
+    fullName: "Tỉnh/Thành phố",
+    level: "TINH/TP",
+  },
+  {
+    fullName: "Huyện/Quận",
+    level: "HUYEN/QUAN",
+  },
+  {
+    fullName: "Xa/Phuong",
+    level: "XA/PHUONG",
+  }
+]
+
 const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
   const location = useLocation();
   const levelAddressIN = new URLSearchParams(location.search).get("level");
@@ -27,7 +46,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
   const [codeAddress, setCodeAddress] = useState("");
   const [nameAddress, setNameAddress] = useState("");
   const [levelAddress, setLevelAddress] = useState("");
-  const [idParentAddress, setIdParentAddress] = useState("");
+  const [idParentAddress, setIdParentAddress] = useState(null);
   const [parentAddress, setParentAddress] = useState("");
   const [statusAddress, setStatusAddress] = useState("");
   const [typeAddress, setTypeAddress] = useState("");
@@ -75,12 +94,21 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
   const onChangeLevelAddress = (event) => {
     setLevelAddress(event.target.value);
   };
-  const onChangeParentAddress = (event) => {
-    setParentAddress(event.target.value);
-  };
-  const onChangeStatusAddress = (event) => {
-    setStatusAddress(event.target.value);
-  };
+
+  useEffect(() => {
+    const getParentByLevel = async () => {
+      const result = await axios.get(`http://localhost:9000/cineza/api/v1/value/get-level?evel=${levelAddress}`);
+      if (result.status === 200) {
+        setIdParentAddress(result.data.parentId)
+      } else {
+        console.error("error get parent address by level")
+      }
+    }
+    getParentByLevel();
+  }, [levelAddress])
+
+
+
   const onChangeTypeAddress = (event) => {
     setTypeAddress(event.target.value);
   };
@@ -115,12 +143,16 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     onHandleFocusParentAddress();
-  }, [parentAddress]);
+  }, [idParentAddress]);
 
   const onHandleFocusParentAddress = () => {
     if (editCode || edit) {
-      if (parentAddress.trim().length <= 0) {
-        setIsValidParentAddress(true);
+      if (levelAddress != "QUOCGIA") {
+        if (idParentAddress == undefined || idParentAddress.trim().length <= 0) {
+          setIsValidParentAddress(true);
+        } else {
+          setIsValidParentAddress(false);
+        }
       } else {
         setIsValidParentAddress(false);
       }
@@ -146,12 +178,14 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
+      setTypeAddress("Vị trí địa lý");
+      setIdtypeAddress("vtdl")
     }
     const getAddressByCode = async () => {
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/value/address/get-code/` +
-            codeAddressBy
+          codeAddressBy
         );
         if (response.status === 200) {
           console.log(response.data);
@@ -192,6 +226,9 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
   };
 
   const onClickHandleSave = async () => {
+    if (levelAddress == "QUOCGIA") {
+      setIdParentAddress(null);
+    }
     const address = {
       code: codeAddress,
       type: idTypeAddress,
@@ -200,6 +237,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       fullName: nameAddress,
       status: statusAddress,
     };
+    console.log(address)
     try {
       if (editCode) {
         const response = await axios.post(
@@ -217,7 +255,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       } else if (update) {
         const response = await axios.put(
           `http://localhost:9000/cineza/api/v1/value/address/put/` +
-            codeAddress,
+          codeAddress,
           address
         );
         if (response.status === 200) {
@@ -295,7 +333,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     if (levelAddress === "QUOCGIA") {
-      setIdParentAddress("");
+      setIdParentAddress(null);
       setDataComboboxTrucThuoc([]);
     } else if (levelAddress === "TINH/TP") {
       setDataComboboxTrucThuoc(country);
@@ -394,13 +432,40 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
               <label>Cấp hành chính</label>
               <div className="address-detail-input-dem"></div>
               <div className="input-address-container">
-                <input
+                {/* <input
                   className="input-address"
                   readOnly={true}
                   value={levelAddress}
                   style={{ background: "rgb(196, 196, 196)" }}
                   onChange={(code) => onChangeLevelAddress(code)}
-                />
+                /> */}
+                <FormControl
+                  sx={{ width: "52%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">
+                    Cấp hành chính
+                  </InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={levelAddress}
+                    label="Cấp hành chính"
+                    onChange={(code) => onChangeLevelAddress(code)}
+                    // onFocus={onHandleFocusParentAddress}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {levelAddressCompobox?.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.level}>
+                          {st.fullName}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+
               </div>
             </div>
           </div>
@@ -430,7 +495,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                   >
                     {dataComboboxTrucThuoc?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
