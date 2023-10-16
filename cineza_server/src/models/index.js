@@ -34,6 +34,7 @@ db.Movie = require("./movie")(sequelize, DataTypes);
 db.MovieType = require("./movieType")(sequelize, DataTypes);
 db.Rap = require("./rap")(sequelize, DataTypes);
 db.Room = require("./room")(sequelize, DataTypes);
+db.Seat = require("./seat")(sequelize, DataTypes);
 
 db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
 db.ValueStructure.belongsTo(db.HierachyStructure, { foreignKey: "type" });
@@ -73,6 +74,9 @@ db.Rap.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
 
 db.Rap.hasMany(db.Room, { foreignKey: "codeRap" });
 db.Room.belongsTo(db.Rap, { foreignKey: "codeRap" });
+
+db.Room.hasMany(db.Seat, { foreignKey: "codeRoom" });
+db.Seat.belongsTo(db.Room, { foreignKey: "codeRoom" });
 
 
 module.exports = {
