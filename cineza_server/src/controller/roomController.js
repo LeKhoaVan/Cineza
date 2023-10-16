@@ -1,4 +1,4 @@
-const { createRoomService, getAllRoomService, getRoomByCodeService } = require("../services/roomService")
+const { createRoomService, getAllRoomService, getRoomByCodeService, getAllRoomByRapCodeService } = require("../services/roomService")
 
 
 const getAllRoomController = async (req, res) => {
@@ -10,6 +10,15 @@ const getAllRoomController = async (req, res) => {
     }
 }
 
+const getAllRoomByRapCodeController = async (req, res) => {
+    const { codeRap } = req.params;
+    try {
+        const allRoom = await getAllRoomByRapCodeService(codeRap);
+        res.status(200).send(allRoom);
+    } catch (error) {
+        res.status(500).send("error get all room by code rap: " + error)
+    }
+}
 const getRoomByCodeController = async (req, res) => {
     const { code } = req.params;
     try {
@@ -33,5 +42,7 @@ const createRoomController = async (req, res) => {
 module.exports = {
     createRoomController,
     getAllRoomController,
-    getRoomByCodeController
+    getRoomByCodeController,
+    getAllRoomByRapCodeController,
+
 }
