@@ -109,7 +109,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
-      // setCodeRap(codeRap);
+      // setCodeRap("rap01");
     }
     const getRoom = async () => {
       const result = await axios.get(
@@ -215,68 +215,68 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   };
 
   return (
-    <div className="rap-detail-background">
-      <div className="rap-detail-container">
-        <div className="rap-detail-header">
-          <div className="rap-detail-header-edit">
+    <div className="room-detail-background">
+      <div className="room-detail-container">
+        <div className="room-detail-header">
+          <div className="room-detail-header-edit">
             <div
-              className="rap-detail-header-edit-save"
+              className="room-detail-header-edit-save"
               onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
             </div>
             <div
-              className="rap-detail-header-edit-update"
+              className="room-detail-header-edit-update"
               onClick={onClickHandleEdit}
             >
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
             <Link
-              className="rap-detail-header-edit-detail"
-              to={"/rap/code?code=" + code}
+              className="room-detail-header-edit-detail"
+              to={"/room/code?code=" + code}
             >
               <img className="icon-detail" src={iconDetail} alt="update" />
               <p>Danh sách ghế</p>
             </Link>
             <div
-              className="rap-detail-header-edit-new-delete"
+              className="room-detail-header-edit-new-delete"
               onClick={onClickHandleNew}
             >
-              <div className="rap-detail-header-edit-new">
+              <div className="room-detail-header-edit-new">
                 <img className="iconNew" src={iconCreateNew} alt="create new" />
                 <p>Tạo mới</p>
               </div>
-              <div className="rap-detail-header-edit-delete">
+              <div className="room-detail-header-edit-delete">
                 <img className="iconDelete" src={iconDelete} alt="delete" />
                 <p>Xóa</p>
               </div>
             </div>
             <div
-              className="rap-detail-header-close"
+              className="room-detail-header-close"
               onClick={onClickHandleClose}
             >
               <img className="iconClose" src={iconClose} alt="close" />
             </div>
           </div>
-          <div className="rap-detail-header-name">
+          <div className="room-detail-header-name">
             <span>{code} - </span> <span>-{name} </span>
           </div>
         </div>
 
-        <div className="rap-detail-content">
-          <div className="rap-detail-content-left">
+        <div className="room-detail-content">
+          <div className="room-detail-content-left">
             {showAlert && (
               <Alert message={message} onClose={handleCloseAlert} />
             )}
-            <div className="rap-detail-input">
+            <div className="room-detail-input">
               <label>Mã phòng</label>
-              <div className="rap-detail-input-dem"></div>
+              <div className="room-detail-input-dem"></div>
 
-              <div className="input-rap-container">
+              <div className="input-room-container">
                 <input
-                  className="input-rap"
+                  className="input-room"
                   value={code}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
@@ -288,12 +288,12 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            <div className="rap-detail-input">
+            <div className="room-detail-input">
               <label>Tên phòng</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
+              <div className="room-detail-input-dem"></div>
+              <div className="input-room-container">
                 <input
-                  className="input-rap"
+                  className="input-room"
                   value={name}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
@@ -305,12 +305,12 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            <div className="rap-detail-input">
+            <div className="room-detail-input">
               <label>Mã rap</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
+              <div className="room-detail-input-dem"></div>
+              <div className="input-room-container">
                 <input
-                  className="input-rap"
+                  className="input-room"
                   value={codeRap}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
@@ -320,10 +320,10 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
               </div>
             </div>
 
-            <div className="rap-detail-input">
+            <div className="room-detail-input">
               <label>Trạng thái</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
+              <div className="room-detail-input-dem"></div>
+              <div className="input-room-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
@@ -355,7 +355,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
             </div>
           </div>
 
-          <div className="rap-detail-content-right"></div>
+          <div className="room-detail-content-right"></div>
         </div>
       </div>
     </div>

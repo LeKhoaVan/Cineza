@@ -1,4 +1,4 @@
-.room-detail-background {
+.seat-detail-background {
   width: 100vw;
   height: 95vh;
   background-color: rgba(200, 200, 200, 0.9);
@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.room-detail-container {
+.seat-detail-container {
   width: 95%;
   height: 90%;
   border-radius: 12px;
@@ -21,12 +21,12 @@
   padding: 10px;
 }
 
-.room-detail-header {
+.seat-detail-header {
   width: 100%;
   height: 25%;
 }
 
-.room-detail-header-edit {
+.seat-detail-header-edit {
   width: 100%;
   height: 50%;
   display: flex;
@@ -38,7 +38,7 @@
 }
 
 /* save */
-.room-detail-header-edit-save {
+.seat-detail-header-edit-save {
   width: 5%;
   height: 100%;
   padding-left: 15px;
@@ -60,7 +60,7 @@
 }
 
 /* update */
-.room-detail-header-edit-update {
+.seat-detail-header-edit-update {
   width: 5%;
   height: 100%;
   padding-left: 15px;
@@ -81,7 +81,7 @@
   height: 40px;
 }
 
-.room-detail-header-edit-detail {
+.seat-detail-header-edit-detail {
   width: 5%;
   height: 100%;
   padding-left: 15px;
@@ -105,7 +105,7 @@
 }
 
 /* Khoi new delete */
-.room-detail-header-edit-new-delete {
+.seat-detail-header-edit-new-delete {
   width: 10%;
   height: 100%;
   display: flex;
@@ -113,7 +113,7 @@
   padding-left: 20px;
 }
 
-.room-detail-header-edit-new {
+.seat-detail-header-edit-new {
   width: 100%;
   height: 50%;
   display: flex;
@@ -132,7 +132,7 @@
   height: 30px;
 }
 
-.room-detail-header-edit-delete {
+.seat-detail-header-edit-delete {
   width: 100%;
   height: 50%;
   display: flex;
@@ -152,7 +152,7 @@
 }
 
 /* close */
-.room-detail-header-close {
+.seat-detail-header-close {
   display: flex;
   flex: 1;
   justify-content: end;
@@ -171,7 +171,7 @@
   }
 }
 
-.room-detail-header-name {
+.seat-detail-header-name {
   width: 100%;
   height: 48%;
   display: flex;
@@ -182,20 +182,20 @@
   border-bottom: 1px solid black;
 }
 
-.room-detail-content {
+.seat-detail-content {
   width: 100%;
   height: 75%;
   display: flex;
   flex-direction: row;
 }
 
-.room-detail-content-left {
+.seat-detail-content-left {
   width: 50%;
   height: 100%;
   padding-top: 50px;
 }
 
-.room-detail-input {
+.seat-detail-input {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -203,33 +203,34 @@
   padding: 10px;
 }
 
-.input-room-container {
+.input-seat-container {
   width: 50%;
   flex-direction: column;
   margin-right: 95px;
 }
 
-.room-detail-input-dem {
+.seat-detail-input-dem {
   flex: 1;
 }
 
-.input-room {
+.input-seat {
   width: 100%;
   padding: 5px;
 }
 
-.input-address-room {
+.input-address-seat {
   width: 100%;
   margin-top: 10px;
 }
 
-.input-address-room-combobox {
+.input-address-seat-combobox {
   margin-right: 11px;
   margin-top: 10px;
 }
 
-.room-detail-content-right {
+.seat-detail-content-right {
   width: 50%;
   height: 100%;
   padding-top: 50px;
 }
+

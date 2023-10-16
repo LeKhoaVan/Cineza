@@ -1,5 +1,5 @@
 import React from "react";
-import "./room.css";
+import "./seat.css";
 import Table from "../../components/Table";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import iconBack from "../../assets/imageButtons/iconBack.png";
@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
-import RoomDetail from "../RoomDetail";
+import SeatDetail from "../SeatDetail";
 
 // import { formatDateHandle } from "../../components/util";
 
@@ -18,12 +18,16 @@ const titleColumn = [
     data: "code",
   },
   {
-    title: "Tên phòng",
-    data: "name",
+    title: "Vị trí",
+    data: "position",
   },
   {
-    title: "Tên rap",
-    data: "nameRap",
+    title: "Tên phòng",
+    data: "nameRoom",
+  },
+  {
+    title: "Loại",
+    data: "type",
   },
   {
     title: "Trạng thái",
@@ -31,23 +35,24 @@ const titleColumn = [
   },
 ];
 
-const Room = () => {
-  const [room, setRoom] = useState([]);
+const Seat = () => {
+  const [seat, setSeat] = useState([]);
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModelAdd, setOpenModelAdd] = useState(false);
-  const [codeRoom, setCodeRoom] = useState("");
+  const [codeSeat, setCodeSeat] = useState("");
 
   const location = useLocation();
-  const codeRapURI = new URLSearchParams(location.search).get("code");
-
+  const codeRoomURI = new URLSearchParams(location.search).get("code");
+  const codeRapURI = new URLSearchParams(location.search).get("name");
+  console.log(codeRapURI);
   const handleRowClick = (row) => {
     console.log(row);
-    setCodeRoom(row);
+    setCodeSeat(row);
     setOpenModalDetail(!openModalDetail);
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/rap/code?code=" + room[0].codeRap;
+    window.location.href = "/cineza/admin/room/code?code=" + seat[0].codeRoom;
     setOpenModalDetail(false);
   };
 
@@ -57,26 +62,25 @@ const Room = () => {
   };
 
   useEffect(() => {
-    const getRooms = async () => {
+    const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapURI}`
-          //${codeRapURI}
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoomURI}`
         );
         if (result.status === 200) {
-          setRoom(result.data);
-          console.log(result.data);
+          setSeat(result.data);
+          // console.log(result.data);
         }
       } catch (error) {
         console.error("error get all room by rap: " + error);
       }
     };
-    getRooms();
+    getSeats();
   }, []);
 
   return (
-    <div className="room-container">
-      <div className="room-content">
+    <div className="seat-container">
+      <div className="seat-content">
         <Link to={"/rap"}>
           <img src={iconBack} className="img-btn-sidebar" />
         </Link>
@@ -88,30 +92,30 @@ const Room = () => {
             alignItems: "center",
           }}
         >
-          <h3>Danh sách phòng</h3>
+          <h3>Danh sách ghế</h3>
           <img
             src={iconAdd}
             alt="btn-add"
-            className="room-btn-add"
+            className="seat-btn-add"
             onClick={onClickHandleBtnAdd}
           />
         </div>
 
-        <div className="table-all-room">
-          <Table column={titleColumn} data={room} onRowClick={handleRowClick} />
+        <div className="table-all-seat">
+          <Table column={titleColumn} data={seat} onRowClick={handleRowClick} />
         </div>
       </div>
       {openModalDetail && (
-        <RoomDetail
+        <SeatDetail
+          codeSeat={codeSeat}
           onClickHandleClose={onClickHandleCloseP}
-          codeRoom={codeRoom}
         />
       )}
       {openModelAdd && (
-        <RoomDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+        <SeatDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
       )}
     </div>
   );
 };
 
-export default Room;
+export default Seat;
