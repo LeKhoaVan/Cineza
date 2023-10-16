@@ -16,6 +16,7 @@ import PromotionHeader from "../../../pages/PromotionHeader";
 import PromotionLine from "../../../pages/PromotionLine";
 import Rap from "../../../pages/Rap";
 import Room from "../../../pages/Room";
+import Seat from "../../../pages/Seat";
 
 const DefaultLayout = (props) => {
   // gán biến component
@@ -37,7 +38,8 @@ const DefaultLayout = (props) => {
       child.type === PromotionHeader ||
       child.type === PromotionLine ||
       child.type === Rap ||
-      child.type === Room
+      child.type === Room ||
+      child.type === Seat
     ) {
       pageComponent = child;
     }
