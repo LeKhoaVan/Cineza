@@ -6,6 +6,7 @@ const promotionHeaderRouter = require("./promotionHeaderRouter");
 const promotionLineRouter = require("./promotionLineRouter");
 const rapRouter = require("./rapRouter");
 const roomRouter = require("./roomRouter");
+const seatRouter = require("./seatRouter");
 
 const rootRouter = express.Router();
 
@@ -15,5 +16,6 @@ rootRouter.use("/promotion-header", promotionHeaderRouter);
 rootRouter.use("/promotion-line", promotionLineRouter)
 rootRouter.use("/rap", rapRouter)
 rootRouter.use("/room", roomRouter);
+rootRouter.use("/seat", seatRouter);
 
 module.exports = rootRouter;
