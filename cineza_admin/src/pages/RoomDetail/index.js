@@ -40,6 +40,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
+  const [isValidCodeRap, setIsValidCodeRap] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -50,16 +51,15 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
   };
+  const handleChangeComboboxCodeRap = (text) => {
+    setCodeRap(text.target.value);
+  };
 
   const onChangeHandleCode = (text) => {
     setCode(text.target.value);
   };
   const onChangeHandleName = (text) => {
     setName(text.target.value);
-  };
-
-  const onChangeHandleCodeRap = (text) => {
-    setCodeRap(text.target.value);
   };
 
   useEffect(() => {
@@ -105,6 +105,20 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
+    onHandleFocusCodeRap();
+  }, [codeRap]);
+
+  const onHandleFocusCodeRap = () => {
+    if (editCode || edit) {
+      if (codeRap == undefined || codeRap.length == 0) {
+        setIsValidCodeRap(true);
+      } else {
+        setIsValidCodeRap(false);
+      }
+    }
+  };
+
+  useEffect(() => {
     if (addBtn) {
       setEditCode(true);
       setEdit(true);
@@ -126,6 +140,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     getRoom();
   }, []);
 
+  //all rap
   useEffect(() => {
     const getAllRap = async () => {
       try {
@@ -173,7 +188,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     onHandleFocusCode();
     onHandleFocusName();
     onHandleFocusStatus();
-    if (!isValidCode & !isValidName & !isValidStatus) {
+    if (!isValidCode & !isValidName & !isValidStatus & !isValidCodeRap) {
       try {
         console.log(room);
         if (editCode) {
@@ -305,7 +320,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            <div className="room-detail-input">
+            {/* <div className="room-detail-input">
               <label>Mã rap</label>
               <div className="room-detail-input-dem"></div>
               <div className="input-room-container">
@@ -317,6 +332,40 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                   // onChange={(text) => onChangeHandleCodeRap(text)}
                   // onFocus={onHandleFocusPosition}
                 />
+              </div>
+            </div> */}
+
+            <div className="room-detail-input">
+              <label>Mã rap</label>
+              <div className="room-detail-input-dem"></div>
+              <div className="input-room-container">
+                <FormControl
+                  sx={{ width: "52%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">Mã rap</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={codeRap}
+                    label="Status"
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    onChange={handleChangeComboboxCodeRap}
+                    onFocus={onHandleFocusCodeRap}
+                  >
+                    {dataRap.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidCodeRap && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
               </div>
             </div>
 
