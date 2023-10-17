@@ -129,45 +129,45 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (addBtn) {
-  //     setEditCode(true);
-  //     setEdit(true);
-  //     setCreateNew(true);
-  //     // setCodeRap("rap01");
-  //   }
-  //   const getSeat = async () => {
-  //     const result = await axios.get(
-  //       `http://localhost:9000/cineza/api/v1/seat/get-by-code/${codeSeat}`
-  //     );
-  //     if (result.status === 200) {
-  //       setCode(result.data.code);
-  //       setName(result.data.name);
-  //       setCodeRap(result.data.codeRap);
-  //       setStatus(result.data.status);
-  //       console.log(result.data.name);
-  //     }
-  //   };
-  //   getRoom();
-  // }, []);
+  useEffect(() => {
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
+    }
+    const getSeat = async () => {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/seat/get-by-code/${codeSeat}`
+      );
+      if (result.status === 200) {
+        setCode(result.data.code);
+        setPosition(result.data.position);
+        setCodeRoom(result.data.codeRoom);
+        setType(result.data.type);
+        setStatus(result.data.status);
+        // console.log(result.data.name);
+      }
+    };
+    getSeat();
+  }, []);
 
-  // useEffect(() => {
-  //   const getAllRoom = async () => {
-  //     try {
-  //       const allRoom = await axios.get(
-  //         "http://localhost:9000/cineza/api/v1/rap/get-all"
-  //       );
-  //       if (allRoom.status === 200) {
-  //         setDataRap(allRoom.data);
-  //       } else {
-  //         console.error("error get rap");
-  //       }
-  //     } catch (error) {
-  //       console.error("error get all rap: " + error);
-  //     }
-  //   };
-  //   getAllRoom();
-  // }, []);
+  useEffect(() => {
+    const getAllRoom = async () => {
+      try {
+        const allRoom = await axios.get(
+          "http://localhost:9000/cineza/api/v1/room/get-all"
+        );
+        if (allRoom.status === 200) {
+          setDataRoom(allRoom.data);
+        } else {
+          console.error("error get room");
+        }
+      } catch (error) {
+        console.error("error get all room: " + error);
+      }
+    };
+    getAllRoom();
+  }, []);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -184,60 +184,63 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
 
     setCode("");
     setPosition("");
+    setType("");
     setStatus("");
   };
 
-  // const onClickHandleSave = async () => {
-  //   const room = {
-  //     code: code,
-  //     name: name,
-  //     codeRap: codeRap,
-  //     status: status,
-  //   };
-  //   onHandleFocusCode();
-  //   onHandleFocusName();
-  //   onHandleFocusStatus();
-  //   if (!isValidCode & !isValidName & !isValidStatus) {
-  //     try {
-  //       console.log(room);
-  //       if (editCode) {
-  //         const response = await axios.post(
-  //           `http://localhost:9000/cineza/api/v1/room/create`,
-  //           room
-  //         );
-  //         if (response.status === 201) {
-  //           setMessage("Lưu thành công");
-  //           setShowAlert(true);
-  //         } else {
-  //           setMessage("Lưu thất bại");
-  //           setShowAlert(true);
-  //         }
-  //       }
-  // else if (update) {
-  //   const response = await axios.put(
-  //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-  //     user
-  //   );
-  //   if (response.status === 200) {
-  //     console.log("save success");
-  //     setMessage("Cập nhật thành công");
-  //     setShowAlert(true);
-  //   } else {
-  //     setMessage("Cập thất bại");
-  //     setShowAlert(true);
-  //   }
-  // }
-  //     } catch (error) {
-  //       console.log("save address fail: " + error);
-  //       setMessage("Lưu thất bại");
-  //       setShowAlert(true);
-  //     }
-  //   } else {
-  //     console.log("lưu sai");
-  //     setMessage("Vui lòng nhập đầy đủ");
-  //     setShowAlert(true);
-  //   }
-  // };
+  const onClickHandleSave = async () => {
+    const seat = {
+      code: code,
+      position: position,
+      codeRoom: codeRoom,
+      type: type,
+      status: status,
+    };
+    onHandleFocusCode();
+    onHandleFocusPosition();
+    onHandleFocusStatus();
+    onHandleFocusType();
+    if (!isValidCode & !isValidPosition & !isValidStatus & !isValidType) {
+      try {
+        console.log(seat);
+        if (editCode) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/seat/create`,
+            seat
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+        }
+        // else if (update) {
+        //   const response = await axios.put(
+        //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
+        //     user
+        //   );
+        //   if (response.status === 200) {
+        //     console.log("save success");
+        //     setMessage("Cập nhật thành công");
+        //     setShowAlert(true);
+        //   } else {
+        //     setMessage("Cập thất bại");
+        //     setShowAlert(true);
+        //   }
+        // }
+      } catch (error) {
+        console.log("save address fail: " + error);
+        setMessage("Lưu thất bại");
+        setShowAlert(true);
+      }
+    } else {
+      console.log("lưu sai");
+      setMessage("Vui lòng nhập đầy đủ");
+      setShowAlert(true);
+    }
+  };
 
   return (
     <div className="seat-detail-background">
@@ -246,7 +249,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
           <div className="seat-detail-header-edit">
             <div
               className="seat-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -297,7 +300,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
               <div className="input-seat-container">
                 <input
                   className="input-seat"
-                  // value={code}
+                  value={code}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
@@ -314,7 +317,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
               <div className="input-seat-container">
                 <input
                   className="input-seat"
-                  // value={position}
+                  value={position}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandlePosition(text)}
@@ -331,7 +334,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
               <div className="input-seat-container">
                 <input
                   className="input-seat"
-                  // value={codeRoom}
+                  value={codeRoom}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   // onChange={(text) => onChangeHandleCodeRap(text)}
@@ -370,7 +373,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                     })}
                   </Select>
                 </FormControl>
-                {isValidStatus && (
+                {isValidType && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>

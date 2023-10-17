@@ -25,8 +25,28 @@ const createRapService = async (rap) => {
   return newRap;
 };
 
+const getValueRapByCodeService = async (code) => {
+  const valueRap = await db.Rap.findOne({
+    where: {
+      code: code,
+    },
+  });
+  return valueRap;
+};
+
+const updateRapService = async (code, rap) => {
+  const updateRap = await db.Rap.update(rap, {
+    where: {
+      code: code,
+    },
+  });
+  return updateRap;
+};
+
 module.exports = {
   getAllRapService,
   createRapService,
   getRapByCodeService,
+  updateRapService,
+  getValueRapByCodeService,
 };
