@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
           isIn: [["DOI", "COMUNITY", "VIP"]],
         },
