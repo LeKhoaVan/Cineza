@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
           isIn: [["DOI", "COMUNITY", "VIP"]],
         },
@@ -31,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
           model: "Room",
           key: "code",
         },
-      },
       status: {
         type: DataTypes.STRING,
         allowNull: false,
