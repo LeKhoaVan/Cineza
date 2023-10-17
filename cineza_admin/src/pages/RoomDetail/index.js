@@ -109,6 +109,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
+      setCodeRap(codeRap);
       // setCodeRap("rap01");
     }
     const getRoom = async () => {
@@ -120,7 +121,6 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
         setName(result.data.name);
         setCodeRap(result.data.codeRap);
         setStatus(result.data.status);
-        console.log(result.data.name);
       }
     };
     getRoom();
@@ -160,6 +160,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     setCode("");
     setName("");
     setStatus("");
+    setCodeRap(codeRap);
   };
 
   const onClickHandleSave = async () => {
@@ -187,23 +188,22 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
             setMessage("Lưu thất bại");
             setShowAlert(true);
           }
+        } else if (update) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/room/put/` + code,
+            room
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
         }
-        // else if (update) {
-        //   const response = await axios.put(
-        //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-        //     user
-        //   );
-        //   if (response.status === 200) {
-        //     console.log("save success");
-        //     setMessage("Cập nhật thành công");
-        //     setShowAlert(true);
-        //   } else {
-        //     setMessage("Cập thất bại");
-        //     setShowAlert(true);
-        //   }
-        // }
       } catch (error) {
-        console.log("save address fail: " + error);
+        console.log("save room fail: " + error);
         setMessage("Lưu thất bại");
         setShowAlert(true);
       }
