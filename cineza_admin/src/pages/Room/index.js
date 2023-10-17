@@ -37,6 +37,8 @@ const Room = () => {
   const [openModelAdd, setOpenModelAdd] = useState(false);
   const [codeRoom, setCodeRoom] = useState("");
 
+  
+
   const location = useLocation();
   const codeRapURI = new URLSearchParams(location.search).get("code");
 
