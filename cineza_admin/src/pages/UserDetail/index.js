@@ -107,45 +107,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const onChangeHandleCode = (text) => {
     setCodeUser(text.target.value);
   };
-  // const onHandleFocusCode = () => {
-  //   let errors = {};
-  //   if (editCode || edit) {
-  //     //Validate mã
-  //     if (codeUser.length <= 0) {
-  //       setIsValid(true);
-  //       errors.codeUser = "Mã người dùng không được trống.";
-  //     }
-
-  //     // Validate tên
-  //     if (!nameUser) {
-  //       // setIsValid(true);
-  //       errors.nameUser = "Tên không được để trống";
-  //     }
-
-  //     // Validate số điện thoại
-  //     if (!phoneUser) {
-  //       errors.phoneUser = "Số điện thoại không được để trống";
-  //     } else if (!/((09|03|07|08|05)+([0-9]{8})\b)/.test(phoneUser)) {
-  //       setIsValid(true);
-  //       errors.phoneUser = "Số điện thoại không đúng";
-  //     }
-
-  //     // Validate mật khẩu
-  //     if (!password) {
-  //       errors.password = "Mật khẩu không được để trống";
-  //     } else if (password.length < 8) {
-  //       setIsValid(true);
-  //       errors.password = "Mật khẩu ít nhất phải 8 ký tự";
-  //     }
-
-  //     //Validate địa chỉ
-  //     if (!numberHome) {
-  //       errors.numberHome = "Địa chỉ không được để trống";
-  //     }
-  //   }
-  //   setErrors(errors);
-  //   // setIsFormValid(Object.keys(errors).length === 0);
-  // };
 
   useEffect(() => {
     onHandleFocusCode();

@@ -130,6 +130,23 @@ const updateUserStructuerService = async (code, user) => {
     return updateUser;
 }
 
+const getUserByLevelService = async (level) => {
+    const query =
+        `select us.id, us.code, us.fullName, us.level, us.type, us.numberPhone, us.password, us.dateOfBirth, us.status,
+        cnt.fullName as countryName, 
+        ct.fullName as cityName, 
+        dt.fullName as districtName, 
+        wd.fullName as wardName, 
+        us.numberHome
+        from ValueStructure as us join ValueStructure as cnt on us.countryAddress = cnt.code 
+        join ValueStructure as ct on ct.code = us.cityAddress 
+        join ValueStructure as dt on us.districtAddress = dt.code
+        join ValueStructure as wd on us.wardAddress = wd.code
+        where us.type = "user" and us.level = '${level}'`;
+
+    const [user, meta] = await db.sequelize.query(query);
+    return user;
+}
 //service ticket
 const createTicketStructService = async (ticket) => {
     const newTicket = await db.ValueStructure.create(ticket);
@@ -185,4 +202,5 @@ module.exports = {
     getAllUserService,
     createTicketStructService,
     updateTicketStructerService,
+    getUserByLevelService
 }

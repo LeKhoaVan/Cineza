@@ -4,6 +4,7 @@ import VTDL from "../pages/VTDL";
 import VTDLLevel from "../pages/VTDLLevel";
 import VTDLDetail from "../pages/VTDLDetail";
 import User from "../pages/User";
+import UserLevel from "../pages/UserLevel";
 import Sidebar from "../components/Layouts/Sidebar";
 import UserDetail from "../pages/UserDetail";
 import SidebarHierarchyStructure from "../components/Layouts/SideBarHierarychStructure";
@@ -30,9 +31,15 @@ const publicRouter = [
   },
   {
     path: "/users",
-    componet: User,
+    componet: UserLevel,
     layout: DefaultLayout,
     sidebar: SidebarHierarchyStructure,
+  },
+  {
+    path: "/user-level",
+    componet: User,
+    layout: DefaultLayout,
+    sidebar: SidebarHierarchyStructure
   },
   {
     path: "/vtdl/level",
