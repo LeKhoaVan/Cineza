@@ -1,6 +1,8 @@
 const { getAllSeatService,
     getAllSeatByCodeRoomService,
-    createSeatService } = require("../services/seatService")
+    createSeatService,
+    getAllSeatByCodeService, } = require("../services/seatService")
+
 
 const getAllSeatController = async (req, res) => {
     try {
@@ -20,6 +22,15 @@ const getAllSeatByRapController = async (req, res) => {
         res.status(500).send("error get all seat by room: " + error)
     }
 }
+const getSeatByCodeController = async (req, res) => {
+    const { code } = req.params;
+    try {
+        const seat = await getAllSeatByCodeService(code);
+        res.status(200).send(seat)
+    } catch (error) {
+        res.status(500).send("error get seat by code: " + error)
+    }
+}
 
 const createSeatController = async (req, res) => {
     const { code, type, position, codeRoom, status } = req.body;
@@ -34,5 +45,6 @@ const createSeatController = async (req, res) => {
 module.exports = {
     getAllSeatController,
     getAllSeatByRapController,
+    getSeatByCodeController,
     createSeatController,
 }

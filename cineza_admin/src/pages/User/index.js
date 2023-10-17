@@ -5,6 +5,8 @@ import Table from "../../components/Table";
 import UserDetail from "../UserDetail";
 import { formatDateHandle } from "../../components/util/index";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import iconBack from "../../assets/imageButtons/iconBack.png"
+import { useLocation } from 'react-router-dom';
 import "./user.css";
 
 const columns = [
@@ -48,6 +50,9 @@ const User = () => {
   const [openModelAdd, setOpenModelAdd] = useState(false);
   const [codeUser, setCodeUser] = useState("");
 
+  const location = useLocation();
+  const levelUser = new URLSearchParams(location.search).get("level");
+
   const onHandleSelect = (row) => {
     console.log(row);
     setCodeUser(row);
@@ -55,7 +60,7 @@ const User = () => {
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/users";
+    window.location.href = "/cineza/admin/user-level?level=" + context[0].level;
     setOpenModalDetail(false);
   };
 
@@ -63,11 +68,15 @@ const User = () => {
     setOpenModelAdd(true);
   };
 
+  const onClickHandleBack = () => {
+    window.location.href = "http://localhost:3000/cineza/admin/users";
+  }
+
   useEffect(() => {
     const getData = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:9000/cineza/api/v1/value/user/get-all"
+          "http://localhost:9000/cineza/api/v1/value/user/get-by-level?level=" + levelUser
         );
         if (result.status == 200) {
           const dataSetup = result.data.map((item) => {
@@ -88,6 +97,7 @@ const User = () => {
 
   return (
     <div className="user-container">
+      <img src={iconBack} className="vtdllevl-btn-back" onClick={onClickHandleBack} />
       <div
         style={{
           display: "flex",
