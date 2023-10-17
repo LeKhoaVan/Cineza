@@ -1,7 +1,6 @@
 import "./userLevel.css";
 import Table from "../../components/Table";
 import VTDLDetail from "../VTDLDetail";
-import iconBack from "../../assets/imageButtons/iconBack.png"
 
 import { useEffect, useState } from "react";
 import axios from "axios";

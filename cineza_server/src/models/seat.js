@@ -30,6 +30,12 @@ module.exports = (sequelize, DataTypes) => {
           model: "Room",
           key: "code",
         },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isIn: [["DOI", "COMUNITY", "VIP"]]
+            }
       },
       status: {
         type: DataTypes.STRING,
