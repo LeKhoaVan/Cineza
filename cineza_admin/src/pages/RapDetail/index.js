@@ -352,21 +352,20 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
             setMessage("Lưu thất bại");
             setShowAlert(true);
           }
+        } else if (update) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/rap/put/` + code,
+            rap
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
         }
-        // else if (update) {
-        //   const response = await axios.put(
-        //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-        //     user
-        //   );
-        //   if (response.status === 200) {
-        //     console.log("save success");
-        //     setMessage("Cập nhật thành công");
-        //     setShowAlert(true);
-        //   } else {
-        //     setMessage("Cập thất bại");
-        //     setShowAlert(true);
-        //   }
-        // }
       } catch (error) {
         console.log("save address fail: " + error);
         setMessage("Lưu thất bại");
