@@ -12,7 +12,8 @@ const { getValueStructureByCodeService,
     createUserStructureService,
     updateUserStructuerService,
     createTicketStructService,
-    updateTicketStructerService } = require("../services/valueStructerService.js");
+    updateTicketStructerService,
+    getUserByLevelService } = require("../services/valueStructerService.js");
 
 
 // dung chung
@@ -188,6 +189,16 @@ const updateUserStructerController = async (req, res) => {
     }
 }
 
+const getUserByLevelController = async (req, res) => {
+    const { level } = req.query;
+    try {
+        const user = await getUserByLevelService(level);
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send("error get user by level: " + error);
+    }
+}
+
 //controller ticket
 const createTicketStructController = async (req, res) => {
     const { code, type, level, buyAt, ticketEffecticeAt, ticketExpiryAt, status } = req.body
@@ -237,5 +248,6 @@ module.exports = {
     createUserStructController,
     updateUserStructerController,
     createTicketStructController,
-    updateTicketStructerController
+    updateTicketStructerController,
+    getUserByLevelController
 }

@@ -17,6 +17,15 @@ const getAllSeatByCodeRoomService = async (codeRoom) => {
     return allSeat;
 }
 
+const getAllSeatByCodeService = async (code) => {
+    const query = `select s.code, s.type, s.position, s.codeRoom, s.status , r.name as nameRoom
+    from seat as s
+    join room as r on r.code = s.codeRoom
+    where s.code = '${code}'`
+    const [seat, setSeat] = await db.sequelize.query(query);
+    return seat[0];
+}
+
 const createSeatService = async (seat) => {
     const newSeat = await db.Seat.create(seat);
     return newSeat;
@@ -26,4 +35,5 @@ module.exports = {
     getAllSeatService,
     getAllSeatByCodeRoomService,
     createSeatService,
+    getAllSeatByCodeService,
 }

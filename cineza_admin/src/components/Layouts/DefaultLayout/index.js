@@ -9,6 +9,7 @@ import SidebarAddress from "../SidebarAddress";
 import SidebarHierarchyStructure from "../SideBarHierarychStructure";
 import HierarychyStructure from "../../../pages/HierarchyStructure";
 import User from "../../../pages/User";
+import UserLevel from "../../../pages/UserLevel"
 import UserDetail from "../../../pages/UserDetail";
 import VTDLDetail from "../../../pages/VTDLDetail";
 import VTDLLevel from "../../../pages/VTDLLevel";
@@ -39,7 +40,8 @@ const DefaultLayout = (props) => {
       child.type === PromotionLine ||
       child.type === Rap ||
       child.type === Room ||
-      child.type === Seat
+      child.type === Seat ||
+      child.type === UserLevel
     ) {
       pageComponent = child;
     }

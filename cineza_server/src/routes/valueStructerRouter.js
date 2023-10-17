@@ -11,7 +11,8 @@ const { getValueStructureByCodeController,
     updateTicketStructerController,
     getAllAddressController,
     getValueStructureByType,
-    getValueStructureByLevel } = require("../controller/ValueStructuerController.js");
+    getValueStructureByLevel,
+    getUserByLevelController } = require("../controller/ValueStructuerController.js");
 
 const valueStructure = express.Router();
 
@@ -31,6 +32,7 @@ valueStructure.get("/user/get-code/:code", getUserControllerByCode)
 valueStructure.get("/user/get-all", getAllUserController)
 valueStructure.post("/user/create", createUserStructController);
 valueStructure.put("/user/put/:code", updateUserStructerController);
+valueStructure.get("/user/get-by-level", getUserByLevelController)
 
 //ticket
 valueStructure.post("/ticket/create", createTicketStructController);

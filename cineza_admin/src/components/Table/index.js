@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./table.css";
 
-const Table = ({ column, data, onRowClick, toLink, toPromotion }) => {
+const Table = ({ column, data, onRowClick, toLink, toPromotion, toLinkUser }) => {
     return (
         <table className="table-container">
             <thead>
@@ -24,7 +24,8 @@ const Table = ({ column, data, onRowClick, toLink, toPromotion }) => {
                                         <Link
                                             style={{ textDecoration: "none" }}
                                             to={toLink != null ? toLink + dt["level"] :
-                                                (toPromotion != null ? toPromotion + dt["code"] : "")}>
+                                                (toPromotion != null ? toPromotion + dt["code"] :
+                                                    (toLinkUser != null ? toLinkUser + dt["level"] : ""))}>
                                             {dt[title.data]}
                                         </Link>
                                     </td>
