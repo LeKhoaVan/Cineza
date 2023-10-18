@@ -73,40 +73,42 @@ const PromotionHeader = () => {
   }, []);
 
   return (
-    <div className="promotion-container">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingRight: "10px",
-          alignItems: "center",
-        }}
-      >
-        <h3>Chương trình khuyến mãi</h3>
-        <img
-          src={iconAdd}
-          alt="btn-add"
-          className="user-btn-add"
-          onClick={onClickHandleBtnAdd}
-        />
-      </div>
+    <div className="promotion-header-container">
+      <div className="promotion-container">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}
+        >
+          <h3>Chương trình khuyến mãi</h3>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="user-btn-add"
+            onClick={onClickHandleBtnAdd}
+          />
+        </div>
 
-      <div className="table-all-promotion">
-        {/* toPromotion={"/promotion/code?code="}  */}
-        <Table column={columns} data={context} onRowClick={onHandleSelect} />
-        {openModelDetail && (
-          <PromotionHeaderEdit
-            codePromotion={codeHeader}
-            onClickHandleClose={onClickHandleCloseP}
-          />
-        )}
-        {openModelAdd && (
-          <PromotionHeaderEdit
-            addBtn={true}
-            codePromotion={codeHeader}
-            onClickHandleClose={onClickHandleCloseP}
-          />
-        )}
+        <div className="table-all-promotion">
+          {/* toPromotion={"/promotion/code?code="}  */}
+          <Table column={columns} data={context} onRowClick={onHandleSelect} />
+          {openModelDetail && (
+            <PromotionHeaderEdit
+              codePromotion={codeHeader}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+          {openModelAdd && (
+            <PromotionHeaderEdit
+              addBtn={true}
+              codePromotion={codeHeader}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
