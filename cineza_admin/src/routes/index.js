@@ -15,6 +15,7 @@ import PromotionLine from "../pages/PromotionLine";
 import Room from "../pages/Room";
 import Seat from "../pages/Seat";
 import Movie from "../pages/Movie";
+import OtherProduct from "../pages/OtherProduct";
 
 const publicRouter = [
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -40,7 +41,7 @@ const publicRouter = [
     path: "/user-level",
     componet: User,
     layout: DefaultLayout,
-    sidebar: SidebarHierarchyStructure
+    sidebar: SidebarHierarchyStructure,
   },
   {
     path: "/vtdl/level",
@@ -85,6 +86,12 @@ const publicRouter = [
     sidebar: SidebarHierarchyStructure,
   },
   { path: "/movie", componet: Movie, layout: DefaultLayout, sidebar: Sidebar },
+  {
+    path: "/other-product",
+    componet: OtherProduct,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
 ];
 
 const privateRouter = [];
