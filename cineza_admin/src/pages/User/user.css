@@ -1,6 +1,15 @@
 .user-container {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  background-color: rgb(202, 202, 202);
+}
+
+.user-content {
   width: 90%;
-  height: 70%;
+  height: 100%;
   display: flex;
   position: sticky;
   top: 7.5rem;
@@ -8,7 +17,8 @@
   flex-direction: column;
   padding: 20px;
   border-radius: 40px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  background-color: white;
 }
 
 .user-btn-add {
@@ -17,10 +27,13 @@
   margin-left: 37px;
   border-radius: 50%;
   padding: 5px;
+
   &:hover {
     background-color: rgb(217, 217, 217);
   }
 }
+
 .table-all-user {
+  height: 350px;
   overflow-y: auto;
 }

@@ -97,47 +97,40 @@ const User = () => {
 
   return (
     <div className="user-container">
-      <img src={iconBack} className="vtdllevl-btn-back" onClick={onClickHandleBack} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingRight: "10px",
-          alignItems: "center",
-        }}
-      >
-        <h3>Người dùng</h3>
-        <img
-          src={iconAdd}
-          alt="btn-add"
-          className="user-btn-add"
-          onClick={onClickHandleBtnAdd}
-        />
-      </div>
-      <div className="table-all-user">
-        {/* <DataTable
-                    columns={columns}
-                    data={context != null ? (context.length != 0 ? context : "") : ""}
-                    fixedHeader
-                    fixedHeaderScrollHeight="300px"
-                    // selectableRows
-                    onRowClicked={(row) => onHandleSelect(row)}
-                    actions
-                /> */}
-        <Table column={columns} data={context} onRowClick={onHandleSelect} />
-        {openModalDetail && (
-          <UserDetail
-            codeUserBy={codeUser}
-            onClickHandleClose={onClickHandleCloseP}
+      <div className="user-content">
+        <img src={iconBack} className="vtdllevl-btn-back" onClick={onClickHandleBack} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}
+        >
+          <h3>Người dùng</h3>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="user-btn-add"
+            onClick={onClickHandleBtnAdd}
           />
-        )}
-        {openModelAdd && (
-          <UserDetail
-            addBtn={true}
-            codeUserBy={codeUser}
-            onClickHandleClose={onClickHandleCloseP}
-          />
-        )}
+        </div>
+        <div className="table-all-user">
+          <Table column={columns} data={context} onRowClick={onHandleSelect} />
+          {openModalDetail && (
+            <UserDetail
+              codeUserBy={codeUser}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+          {openModelAdd && (
+            <UserDetail
+              addBtn={true}
+              codeUserBy={codeUser}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ const promotionLineRouter = require("./promotionLineRouter");
 const rapRouter = require("./rapRouter");
 const roomRouter = require("./roomRouter");
 const seatRouter = require("./seatRouter");
+const movieRouter = require("./movieRouter")
 
 const rootRouter = express.Router();
 
@@ -17,5 +18,6 @@ rootRouter.use("/promotion-line", promotionLineRouter)
 rootRouter.use("/rap", rapRouter)
 rootRouter.use("/room", roomRouter);
 rootRouter.use("/seat", seatRouter);
+rootRouter.use("/movie", movieRouter);
 
 module.exports = rootRouter;
