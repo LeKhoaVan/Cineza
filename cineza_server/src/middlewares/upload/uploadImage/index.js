@@ -20,7 +20,7 @@ const imagleFiler = (req, file, cb) => {
     cb(null, true);
 };
 
-const upload = multer({ storage: storage, fileFilter: imagleFiler }).single("single-file");
+const upload = multer({ storage: storage, fileFilter: imagleFiler }).single("poster");
 
 //hand error upload single file
 const handUploadFile = (req, res, next) => {
