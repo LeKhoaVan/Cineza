@@ -47,6 +47,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   const [isValidPosition, setIsValidPosition] = useState(false);
   const [isValidType, setIsValidType] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
+  const [isValidCodeRoom, setIsValidCodeRoom] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -62,15 +63,15 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
     setType(event.target.value);
   };
 
+  const handleChangeComboboxCodeRoom = (event) => {
+    setCodeRoom(event.target.value);
+  };
+
   const onChangeHandleCode = (text) => {
     setCode(text.target.value);
   };
   const onChangeHandlePosition = (text) => {
     setPosition(text.target.value);
-  };
-
-  const onChangeHandleCodeRoom = (text) => {
-    setCodeRoom(text.target.value);
   };
 
   useEffect(() => {
@@ -111,6 +112,20 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
         setIsValidStatus(true);
       } else {
         setIsValidStatus(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusCodeRoom();
+  }, [codeRoom]);
+
+  const onHandleFocusCodeRoom = () => {
+    if (editCode || edit) {
+      if (codeRoom == undefined || codeRoom.length == 0) {
+        setIsValidCodeRoom(true);
+      } else {
+        setIsValidCodeRoom(false);
       }
     }
   };
@@ -215,21 +230,20 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
             setMessage("Lưu thất bại");
             setShowAlert(true);
           }
+        } else if (update) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/seat/put/` + code,
+            seat
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
         }
-        // else if (update) {
-        //   const response = await axios.put(
-        //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-        //     user
-        //   );
-        //   if (response.status === 200) {
-        //     console.log("save success");
-        //     setMessage("Cập nhật thành công");
-        //     setShowAlert(true);
-        //   } else {
-        //     setMessage("Cập thất bại");
-        //     setShowAlert(true);
-        //   }
-        // }
       } catch (error) {
         console.log("save address fail: " + error);
         setMessage("Lưu thất bại");
@@ -328,7 +342,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            <div className="seat-detail-input">
+            {/* <div className="seat-detail-input">
               <label>Mã phòng</label>
               <div className="seat-detail-input-dem"></div>
               <div className="input-seat-container">
@@ -340,6 +354,39 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   // onChange={(text) => onChangeHandleCodeRap(text)}
                   // onFocus={onHandleFocusPosition}
                 />
+              </div>
+            </div> */}
+            <div className="seat-detail-input">
+              <label>Mã phòng</label>
+              <div className="seat-detail-input-dem"></div>
+              <div className="input-seat-container">
+                <FormControl
+                  sx={{ width: "52%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">Mã phòng</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={codeRoom}
+                    label="Room"
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    onChange={handleChangeComboboxCodeRoom}
+                    onFocus={onHandleFocusCodeRoom}
+                  >
+                    {dataRoom.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidCodeRoom && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
               </div>
             </div>
           </div>
