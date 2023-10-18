@@ -44,6 +44,11 @@
     }
 }
 
+.movie-poster {
+    width: 166px;
+    height: 250px;
+}
+
 /* Thiết lập kiểu CSS cho hình ảnh bộ phim */
 .movie-card img {
     /* max-width: 550px; */
