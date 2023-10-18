@@ -26,14 +26,15 @@ const getByCodeMovie = async (req, res) => {
 }
 
 const createMovie = async (req, res) => {
-    const { file } = req;
-    const filePath = `http://localhost:9000/${file.path}`;
-    const moviePoster = filePath;
-    const {
-        code, movieName, movieTime,
-        description, director, actor, language,
-        releaseTime, movieType, status } = req.body;
     try {
+        const { file } = req;
+        const filePath = `http://localhost:9000/${file.path}`;
+        const moviePoster = filePath;
+        const {
+            code, movieName, movieTime,
+            description, director, actor, language,
+            releaseTime, movieType, status } = req.body;
+
         const newMovie = await movieCreateService({
             code, movieName, moviePoster, movieTime,
             description, director, actor, language,
@@ -50,12 +51,12 @@ const updateMovie = async (req, res) => {
     const {
         movieName, moviePoster, movieTime,
         description, director, actor, language,
-        releaseTime, movieStatus } = req.body;
+        releaseTime, status } = req.body;
     try {
         const updateMovie = await updateMovieService(movieCode, {
             movieName, moviePoster, movieTime,
             description, director, actor, language,
-            releaseTime, movieStatus
+            releaseTime, status
         })
         res.status(200).send(updateMovie);
     } catch (error) {

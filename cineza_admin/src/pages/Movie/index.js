@@ -1,75 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MovieDetail from '../MovieDetail';
+import axios from "axios";
 import "./movie.css"
-
-const movieData = [
-    {
-        id: 1,
-        title: 'Bộ phim 1',
-        releaseDate: '2023-09-01',
-        director: 'Đạo diễn A',
-        actors: 'Diễn viên 1, Diễn viên 2,Diễn viên 1, Diễn viên 2,Diễn viên 1, Diễn viên 2,Diễn viên 1, Diễn viên 2',
-        status: 'Đang chiếu',
-        image: 'https://media.ngoisao.vn/resize_580/news/2011/3/31/20/Harry-Potter-tung-poster-doi-dau-day-an-tuong-0.jpg',
-    },
-    {
-        id: 2,
-        title: 'Bộ phim 2',
-        releaseDate: '2023-09-15',
-        director: 'Đạo diễn B',
-        actors: 'Diễn viên 3, Diễn viên 4',
-        status: 'Sắp chiếu',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1hqPFfQPGyZNCRjxfXGXO8IKbtXigd52gEYn53EsQ_9ugD3odZArelSyktYBWu3kTcs&usqp=CAU',
-    },
-    {
-        id: 1,
-        title: 'Bộ phim 1',
-        releaseDate: '2023-09-01',
-        director: 'Đạo diễn A',
-        actors: 'Diễn viên 1, Diễn viên 2',
-        status: 'Đang chiếu',
-        image: 'https://media.ngoisao.vn/resize_580/news/2011/3/31/20/Harry-Potter-tung-poster-doi-dau-day-an-tuong-0.jpg',
-    },
-    {
-        id: 2,
-        title: 'Bộ phim 2',
-        releaseDate: '2023-09-15',
-        director: 'Đạo diễn B',
-        actors: 'Diễn viên 3, Diễn viên 4',
-        status: 'Sắp chiếu',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1hqPFfQPGyZNCRjxfXGXO8IKbtXigd52gEYn53EsQ_9ugD3odZArelSyktYBWu3kTcs&usqp=CAU',
-    },
-    {
-        id: 1,
-        title: 'Bộ phim 1',
-        releaseDate: '2023-09-01',
-        director: 'Đạo diễn A',
-        actors: 'Diễn viên 1, Diễn viên 2',
-        status: 'Đang chiếu',
-        image: 'https://media.ngoisao.vn/resize_580/news/2011/3/31/20/Harry-Potter-tung-poster-doi-dau-day-an-tuong-0.jpg',
-    },
-    {
-        id: 2,
-        title: 'Bộ phim 2',
-        releaseDate: '2023-09-15',
-        director: 'Đạo diễn B',
-        actors: 'Diễn viên 3, Diễn viên 4',
-        status: 'Sắp chiếu',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1hqPFfQPGyZNCRjxfXGXO8IKbtXigd52gEYn53EsQ_9ugD3odZArelSyktYBWu3kTcs&usqp=CAU',
-    },
-    // Thêm các bộ phim khác ở đây
-];
 
 const Movie = () => {
     const [openDetail, setOpenDetail] = useState(false)
+    const [movie, setMovie] = useState("");
+    const [movieData, setMovieData] = useState([])
     const handleOnClick = (movie) => {
         console.log(movie)
+        setMovie(movie);
         setOpenDetail(true);
     }
     const handleOnClickCloseP = () => {
         window.location.href = "/cineza/admin/movie"
         setOpenDetail(false);
     }
+
+    useEffect(() => {
+        const getAllMovie = async () => {
+
+            const allMovie = await axios.get(`http://localhost:9000/cineza/api/v1/movie/get-all`);
+            if (allMovie.status == 200) {
+                setMovieData(allMovie.data)
+            } else {
+                console.log("error get all movie")
+            }
+        };
+        getAllMovie();
+    }, [])
+
     return (
         <div className='movie-container'>
             <div className='movie-header'>
@@ -78,18 +38,18 @@ const Movie = () => {
             <div className="movie-list">
                 {movieData.map((movie, index) => (
                     <div className="movie-card" key={movie.id} onClick={() => handleOnClick(movie)}>
-                        <img src={movie.image} alt={movie.title} />
+                        <img className='movie-poster' src={movie.moviePoster} alt={movie.title} />
                         <div className="movie-details">
-                            <h2>{movie.title}</h2>
-                            <p>Ngày ra mắt: {movie.releaseDate}</p>
+                            <h2>{movie.code} - {movie.movieName}</h2>
+                            <p>Ngày ra mắt: {movie.releaseTime}</p>
                             <p>Đạo diễn: {movie.director}</p>
-                            <p>Diễn viên: {movie.actors}</p>
+                            <p>Diễn viên: {movie.actor}</p>
                             <p>Trạng thái: {movie.status}</p>
                         </div>
                     </div>
                 ))}
             </div>
-            {openDetail && <MovieDetail onClickHandleClose={handleOnClickCloseP} />}
+            {openDetail && <MovieDetail onClickHandleClose={handleOnClickCloseP} movieClick={movie} />}
         </div>
     );
 }

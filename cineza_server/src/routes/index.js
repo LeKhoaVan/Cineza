@@ -8,6 +8,7 @@ const rapRouter = require("./rapRouter");
 const roomRouter = require("./roomRouter");
 const seatRouter = require("./seatRouter");
 const movieRouter = require("./movieRouter")
+const movieTypeRouter = require("./movieTypeRouter")
 
 const rootRouter = express.Router();
 
@@ -19,5 +20,6 @@ rootRouter.use("/rap", rapRouter)
 rootRouter.use("/room", roomRouter);
 rootRouter.use("/seat", seatRouter);
 rootRouter.use("/movie", movieRouter);
+rootRouter.use("/movie-type", movieTypeRouter);
 
 module.exports = rootRouter;
