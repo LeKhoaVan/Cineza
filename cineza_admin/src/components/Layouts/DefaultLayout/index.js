@@ -9,7 +9,7 @@ import SidebarAddress from "../SidebarAddress";
 import SidebarHierarchyStructure from "../SideBarHierarychStructure";
 import HierarychyStructure from "../../../pages/HierarchyStructure";
 import User from "../../../pages/User";
-import UserLevel from "../../../pages/UserLevel"
+import UserLevel from "../../../pages/UserLevel";
 import UserDetail from "../../../pages/UserDetail";
 import VTDLDetail from "../../../pages/VTDLDetail";
 import VTDLLevel from "../../../pages/VTDLLevel";
@@ -19,6 +19,7 @@ import Rap from "../../../pages/Rap";
 import Room from "../../../pages/Room";
 import Seat from "../../../pages/Seat";
 import Movie from "../../../pages/Movie";
+import OtherProduct from "../../../pages/OtherProduct";
 
 const DefaultLayout = (props) => {
   // gán biến component
@@ -43,7 +44,8 @@ const DefaultLayout = (props) => {
       child.type === Room ||
       child.type === Seat ||
       child.type === UserLevel ||
-      child.type === Movie
+      child.type === Movie ||
+      child.type === OtherProduct
     ) {
       pageComponent = child;
     }
