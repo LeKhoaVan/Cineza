@@ -16,6 +16,8 @@ import Room from "../pages/Room";
 import Seat from "../pages/Seat";
 import Movie from "../pages/Movie";
 import OtherProduct from "../pages/OtherProduct";
+import PriceHeader from "../pages/PriceHeader";
+import Price from "../pages/Price";
 
 const publicRouter = [
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -89,6 +91,18 @@ const publicRouter = [
   {
     path: "/other-product",
     componet: OtherProduct,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
+  {
+    path: "/price",
+    componet: PriceHeader,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
+  {
+    path: "/price/code",
+    componet: Price,
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
