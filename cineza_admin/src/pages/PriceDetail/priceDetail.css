@@ -1,4 +1,4 @@
-.promotion-detail-background {
+.price-detail-background {
   width: 100vw;
   height: 95vh;
   background-color: rgba(200, 200, 200, 0.9);
@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.promotion-detail-container {
+.price-detail-container {
   width: 95%;
   height: 90%;
   border-radius: 12px;
@@ -21,12 +21,12 @@
   padding: 10px;
 }
 
-.promotion-detail-header {
+.price-detail-header {
   width: 100%;
   height: 25%;
 }
 
-.promotion-detail-header-edit {
+.price-detail-header-edit {
   width: 100%;
   height: 50%;
   display: flex;
@@ -38,7 +38,7 @@
 }
 
 /* save */
-.promotion-detail-header-edit-save {
+.price-detail-header-edit-save {
   width: 5%;
   height: 100%;
   padding-left: 15px;
@@ -60,7 +60,7 @@
 }
 
 /* update */
-.promotion-detail-header-edit-update {
+.price-detail-header-edit-update {
   width: 5%;
   height: 100%;
   padding-left: 15px;
@@ -81,7 +81,7 @@
   height: 30px;
 }
 
-.promotion-detail-header-edit-detail {
+.price-detail-header-edit-detail {
   width: 5%;
   height: 100%;
   padding-left: 15px;
@@ -105,7 +105,7 @@
 }
 
 /* Khoi new delete */
-.promotion-detail-header-edit-new-delete {
+.price-detail-header-edit-new-delete {
   width: 10%;
   height: 100%;
   display: flex;
@@ -113,7 +113,7 @@
   padding-left: 20px;
 }
 
-.promotion-detail-header-edit-new {
+.price-detail-header-edit-new {
   width: 100%;
   height: 50%;
   display: flex;
@@ -132,7 +132,7 @@
   height: 30px;
 }
 
-.promotion-detail-header-edit-delete {
+.price-detail-header-edit-delete {
   width: 100%;
   height: 50%;
   display: flex;
@@ -152,7 +152,7 @@
 }
 
 /* close */
-.promotion-detail-header-close {
+.price-detail-header-close {
   display: flex;
   flex: 1;
   justify-content: end;
@@ -171,7 +171,7 @@
   }
 }
 
-.promotion-detail-header-name {
+.price-detail-name {
   width: 100%;
   height: 48%;
   display: flex;
@@ -182,20 +182,20 @@
   border-bottom: 1px solid black;
 }
 
-.promotion-detail-content {
+.price-detail-content {
   width: 100%;
   height: 75%;
   display: flex;
   flex-direction: row;
 }
 
-.promotion-detail-content-left {
+.price-detail-content-left {
   width: 50%;
   height: 100%;
   padding-top: 50px;
 }
 
-.promotion-detail-input {
+.price-detail-input {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -203,32 +203,32 @@
   padding: 10px;
 }
 
-.input-promotion-container {
+.input-price-detail-container {
   width: 50%;
   flex-direction: column;
   margin-right: 95px;
 }
 
-.promotion-detail-input-dem {
+.price-detail-input-dem {
   flex: 1;
 }
 
-.input-promotion {
+.input-price-detail {
   width: 100%;
   padding: 5px;
 }
 
-.input-address-promotion {
+.input-address-price-detail {
   width: 100%;
   margin-top: 10px;
 }
 
-.input-address-promotion-combobox {
+.input-address-price-detail-combobox {
   margin-right: 11px;
   margin-top: 10px;
 }
 
-.promotion-detail-content-right {
+.price-detail-content-right {
   width: 50%;
   height: 100%;
   padding-top: 50px;

@@ -7,7 +7,7 @@ import iconOther from "../../../assets/imageButtons/iconPopcorn.png";
 import iconThongKe from "../../../assets/imageButtons/iconReport.png";
 import iconUser from "../../../assets/imageButtons/iconUser.png";
 import iconHierarchyStructure from "../../../assets/imageButtons/hierarchicalStructureIcon.png";
-
+import iconPriceList from "../../../assets/imageButtons/iconPriceList.png";
 const Sidebar = () => {
   const context = [
     {
@@ -20,6 +20,7 @@ const Sidebar = () => {
     { text: "Vé", image: iconVe, href: "#" },
     { text: "Phim", image: iconPhim, href: "/movie" },
     { text: "Đồ đi kèm", image: iconOther, href: "/other-product" },
+    { text: "Bảng giá", image: iconPriceList, href: "/price" },
     { text: "Thống kê", image: iconThongKe, href: "#" },
   ];
   return (
