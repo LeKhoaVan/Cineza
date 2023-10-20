@@ -49,7 +49,7 @@ const PriceHeader = () => {
   const [openModelDetail, setOpenModelDetail] = useState(false);
   const [codeHeader, setCodeHeader] = useState("");
   const onHandleSelect = (row) => {
-    // setCodeHeader(row);
+    setCodeHeader(row);
     setOpenModelDetail(true);
   };
 
@@ -62,29 +62,29 @@ const PriceHeader = () => {
     setOpenModelDetail(false);
   };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const result = await axios.get(
-  //         "http://localhost:9000/cineza/api/v1/promotion-header/get-all"
-  //       );
-  //       if (result.status == 200) {
-  //         const dataResult = result.data.map((item) => {
-  //           return {
-  //             ...item,
-  //             startDay: formatDateHandle(item.startDay),
-  //             endDay: formatDateHandle(item.endDay),
-  //           };
-  //         });
-  //         setContext(dataResult);
-  //       }
-  //     } catch (error) {
-  //       console.log("error get api all user " + error);
-  //     }
-  //   };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:9000/cineza/api/v1/price-header/get-all"
+        );
+        if (result.status == 200) {
+          const dataResult = result.data.map((item) => {
+            return {
+              ...item,
+              startDay: formatDateHandle(item.startDay),
+              endDay: formatDateHandle(item.endDay),
+            };
+          });
+          setContext(dataResult);
+        }
+      } catch (error) {
+        console.log("error get api all user " + error);
+      }
+    };
 
-  //   getData();
-  // }, []);
+    getData();
+  }, []);
 
   return (
     <div className="price-header-container">
@@ -107,11 +107,10 @@ const PriceHeader = () => {
         </div>
 
         <div className="table-all-price-header">
-          {/* toPromotion={"/promotion/code?code="}  */}
-          <Table column={columns} data={data} onRowClick={onHandleSelect} />
+          <Table column={columns} data={context} onRowClick={onHandleSelect} />
           {openModelDetail && (
             <PriceHeaderDetail
-              // codePriceHeader={codeHeader}
+              codePriceHeader={codeHeader}
               onClickHandleClose={onClickHandleCloseP}
             />
           )}

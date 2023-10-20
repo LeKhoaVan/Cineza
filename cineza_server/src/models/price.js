@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const OtherProduct = sequelize.define(
-    "OtherProduct",
+  const Price = sequelize.define(
+    "Price",
     {
       id: {
         type: DataTypes.UUID,
@@ -12,37 +12,40 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.STRING,
+      value: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      status: {
+      type: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "ACTIVE",
         validate: {
-          isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]],
+          isIn: [["COMUNITY", "VIP"]],
+        },
+      },
+      codeMovie: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+          model: "Movie",
+          key: "code",
+        },
+      },
+      codeHeader: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+          model: "PriceHeader",
+          key: "code",
         },
       },
     },
     {
       sequelize,
-      modelName: "OtherProduct",
-      tableName: "OtherProduct",
+      modelName: "Price",
+      tableName: "Price",
       timestamps: true,
     }
   );
-  return OtherProduct;
+  return Price;
 };
