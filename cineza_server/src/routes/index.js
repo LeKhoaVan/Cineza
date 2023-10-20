@@ -10,6 +10,8 @@ const seatRouter = require("./seatRouter");
 const movieRouter = require("./movieRouter");
 const movieTypeRouter = require("./movieTypeRouter");
 const otherProductRouter = require("./otherProductRouter");
+const priceHeaderRouter = require("./priceHeaderRouter");
+const priceRouter = require("./priceRouter");
 
 const rootRouter = express.Router();
 
@@ -23,5 +25,7 @@ rootRouter.use("/seat", seatRouter);
 rootRouter.use("/movie", movieRouter);
 rootRouter.use("/movie-type", movieTypeRouter);
 rootRouter.use("/other-product", otherProductRouter);
+rootRouter.use("/price-header", priceHeaderRouter);
+rootRouter.use("/price", priceRouter);
 
 module.exports = rootRouter;

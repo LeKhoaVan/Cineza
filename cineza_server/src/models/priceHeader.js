@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const OtherProduct = sequelize.define(
-    "OtherProduct",
+  const PriceHeader = sequelize.define(
+    "PriceHeader",
     {
       id: {
         type: DataTypes.UUID,
@@ -12,26 +12,29 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      title: {
-        type: DataTypes.STRING,
+      startDay: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
-      image: {
-        type: DataTypes.STRING,
+      endDay: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
       description: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      price: {
-        type: DataTypes.INTEGER,
+      type: {
+        type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isIn: [["COMUNITY", "VIP"]],
+        },
       },
+
       status: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "ACTIVE",
         validate: {
           isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]],
         },
@@ -39,10 +42,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "OtherProduct",
-      tableName: "OtherProduct",
+      modelName: "PriceHeader",
+      tableName: "PriceHeader",
       timestamps: true,
     }
   );
-  return OtherProduct;
+  return PriceHeader;
 };

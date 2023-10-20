@@ -156,6 +156,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setEdit(true);
 
     setCode("");
+    setType("");
     setDescription("");
     setStatus("");
     setStartDayShow(new Date());
@@ -164,74 +165,89 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setEndDay(new Date());
   };
 
-  // const onClickHandleSave = async () => {
-  //   const promotionHeader = {
-  //     code: code,
-  //     startDay: startDayShow,
-  //     endDay: endDayShow,
-  //     description: description,
-  //     promotionStatus: status,
-  //   };
-  //   try {
-  //     console.log(promotionHeader);
-  //     if (editCode) {
-  //       const response = await axios.post(
-  //         `http://localhost:9000/cineza/api/v1/promotion-header/create`,
-  //         promotionHeader
-  //       );
-  //       if (response.status === 201) {
-  //         setMessage("Lưu thành công");
-  //         setShowAlert(true);
-  //       } else {
-  //         setMessage("Lưu thất bại");
-  //         setShowAlert(true);
-  //       }
-  //     } else if (update) {
-  //       // const response = await axios.put(
-  //       //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-  //       //     user
-  //       // );
-  //       // if (response.status === 200) {
-  //       //     console.log("save success");
-  //       //     setMessage("Cập nhật thành công");
-  //       //     setShowAlert(true);
-  //       // } else {
-  //       //     setMessage("Cập thất bại");
-  //       //     setShowAlert(true);
-  //       // }
-  //     }
-  //   } catch (error) {
-  //     console.log("save address fail: " + error);
-  //     setMessage("Lưu thất bại");
-  //     setShowAlert(true);
-  //   }
-  // };
+  const onClickHandleSave = async () => {
+    const priceHeader = {
+      code: code,
+      type: type,
+      startDay: startDayShow,
+      endDay: endDayShow,
+      description: description,
+      status: status,
+    };
+    try {
+      console.log(priceHeader);
+      if (editCode) {
+        const response = await axios.post(
+          `http://localhost:9000/cineza/api/v1/price-header/create`,
+          priceHeader
+        );
+        if (response.status === 201) {
+          setMessage("Lưu thành công");
+          setShowAlert(true);
+        } else {
+          setMessage("Lưu thất bại");
+          setShowAlert(true);
+        }
+      } else if (update) {
+        const response = await axios.put(
+          `http://localhost:9000/cineza/api/v1/price-header/put/` + code,
+          priceHeader
+        );
+        if (response.status === 200) {
+          console.log("save success");
+          setMessage("Cập nhật thành công");
+          setShowAlert(true);
+        } else {
+          setMessage("Cập thất bại");
+          setShowAlert(true);
+        }
+      }
+    } catch (error) {
+      console.log("save price header fail: " + error);
+      setMessage("Lưu thất bại");
+      setShowAlert(true);
+    }
+  };
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/promotion-header/get-code/${codePromotion}`
-  //       );
-  //       if (response.status === 200) {
-  //         setCode(response.data.code);
-  //         setStartDay(response.data.startDay);
-  //         setEndDay(response.data.endDay);
-  //         setStartDayShow(new Date(Date.parse(response.data.startDay)));
-  //         setEndDayShow(new Date(Date.parse(response.data.endDay)));
-  //         setStatus(response.data.promotionStatus);
-  //         setDescription(response.data.description);
-  //         console.log(new Date(Date.parse(response.data.startDay)));
-  //       } else {
-  //         console.log("get user fail");
-  //       }
-  //     } catch (error) {
-  //       console.log("error get user: " + error);
-  //     }
-  //   };
+  useEffect(() => {
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
+      setCode("");
+      setType("");
+      setDescription("");
+      setStatus("");
+      setStartDayShow(new Date());
+      setEndDayShow(new Date());
+      setStartDay(new Date());
+      setEndDay(new Date());
+    }
+    const getPriceHeader = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price-header/get-code/${codePriceHeader}`
+        );
+        if (response.status === 200) {
+          setCode(response.data.code);
+          setStartDay(response.data.startDay);
+          setEndDay(response.data.endDay);
+          setStartDayShow(new Date(Date.parse(response.data.startDay)));
+          setEndDayShow(new Date(Date.parse(response.data.endDay)));
+          setType(response.data.type);
+          setStatus(response.data.status);
+          setDescription(response.data.description);
+          console.log(new Date(Date.parse(response.data.startDay)));
+        } else {
+          console.log("get price header fail");
+        }
+      } catch (error) {
+        console.log("error get price header: " + error);
+      }
+    };
 
-  //   getUser();
-  // }, []);
+    getPriceHeader();
+  }, []);
 
   return (
     <div className="price-header-detail-background">
@@ -240,7 +256,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           <div className="price-header-detail-header-edit">
             <div
               className="price-header-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -255,7 +271,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             <Link
               className="price-header-detail-header-edit-detail"
               //to={"/promotion/code?code=" + code}
-              to={"price/code"}
+              to={"/price/code"}
             >
               <img className="icon-detail" src={iconDetail} alt="update" />
               <p>Bảng giá</p>
@@ -300,7 +316,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               <div className="input-price-header-detail-container">
                 <input
                   className="input-price-header-detail"
-                  // value={code}
+                  value={code}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
@@ -315,9 +331,9 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               <label>Ngày bắt đầu</label>
               <div className="price-header-detail-input-dem"></div>
               <DatePicker
-                // locale="vi"
+                locale="vi"
                 dateFormat="dd-MM-yyyy"
-                // selected={startDayShow}
+                selected={startDayShow}
                 readOnly={!edit}
                 onChange={(date) => onChangeHandleStartDate(date)}
                 fixedHeight="60px"
@@ -333,7 +349,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               <DatePicker
                 locale="vi"
                 dateFormat="dd-MM-yyyy"
-                // selected={endDayShow}
+                selected={endDayShow}
                 readOnly={!edit}
                 onChange={(date) => onChangeHandleEndDate(date)}
                 fixedHeight="60px"
@@ -347,7 +363,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               <div className="input-price-header-detail-container">
                 <textarea
                   className="input-price-header-detail"
-                  // value={description}
+                  value={description}
                   readOnly={!edit}
                   style={
                     edit
@@ -376,7 +392,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={type}
+                    value={type}
                     label="loại"
                     onChange={handleChangeComboboxType}
                     onFocus={onHandleFocusType}
@@ -410,7 +426,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={status}
+                    value={status}
                     label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatus}
