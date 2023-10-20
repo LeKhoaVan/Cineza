@@ -32,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
                 isIn: [["DISCOUNT", "PROMOTION", "FREEBIES"]]
             }
         },
+        maxMoney: {
+            type: DataTypes.DOUBLE,
+            allowNull: false,
+        },
+        maxTurn: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         promotionHeaderCode: {
             type: DataTypes.STRING,
             references: {

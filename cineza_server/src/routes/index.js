@@ -9,6 +9,7 @@ const roomRouter = require("./roomRouter");
 const seatRouter = require("./seatRouter");
 const movieRouter = require("./movieRouter")
 const movieTypeRouter = require("./movieTypeRouter")
+const promotionDetailRouter = require("./promotionDetailRouter")
 
 const rootRouter = express.Router();
 
@@ -21,5 +22,6 @@ rootRouter.use("/room", roomRouter);
 rootRouter.use("/seat", seatRouter);
 rootRouter.use("/movie", movieRouter);
 rootRouter.use("/movie-type", movieTypeRouter);
+rootRouter.use("/promotion-detail", promotionDetailRouter)
 
 module.exports = rootRouter;

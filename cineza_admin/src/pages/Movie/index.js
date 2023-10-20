@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import MovieDetail from '../MovieDetail';
 import axios from "axios";
+import iconFind from "../../assets/imageButtons/iconFind.png";
+import iconAdd from "../../assets/imageButtons/iconAdd.png"
 import "./movie.css"
 
 const Movie = () => {
     const [openDetail, setOpenDetail] = useState(false)
     const [movie, setMovie] = useState("");
     const [movieData, setMovieData] = useState([])
+
+    const [openDetailAdd, setOpenDetailAdd] = useState(false);
+
     const handleOnClick = (movie) => {
         console.log(movie)
         setMovie(movie);
@@ -15,6 +20,9 @@ const Movie = () => {
     const handleOnClickCloseP = () => {
         window.location.href = "/cineza/admin/movie"
         setOpenDetail(false);
+    }
+    const handleOnClickAdd = () => {
+        setOpenDetailAdd(true);
     }
 
     useEffect(() => {
@@ -33,7 +41,13 @@ const Movie = () => {
     return (
         <div className='movie-container'>
             <div className='movie-header'>
-
+                <div className='movie-header-find'>
+                    <input className='movie-input-find' />
+                    <img className="movie-button-img" src={iconFind} alt='tìm kiếm' />
+                </div>
+                <div className='movie-header-add' onClick={handleOnClickAdd}>
+                    <img className='movie-button-add' src={iconAdd} alt='thêm' />
+                </div>
             </div>
             <div className="movie-list">
                 {movieData.map((movie, index) => (
@@ -50,6 +64,8 @@ const Movie = () => {
                 ))}
             </div>
             {openDetail && <MovieDetail onClickHandleClose={handleOnClickCloseP} movieClick={movie} />}
+
+            {openDetailAdd && <MovieDetail onClickHandleClose={handleOnClickCloseP} addBtn={true} />}
         </div>
     );
 }
