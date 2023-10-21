@@ -9,10 +9,60 @@
 .movie-header {
     width: 96%;
     height: 15%;
+    display: flex;
+    flex-direction: row;
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 10px;
     background-color: rgb(255, 255, 255);
+}
+
+.movie-header-find {
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-input-find {
+    width: 50%;
+    height: 20px;
+    padding: 10px;
+    border-radius: 20px 0px 20px 0px;
+}
+
+.movie-button-img {
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: #ddd;
+    }
+}
+
+.movie-header-add {
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.movie-button-add {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: #ddd;
+    }
 }
 
 /* Thiết lập các kiểu CSS cho danh sách phim */

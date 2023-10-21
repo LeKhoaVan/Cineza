@@ -1,6 +1,8 @@
 import "./promotionLine.css";
 import Table from "../../components/Table";
 import PromotionDetail from "../PromotionDetail";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import iconBack from "../../assets/imageButtons/iconBack.png";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -26,6 +28,14 @@ const titleColumn = [
     data: "promotionHeaderCode",
   },
   {
+    title: "Tổng tiền",
+    data: "maxMoney"
+  },
+  {
+    title: "Số lần",
+    data: "maxTurn"
+  },
+  {
     title: "Trạng thái",
     data: "promotionLineStatus",
   },
@@ -38,11 +48,20 @@ const titleColumn = [
 const PromotionLine = () => {
   const [promotion, setPromotion] = useState([]);
   const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModalDetailAdd, setOpenModalDetailAdd] = useState(false);
   const [codePromotion, setCodePromotion] = useState("");
+  const [uriCode, setUriCode] = useState("");
 
   const location = useLocation();
   const codePromotionURI = new URLSearchParams(location.search).get("code");
 
+  const onClickHandleBack = () => {
+    window.location.href = "http://localhost:3000/cineza/admin/promotions";
+  }
+
+  const onClickHandleBtnAdd = () => {
+    setOpenModalDetailAdd(true)
+  }
   const handleRowClick = (row) => {
     console.log(row);
     setCodePromotion(row);
@@ -51,15 +70,16 @@ const PromotionLine = () => {
 
   const onClickHandleCloseP = async () => {
     window.location.href =
-      "/cineza/admin/promotion/code?code=" + promotion[0].promotionHeaderCode;
+      "/cineza/admin/promotion/code?code=" + uriCode;
     setOpenModalDetail(false);
   };
 
   useEffect(() => {
     const getAllPromotionLine = async () => {
       try {
+        setUriCode(codePromotionURI)
         const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/promotion-line//get-all-by-header/${codePromotionURI}`
+          `http://localhost:9000/cineza/api/v1/promotion-line/get-all-by-header/${codePromotionURI}`
         );
         if (response.status === 200) {
           const dataResult = response.data.map((item) => {
@@ -81,7 +101,16 @@ const PromotionLine = () => {
   return (
     <div className="promotion-line-container">
       <div className="promotion-line-content">
-        <h3>Chương trình chi tiết</h3>
+        <img src={iconBack} className="vtdllevl-btn-back" onClick={onClickHandleBack} />
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+          <h3>Chương trình chi tiết</h3>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="user-btn-add"
+            onClick={onClickHandleBtnAdd}
+          />
+        </div>
         <div className="table-all-promotion-line">
           <Table
             column={titleColumn}
@@ -94,6 +123,13 @@ const PromotionLine = () => {
         <PromotionDetail
           onClickHandleClose={onClickHandleCloseP}
           codePromotion={codePromotion}
+        />
+      )}
+      {openModalDetailAdd && (
+        <PromotionDetail
+          onClickHandleClose={onClickHandleCloseP}
+          codePromotion={codePromotion}
+          addBtn={true}
         />
       )}
     </div>

@@ -192,6 +192,20 @@ const PromotionHeaderEdit = ({ codePromotion, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     const getUser = async () => {
+      if (addBtn) {
+        setUpdate(false);
+        setCreateNew(true);
+        setEditCode(true);
+        setEdit(true);
+
+        setCode("");
+        setDescription("");
+        setStatus("");
+        setStartDayShow(new Date());
+        setEndDayShow(new Date());
+        setStartDay(new Date());
+        setEndDay(new Date());
+      }
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/promotion-header/get-code/${codePromotion}`

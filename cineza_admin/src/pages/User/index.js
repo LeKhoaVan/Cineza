@@ -66,6 +66,7 @@ const User = () => {
 
   const onClickHandleBtnAdd = () => {
     setOpenModelAdd(true);
+
   };
 
   const onClickHandleBack = () => {

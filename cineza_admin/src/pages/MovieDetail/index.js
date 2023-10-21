@@ -90,6 +90,25 @@ const MovieDetail = ({ codeUserBy, onClickHandleClose, addBtn, movieClick }) => 
 
     useEffect(() => {
         const getTypeMovie = async () => {
+            if (addBtn) {
+                setUpdate(false);
+                setCreateNew(true);
+                setEditCode(true);
+                setEdit(true);
+
+                setCode("")
+                setMovieName("")
+                setSelectedImage(null)
+                setPosterMovie("")
+                setMovieType("")
+                setMovieTime("")
+                setReleaseTime(new Date())
+                setDescription("")
+                setActor("");
+                setDirector("");
+                setStatus("")
+                setLanguageMovie("")
+            }
             const typeMovie = await axios.get(`http://localhost:9000/cineza/api/v1/movie-type/get-all`)
             if (typeMovie.status == 200) {
                 setDataTypeMovie(typeMovie.data);
@@ -150,7 +169,7 @@ const MovieDetail = ({ codeUserBy, onClickHandleClose, addBtn, movieClick }) => 
                         'Content-Type': 'multipart/form-data',
                     },
                 })
-                if (newMovie.status == 200) {
+                if (newMovie.status == 201) {
                     console.log("save movie success")
                     setShowAlert(true)
                     setMessage("Lưu phim thành công")
@@ -239,7 +258,7 @@ const MovieDetail = ({ codeUserBy, onClickHandleClose, addBtn, movieClick }) => 
                         </div>
                     </div>
                     <div className="movie-detail-header-name">
-                        {/* <span>{codeUser} - </span> <span>-{nameUser} </span> */}
+                        <span>{code} - </span> <span>-{movieName} </span>
                     </div>
                 </div>
 
