@@ -20,6 +20,8 @@ import Room from "../../../pages/Room";
 import Seat from "../../../pages/Seat";
 import Movie from "../../../pages/Movie";
 import OtherProduct from "../../../pages/OtherProduct";
+import PriceHeader from "../../../pages/PriceHeader";
+import Price from "../../../pages/Price";
 
 const DefaultLayout = (props) => {
   // gán biến component
@@ -45,7 +47,9 @@ const DefaultLayout = (props) => {
       child.type === Seat ||
       child.type === UserLevel ||
       child.type === Movie ||
-      child.type === OtherProduct
+      child.type === OtherProduct ||
+      child.type === PriceHeader ||
+      child.type === Price
     ) {
       pageComponent = child;
     }

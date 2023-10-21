@@ -1,18 +1,22 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require("sequelize");
 
 const { development, test, production } = require("../config/configDB");
 
 const db = {};
 
-const sequelize = new Sequelize(development.database, development.username, development.password, {
+const sequelize = new Sequelize(
+  development.database,
+  development.username,
+  development.password,
+  {
     host: development.host,
     dialect: development.dialect,
 
-    timezone: '+07:00',
+    timezone: "+07:00",
     // // hide query sql in sequelize
-    logging: false
-});
-
+    logging: false,
+  }
+);
 
 //test connect
 // const testConnect = async () => {
@@ -36,24 +40,32 @@ db.MovieType = require("./movieType")(sequelize, DataTypes);
 db.Rap = require("./rap")(sequelize, DataTypes);
 db.Room = require("./room")(sequelize, DataTypes);
 db.Seat = require("./seat")(sequelize, DataTypes);
+db.OtherProduct = require("./otherProduct")(sequelize, DataTypes);
+db.PriceHeader = require("./priceHeader")(sequelize, DataTypes);
+db.Price = require("./price")(sequelize, DataTypes);
 
 db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
 db.ValueStructure.belongsTo(db.HierachyStructure, { foreignKey: "type" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "parentId" })
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "parentId" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "parentId" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "countryAddress" })
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "countryAddress" });
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "countryAddress" });
+db.ValueStructure.belongsTo(db.ValueStructure, {
+  foreignKey: "countryAddress",
+});
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "cityAddress" })
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "cityAddress" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "cityAddress" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "districtAddress" })
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "districtAddress" });
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "districtAddress" });
+db.ValueStructure.belongsTo(db.ValueStructure, {
+  foreignKey: "districtAddress",
+});
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "wardAddress" })
+db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "wardAddress" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
+
 
 db.PromotionHeader.hasMany(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
 db.PromotionLine.belongsTo(db.PromotionHeader, { foreignKey: "promotionHeaderCode" });
@@ -85,9 +97,14 @@ db.Room.belongsTo(db.Rap, { foreignKey: "codeRap" });
 db.Room.hasMany(db.Seat, { foreignKey: "codeRoom" });
 db.Seat.belongsTo(db.Room, { foreignKey: "codeRoom" });
 
+db.PriceHeader.hasMany(db.Price, { foreignKey: "codeHeader" });
+db.Price.belongsTo(db.PriceHeader, { foreignKey: "codeHeader" });
+
+db.Movie.hasMany(db.Price, { foreignKey: "codeMovie" });
+db.Price.belongsTo(db.Movie, { foreignKey: "codeMovie" });
 
 module.exports = {
-    // testConnect,
-    db,
-    sequelize
-}
+  // testConnect,
+  db,
+  sequelize,
+};
