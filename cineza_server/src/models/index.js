@@ -34,6 +34,7 @@ db.HierachyStructure = require("./hierarchyStructure")(sequelize, DataTypes);
 db.ValueStructure = require("./valueStructure")(sequelize, DataTypes);
 db.PromotionHeader = require("./promotionHeader")(sequelize, DataTypes);
 db.PromotionLine = require("./promotionLine")(sequelize, DataTypes);
+db.PromotionDetail = require("./promotionDetail")(sequelize, DataTypes);
 db.Movie = require("./movie")(sequelize, DataTypes);
 db.MovieType = require("./movieType")(sequelize, DataTypes);
 db.Rap = require("./rap")(sequelize, DataTypes);
@@ -65,12 +66,15 @@ db.ValueStructure.belongsTo(db.ValueStructure, {
 db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "wardAddress" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
 
-db.PromotionHeader.hasMany(db.PromotionLine, {
-  foreignKey: "promotionHeaderCode",
-});
-db.PromotionLine.belongsTo(db.PromotionLine, {
-  foreignKey: "promotionHeaderCode",
-});
+
+db.PromotionHeader.hasMany(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
+db.PromotionLine.belongsTo(db.PromotionHeader, { foreignKey: "promotionHeaderCode" });
+
+db.PromotionLine.hasMany(db.PromotionDetail, { foreignKey: "promotionLineCode" });
+db.PromotionDetail.belongsTo(db.PromotionLine, { foreignKey: "promotionLineCode" });
+
+db.Movie.hasMany(db.PromotionDetail, { foreignKey: "movieCode" });
+db.PromotionDetail.belongsTo(db.Movie, { foreignKey: "movieCode" });
 
 db.MovieType.hasMany(db.Movie, { foreignKey: "movieType" });
 db.Movie.belongsTo(db.MovieType, { foreignKey: "movieType" });

@@ -171,7 +171,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusHome = () => {
     if (editCode || edit) {
-      const regex = /^[a-zA-Z0-9/]+$/;
+      const regex = /^[a-zA-Z0-9]/;
       if (!regex.test(numberHome)) {
         setIsValidHome(true);
       } else {
@@ -408,7 +408,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const onClickHandleSave = async () => {
     const user = {
       code: codeUser,
-      type: "6cadf9a4-4410-4bf3-a99b-e5f020757553",
+      type: "user",
       numberPhone: phoneUser,
       password: password,
       dateOfBirth: dateOfBirth,
@@ -748,7 +748,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {country?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
@@ -774,7 +774,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {city?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
@@ -802,7 +802,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {district?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );
@@ -830,7 +830,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   >
                     {ward?.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
+                        <MenuItem key={index} value={st.code}>
                           {st.fullName}
                         </MenuItem>
                       );

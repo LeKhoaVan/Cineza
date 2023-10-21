@@ -34,9 +34,9 @@ const dataColumn = [
         level: "VIP"
     },
     {
-        code: "THUONG",
+        code: "COMUNITY",
         fullName: "Khách Thường",
-        level: "THUONG "
+        level: "COMUNITY "
     },
 ]
 

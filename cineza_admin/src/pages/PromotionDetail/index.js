@@ -33,6 +33,12 @@ const dataTypePromotion = [
   { id: "FREEBIES", value: "FREEBIES" },
 ];
 
+const dataTypeTicket = [
+  { id: "VIP", value: "VIP" },
+  { id: "THUONG", value: "THUONG" },
+  { id: "DOI", value: "DOI" },
+]
+
 const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [startDay, setStartDay] = useState("");
@@ -43,11 +49,25 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   const [status, setStatus] = useState("");
   const [typePromotion, settypePromotion] = useState("");
 
+  const [codeMovie, setCodeMovie] = useState("");
+  const [purchaseValue, setPurchaseValue] = useState(null)
+  const [promotionValue, setPromotionValue] = useState(null);
+  const [numberTicket, setNumberTicket] = useState(null);
+  const [typeTicket, setTypeTicket] = useState(null);
+  const [numberTicketGift, setNumberTicketGift] = useState(null);
+  const [maxMoney, setMaxMoney] = useState("")
+  const [maxTurn, setMaxTurn] = useState("");
+
+  const [dataMovie, setDataMovie] = useState([]);
+
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
+  const [FREEBIES, setFREEBIES] = useState(false);
+  const [PROMOTION, setPROMOTION] = useState(false);
+  const [money, setMoney] = useState(true)
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidCodeHeader, setIsValidCodeHeader] = useState(false);
@@ -78,10 +98,60 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   };
   const handleChangeComboboxTypePromotion = (text) => {
     settypePromotion(text.target.value);
+    if (text.target.value == "FREEBIES") {
+      setPROMOTION(false)
+      setFREEBIES(true)
+    } else if (text.target.value == "PROMOTION") {
+      setPROMOTION(true)
+      setFREEBIES(false)
+      setMoney(true)
+    } else {
+      setPROMOTION(true)
+      setFREEBIES(false)
+      setMoney(false)
+    }
   };
   const handleChangeComboboxStatus = (text) => {
     setStatus(text.target.value);
   };
+
+  const onChangeHandleNumberTicket = (txt) => {
+    setNumberTicket(txt.target.value)
+  }
+  const handleChangeComboboxTypeTicket = (txt) => {
+    setTypeTicket(txt.target.value)
+  }
+  const onChangeHandleTicketGift = (txt) => {
+    setNumberTicketGift(txt.target.value);
+  }
+  const handleChangeComboboxMovie = (text) => {
+    setCodeMovie(text.target.value);
+  }
+  const onChangeHandlePurchaseValue = (text) => {
+    setPurchaseValue(text.target.value)
+  }
+  const onChangeHandlePromotionValue = (text) => {
+    setPromotionValue(text.target.value);
+  }
+
+  const onChangeHandleNumberMaxMoney = (text) => {
+    setMaxMoney(text.target.value)
+  }
+  const onChangeHandleNumberNumberTurn = (text) => {
+    setMaxTurn(text.target.value)
+  }
+
+  useEffect(() => {
+    const getAllMovie = async () => {
+      const response = await axios.get(`http://localhost:9000/cineza/api/v1/movie/get-all`);
+      if (response.status == 200) {
+        setDataMovie(response.data)
+      } else {
+        console.error("error get all movie")
+      }
+    }
+    getAllMovie();
+  }, [])
 
   useEffect(() => {
     onHandleFocusCode();
@@ -166,15 +236,37 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
       promotionLineStatus: status,
       typePromotion: typePromotion,
       promotionHeaderCode: codeHeader,
+      maxMoney: maxMoney,
+      maxTurn: maxTurn
     };
+
     try {
-      console.log(promotionLine);
+
       if (editCode) {
         const response = await axios.post(
           `http://localhost:9000/cineza/api/v1/promotion-line/create`,
           promotionLine
         );
-        if (response.status === 201) {
+
+        const promotionDetail = {
+          promotionLineCode: await response.data.code,
+          movieCode: codeMovie,
+          purchaseValue: purchaseValue,
+          promotionValue: promotionValue,
+          numberTicket: numberTicket,
+          typeTicket: typeTicket,
+          numberGiftTiket: numberTicketGift
+        }
+        console.log(response);
+        console.log(promotionDetail);
+
+        const responseDetail = await axios.post(
+          `http://localhost:9000/cineza/api/v1/promotion-detail/create`,
+          promotionDetail)
+
+
+
+        if (response.status == 201 & responseDetail.status == 201) {
           setMessage("Lưu thành công");
           setShowAlert(true);
         } else {
@@ -204,11 +296,25 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     const getUser = async () => {
+      if (addBtn) {
+        setUpdate(false);
+        setCreateNew(true);
+        setEditCode(true);
+        setEdit(true);
+
+        setCode("");
+        setCodeHeader("");
+        settypePromotion("");
+        setStatus("");
+        setStartDay(new Date())
+        setEndDay(new Date())
+      }
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/promotion-line/get-by-code/` +
-            codePromotion
+          codePromotion
         );
+
         if (response.status === 200) {
           setCode(response.data.code);
           setStartDay(response.data.startDay);
@@ -218,6 +324,37 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
           setCodeHeader(response.data.promotionHeaderCode);
           setStatus(response.data.promotionLineStatus);
           settypePromotion(response.data.typePromotion);
+          setMaxMoney(response.data.maxMoney);
+          setMaxTurn(response.data.maxTurn)
+          if (response.data.typePromotion != "PROMOTION") {
+            setMoney(false)
+          }
+
+          const responseDetail = await axios.get(
+            `http://localhost:9000/cineza/api/v1/promotion-detail/get-all/` + response.data.code
+          )
+          console.log(responseDetail)
+
+          if (responseDetail.status === 200) {
+            setCodeMovie(responseDetail.data[0].movieCode);
+
+            if (responseDetail.data[0].purchaseValue != null) {
+              setPurchaseValue(responseDetail.data[0].purchaseValue)
+            }
+            if (responseDetail.data[0].promotionValue != null) {
+              setPromotionValue(responseDetail.data[0].promotionValue)
+            }
+            if (responseDetail.data[0].numberTicket != null) {
+              setNumberTicket(responseDetail.data[0].numberTicket)
+            }
+            if (responseDetail.data[0].typeTicket != null) {
+              setTypeTicket(responseDetail.data[0].typeTicket)
+            }
+            if (responseDetail.data[0].numberGiftTiket != null) {
+              setNumberTicketGift(responseDetail.data[0].numberGiftTiket)
+            }
+          }
+
         } else {
           console.log("get user fail");
         }
@@ -386,6 +523,77 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
+            <div className="promotion-detail-input" style={{ paddingTop: "100px" }}>
+              <label>Số vé tối thiểu</label>
+              <div className="promotion-detail-input-dem"></div>
+
+              <div className="input-promotion-container">
+                <input
+                  className="input-promotion"
+                  value={numberTicket}
+                  readOnly={!edit || PROMOTION}
+                  style={(edit & !PROMOTION) ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleNumberTicket(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValidCode && (
+                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="promotion-detail-input">
+              <label>Loại vé</label>
+              <div className="promotion-detail-input-dem"></div>
+              <div className="input-promotion-container">
+                <FormControl
+                  sx={{ width: "100%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">Loại vé</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={typeTicket}
+                    label="Loại vé"
+                    onChange={handleChangeComboboxTypeTicket}
+                    onFocus={onHandleFocusStatus}
+                    readOnly={!edit || PROMOTION}
+                    style={(edit & !PROMOTION) ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataTypeTicket.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.id}>
+                          {st.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidStatus && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="promotion-detail-input">
+              <label>Số vé khuyến mãi</label>
+              <div className="promotion-detail-input-dem"></div>
+
+              <div className="input-promotion-container">
+                <input
+                  className="input-promotion"
+                  value={numberTicketGift}
+                  readOnly={!edit || PROMOTION}
+                  style={(edit & !PROMOTION) ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleTicketGift(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValidCode && (
+                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                )}
+              </div>
+            </div>
           </div>
           <div className="promotion-detail-content-right">
             <div className="promotion-detail-input">
@@ -429,8 +637,6 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
             <div className="promotion-detail-input">
               <label>Trạng thái</label>
               <div className="promotion-detail-input-dem"></div>
-              {/* <input className="input-promotion" value={status} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                                onChange={(text) => onChangeHandleStatus(text)} /> */}
               <div className="input-promotion-container">
                 <FormControl
                   sx={{ width: "100%", marginRight: "80px" }}
@@ -461,6 +667,121 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
+
+            <div className="promotion-detail-input">
+              <label>Số tiền lớn nhất</label>
+              <div className="promotion-detail-input-dem"></div>
+
+              <div className="input-promotion-container">
+                <input
+                  className="input-promotion"
+                  value={maxMoney}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleNumberMaxMoney(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValidCode && (
+                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="promotion-detail-input">
+              <label>Số lần</label>
+              <div className="promotion-detail-input-dem"></div>
+
+              <div className="input-promotion-container">
+                <input
+                  className="input-promotion"
+                  value={maxTurn}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandleNumberNumberTurn(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValidCode && (
+                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="promotion-detail-input" style={{ paddingTop: "40px" }}>
+              <label style={{ fontSize: 18, fontWeight: 600 }}>Cơ cấu khuyến mãi</label>
+              <div className="promotion-detail-input-dem"></div>
+            </div>
+
+            <div className="promotion-detail-input">
+              <label>Phim khuyến mãi</label>
+              <div className="promotion-detail-input-dem"></div>
+              <div className="input-promotion-container">
+                <FormControl
+                  sx={{ width: "100%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">Phim</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={codeMovie}
+                    label="Phim"
+                    onChange={handleChangeComboboxMovie}
+                    onFocus={onHandleFocusStatus}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataMovie?.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.code}>
+                          {st.movieName}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidStatus && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="promotion-detail-input">
+              <label>Số tiền tối thiểu</label>
+              <div className="promotion-detail-input-dem"></div>
+
+              <div className="input-promotion-container">
+                <input
+                  className="input-promotion"
+                  value={purchaseValue}
+                  readOnly={!editCode || FREEBIES}
+                  style={(edit & !FREEBIES) ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandlePurchaseValue(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValidCode && (
+                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+            <div className="promotion-detail-input">
+              <label>{money != "" ? "Giá trị khuyến mãi (tiền)" : "Giá trị khuyến mãi (%)"}</label>
+              <div className="promotion-detail-input-dem"></div>
+
+              <div className="input-promotion-container">
+                <input
+                  className="input-promotion"
+                  value={promotionValue}
+                  readOnly={!editCode || FREEBIES}
+                  style={(edit & !FREEBIES) ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandlePromotionValue(text)}
+                  onFocus={onHandleFocusCode}
+                />
+                {isValidCode && (
+                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
