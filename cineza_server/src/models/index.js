@@ -43,6 +43,7 @@ db.Seat = require("./seat")(sequelize, DataTypes);
 db.OtherProduct = require("./otherProduct")(sequelize, DataTypes);
 db.PriceHeader = require("./priceHeader")(sequelize, DataTypes);
 db.Price = require("./price")(sequelize, DataTypes);
+db.TypeSeat = require("./typeSeat")(sequelize, DataTypes);
 
 db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
 db.ValueStructure.belongsTo(db.HierachyStructure, { foreignKey: "type" });
@@ -51,17 +52,13 @@ db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "parentId" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "parentId" });
 
 db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "countryAddress" });
-db.ValueStructure.belongsTo(db.ValueStructure, {
-  foreignKey: "countryAddress",
-});
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "countryAddress" });
 
 db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "cityAddress" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "cityAddress" });
 
 db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "districtAddress" });
-db.ValueStructure.belongsTo(db.ValueStructure, {
-  foreignKey: "districtAddress",
-});
+db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "districtAddress" });
 
 db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "wardAddress" });
 db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
@@ -97,11 +94,12 @@ db.Room.belongsTo(db.Rap, { foreignKey: "codeRap" });
 db.Room.hasMany(db.Seat, { foreignKey: "codeRoom" });
 db.Seat.belongsTo(db.Room, { foreignKey: "codeRoom" });
 
-db.PriceHeader.hasMany(db.Price, { foreignKey: "codeHeader" });
-db.Price.belongsTo(db.PriceHeader, { foreignKey: "codeHeader" });
+db.TypeSeat.hasMany(db.Price, { foreignKey: "codeTypeSeat" });
+db.Price.belongsTo(db.TypeSeat, { foreignKey: "codeTypeSeat" });
 
-db.Movie.hasMany(db.Price, { foreignKey: "codeMovie" });
-db.Price.belongsTo(db.Movie, { foreignKey: "codeMovie" });
+db.TypeSeat.hasMany(db.Seat, { foreignKey: "codeTypeSeat" });
+db.Seat.belongsTo(db.TypeSeat, { foreignKey: "codeTypeSeat" });
+
 
 module.exports = {
   // testConnect,

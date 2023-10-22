@@ -16,21 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          isIn: [["COMUNITY", "VIP"]],
-        },
-      },
-      codeMovie: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-          model: "Movie",
-          key: "code",
-        },
-      },
       codeHeader: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -39,6 +24,14 @@ module.exports = (sequelize, DataTypes) => {
           key: "code",
         },
       },
+      codeTypeSeat: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+          model: "TypeSeat",
+          key: "code"
+        }
+      }
     },
     {
       sequelize,
