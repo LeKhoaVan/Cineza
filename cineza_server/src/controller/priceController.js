@@ -32,9 +32,8 @@ const createPriceController = async (req, res) => {
       const newPrice = await createPriceService({
         code,
         value,
-        type,
         codeHeader,
-        codeMovie,
+        codeTypeSeat,
       });
       res.status(201).send(newPrice);
     } else {

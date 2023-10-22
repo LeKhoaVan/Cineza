@@ -24,13 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          isIn: [["COMUNITY", "VIP"]],
-        },
-      },
 
       status: {
         type: DataTypes.STRING,
