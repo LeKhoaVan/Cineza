@@ -21,17 +21,16 @@ import Select from "@mui/material/Select";
 //   { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
 //   { id: "DESTROY", value: "DESTROY" },
 // ];
-const dataType = [
-  { id: "COMUNITY", value: "COMUNITY" },
-  { id: "VIP", value: "VIP" },
-];
+// const dataType = [
+//   { id: "COMUNITY", value: "COMUNITY" },
+//   { id: "VIP", value: "VIP" },
+// ];
 
 const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
-  const [type, setType] = useState("");
   const [value, setValue] = useState("");
-  const [codeMovie, setCodeMovie] = useState("");
-  const [codePriceHeader, setCodePriceHeader] = useState("");
+  const [codeTypeSeat, setCodeTypeSeat] = useState("");
+  const [codeHeader, setCodeHeader] = useState("");
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -39,11 +38,13 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
 
+  const [dataTypeSeat, setDataTypeSeat] = useState([]);
+  const [dataHeader, setDataHeader] = useState([]);
+
   const [isValidCode, setIsValidCode] = useState(false);
-  const [isValidType, setIsValidType] = useState(false);
   const [isValidValue, setIsValidValue] = useState(false);
-  const [isValidCodeMovie, setIsValidCodeMovie] = useState(false);
-  const [isValidCodePriceHEader, setIsValidCodePriceHeader] = useState(false);
+  const [isValidCodeTypeSeat, setIsValidCodeTypeSeat] = useState(false);
+  const [isValidCodeHeader, setIsValidCodeHeader] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -57,14 +58,11 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
   const onChangeHandleValue = (text) => {
     setValue(text.target.value);
   };
-  const handleChangeComboboxType = (text) => {
-    setType(text.target.value);
+  const handleChangeComboboxCodeTypeSeat = (text) => {
+    setCodeTypeSeat(text.target.value);
   };
-  const handleChangeComboboxCodeMovie = (text) => {
-    setCodeMovie(text.target.value);
-  };
-  const handleChangeComboboxCodePriceHeader = (text) => {
-    setCodePriceHeader(text.target.value);
+  const handleChangeComboboxCodeHeader = (text) => {
+    setCodeHeader(text.target.value);
   };
 
   useEffect(() => {
@@ -73,7 +71,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusCode = () => {
     if (editCode || edit) {
-      if (code.trim().length <= 0) {
+      if (code == undefined || code.trim().length <= 0) {
         setIsValidCode(true);
       } else {
         setIsValidCode(false);
@@ -87,7 +85,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusValue = () => {
     if (editCode || edit) {
-      if (value.trim().length <= 0) {
+      if (value == undefined || value.length <= 0) {
         setIsValidValue(true);
       } else {
         setIsValidValue(false);
@@ -96,46 +94,99 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
-    onHandleFocusType();
-  }, [type]);
+    onHandleFocusCodeTypeSeat();
+  }, [codeTypeSeat]);
 
-  const onHandleFocusType = () => {
+  const onHandleFocusCodeTypeSeat = () => {
     if (editCode || edit) {
-      if (type.trim().length <= 0) {
-        setIsValidType(true);
+      if (codeTypeSeat == undefined || codeTypeSeat.trim().length <= 0) {
+        setIsValidCodeTypeSeat(true);
       } else {
-        setIsValidType(false);
+        setIsValidCodeTypeSeat(false);
       }
     }
   };
 
   useEffect(() => {
-    onHandleFocusCodeMovie();
-  }, [codeMovie]);
+    onHandleFocusCodeHeader();
+  }, [codeHeader]);
 
-  const onHandleFocusCodeMovie = () => {
+  const onHandleFocusCodeHeader = () => {
     if (editCode || edit) {
-      if (codeMovie.trim().length <= 0) {
-        setIsValidCodeMovie(true);
+      if (codeHeader == undefined || codeHeader.trim().length <= 0) {
+        setIsValidCodeHeader(true);
       } else {
-        setIsValidCodeMovie(false);
+        setIsValidCodeHeader(false);
       }
     }
   };
 
   useEffect(() => {
-    onHandleFocusCodePriceHeader();
-  }, [codePriceHeader]);
-
-  const onHandleFocusCodePriceHeader = () => {
-    if (editCode || edit) {
-      if (codePriceHeader.trim().length <= 0) {
-        setIsValidCodePriceHeader(true);
-      } else {
-        setIsValidCodePriceHeader(false);
-      }
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
     }
-  };
+    const getPrice = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price/get-by-code/${codePrice}`
+        );
+        if (response.status === 200) {
+          setCode(response.data.code);
+          setValue(response.data.value);
+          setCodeHeader(response.data.codeHeader);
+          setCodeTypeSeat(response.data.codeTypeSeat);
+          console.log(response.data.codeHeader);
+        } else {
+          console.log("get price fail");
+        }
+      } catch (error) {
+        console.log("error get price: " + error);
+      }
+    };
+
+    getPrice();
+  }, []);
+
+  //all type seat
+  useEffect(() => {
+    const getAllTypeSeat = async () => {
+      try {
+        const allTypeSeat = await axios.get(
+          "http://localhost:9000/cineza/api/v1/type-seat/get-all"
+        );
+        if (allTypeSeat.status === 200) {
+          setDataTypeSeat(allTypeSeat.data);
+        } else {
+          console.error("error get type seat");
+        }
+      } catch (error) {
+        console.error("error get all type seat: " + error);
+      }
+    };
+    getAllTypeSeat();
+  }, []);
+
+  //all price header
+  useEffect(() => {
+    const getAllPriceHeader = async () => {
+      try {
+        const allPriceHeader = await axios.get(
+          "http://localhost:9000/cineza/api/v1/price-header/get-all"
+        );
+        if (allPriceHeader.status === 200) {
+          setDataHeader(allPriceHeader.data);
+          // console.log(allPriceHeader.data);
+        } else {
+          console.error("error get Price Header");
+        }
+      } catch (error) {
+        console.error("error get all Price Header: " + error);
+      }
+    };
+    getAllPriceHeader();
+  }, []);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -152,79 +203,51 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
 
     setCode("");
     setValue("");
-    setType("");
-    setCodeMovie("");
-    setCodePriceHeader("");
+    setCodeTypeSeat("");
+    setCodeHeader("");
   };
 
-  // const onClickHandleSave = async () => {
-  //   const promotionHeader = {
-  //     code: code,
-  //     startDay: startDayShow,
-  //     endDay: endDayShow,
-  //     description: description,
-  //     promotionStatus: status,
-  //   };
-  //   try {
-  //     console.log(promotionHeader);
-  //     if (editCode) {
-  //       const response = await axios.post(
-  //         `http://localhost:9000/cineza/api/v1/promotion-header/create`,
-  //         promotionHeader
-  //       );
-  //       if (response.status === 201) {
-  //         setMessage("Lưu thành công");
-  //         setShowAlert(true);
-  //       } else {
-  //         setMessage("Lưu thất bại");
-  //         setShowAlert(true);
-  //       }
-  //     } else if (update) {
-  //       // const response = await axios.put(
-  //       //     `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
-  //       //     user
-  //       // );
-  //       // if (response.status === 200) {
-  //       //     console.log("save success");
-  //       //     setMessage("Cập nhật thành công");
-  //       //     setShowAlert(true);
-  //       // } else {
-  //       //     setMessage("Cập thất bại");
-  //       //     setShowAlert(true);
-  //       // }
-  //     }
-  //   } catch (error) {
-  //     console.log("save address fail: " + error);
-  //     setMessage("Lưu thất bại");
-  //     setShowAlert(true);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/promotion-header/get-code/${codePromotion}`
-  //       );
-  //       if (response.status === 200) {
-  //         setCode(response.data.code);
-  //         setStartDay(response.data.startDay);
-  //         setEndDay(response.data.endDay);
-  //         setStartDayShow(new Date(Date.parse(response.data.startDay)));
-  //         setEndDayShow(new Date(Date.parse(response.data.endDay)));
-  //         setStatus(response.data.promotionStatus);
-  //         setDescription(response.data.description);
-  //         console.log(new Date(Date.parse(response.data.startDay)));
-  //       } else {
-  //         console.log("get user fail");
-  //       }
-  //     } catch (error) {
-  //       console.log("error get user: " + error);
-  //     }
-  //   };
-
-  //   getUser();
-  // }, []);
+  const onClickHandleSave = async () => {
+    const price = {
+      code: code,
+      value: value,
+      codeHeader: codeHeader,
+      codeTypeSeat: codeTypeSeat,
+    };
+    try {
+      console.log(price);
+      if (editCode) {
+        const response = await axios.post(
+          `http://localhost:9000/cineza/api/v1/price/create`,
+          price
+        );
+        if (response.status === 201) {
+          setMessage("Lưu thành công");
+          setShowAlert(true);
+        } else {
+          setMessage("Lưu thất bại");
+          setShowAlert(true);
+        }
+      } else if (update) {
+        const response = await axios.put(
+          `http://localhost:9000/cineza/api/v1/price/put/` + code,
+          price
+        );
+        if (response.status === 200) {
+          console.log("save success");
+          setMessage("Cập nhật thành công");
+          setShowAlert(true);
+        } else {
+          setMessage("Cập nhật thất bại");
+          setShowAlert(true);
+        }
+      }
+    } catch (error) {
+      console.log("save address fail: " + error);
+      setMessage("Lưu thất bại");
+      setShowAlert(true);
+    }
+  };
 
   return (
     <div className="price-detail-background">
@@ -233,7 +256,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
           <div className="price-detail-header-edit">
             <div
               className="price-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -245,14 +268,6 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-            <Link
-              className="price-detail-header-edit-detail"
-              //to={"/promotion/code?code=" + code}
-              to={"price/code"}
-            >
-              <img className="icon-detail" src={iconDetail} alt="update" />
-              <p>Bảng giá</p>
-            </Link>
             <div
               className="price-detail-header-edit-new-delete"
               onClick={onClickHandleNew}
@@ -290,7 +305,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
               <div className="input-price-detail-container">
                 <input
                   className="input-price-detail"
-                  // value={code}
+                  value={code}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
@@ -309,7 +324,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
               <div className="input-price-detail-container">
                 <input
                   className="input-price-detail"
-                  // value={code}
+                  value={value}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleValue(text)}
@@ -323,68 +338,36 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
           </div>
           <div className="price-detail-content-right">
             <div className="price-detail-input">
-              <label>Loại</label>
-              <div className="price-detail-input-dem"></div>
-              <div className="input-price-detail-container">
-                <FormControl
-                  sx={{ width: "100%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Loại</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    // value={type}
-                    label="loại"
-                    onChange={handleChangeComboboxType}
-                    onFocus={onHandleFocusType}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataType.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidType && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-
-            <div className="price-detail-input">
-              <label>Mã phim</label>
+              <label>Mã loại ghế</label>
               <div className="price-detail-input-dem"></div>
               <div className="input-price-detail-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Mã phim</InputLabel>
+                  <InputLabel id="demo-select-small-label">
+                    Mã loại ghế
+                  </InputLabel>
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={codeRap}
-                    label="mã phim"
+                    value={codeTypeSeat}
+                    label="mã loại ghế"
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={handleChangeComboboxCodeMovie}
-                    onFocus={onHandleFocusCodeMovie}
+                    onChange={handleChangeComboboxCodeTypeSeat}
+                    onFocus={onHandleFocusCodeTypeSeat}
                   >
-                    {/* {dataRap.map((st, index) => {
+                    {dataTypeSeat.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.code}>
                           {st.code}
                         </MenuItem>
                       );
-                    })} */}
+                    })}
                   </Select>
                 </FormControl>
-                {isValidCodeMovie && (
+                {isValidCodeTypeSeat && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>
@@ -404,23 +387,23 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={status}
+                    value={codeHeader}
                     label="Mã bảng giá header"
-                    onChange={handleChangeComboboxCodePriceHeader}
-                    onFocus={onHandleFocusCodePriceHeader}
+                    onChange={handleChangeComboboxCodeHeader}
+                    onFocus={onHandleFocusCodeHeader}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {/* {dataStatus.map((st, index) => {
+                    {dataHeader.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
                         </MenuItem>
                       );
-                    })} */}
+                    })}
                   </Select>
                 </FormControl>
-                {isValidCodePriceHEader && (
+                {isValidCodeHeader && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>

@@ -27,11 +27,15 @@ const titleColumn = [
   },
   {
     title: "Loại",
-    data: "type",
+    data: "typeSeat",
   },
   {
     title: "Trạng thái",
     data: "status",
+  },
+  {
+    title: "Trạng thái ghế",
+    data: "isBook",
   },
 ];
 
@@ -43,8 +47,7 @@ const Seat = () => {
 
   const location = useLocation();
   const codeRoomURI = new URLSearchParams(location.search).get("code");
-  const codeRapURI = new URLSearchParams(location.search).get("name");
-  console.log(codeRapURI);
+
   const handleRowClick = (row) => {
     console.log(row);
     setCodeSeat(row);

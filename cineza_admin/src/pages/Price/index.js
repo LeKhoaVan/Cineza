@@ -15,39 +15,28 @@ const columns = [
     data: "code",
   },
   {
-    title: "Loại",
-    data: "type",
-  },
-  {
     title: "Giá",
     data: "value",
   },
   {
-    title: "Mã bảng giá header",
-    data: "codePriceHeader",
+    title: "Bảng giá header",
+    data: "nameHeader",
   },
   {
-    title: "Mã Phim",
-    data: "codeMovie",
+    title: "Loại ghế",
+    data: "typeSeat",
   },
 ];
 
-const data = [
-  {
-    code: "ph01",
-    type: "VIP",
-    value: "100000",
-    codePriceHeader: "ph01",
-    codeMovie: "movie01",
-  },
-];
 const Price = () => {
   const [context, setContext] = useState([]);
   const [openModelAdd, setOpenModelAdd] = useState(false);
   const [openModelDetail, setOpenModelDetail] = useState(false);
   const [code, setCode] = useState("");
+  const location = useLocation();
+  const codePriceHeaderURI = new URLSearchParams(location.search).get("code");
   const onHandleSelect = (row) => {
-    // setCode(row);
+    setCode(row);
     setOpenModelDetail(true);
   };
 
@@ -56,33 +45,27 @@ const Price = () => {
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/price/code";
+    window.location.href =
+      "/cineza/admin/price/code?code=" + context[0].codeHeader;
     setOpenModelDetail(false);
   };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const result = await axios.get(
-  //         "http://localhost:9000/cineza/api/v1/promotion-header/get-all"
-  //       );
-  //       if (result.status == 200) {
-  //         const dataResult = result.data.map((item) => {
-  //           return {
-  //             ...item,
-  //             startDay: formatDateHandle(item.startDay),
-  //             endDay: formatDateHandle(item.endDay),
-  //           };
-  //         });
-  //         setContext(dataResult);
-  //       }
-  //     } catch (error) {
-  //       console.log("error get api all user " + error);
-  //     }
-  //   };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeaderURI}`
+        );
+        if (result.status == 200) {
+          setContext(result.data);
+        }
+      } catch (error) {
+        console.log("error get api all price " + error);
+      }
+    };
 
-  //   getData();
-  // }, []);
+    getData();
+  }, []);
 
   return (
     <div className="price-header-container">
@@ -108,11 +91,10 @@ const Price = () => {
         </div>
 
         <div className="table-all-price">
-          {/* toPromotion={"/promotion/code?code="}  */}
-          <Table column={columns} data={data} onRowClick={onHandleSelect} />
+          <Table column={columns} data={context} onRowClick={onHandleSelect} />
           {openModelDetail && (
             <PriceDetail
-              // codePriceHeader={codeHeader}
+              codePrice={code}
               onClickHandleClose={onClickHandleCloseP}
             />
           )}

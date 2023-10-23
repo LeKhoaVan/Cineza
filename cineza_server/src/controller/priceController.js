@@ -2,6 +2,8 @@ const {
   getAllPriceByHeaderService,
   getPriceByCodeService,
   createPriceService,
+  getValuePriceByCodeService,
+  updatePriceService,
 } = require("../services/priceService");
 
 const getAllPriceByHeaderController = async (req, res) => {
@@ -44,8 +46,32 @@ const createPriceController = async (req, res) => {
   }
 };
 
+const updatePriceController = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { value, codeHeader, codeTypeSeat } = req.body;
+
+    const checkPrice = await getValuePriceByCodeService(code);
+    if (checkPrice != null) {
+      const updatePrice = await updatePriceService(code, {
+        value, codeHeader, codeTypeSeat
+      });
+      if (updatePrice != 0) {
+        res.status(200).send("update success");
+      } else {
+        res.status(400).sern("update fail");
+      }
+    } else {
+      res.status(400).send("price header not is existed");
+    }
+  } catch (error) {
+    res.status(500).send("error update Price Header: " + error);
+  }
+};
+
 module.exports = {
   getAllPriceByHeaderController,
   getPriceByCodeController,
   createPriceController,
+  updatePriceController
 };
