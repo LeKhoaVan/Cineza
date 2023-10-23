@@ -22,18 +22,24 @@ const dataStatus = [
   { id: "DESTROY", value: "DESTROY" },
 ];
 
-const dataLevel = [
-  { id: "COMUNITY", value: "COMUNITY" },
-  { id: "VIP", value: "VIP" },
-  { id: "SWEET", value: "SWEET" },
+const dataIsBook = [
+  { id: "SELECTED", value: "SELECTED" },
+  { id: "NOTSELECTED", value: "NOTSELECTED" },
 ];
+
+// const dataLevel = [
+//   { id: "COMUNITY", value: "COMUNITY" },
+//   { id: "VIP", value: "VIP" },
+//   { id: "SWEET", value: "SWEET" },
+// ];
 
 const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [position, setPosition] = useState("");
   const [codeRoom, setCodeRoom] = useState("");
-  const [type, setType] = useState("");
+  const [codeType, setCodeType] = useState("");
   const [status, setStatus] = useState("");
+  const [isBook, setIsBook] = useState("");
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -42,11 +48,13 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   const [errors, setErrors] = useState({});
 
   const [dataRoom, setDataRoom] = useState([]);
+  const [dataTypeSeat, setDataTypeSeat] = useState([]);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidPosition, setIsValidPosition] = useState(false);
-  const [isValidType, setIsValidType] = useState(false);
+  const [isValidCodeType, setIsValidCodeType] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
+  const [isValidIsBook, setIsValidIsBook] = useState(false);
   const [isValidCodeRoom, setIsValidCodeRoom] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
@@ -58,9 +66,12 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
   };
+  const handleChangeComboboxIsBook = (event) => {
+    setIsBook(event.target.value);
+  };
 
-  const handleChangeComboboxType = (event) => {
-    setType(event.target.value);
+  const handleChangeComboboxCodeType = (event) => {
+    setCodeType(event.target.value);
   };
 
   const handleChangeComboboxCodeRoom = (event) => {
@@ -103,6 +114,20 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
+    onHandleFocusIsBook();
+  }, [isBook]);
+
+  const onHandleFocusIsBook = () => {
+    if (editCode || edit) {
+      if (isBook == undefined || isBook.length == 0) {
+        setIsValidIsBook(true);
+      } else {
+        setIsValidIsBook(false);
+      }
+    }
+  };
+
+  useEffect(() => {
     onHandleFocusStatus();
   }, [status]);
 
@@ -131,15 +156,15 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
-    onHandleFocusType();
-  }, [type]);
+    onHandleFocusCodeType();
+  }, [codeType]);
 
-  const onHandleFocusType = () => {
+  const onHandleFocusCodeType = () => {
     if (editCode || edit) {
-      if (type == undefined || type.length == 0) {
-        setIsValidType(true);
+      if (codeType == undefined || codeType.length == 0) {
+        setIsValidCodeType(true);
       } else {
-        setIsValidType(false);
+        setIsValidCodeType(false);
       }
     }
   };
@@ -158,14 +183,16 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
         setCode(result.data.code);
         setPosition(result.data.position);
         setCodeRoom(result.data.codeRoom);
-        setType(result.data.type);
+        setCodeType(result.data.codeTypeSeat);
         setStatus(result.data.status);
+        setIsBook(result.data.isBook);
         // console.log(result.data.name);
       }
     };
     getSeat();
   }, []);
 
+  // get all room
   useEffect(() => {
     const getAllRoom = async () => {
       try {
@@ -184,6 +211,25 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
     getAllRoom();
   }, []);
 
+  // get all type seat
+  useEffect(() => {
+    const getAllTypeSeat = async () => {
+      try {
+        const allTypeSeat = await axios.get(
+          "http://localhost:9000/cineza/api/v1/type-seat/get-all"
+        );
+        if (allTypeSeat.status === 200) {
+          setDataTypeSeat(allTypeSeat.data);
+        } else {
+          console.error("error get room");
+        }
+      } catch (error) {
+        console.error("error get all room: " + error);
+      }
+    };
+    getAllTypeSeat();
+  }, []);
+
   const onClickHandleEdit = () => {
     setUpdate(true);
     setCreateNew(false);
@@ -199,8 +245,9 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
 
     setCode("");
     setPosition("");
-    setType("");
+    setCodeType("");
     setStatus("");
+    setIsBook("");
   };
 
   const onClickHandleSave = async () => {
@@ -208,14 +255,22 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
       code: code,
       position: position,
       codeRoom: codeRoom,
-      type: type,
+      codeTypeSeat: codeType,
       status: status,
+      isBook: isBook,
     };
     onHandleFocusCode();
     onHandleFocusPosition();
     onHandleFocusStatus();
-    onHandleFocusType();
-    if (!isValidCode & !isValidPosition & !isValidStatus & !isValidType) {
+    onHandleFocusCodeType();
+    onHandleFocusIsBook();
+    if (
+      !isValidCode &
+      !isValidPosition &
+      !isValidStatus &
+      !isValidCodeType &
+      !isValidIsBook
+    ) {
       try {
         console.log(seat);
         if (editCode) {
@@ -404,23 +459,23 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    value={type}
+                    value={codeType}
                     label="Loại"
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={handleChangeComboboxType}
-                    onFocus={onHandleFocusType}
+                    onChange={handleChangeComboboxCodeType}
+                    onFocus={onHandleFocusCodeType}
                   >
-                    {dataLevel.map((st, index) => {
+                    {dataTypeSeat.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
                         </MenuItem>
                       );
                     })}
                   </Select>
                 </FormControl>
-                {isValidType && (
+                {isValidCodeType && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>
@@ -455,6 +510,42 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   </Select>
                 </FormControl>
                 {isValidStatus && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="seat-detail-input">
+              <label>Trạng thái ghế</label>
+              <div className="seat-detail-input-dem"></div>
+              <div className="input-seat-container">
+                <FormControl
+                  sx={{ width: "52%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">
+                    trạng thái
+                  </InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={isBook}
+                    label="trạng thái"
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    onChange={handleChangeComboboxIsBook}
+                    onFocus={onHandleFocusIsBook}
+                  >
+                    {dataIsBook.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.id}>
+                          {st.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidIsBook && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>

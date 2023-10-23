@@ -30,14 +30,9 @@ const dataStatus = [
   { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
   { id: "DESTROY", value: "DESTROY" },
 ];
-const dataType = [
-  { id: "COMUNITY", value: "COMUNITY" },
-  { id: "VIP", value: "VIP" },
-];
 
 const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
-  const [type, setType] = useState("");
   const [startDay, setStartDay] = useState("");
   const [endDay, setEndDay] = useState("");
   const [startDayShow, setStartDayShow] = useState("");
@@ -52,8 +47,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [errors, setErrors] = useState({});
 
   const [isValidCode, setIsValidCode] = useState(false);
-  //const [isValidStartDay, setIsValidStartDay] = useState(false);
-  const [isValidType, setIsValidType] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidDescription, setIsValidDescription] = useState(false);
 
@@ -79,9 +72,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const handleChangeDescription = (text) => {
     setDescription(text.target.value);
   };
-  const handleChangeComboboxType = (text) => {
-    setType(text.target.value);
-  };
   const handleChangeComboboxStatus = (text) => {
     setStatus(text.target.value);
   };
@@ -96,20 +86,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
         setIsValidCode(true);
       } else {
         setIsValidCode(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    onHandleFocusType();
-  }, [type]);
-
-  const onHandleFocusType = () => {
-    if (editCode || edit) {
-      if (type.trim().length <= 0) {
-        setIsValidType(true);
-      } else {
-        setIsValidType(false);
       }
     }
   };
@@ -156,7 +132,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setEdit(true);
 
     setCode("");
-    setType("");
     setDescription("");
     setStatus("");
     setStartDayShow(new Date());
@@ -168,7 +143,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const onClickHandleSave = async () => {
     const priceHeader = {
       code: code,
-      type: type,
       startDay: startDayShow,
       endDay: endDayShow,
       description: description,
@@ -215,7 +189,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setCode("");
-      setType("");
       setDescription("");
       setStatus("");
       setStartDayShow(new Date());
@@ -234,7 +207,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           setEndDay(response.data.endDay);
           setStartDayShow(new Date(Date.parse(response.data.startDay)));
           setEndDayShow(new Date(Date.parse(response.data.endDay)));
-          setType(response.data.type);
           setStatus(response.data.status);
           setDescription(response.data.description);
           console.log(new Date(Date.parse(response.data.startDay)));
@@ -271,7 +243,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             <Link
               className="price-header-detail-header-edit-detail"
               //to={"/promotion/code?code=" + code}
-              to={"/price/code"}
+              to={"/price/code?code=" + code}
             >
               <img className="icon-detail" src={iconDetail} alt="update" />
               <p>Bảng giá</p>
@@ -357,6 +329,8 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                 className="date-picker"
               />
             </div>
+          </div>
+          <div className="price-header-detail-content-right">
             <div className="price-header-detail-input">
               <label>Mô tả bảng giá</label>
               <div className="price-header-detail-input-dem"></div>
@@ -374,41 +348,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                   onFocus={onHandleFocusDescription}
                 />
                 {isValidDescription && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="price-header-detail-content-right">
-            <div className="price-header-detail-input">
-              <label>Loại</label>
-              <div className="price-header-detail-input-dem"></div>
-              <div className="input-price-header-detail-container">
-                <FormControl
-                  sx={{ width: "100%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Loại</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={type}
-                    label="loại"
-                    onChange={handleChangeComboboxType}
-                    onFocus={onHandleFocusType}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataType.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidType && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>

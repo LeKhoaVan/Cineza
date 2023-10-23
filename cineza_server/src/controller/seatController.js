@@ -16,7 +16,7 @@ const getAllSeatController = async (req, res) => {
   }
 };
 
-const getAllSeatByRapController = async (req, res) => {
+const getAllSeatByRoomController = async (req, res) => {
   const { codeRoom } = req.params;
   try {
     const allSeat = await getAllSeatByCodeRoomService(codeRoom);
@@ -36,11 +36,11 @@ const getSeatByCodeController = async (req, res) => {
 };
 
 const createSeatController = async (req, res) => {
-  const { code, type, position, codeRoom, status, isBook } = req.body;
+  const { code, codeTypeSeat, position, codeRoom, status, isBook } = req.body;
   try {
     const newSeat = await createSeatService({
       code,
-      type,
+      codeTypeSeat,
       position,
       codeRoom,
       status,
@@ -55,12 +55,12 @@ const createSeatController = async (req, res) => {
 const updateSeatController = async (req, res) => {
   try {
     const { code } = req.params;
-    const { type, position, codeRoom, status, isBook } = req.body;
+    const { codeTypeSeat, position, codeRoom, status, isBook } = req.body;
 
     const checkSeat = await getValueSeatByCodeService(code);
     if (checkSeat != null) {
       const updateSeat = await updateSeatService(code, {
-        type,
+        codeTypeSeat,
         position,
         codeRoom,
         status,
@@ -81,7 +81,7 @@ const updateSeatController = async (req, res) => {
 
 module.exports = {
   getAllSeatController,
-  getAllSeatByRapController,
+  getAllSeatByRoomController,
   getSeatByCodeController,
   createSeatController,
   updateSeatController,

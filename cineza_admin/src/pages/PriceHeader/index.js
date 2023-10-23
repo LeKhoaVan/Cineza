@@ -12,10 +12,6 @@ const columns = [
     data: "code",
   },
   {
-    title: "Loại",
-    data: "type",
-  },
-  {
     title: "Ngày bắt đầu",
     data: "startDay",
   },
@@ -79,7 +75,7 @@ const PriceHeader = () => {
           setContext(dataResult);
         }
       } catch (error) {
-        console.log("error get api all user " + error);
+        console.log("error get api all price header " + error);
       }
     };
 

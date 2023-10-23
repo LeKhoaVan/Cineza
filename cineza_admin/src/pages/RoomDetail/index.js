@@ -124,7 +124,6 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setCodeRap(codeRap);
-      // setCodeRap("rap01");
     }
     const getRoom = async () => {
       const result = await axios.get(

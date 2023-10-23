@@ -26,7 +26,6 @@ const createPriceHeaderController = async (req, res) => {
         startDay,
         endDay,
         description,
-        type,
         status,
       });
       res.status(201).send(newPrice);
@@ -51,7 +50,7 @@ const getPriceHeaderByCodeController = async (req, res) => {
 const updatePriceHeaderController = async (req, res) => {
   try {
     const { code } = req.params;
-    const { startDay, endDay, description, type, status } = req.body;
+    const { startDay, endDay, description, status } = req.body;
 
     const checkPriceHeader = await getValuePriceHeaderByCodeService(code);
     if (checkPriceHeader != null) {
@@ -59,7 +58,6 @@ const updatePriceHeaderController = async (req, res) => {
         startDay,
         endDay,
         description,
-        type,
         status,
       });
       if (updatePriceHeader != 0) {
@@ -68,7 +66,7 @@ const updatePriceHeaderController = async (req, res) => {
         res.status(400).sern("update fail");
       }
     } else {
-      res.status(400).send("rap not is existed");
+      res.status(400).send("price header not is existed");
     }
   } catch (error) {
     res.status(500).send("error update Price Header: " + error);
