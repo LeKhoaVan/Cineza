@@ -12,12 +12,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      type: {
+      codeTypeSeat: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          isIn: [["SWEET", "COMUNITY", "VIP"]],
-        },
+        references: {
+          model: "TypeSeat",
+          key: "code"
+        }
       },
       position: {
         type: DataTypes.STRING,

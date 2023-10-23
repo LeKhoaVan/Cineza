@@ -25,16 +25,15 @@ const getPriceByCodeController = async (req, res) => {
 };
 
 const createPriceController = async (req, res) => {
-  const { code, value, type, codeHeader, codeMovie } = req.body;
+  const { code, value, codeHeader, codeTypeSeat } = req.body;
   try {
     const checkCode = await getPriceByCodeService(code);
     if (checkCode == null) {
       const newPrice = await createPriceService({
         code,
         value,
-        type,
         codeHeader,
-        codeMovie,
+        codeTypeSeat,
       });
       res.status(201).send(newPrice);
     } else {
