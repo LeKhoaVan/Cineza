@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const Show = sequelize.define("Show", {
+    const Showing = sequelize.define("Showing", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -55,9 +55,9 @@ module.exports = (sequelize, DataTypes) => {
     },
         {
             sequelize,
-            modelName: "Show",
-            tableName: "Show",
+            modelName: "Showing",
+            tableName: "Showing",
             timestamps: true,
         })
-    return Show;
+    return Showing;
 }
