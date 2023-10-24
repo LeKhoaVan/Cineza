@@ -5,10 +5,10 @@ import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import Alert from "../../components/Alert";
 import "./showTimeDetail.css";
-// import {
-//   formatDateHandle,
-//   formatFromObjectToDate,
-// } from "../../components/util/index";
+import {
+  formatDateHandle,
+  formatFromObjectToDate,
+} from "../../components/util/index";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -31,7 +31,7 @@ const dataStatus = [
 
 const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
-  const [showDay, setShowDay] = useState("");
+  const [showDate, setShowDate] = useState("");
   const [showDayShow, setShowDayShow] = useState("");
   const [status, setStatus] = useState("");
 
@@ -54,8 +54,8 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
     setCode(text.target.value);
   };
   const onChangeHandleShowDate = (text) => {
-    setShowDay(text);
-    setShowDayShow(text);
+    setShowDate(text);
+    // setShowDayShow(text);
   };
   const handleChangeComboboxStatus = (text) => {
     setStatus(text.target.value);
@@ -104,79 +104,82 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
 
     setCode("");
     setStatus("");
-    setShowDayShow(new Date());
-    setShowDay(new Date());
+    // setShowDayShow(new Date());
+    setShowDate(new Date());
   };
 
-  // const onClickHandleSave = async () => {
-  //   const priceHeader = {
-  //     code: code,
-  //     startDay: startDayShow,
-  //     endDay: endDayShow,
-  //     description: description,
-  //     status: status,
-  //   };
-  //   try {
-  //     console.log(priceHeader);
-  //     if (editCode) {
-  //       const response = await axios.post(
-  //         `http://localhost:9000/cineza/api/v1/show-time/create`,
-  //         priceHeader
-  //       );
-  //       if (response.status === 201) {
-  //         setMessage("Lưu thành công");
-  //         setShowAlert(true);
-  //       } else {
-  //         setMessage("Lưu thất bại");
-  //         setShowAlert(true);
-  //       }
-  //     } else if (update) {
-  //       const response = await axios.put(
-  //         `http://localhost:9000/cineza/api/v1/show-time/put/` + code,
-  //         priceHeader
-  //       );
-  //       if (response.status === 200) {
-  //         console.log("save success");
-  //         setMessage("Cập nhật thành công");
-  //         setShowAlert(true);
-  //       } else {
-  //         setMessage("Cập thất bại");
-  //         setShowAlert(true);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log("save price header fail: " + error);
-  //     setMessage("Lưu thất bại");
-  //     setShowAlert(true);
-  //   }
-  // };
+  const onClickHandleSave = async () => {
+    const showTime = {
+      code: code,
+      showDate: showDate,
+      status: status,
+    };
+    try {
+      console.log(showTime);
+      if (editCode) {
+        const response = await axios.post(
+          `http://localhost:9000/cineza/api/v1/show-time/create`,
+          showTime
+        );
+        if (response.status === 201) {
+          setMessage("Lưu thành công");
+          setShowAlert(true);
+        } else {
+          setMessage("Lưu thất bại");
+          setShowAlert(true);
+        }
+      } else if (update) {
+        const response = await axios.put(
+          `http://localhost:9000/cineza/api/v1/show-time/put/` + code,
+          showTime
+        );
+        if (response.status === 200) {
+          console.log("save success");
+          setMessage("Cập nhật thành công");
+          setShowAlert(true);
+        } else {
+          setMessage("Cập thất bại");
+          setShowAlert(true);
+        }
+      }
+    } catch (error) {
+      console.log("save show time fail: " + error);
+      setMessage("Lưu thất bại");
+      setShowAlert(true);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (addBtn) {
-  //     setEditCode(true);
-  //     setEdit(true);
-  //     setCreateNew(true);
-  //   }
-  //   const getPriceHeader = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/show-time/get-code/${codePriceHeader}`
-  //       );
-  //       if (response.status === 200) {
-  //         setCode(response.data.code);
-  //         setShowDay(response.data.showDay);
-  //         setShowDayShow(new Date(Date.parse(response.data.showDay)));
-  //         setStatus(response.data.status);
-  //       } else {
-  //         console.log("get price header fail");
-  //       }
-  //     } catch (error) {
-  //       console.log("error get price header: " + error);
-  //     }
-  //   };
+  useEffect(() => {
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
 
-  //   getPriceHeader();
-  // }, []);
+      // setCode("");
+      // setStatus("");
+      setShowDate(new Date());
+      // setShowDayShow(new Date());
+    }
+    const getShowTime = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/show-time/get-by-code/${codeShowTime}`
+        );
+        if (response.status === 200) {
+          setCode(response.data.code);
+          setShowDate(new Date(Date.parse(response.data.showDate)));
+          // setShowDayShow(new Date(Date.parse(response.data.showDate)));
+          setStatus(response.data.status);
+        } else {
+          console.log("get show timer fail");
+        }
+      } catch (error) {
+        console.log("error get show time: " + error);
+      }
+    };
+
+    getShowTime();
+  }, []);
 
   return (
     <div className="show-time-detail-background">
@@ -185,7 +188,7 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
           <div className="show-time-detail-header-edit">
             <div
               className="show-time-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -234,7 +237,7 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
               <div className="input-show-time-detail-container">
                 <input
                   className="input-show-time-detail"
-                  // value={code}
+                  value={code}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
@@ -251,7 +254,7 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
               <DatePicker
                 locale="vi"
                 dateFormat="dd-MM-yyyy"
-                selected={showDayShow}
+                selected={showDate}
                 readOnly={!edit}
                 onChange={(date) => onChangeHandleShowDate(date)}
                 fixedHeight="60px"
@@ -272,7 +275,7 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={status}
+                    value={status}
                     label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatus}
