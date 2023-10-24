@@ -61,7 +61,6 @@ const Room = () => {
       try {
         const result = await axios.get(
           `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapURI}`
-          //${codeRapURI}
         );
         if (result.status === 200) {
           setRoom(result.data);
