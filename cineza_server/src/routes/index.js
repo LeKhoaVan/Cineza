@@ -14,6 +14,7 @@ const priceHeaderRouter = require("./priceHeaderRouter");
 const priceRouter = require("./priceRouter");
 const promotionDetailRouter = require("./promotionDetailRouter");
 const typeSeatRouter = require("./typeSeatRouter");
+const showTimeRouter = require("./showTimeRouter");
 
 const rootRouter = express.Router();
 
@@ -31,5 +32,6 @@ rootRouter.use("/other-product", otherProductRouter);
 rootRouter.use("/price-header", priceHeaderRouter);
 rootRouter.use("/price", priceRouter);
 rootRouter.use("/type-seat", typeSeatRouter);
+rootRouter.use("/show-time", showTimeRouter);
 
 module.exports = rootRouter;
