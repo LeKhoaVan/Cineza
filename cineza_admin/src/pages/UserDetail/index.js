@@ -8,7 +8,6 @@ import "./userDetail.css";
 
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -264,7 +263,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/value/user/get-code/` +
-          codeUserBy
+            codeUserBy
         );
         if (response.status === 200) {
           setCodeUser(response.data.code);
@@ -421,18 +420,26 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       fullName: nameUser,
       status: status,
     };
-    onHandleFocusCode()
-    onHandleFocusName()
-    onHandleFocusPass()
-    onHandleFocusLevel()
-    onHandleFocusPhone()
-    onHandleFocusHome()
-    onHandleFocusStatus()
-    onHandleFocusAddress()
-    if (!isValidCode & !isValidName & !isValidPass & !isValidLevel & !isValidHome & !isValidPhone & !isValidStatus
-      & !isValidAddress) {
+    onHandleFocusCode();
+    onHandleFocusName();
+    onHandleFocusPass();
+    onHandleFocusLevel();
+    onHandleFocusPhone();
+    onHandleFocusHome();
+    onHandleFocusStatus();
+    onHandleFocusAddress();
+    if (
+      !isValidCode &
+      !isValidName &
+      !isValidPass &
+      !isValidLevel &
+      !isValidHome &
+      !isValidPhone &
+      !isValidStatus &
+      !isValidAddress
+    ) {
       try {
-        console.log(user)
+        console.log(user);
         if (editCode) {
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/value/user/create`,
@@ -465,7 +472,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
         setShowAlert(true);
       }
     } else {
-      console.log("lưu sai")
+      console.log("lưu sai");
       setMessage("Vui lòng nhập đầy đủ");
       setShowAlert(true);
     }
