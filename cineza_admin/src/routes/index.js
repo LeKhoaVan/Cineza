@@ -18,6 +18,8 @@ import Movie from "../pages/Movie";
 import OtherProduct from "../pages/OtherProduct";
 import PriceHeader from "../pages/PriceHeader";
 import Price from "../pages/Price";
+import ShowTime from "../pages/ShowTime";
+import Show from "../pages/Show";
 
 const publicRouter = [
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -103,6 +105,13 @@ const publicRouter = [
   {
     path: "/price/code",
     componet: Price,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
+  { path: "/show", componet: Show, layout: DefaultLayout, sidebar: Sidebar },
+  {
+    path: "/show-time",
+    componet: ShowTime,
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
