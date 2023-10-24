@@ -25,7 +25,7 @@ const dataStatus = [
   { id: "DESTROY", value: "DESTROY" },
 ];
 
-const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
+const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [screenAt, setScreenAt] = useState("");
   const [codeMovie, setCodeMovie] = useState("");
@@ -39,6 +39,11 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const [dataMovie, setDataMovie] = useState([]);
+  const [dataRap, setDataRap] = useState([]);
+  const [dataRoom, setDataRoom] = useState([]);
+  const [dataShowTime, setDataShowTime] = useState([]);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidScreenAt, setIsValidScreenAt] = useState(false);
@@ -161,108 +166,105 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (addBtn) {
-  //     setEditCode(true);
-  //     setEdit(true);
-  //     setCreateNew(true);
-  //   }
-  //   const getRap = async () => {
-  //     const result = await axios.get(
-  //       `http://localhost:9000/cineza/api/v1/rap/get-by-code/${codeRapBy}`
-  //     );
-  //     if (result.status === 200) {
-  //       setCode(result.data.code);
-  //       setName(result.data.name);
-  //       setNumberRap(result.data.numberRap);
-  //       setOpenTime(result.data.openTime);
-  //       setCloseTime(result.data.closeTime);
-  //       setStatus(result.data.status);
+  useEffect(() => {
+    if (addBtn) {
+      setEditCode(true);
+      setEdit(true);
+      setCreateNew(true);
+    }
+    const getShow = async () => {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/show/get-by-code/${codeShow}`
+      );
+      if (result.status === 200) {
+        setCode(result.data.code);
+        setScreenAt(result.data.screenAt);
+        setStatus(result.data.status);
 
-  //       setCountryId(result.data.countryAddress);
-  //       setCityId(result.data.cityAddress);
-  //       setDistrictId(result.data.districtAddress);
-  //       setWardId(result.data.wardAddress);
-  //     }
-  //   };
-  //   getRap();
-  // }, []);
+        setCodeMovie(result.data.codeMovie);
+        setCodeShowTime(result.data.codeShowTime);
+        setCodeRap(result.data.codeRap);
+        setCodeRoom(result.data.codeRoom);
+      }
+    };
+    getShow();
+  }, []);
 
   //combobox movie
-  // useEffect(() => {
-  //   const getAllMovie = async () => {
-  //     try {
-  //       const allCountry = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/value/get-level?level=QUOCGIA`
-  //       );
-  //       if (allCountry.status === 200) {
-  //         setCountry(allCountry.data);
-  //       } else {
-  //         console.error("get all country error");
-  //       }
-  //     } catch (error) {
-  //       console.error("get all country error: " + error);
-  //     }
-  //   };
-  //   getAllMovie();
-  // }, []);
+  useEffect(() => {
+    const getAllMovie = async () => {
+      try {
+        const allMovie = await axios.get(
+          `http://localhost:9000/cineza/api/v1/movie/get-all`
+        );
+        if (allMovie.status === 200) {
+          setDataMovie(allMovie.data);
+        } else {
+          console.error("get all movie error");
+        }
+      } catch (error) {
+        console.error("get all movie error: " + error);
+      }
+    };
+    getAllMovie();
+  }, []);
 
   //combobox show time
-  // useEffect(() => {
-  //   const getAllShowTime = async () => {
-  //     try {
-  //       const allCity = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/value/get-level?level=TINH/TP`
-  //       );
-  //       if (allCity.status === 200) {
-  //         setCity(allCity.data);
-  //       } else {
-  //         console.error("get all city error");
-  //       }
-  //     } catch (error) {
-  //       console.error("get all country error: " + error);
-  //     }
-  //   };
-  //   getAllShowTime();
-  // }, []);
+  useEffect(() => {
+    const getAllShowTime = async () => {
+      try {
+        const allShowTime = await axios.get(
+          `http://localhost:9000/cineza/api/v1/show-time/get-all`
+        );
+        if (allShowTime.status === 200) {
+          setDataShowTime(allShowTime.data);
+        } else {
+          console.error("get all city error");
+        }
+      } catch (error) {
+        console.error("get all country error: " + error);
+      }
+    };
+    getAllShowTime();
+  }, []);
 
   //combobox rap
-  // useEffect(() => {
-  //   const getAllRap = async () => {
-  //     try {
-  //       const allDistrict = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/value/get-level?level=HUYEN/QUAN`
-  //       );
-  //       if (allDistrict.status === 200) {
-  //         setDistrict(allDistrict.data);
-  //       } else {
-  //         console.error("get all country error");
-  //       }
-  //     } catch (error) {
-  //       console.error("get all country error: " + error);
-  //     }
-  //   };
-  //   getAllRap();
-  // }, []);
+  useEffect(() => {
+    const getAllRap = async () => {
+      try {
+        const allRap = await axios.get(
+          `http://localhost:9000/cineza/api/v1/rap/get-all`
+        );
+        if (allRap.status === 200) {
+          setDataRap(allRap.data);
+        } else {
+          console.error("get all Rap error");
+        }
+      } catch (error) {
+        console.error("get all Rap error: " + error);
+      }
+    };
+    getAllRap();
+  }, []);
 
   //combobox room
-  // useEffect(() => {
-  //   const getAllRoom = async () => {
-  //     try {
-  //       const allWard = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/value/get-level?level=XA/PHUONG`
-  //       );
-  //       if (allWard.status === 200) {
-  //         setWard(allWard.data);
-  //       } else {
-  //         console.error("get all country error");
-  //       }
-  //     } catch (error) {
-  //       console.error("get all country error: " + error);
-  //     }
-  //   };
-  //   getAllRoom();
-  // }, []);
+  useEffect(() => {
+    const getAllRoom = async () => {
+      try {
+        const allRoom = await axios.get(
+          `http://localhost:9000/cineza/api/v1/room/get-all`
+        );
+        if (allRoom.status === 200) {
+          setDataRoom(allRoom.data);
+        } else {
+          console.error("get all Room error");
+        }
+      } catch (error) {
+        console.error("get all Room error: " + error);
+      }
+    };
+    getAllRoom();
+  }, []);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -406,7 +408,7 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
               <div className="input-show-detail-container">
                 <input
                   className="input-show-detail"
-                  // value={code}
+                  value={code}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
@@ -425,7 +427,7 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
                 <TimePicker
                   format="hh:mm:ss a"
                   openClockOnFocus={false}
-                  // value={screenAt}
+                  value={screenAt}
                   onChange={(text) => onChangeHandleScreenAt(text)}
                 />
               </div>
@@ -443,7 +445,7 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={status}
+                    value={status}
                     label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatus}
@@ -479,20 +481,20 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={codeMovie}
+                    value={codeMovie}
                     label="mã phim"
                     onChange={handleChangeComboboxCodeMovie}
                     onFocus={onHandleFocusCodeMovie}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {/* {dataMovie.map((st, index) => {
+                    {dataMovie.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
                         </MenuItem>
                       );
-                    })} */}
+                    })}
                   </Select>
                 </FormControl>
                 {isValidCodeMovie && (
@@ -515,20 +517,20 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={codeShowTime}
+                    value={codeShowTime}
                     label="mã lịch chiếu"
                     onChange={handleChangeComboboxCodeShowTime}
                     onFocus={onHandleFocusCodeShowTime}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {/* {dataShowTime.map((st, index) => {
+                    {dataShowTime.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
                         </MenuItem>
                       );
-                    })} */}
+                    })}
                   </Select>
                 </FormControl>
                 {isValidCodeShowTime && (
@@ -549,20 +551,20 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={codeRap}
+                    value={codeRap}
                     label="mã rạp"
                     onChange={handleChangeComboboxCodeRap}
                     onFocus={onHandleFocusCodeRap}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {/* {dataRap.map((st, index) => {
+                    {dataRap.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
                         </MenuItem>
                       );
-                    })} */}
+                    })}
                   </Select>
                 </FormControl>
                 {isValidCodeRap && (
@@ -583,20 +585,20 @@ const ShowDetail = ({ codeShowBy, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={status}
+                    value={codeRoom}
                     label="mã phòng"
                     onChange={handleChangeComboboxCodeRoom}
                     onFocus={onHandleFocusCodeRoom}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {/* {dataRoom.map((st, index) => {
+                    {dataRoom.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
                         </MenuItem>
                       );
-                    })} */}
+                    })}
                   </Select>
                 </FormControl>
                 {isValidCodeRoom && (
