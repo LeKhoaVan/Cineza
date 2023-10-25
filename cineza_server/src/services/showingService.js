@@ -25,6 +25,15 @@ const createShowService = async (show) => {
   return newShow;
 };
 
+const updateShowService = async (code, show) => {
+  const updateShow = await db.Showing.update(show, {
+    where: {
+      code: code,
+    },
+  });
+  return updateShow;
+};
+
 const checkShow = async (screenAt, codeRap, codeRoom, codeShowTime) => {
   const query = `select s.code, s.codeMovie, s.codeRap, s.codeRoom, s.codeShowTime, s.screenAt, s.status 
         from showing as s
@@ -61,6 +70,7 @@ module.exports = {
   getAllShowService,
   getShowByCodeService,
   createShowService,
+  updateShowService,
   getAllShowByMovieService,
   getAllShowByRapService,
   checkShow,

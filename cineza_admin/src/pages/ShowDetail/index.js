@@ -288,69 +288,69 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setCodeRoom("");
   };
 
-  // const onClickHandleSave = async () => {
-  //   const rap = {
-  //     code: code,
-  //     screenAt: screenAt,
-  //     status: status,
-  //     codeMovie: codeMovie,
-  //     codeShowTime: codeShowTime,
-  //     codeRap: codeRap,
-  //     codeRoom: codeRoom,
-  //   };
-  //   onHandleFocusCode();
-  //   onHandleFocusCodeMovie();
-  //   onHandleFocusCodeRap();
-  //   onHandleFocusCodeRoom();
-  //   onHandleFocusCodeShowTime();
-  //   onHandleFocusStatus();
-  //   if (
-  //     !isValidCode &
-  //     !isValidCodeMovie &
-  //     !isValidCodeRap &
-  //     !isValidStatus &
-  //     !isValidCodeRoom &
-  //     !isValidCodeShowTime
-  //   ) {
-  //     try {
-  //       console.log(rap);
-  //       if (editCode) {
-  //         const response = await axios.post(
-  //           `http://localhost:9000/cineza/api/v1/rap/create`,
-  //           rap
-  //         );
-  //         if (response.status === 201) {
-  //           setMessage("Lưu thành công");
-  //           setShowAlert(true);
-  //         } else {
-  //           setMessage("Lưu thất bại");
-  //           setShowAlert(true);
-  //         }
-  //       } else if (update) {
-  //         const response = await axios.put(
-  //           `http://localhost:9000/cineza/api/v1/rap/put/` + code,
-  //           rap
-  //         );
-  //         if (response.status === 200) {
-  //           console.log("save success");
-  //           setMessage("Cập nhật thành công");
-  //           setShowAlert(true);
-  //         } else {
-  //           setMessage("Cập thất bại");
-  //           setShowAlert(true);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.log("save address fail: " + error);
-  //       setMessage("Lưu thất bại");
-  //       setShowAlert(true);
-  //     }
-  //   } else {
-  //     console.log("lưu sai");
-  //     setMessage("Vui lòng nhập đầy đủ");
-  //     setShowAlert(true);
-  //   }
-  // };
+  const onClickHandleSave = async () => {
+    const show = {
+      code: code,
+      screenAt: screenAt,
+      status: status,
+      codeMovie: codeMovie,
+      codeShowTime: codeShowTime,
+      codeRap: codeRap,
+      codeRoom: codeRoom,
+    };
+    onHandleFocusCode();
+    onHandleFocusCodeMovie();
+    onHandleFocusCodeRap();
+    onHandleFocusCodeRoom();
+    onHandleFocusCodeShowTime();
+    onHandleFocusStatus();
+    if (
+      !isValidCode &
+      !isValidCodeMovie &
+      !isValidCodeRap &
+      !isValidStatus &
+      !isValidCodeRoom &
+      !isValidCodeShowTime
+    ) {
+      try {
+        console.log(show);
+        if (editCode) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/show/create`,
+            show
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+        } else if (update) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/show/put/` + code,
+            show
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
+        }
+      } catch (error) {
+        console.log("save fail: " + error);
+        setMessage("Lưu thất bại");
+        setShowAlert(true);
+      }
+    } else {
+      console.log("lưu sai");
+      setMessage("Vui lòng nhập đầy đủ");
+      setShowAlert(true);
+    }
+  };
 
   return (
     <div className="show-detail-background">
@@ -359,7 +359,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           <div className="show-detail-header-edit">
             <div
               className="show-detail-header-edit-save"
-              // onClick={onClickHandleSave}
+              onClick={onClickHandleSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
