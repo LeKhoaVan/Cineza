@@ -12,12 +12,16 @@ const getAllShowService = async () => {
 };
 
 const getShowByCodeService = async (code) => {
-  const show = await db.Showing.findOne({
-    where: {
-      code: code,
-    },
-  });
-  return show;
+  const query =
+    `select s.code, s.codeMovie, s.codeRap, s.codeRoom, s.codeShowTime, s.screenAt, s.status, m.movieName, r.name as nameRap,  ro.name as nameRoom, sh.showDate
+      from showing as s 
+      join movie as m on s.codeMovie = m.code
+      join rap as r on s.codeRap = r.code
+      join room as ro on s.codeRoom = ro.code
+      join showtime as sh on s.codeShowTime = sh.code
+      where s.code = '${code}'`
+  const [showing, metadata] = await db.sequelize.query(query);
+  return showing[0];
 };
 
 const createShowService = async (show) => {

@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
             },
+            code: {
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4
+            },
             bookAt: {
                 type: DataTypes.DATE,
                 allowNull: false,
