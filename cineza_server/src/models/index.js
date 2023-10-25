@@ -119,7 +119,7 @@ db.Showing.hasMany(db.Ticket, { foreignKey: "codeShowing" });
 db.Ticket.belongsTo(db.Showing, { foreignKey: "codeShowing" });
 
 db.Seat.hasMany(db.Ticket, { foreignKey: "codeSeat" });
-db.Showing.belongsTo(db.Room, { foreignKey: "codeSeat" });
+db.Ticket.belongsTo(db.Seat, { foreignKey: "codeSeat" });
 
 module.exports = {
   // testConnect,
