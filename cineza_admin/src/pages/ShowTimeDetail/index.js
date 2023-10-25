@@ -31,8 +31,8 @@ const dataStatus = [
 
 const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
-  const [showDate, setShowDate] = useState("");
-  const [showDayShow, setShowDayShow] = useState("");
+  const [showDate, setShowDate] = useState(new Date());
+  const [showDateShow, setShowDateShow] = useState(new Date());
   const [status, setStatus] = useState("");
 
   const [edit, setEdit] = useState(false);
@@ -55,7 +55,7 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
   };
   const onChangeHandleShowDate = (text) => {
     setShowDate(text);
-    // setShowDayShow(text);
+    setShowDateShow(text);
   };
   const handleChangeComboboxStatus = (text) => {
     setStatus(text.target.value);
@@ -104,8 +104,8 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
 
     setCode("");
     setStatus("");
-    // setShowDayShow(new Date());
     setShowDate(new Date());
+    setShowDateShow(new Date());
   };
 
   const onClickHandleSave = async () => {
@@ -155,10 +155,10 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
 
-      // setCode("");
-      // setStatus("");
+      setCode("");
+      setStatus("");
       setShowDate(new Date());
-      // setShowDayShow(new Date());
+      setShowDateShow(new Date());
     }
     const getShowTime = async () => {
       try {
@@ -167,8 +167,8 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
         );
         if (response.status === 200) {
           setCode(response.data.code);
-          setShowDate(new Date(Date.parse(response.data.showDate)));
-          // setShowDayShow(new Date(Date.parse(response.data.showDate)));
+          setShowDate(new Date(response.data.showDate));
+          setShowDateShow(new Date(Date.parse(response.data.showDate)));
           setStatus(response.data.status);
         } else {
           console.log("get show timer fail");
@@ -252,9 +252,9 @@ const ShowTimeDetail = ({ codeShowTime, onClickHandleClose, addBtn }) => {
               <label>Ngày chiếu</label>
               <div className="show-time-detail-input-dem"></div>
               <DatePicker
-                locale="vi"
+                // locale="vi"
                 dateFormat="dd-MM-yyyy"
-                selected={showDate}
+                selected={showDateShow}
                 readOnly={!edit}
                 onChange={(date) => onChangeHandleShowDate(date)}
                 fixedHeight="60px"

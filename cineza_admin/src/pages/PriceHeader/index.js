@@ -113,6 +113,7 @@ const PriceHeader = () => {
           {openModelAdd && (
             <PriceHeaderDetail
               addBtn={true}
+              codePriceHeader={codeHeader}
               onClickHandleClose={onClickHandleCloseP}
             />
           )}

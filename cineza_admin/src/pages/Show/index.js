@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import ShowDetail from "../ShowDetail";
+import { formatDateHandle } from "../../components/util";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import "./show.css";
 import axios from "axios";
@@ -50,7 +51,7 @@ const ShowTime = () => {
 
   const onHandleSelect = (row) => {
     // console.log(row);
-    // setCode(row);
+    setCode(row);
     setOpenModalDetail(!openModalDetail);
   };
 
@@ -64,23 +65,29 @@ const ShowTime = () => {
     console.log(openModelAdd);
   };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const result = await axios.get(
-  //         "http://localhost:9000/cineza/api/v1/show-time/get-all"
-  //       );
-  //       if (result.status == 200) {
-  //         setContext(result.data);
-  //         // console.log(result.data);
-  //       }
-  //     } catch (error) {
-  //       console.log("error get api all show-time " + error);
-  //     }
-  //   };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:9000/cineza/api/v1/show/get-all"
+        );
+        if (result.status == 200) {
+          const dataResult = result.data.map((item) => {
+            return {
+              ...item,
+              showDate: formatDateHandle(item.showDate),
+            };
+          });
+          setContext(dataResult);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.log("error get api all show " + error);
+      }
+    };
 
-  //   getData();
-  // }, []);
+    getData();
+  }, []);
   return (
     <div className="show-container">
       <div
@@ -100,15 +107,19 @@ const ShowTime = () => {
         />
       </div>
       <div className="table-all-show">
-        <Table column={columns} data={data} onRowClick={onHandleSelect} />
+        <Table column={columns} data={context} onRowClick={onHandleSelect} />
         {openModalDetail && (
           <ShowDetail
-            // codeShowBy={code}
+            codeShow={code}
             onClickHandleClose={onClickHandleCloseP}
           />
         )}
         {openModelAdd && (
-          <ShowDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+          <ShowDetail
+            addBtn={true}
+            codeShow={code}
+            onClickHandleClose={onClickHandleCloseP}
+          />
         )}
       </div>
     </div>

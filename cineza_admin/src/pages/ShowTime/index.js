@@ -102,6 +102,7 @@ const ShowTime = () => {
         {openModelAdd && (
           <ShowTimeDetail
             addBtn={true}
+            codeShowTime={code}
             onClickHandleClose={onClickHandleCloseP}
           />
         )}

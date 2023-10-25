@@ -1,5 +1,6 @@
 const { all } = require("axios");
 const { getAllShowService,
+    getShowByCodeService,
     createShowService,
     getAllShowByMovieService,
     getAllShowByRapService,
@@ -13,6 +14,16 @@ const getAllShowController = async (req, res) => {
         res.status(500).send("error get all show controller: " + error)
     }
 }
+
+const getShowByCodeController = async (req, res) => {
+    const { code } = req.params;
+    try {
+      const show = await getShowByCodeService(code);
+      res.status(200).send(show);
+    } catch (error) {
+      res.status(500).send("error get Show: " + error);
+    }
+  };
 
 const createShowController = async (req, res) => {
     const { code, codeMovie, codeRap, codeRoom, codeShowTime, screenAt, status } = req.body;
@@ -51,6 +62,7 @@ const getAllShowByRapController = async (req, res) => {
 
 module.exports = {
     getAllShowController,
+    getShowByCodeController,
     createShowController,
     getAllShowByMovieController,
     getAllShowByRapController
