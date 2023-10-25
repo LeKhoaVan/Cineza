@@ -3,7 +3,8 @@ const { getAllTicketService,
     getTicketByShowingService,
     createTicketService,
     checkSeatBook,
-    getAllSeatIsBookService } = require("../services/ticketService")
+    getAllSeatIsBookService,
+    updateTicketStructerService } = require("../services/ticketService")
 
 const getAllTicketController = async (req, res) => {
     try {
@@ -69,10 +70,33 @@ const getSeatIsBookController = async (req, res) => {
     }
 }
 
+const updateTicketController = async (req, res) => {
+    const { code } = req.params
+    const { status } = req.body;
+    try {
+        const check = await getTicketByCodeService(code);
+        if (check != null) {
+            const updateTicket = await updateTicketStructerService(code, status)
+            if (updateTicket != 0) {
+                const newUpdateTicket = { ...check, status: status }
+                res.status(200).send(newUpdateTicket)
+            } else {
+                res.status(400).send("update fail")
+            }
+
+        } else {
+            res.status(400).send("ticket không tồn tại")
+        }
+    } catch (error) {
+        res.status(500).send("error update ticket: " + error)
+    }
+}
+
 module.exports = {
     getAllTicketController,
     getTicketByCodeController,
     createTicketController,
     getTicketByShowingController,
-    getSeatIsBookController
+    getSeatIsBookController,
+    updateTicketController
 }

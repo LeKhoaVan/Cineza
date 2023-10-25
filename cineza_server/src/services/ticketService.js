@@ -93,6 +93,15 @@ const getAllSeatIsBookService = async (codeShowing) => {
     return seats;
 }
 
+const updateTicketStructerService = async (code, status) => {
+    const updateTicket = await db.Ticket.update({ status }, {
+        where: {
+            code: code
+        }
+    })
+    return updateTicket;
+}
+
 module.exports = {
     getAllTicketService,
     getTicketByCodeService,
@@ -100,5 +109,6 @@ module.exports = {
     createTicketService,
     checkSeatBook,
     getAllSeatIsBookService,
+    updateTicketStructerService,
 }
 
