@@ -21,7 +21,7 @@ const getAllMovieService = async (movieName) => {
 const getByCodeService = async (movieCode) => {
     const movie = db.Movie.findOne({
         where: {
-            movieCode: movieCode
+            code: movieCode
         }
     })
 
@@ -35,14 +35,14 @@ const movieCreateService = async (movie) => {
 const updateMovieService = async (movieCode, movie) => {
     const oldMovie = await db.Movie.findOne({
         where: {
-            movieCode: movieCode
+            code: movieCode
         }
     });
 
     if (oldMovie) {
         return await db.Movie.update(movie, {
             where: {
-                movieCode: movieCode
+                code: movieCode
             }
         })
     } else {
