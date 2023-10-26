@@ -19,13 +19,13 @@ const Sidebar = () => {
     },
     { text: "Người sử dụng", image: iconUser, href: "/users" },
     { text: "Rạp", image: iconRap, href: "/rap" },
-    { text: "Vé", image: iconVe, href: "#" },
+    { text: "Vé", image: iconVe, href: "/ticket" },
     { text: "Phim", image: iconPhim, href: "/movie" },
     { text: "Đồ đi kèm", image: iconOther, href: "/other-product" },
     { text: "Bảng giá", image: iconPriceList, href: "/price" },
     { text: "Thống kê", image: iconThongKe, href: "#" },
     { text: "Lịch chiếu", image: iconCalendar, href: "/show-time" },
-    { text: "Xuất chiếu", image: iconShow, href: "/show" },
+    { text: "Suất chiếu", image: iconShow, href: "/show" },
   ];
   return (
     <div className="sidebar-container">

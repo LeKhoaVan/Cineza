@@ -20,6 +20,7 @@ import PriceHeader from "../pages/PriceHeader";
 import Price from "../pages/Price";
 import ShowTime from "../pages/ShowTime";
 import Show from "../pages/Show";
+import Ticket from "../pages/Ticket";
 
 const publicRouter = [
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -112,6 +113,12 @@ const publicRouter = [
   {
     path: "/show-time",
     componet: ShowTime,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
+  {
+    path: "/ticket",
+    componet: Ticket,
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
