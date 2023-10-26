@@ -24,6 +24,7 @@ import PriceHeader from "../../../pages/PriceHeader";
 import Price from "../../../pages/Price";
 import ShowTime from "../../../pages/ShowTime";
 import Show from "../../../pages/Show";
+import Ticket from "../../../pages/Ticket";
 const DefaultLayout = (props) => {
   // gán biến component
   let sidebarComponent = "";
@@ -52,7 +53,8 @@ const DefaultLayout = (props) => {
       child.type === PriceHeader ||
       child.type === Price ||
       child.type === Show ||
-      child.type === ShowTime
+      child.type === ShowTime ||
+      child.type === Ticket
     ) {
       pageComponent = child;
     }
