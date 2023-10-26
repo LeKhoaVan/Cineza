@@ -4,21 +4,8 @@ const { getShowByCodeService } = require("./showingService");
 
 const getAllTicketService = async () => {
   const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
-        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName, se.position
-    from ticket as t
-    join showing as s on t.codeShowing = s.code
-    join seat as se on t.codeSeat = se.code
-    join movie as m on s.codeMovie = m.code
-    join rap as r on s.codeRap = r.code
-    join room as ro on s.codeRoom = ro.code
-    join showtime as sh on s.codeShowTime = sh.code;`;
-  const [allTicket, metadata] = await db.sequelize.query(query);
-  return allTicket;
-};
-
-const getTicketByCodeService = async (code) => {
-  const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
-        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName
+        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName, se.position,
+        t.codeUser, v.fullName
     from ticket as t
     join showing as s on t.codeShowing = s.code
     join seat as se on t.codeSeat = se.code
@@ -26,6 +13,23 @@ const getTicketByCodeService = async (code) => {
     join rap as r on s.codeRap = r.code
     join room as ro on s.codeRoom = ro.code
     join showtime as sh on s.codeShowTime = sh.code
+    join valuestructure as v on v.code = t.codeUser;`;
+  const [allTicket, metadata] = await db.sequelize.query(query);
+  return allTicket;
+};
+
+const getTicketByCodeService = async (code) => {
+  const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
+        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName,
+        t.codeUser, v.fullName
+    from ticket as t
+    join showing as s on t.codeShowing = s.code
+    join seat as se on t.codeSeat = se.code
+    join movie as m on s.codeMovie = m.code
+    join rap as r on s.codeRap = r.code
+    join room as ro on s.codeRoom = ro.code
+    join showtime as sh on s.codeShowTime = sh.code
+    join valuestructure as v on v.code = t.codeUser
     where t.code = '${code}'`;
   const [ticket, metadata] = await db.sequelize.query(query);
   return ticket[0];
@@ -33,7 +37,8 @@ const getTicketByCodeService = async (code) => {
 
 const getTicketByShowingService = async (codeShowing) => {
   const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
-        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName
+        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName,
+        t.codeUser, v.fullName
         from ticket as t
         join showing as s on t.codeShowing = s.code
         join seat as se on t.codeSeat = se.code
@@ -41,6 +46,7 @@ const getTicketByShowingService = async (codeShowing) => {
         join rap as r on s.codeRap = r.code
         join room as ro on s.codeRoom = ro.code
         join showtime as sh on s.codeShowTime = sh.code
+        join valuestructure as v on v.code = t.codeUser
         where t.codeShowing = '${codeShowing}'`;
   const [ticket, metadata] = await db.sequelize.query(query);
   return ticket;

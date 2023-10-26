@@ -26,7 +26,7 @@ const getTicketByCodeController = async (req, res) => {
 }
 
 const createTicketController = async (req, res) => {
-    const { codeShowing, codeSeat, status } = req.body
+    const { codeShowing, codeSeat, codeUser, status } = req.body
     try {
         // check is book
         const checkBook = await checkSeatBook(codeSeat, codeShowing);
@@ -35,7 +35,7 @@ const createTicketController = async (req, res) => {
             const checkQuanlity = await getTicketByShowingService(codeShowing);
             if (checkQuanlity.length <= 36) {
                 // createTicketService
-                const newTicket = await createTicketService({ codeShowing, codeSeat, status });
+                const newTicket = await createTicketService({ codeShowing, codeSeat, codeUser, status });
                 res.status(201).send(newTicket);
             } else {
                 res.status(400).send("Ghế đầy");
