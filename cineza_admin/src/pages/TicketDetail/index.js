@@ -32,6 +32,7 @@ const dataStatus = [
 const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
   const [codeShowing, setCodeShowing] = useState("");
   const [codeSeat, setCodeSeat] = useState("");
+  const [codeUser, setCodeUser] = useState("");
   const [bookAt, setBookAt] = useState(new Date());
   const [ticketEffecticeAt, setTicketEffecticeAt] = useState(new Date());
   const [ticketExpiryAt, setTicketExpiryAt] = useState(new Date());
@@ -45,9 +46,11 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
 
   const [dataShowing, setDataShowing] = useState([]);
   const [dataSeat, setDataSeat] = useState([]);
+  const [dataUser, setDataUser] = useState([]);
 
   const [isValidCodeShowing, setIsValidCodeShowing] = useState(false);
   const [isValidCodeSeat, setIsValidCodeSeat] = useState(false);
+  const [isValidCodeUser, setIsValidCodeUser] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
@@ -74,6 +77,9 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxCodeSeat = (text) => {
     setCodeSeat(text.target.value);
   };
+  const handleChangeComboboxCodeUser = (text) => {
+    setCodeUser(text.target.value);
+  };
 
   useEffect(() => {
     onHandleFocusCodeShowing();
@@ -99,6 +105,20 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
         setIsValidCodeSeat(true);
       } else {
         setIsValidCodeSeat(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusCodeUser();
+  }, [codeUser]);
+
+  const onHandleFocusCodeUser = () => {
+    if (editCode || edit) {
+      if (codeUser.trim().length <= 0) {
+        setIsValidCodeUser(true);
+      } else {
+        setIsValidCodeUser(false);
       }
     }
   };
@@ -142,6 +162,7 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
     const ticket = {
       codeShowing: codeShowing,
       codeSeat: codeSeat,
+      codeUser: codeUser,
       status: status,
     };
     try {
@@ -188,34 +209,34 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
 
       setCodeShowing("");
       setCodeSeat("");
+      setCodeUser("");
       setStatus("");
     }
-    const getShowTime = async () => {
+    const getTicket = async () => {
       try {
-        // const response = await axios.get(
-        //   `http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`
-        // );
-        // if (response.status === 200) {
-        //   setCodeShowing(response.data.codeShowing);
-        //   setCodeSeat(response.data.codeSeat);
-        //   setBookAt(new Date(Date.parse(response.data.bookAt)));
-        //   setTicketEffecticeAt(
-        //     new Date(Date.parse(response.data.ticketEffecticeAt))
-        //   );
-        //   setTicketExpiryAt(
-        //     new Date(Date.parsere(response.data.ticketExpiryAt))
-        //   );
-        //   setStatus(response.data.status);
-        //   console.log(response.data);
-        // } else {
-        //   console.log("get ticket fail");
-        // }
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`
+        );
+        if (response.status === 200) {
+          setCodeShowing(response.data.codeShowing);
+          setCodeSeat(response.data.codeSeat);
+          setCodeUser(response.data.codeUser);
+          setBookAt(new Date(Date.parse(response.data.bookAt)));
+          setTicketEffecticeAt(
+            new Date(Date.parse(response.data.ticketEffecticeAt))
+          );
+          setTicketExpiryAt(new Date(Date.parse(response.data.ticketExpiryAt)));
+          setStatus(response.data.status);
+          console.log(response.data.ticketEffecticeAt);
+        } else {
+          console.log("get ticket fail");
+        }
       } catch (error) {
         console.log("error get ticket: " + error);
       }
     };
 
-    getShowTime();
+    getTicket();
   }, []);
 
   //combobox showing
@@ -256,6 +277,30 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
       }
     };
     getAllSeat();
+  }, []);
+
+  //get all user
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:9000/cineza/api/v1/value/user/get-all"
+        );
+        if (result.status == 200) {
+          const dataSetup = result.data.map((item) => {
+            return {
+              ...item,
+              dateOfBirth: formatDateHandle(item.dateOfBirth),
+            };
+          });
+          setDataUser(dataSetup);
+        }
+      } catch (error) {
+        console.log("error get api all user " + error);
+      }
+    };
+
+    getData();
   }, []);
 
   return (
@@ -313,10 +358,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               <div className="ticket-detail-input-dem"></div>
               <DatePicker
                 // locale="vi"
-                // dateFormat="dd-MM-yyyy"
-                // selected={bookAt}
+                dateFormat="dd-MM-yyyy"
+                selected={bookAt}
                 readOnly={!edit}
-                // onChange={(date) => onChangeHandleBookAt(date)}
+                onChange={(date) => onChangeHandleBookAt(date)}
                 fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"
@@ -328,10 +373,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               <div className="ticket-detail-input-dem"></div>
               <DatePicker
                 // locale="vi"
-                // dateFormat="dd-MM-yyyy"
-                // selected={ticketEffecticeAt}
+                dateFormat="dd-MM-yyyy"
+                selected={ticketEffecticeAt}
                 readOnly={!edit}
-                // onChange={(date) => onChangeHandleTicketEffecticeAt(date)}
+                onChange={(date) => onChangeHandleTicketEffecticeAt(date)}
                 fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"
@@ -343,10 +388,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               <div className="ticket-detail-input-dem"></div>
               <DatePicker
                 // locale="vi"
-                // dateFormat="dd-MM-yyyy"
-                // selected={ticketExpiryAt}
+                dateFormat="dd-MM-yyyy"
+                selected={ticketExpiryAt}
                 readOnly={!edit}
-                // onChange={(date) => onChangeHandleTicketExpiryAt(date)}
+                onChange={(date) => onChangeHandleTicketExpiryAt(date)}
                 fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"
@@ -354,10 +399,46 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
             </div>
           </div>
           <div className="ticket-detail-content-right">
-            <div className="ticket-input">
+            <div className="ticket-detail-input">
+              <label>Mã người dùng</label>
+              <div className="ticket-detail-input-dem"></div>
+              <div className="input-ticket-detail-container">
+                <FormControl
+                  sx={{ width: "52%", marginRight: "80px" }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">
+                    mã người dùng
+                  </InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={codeUser}
+                    label="mã người dùng"
+                    onChange={handleChangeComboboxCodeUser}
+                    onFocus={onHandleFocusCodeUser}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataUser.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.code}>
+                          {st.code}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidCodeUser && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+            <div className="ticket-detail-input">
               <label>Mã suất chiếu</label>
-              <div className="ticket-input-dem"></div>
-              <div className="input-ticket-container">
+              <div className="ticket-detail-input-dem"></div>
+              <div className="input-ticket-detail-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
@@ -390,10 +471,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               </div>
             </div>
 
-            <div className="ticket-input">
+            <div className="ticket-detail-input">
               <label>Mã ghế</label>
-              <div className="ticket-input-dem"></div>
-              <div className="input-ticket-container">
+              <div className="ticket-detail-input-dem"></div>
+              <div className="input-ticket-detail-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
