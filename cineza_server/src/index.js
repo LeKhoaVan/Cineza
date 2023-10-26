@@ -1,18 +1,18 @@
 const express = require("express");
 const path = require("path");
-const cors = require('cors');
+const cors = require("cors");
 
-const rootRouter = require("./routes/index")
-const { db, testConnect } = require("./models/index.js")
+const rootRouter = require("./routes/index");
+const { db, testConnect } = require("./models/index.js");
 
 const app = express();
-app.use(cors())
+app.use(cors());
 // format response json
-app.use(express.json())
+app.use(express.json());
 
 //set static file
-const publicPath = path.join(__dirname, "./public")
-app.use("/src/public", express.static(publicPath))
+const publicPath = path.join(__dirname, "./public");
+app.use("/src/public", express.static(publicPath));
 
 // set router
 app.use("/cineza/api/v1/", rootRouter);
@@ -35,11 +35,11 @@ app.use("/cineza/api/v1/", rootRouter);
 // insertMovie();
 
 app.listen(9000, () => {
-    console.log("listen on port: 9000");
-    try {
-        //dong bo database
-        db.sequelize.sync({ alert: true });
-    } catch (error) {
-        console.log("error sync database: ", error)
-    }
-})
+  console.log("listen on port: 9000");
+  try {
+    //dong bo database
+    db.sequelize.sync({ alert: true });
+  } catch (error) {
+    console.log("error sync database: ", error);
+  }
+});

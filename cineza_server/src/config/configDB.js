@@ -1,6 +1,6 @@
 const development = {
-  username: "root",
-  password: "12345",
+  username: "duchieu",
+  password: "hieu2010",
   database: "cineza",
   host: "127.0.0.1",
   dialect: "mysql",
