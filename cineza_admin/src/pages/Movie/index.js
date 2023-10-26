@@ -28,6 +28,7 @@ const Movie = () => {
 
     const onChangeHandleFind = (text) => {
         setSearch(text.target.value);
+        console.log(text.target.value)
     }
 
     useEffect(() => {
@@ -38,9 +39,9 @@ const Movie = () => {
             } else {
                 console.error("error get movie :")
             }
-        }
+        };
         findMovie();
-    }, search)
+    }, [search])
 
     useEffect(() => {
         const getAllMovie = async () => {
@@ -59,11 +60,11 @@ const Movie = () => {
         <div className='movie-container'>
             <div className='movie-header'>
                 <div className='movie-header-find'>
-                    <input className='movie-input-find' onChange={onChangeHandleFind} />
-                    <img className="movie-button-img" src={iconFind} alt='tìm kiếm' />
+                    <input id="find" className='movie-input-find' onChange={onChangeHandleFind} />
+                    <img className="movie-button-img" src={iconFind} alt='tìm kiếm' htmlFor="find" />
                 </div>
-                <div className='movie-header-add' onClick={handleOnClickAdd}>
-                    <img className='movie-button-add' src={iconAdd} alt='thêm' />
+                <div className='movie-header-add' >
+                    <img className='movie-button-add' src={iconAdd} alt='thêm' onClick={handleOnClickAdd} />
                 </div>
             </div>
             <div className="movie-list">
