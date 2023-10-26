@@ -17,7 +17,7 @@ const Sidebar = () => {
       image: iconHierarchyStructure,
       href: "/hierarchy-structure",
     },
-    { text: "Người sử dụng", image: iconUser, href: "/users" },
+    // { text: "Người sử dụng", image: iconUser, href: "/users" },
     { text: "Rạp", image: iconRap, href: "/rap" },
     { text: "Vé", image: iconVe, href: "/ticket" },
     { text: "Phim", image: iconPhim, href: "/movie" },

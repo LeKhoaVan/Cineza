@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
-import TicketDetail from "../ShowTimeDetail";
+import TicketDetail from "../TicketDetail";
 import { formatDateHandle } from "../../components/util";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import "./ticket.css";
@@ -51,6 +51,7 @@ const Ticket = () => {
     // console.log(row);
     setCode(row);
     setOpenModalDetail(!openModalDetail);
+    console.log(row);
   };
 
   const onClickHandleCloseP = async () => {

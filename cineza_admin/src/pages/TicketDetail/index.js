@@ -192,24 +192,24 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
     }
     const getShowTime = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`
-        );
-        if (response.status === 200) {
-          setCodeShowing(response.data.codeShowing);
-          setCodeSeat(response.data.codeSeat);
-          setBookAt(new Date(Date.parse(response.data.bookAt)));
-          setTicketEffecticeAt(
-            new Date(Date.parse(response.data.ticketEffecticeAt))
-          );
-          setTicketExpiryAt(
-            new Date(Date.parsere(response.data.ticketExpiryAt))
-          );
-          setStatus(response.data.status);
-          console.log(response.data);
-        } else {
-          console.log("get ticket fail");
-        }
+        // const response = await axios.get(
+        //   `http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`
+        // );
+        // if (response.status === 200) {
+        //   setCodeShowing(response.data.codeShowing);
+        //   setCodeSeat(response.data.codeSeat);
+        //   setBookAt(new Date(Date.parse(response.data.bookAt)));
+        //   setTicketEffecticeAt(
+        //     new Date(Date.parse(response.data.ticketEffecticeAt))
+        //   );
+        //   setTicketExpiryAt(
+        //     new Date(Date.parsere(response.data.ticketExpiryAt))
+        //   );
+        //   setStatus(response.data.status);
+        //   console.log(response.data);
+        // } else {
+        //   console.log("get ticket fail");
+        // }
       } catch (error) {
         console.log("error get ticket: " + error);
       }
@@ -313,10 +313,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               <div className="ticket-detail-input-dem"></div>
               <DatePicker
                 // locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={bookAt}
+                // dateFormat="dd-MM-yyyy"
+                // selected={bookAt}
                 readOnly={!edit}
-                onChange={(date) => onChangeHandleBookAt(date)}
+                // onChange={(date) => onChangeHandleBookAt(date)}
                 fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"
@@ -328,10 +328,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               <div className="ticket-detail-input-dem"></div>
               <DatePicker
                 // locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={ticketEffecticeAt}
+                // dateFormat="dd-MM-yyyy"
+                // selected={ticketEffecticeAt}
                 readOnly={!edit}
-                onChange={(date) => onChangeHandleTicketEffecticeAt(date)}
+                // onChange={(date) => onChangeHandleTicketEffecticeAt(date)}
                 fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"
@@ -343,10 +343,10 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
               <div className="ticket-detail-input-dem"></div>
               <DatePicker
                 // locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={ticketExpiryAt}
+                // dateFormat="dd-MM-yyyy"
+                // selected={ticketExpiryAt}
                 readOnly={!edit}
-                onChange={(date) => onChangeHandleTicketExpiryAt(date)}
+                // onChange={(date) => onChangeHandleTicketExpiryAt(date)}
                 fixedHeight="60px"
                 portalId="root-portal"
                 className="date-picker"

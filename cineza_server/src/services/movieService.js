@@ -6,9 +6,18 @@ const getAllMovieService = async (movieName) => {
     if (movieName) {
         const movies = await db.Movie.findAll({
             where: {
-                movieName: {
-                    [Op.like]: `%${movieName}%`
-                }
+                [Op.or]: [
+                    {
+                        movieName: {
+                            [Op.like]: `%${movieName}%`
+                        }
+                    },
+                    {
+                        code: {
+                            [Op.like]: `%${movieName}%`
+                        }
+                    }
+                ]
             }
         })
         return movies;

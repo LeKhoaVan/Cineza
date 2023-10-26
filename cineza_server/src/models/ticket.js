@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
                     model: "Seat",
                     key: "code"
                 }
+            },
+            codeUser: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                references: {
+                    model: "ValueStructure",
+                    key: "code"
+                }
             }
         },
         {

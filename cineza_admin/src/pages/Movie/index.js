@@ -8,7 +8,8 @@ import "./movie.css"
 const Movie = () => {
     const [openDetail, setOpenDetail] = useState(false)
     const [movie, setMovie] = useState("");
-    const [movieData, setMovieData] = useState([])
+    const [movieData, setMovieData] = useState([]);
+    const [search, setSearch] = useState("");
 
     const [openDetailAdd, setOpenDetailAdd] = useState(false);
 
@@ -24,6 +25,23 @@ const Movie = () => {
     const handleOnClickAdd = () => {
         setOpenDetailAdd(true);
     }
+
+    const onChangeHandleFind = (text) => {
+        setSearch(text.target.value);
+        console.log(text.target.value)
+    }
+
+    useEffect(() => {
+        const findMovie = async () => {
+            const movies = await axios.get(`http://localhost:9000/cineza/api/v1/movie/get-all?movieName=${search}`);
+            if (movies.status === 200) {
+                setMovieData(movies.data)
+            } else {
+                console.error("error get movie :")
+            }
+        };
+        findMovie();
+    }, [search])
 
     useEffect(() => {
         const getAllMovie = async () => {
@@ -42,11 +60,11 @@ const Movie = () => {
         <div className='movie-container'>
             <div className='movie-header'>
                 <div className='movie-header-find'>
-                    <input className='movie-input-find' />
-                    <img className="movie-button-img" src={iconFind} alt='tìm kiếm' />
+                    <input id="find" className='movie-input-find' onChange={onChangeHandleFind} />
+                    <img className="movie-button-img" src={iconFind} alt='tìm kiếm' htmlFor="find" />
                 </div>
-                <div className='movie-header-add' onClick={handleOnClickAdd}>
-                    <img className='movie-button-add' src={iconAdd} alt='thêm' />
+                <div className='movie-header-add' >
+                    <img className='movie-button-add' src={iconAdd} alt='thêm' onClick={handleOnClickAdd} />
                 </div>
             </div>
             <div className="movie-list">
