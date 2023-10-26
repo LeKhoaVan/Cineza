@@ -8,6 +8,10 @@ import axios from "axios";
 
 const columns = [
   {
+    title: "Tên người dùng",
+    data: "fullName",
+  },
+  {
     title: "Phim",
     data: "movieName",
   },
