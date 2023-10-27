@@ -36,10 +36,10 @@
 }
 
 .movie-button-img {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  right: 20%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 20%;
 }
 
 .movie-header-add {

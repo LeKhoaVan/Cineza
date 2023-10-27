@@ -21,6 +21,7 @@ import Price from "../pages/Price";
 import ShowTime from "../pages/ShowTime";
 import Show from "../pages/Show";
 import Ticket from "../pages/Ticket";
+import TicketBook from "../pages/TicketBook";
 
 const publicRouter = [
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
@@ -122,6 +123,7 @@ const publicRouter = [
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
+  { path: "/book-ticket", componet: TicketBook, layout: DefaultLayout, sidebar: Sidebar }
 ];
 
 const privateRouter = [];

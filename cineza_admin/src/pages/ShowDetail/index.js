@@ -425,7 +425,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               <div className="show-detail-input-dem"></div>
               <div className="input-show-detail-container">
                 <TimePicker
-                  format="hh:mm:ss a"
+                  format="hh:mm a"
                   openClockOnFocus={false}
                   value={screenAt}
                   onChange={(text) => onChangeHandleScreenAt(text)}
