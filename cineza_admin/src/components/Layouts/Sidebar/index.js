@@ -10,6 +10,7 @@ import iconHierarchyStructure from "../../../assets/imageButtons/hierarchicalStr
 import iconPriceList from "../../../assets/imageButtons/iconPriceList.png";
 import iconCalendar from "../../../assets/imageButtons/iconCalendar.png";
 import iconShow from "../../../assets/imageButtons/iconShow.png";
+import iconBook from "../../../assets/imageButtons/iconBook.png"
 const Sidebar = () => {
   const context = [
     {
@@ -20,6 +21,7 @@ const Sidebar = () => {
     // { text: "Người sử dụng", image: iconUser, href: "/users" },
     { text: "Rạp", image: iconRap, href: "/rap" },
     { text: "Vé", image: iconVe, href: "/ticket" },
+    { text: "Đặt vé", image: iconBook, href: "/book-ticket" },
     { text: "Phim", image: iconPhim, href: "/movie" },
     { text: "Đồ đi kèm", image: iconOther, href: "/other-product" },
     { text: "Bảng giá", image: iconPriceList, href: "/price" },

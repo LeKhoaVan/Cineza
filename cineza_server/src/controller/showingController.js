@@ -7,6 +7,7 @@ const {
   getAllShowByMovieService,
   getAllShowByRapService,
   checkShow,
+  getAllShowByMovieAndRapService,
 } = require("../services/showingService");
 
 const getAllShowController = async (req, res) => {
@@ -96,11 +97,21 @@ const getAllShowByRapController = async (req, res) => {
   const { codeRap } = req.params;
   try {
     const allShow = await getAllShowByRapService(codeRap);
-    res.status(500).send(allShow);
+    res.status(200).send(allShow);
   } catch (error) {
     res.status(500).send("error get show by rap: " + error);
   }
 };
+
+const getAllShowByMovieAndRap = async (req, res) => {
+  const { codeMovie, codeRap } = req.params;
+  try {
+    const shows = await getAllShowByMovieAndRapService(codeMovie, codeRap)
+    res.status(200).send(shows);
+  } catch (error) {
+    res.status(500).send("error get show by movie and rap: " + error);
+  }
+}
 
 module.exports = {
   getAllShowController,
@@ -109,4 +120,5 @@ module.exports = {
   updateShowController,
   getAllShowByMovieController,
   getAllShowByRapController,
+  getAllShowByMovieAndRap
 };
