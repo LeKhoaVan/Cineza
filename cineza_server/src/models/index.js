@@ -45,7 +45,6 @@ db.PriceHeader = require("./priceHeader")(sequelize, DataTypes);
 db.Price = require("./price")(sequelize, DataTypes);
 db.TypeSeat = require("./typeSeat")(sequelize, DataTypes);
 db.Showing = require("./showing")(sequelize, DataTypes);
-db.ShowTime = require("./showTime")(sequelize, DataTypes)
 db.Ticket = require("./ticket")(sequelize, DataTypes);
 
 db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
@@ -102,9 +101,6 @@ db.Price.belongsTo(db.TypeSeat, { foreignKey: "codeTypeSeat" });
 
 db.TypeSeat.hasMany(db.Seat, { foreignKey: "codeTypeSeat" });
 db.Seat.belongsTo(db.TypeSeat, { foreignKey: "codeTypeSeat" });
-
-db.ShowTime.hasMany(db.Showing, { foreignKey: "codeShowTime" });
-db.Showing.belongsTo(db.ShowTime, { foreignKey: "codeShowTime" });
 
 db.Movie.hasMany(db.Showing, { foreignKey: "codeMovie" });
 db.Showing.belongsTo(db.Movie, { foreignKey: "codeMovie" });
