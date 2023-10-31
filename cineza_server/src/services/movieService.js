@@ -27,6 +27,13 @@ const getAllMovieService = async (movieName) => {
     }
 }
 
+const getDateByMovieService = async (movieCode) => {
+    const query = `select m.startDate, m.endDate from movie as m
+    where m.code = '${movieCode}';`
+    const [date, metadata] = await db.sequelize.query(query);
+    return date[0];
+}
+
 const getByCodeService = async (movieCode) => {
     const movie = db.Movie.findOne({
         where: {
@@ -35,6 +42,35 @@ const getByCodeService = async (movieCode) => {
     })
 
     return movie
+}
+
+const getMovieByDateService = async (date) => {
+    //     sequelize.query(`
+    //   SELECT *
+    //   FROM your_table
+    //   WHERE releaseDate <= :date
+    //     AND endDate >= :date
+    // `, {
+    //   replacements: { date },
+    //   type: sequelize.QueryTypes.SELECT
+    // })
+    const movies = await db.Movie.findAll({
+        where: {
+            [Op.and]: [
+                {
+                    startDate: {
+                        [Op.lte]: date // Phim phải có ngày bắt đầu chiếu trước hoặc vào ngày nhập vào
+                    }
+                },
+                {
+                    endDate: {
+                        [Op.gte]: date // Phim phải có ngày kết thúc chiếu sau hoặc vào ngày nhập vào
+                    }
+                }
+            ]
+        }
+    })
+    return movies;
 }
 
 const movieCreateService = async (movie) => {
@@ -63,5 +99,7 @@ module.exports = {
     movieCreateService,
     getByCodeService,
     getAllMovieService,
-    updateMovieService
+    updateMovieService,
+    getMovieByDateService,
+    getDateByMovieService
 }

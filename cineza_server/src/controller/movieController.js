@@ -1,5 +1,5 @@
 
-const { movieCreateService, getAllMovieService, getByCodeService, updateMovieService } = require("../services/movieService")
+const { movieCreateService, getAllMovieService, getByCodeService, updateMovieService, getMovieByDateService, getDateByMovieService } = require("../services/movieService")
 
 const getAllMovie = async (req, res) => {
     const { movieName } = req.query;
@@ -25,6 +25,26 @@ const getByCodeMovie = async (req, res) => {
     }
 }
 
+const getMovieByDateController = async (req, res) => {
+    const { date } = req.params;
+    try {
+        const movies = await getMovieByDateService(date);
+        res.status(200).send(movies);
+    } catch (error) {
+        res.status(500).send("error get movie by date: " + error);
+    }
+}
+
+const getDateByMovieController = async (req, res) => {
+    const { codeMovie } = req.params;
+    try {
+        const dates = await getDateByMovieService(codeMovie);
+        res.status(200).send(dates);
+    } catch (error) {
+        res.status(500).send("error get date by movie: " + error)
+    }
+}
+
 const createMovie = async (req, res) => {
     try {
         const { file } = req;
@@ -33,12 +53,12 @@ const createMovie = async (req, res) => {
         const {
             code, movieName, movieTime,
             description, director, actor, language,
-            releaseTime, movieType, status } = req.body;
+            startDate, endDate, movieType, status } = req.body;
 
         const newMovie = await movieCreateService({
-            code, movieName, moviePoster, movieTime,
+            code, movieName, movieTime, moviePoster,
             description, director, actor, language,
-            releaseTime, movieType, status
+            startDate, endDate, movieType, status
         })
         res.status(201).send(newMovie);
     } catch (error) {
@@ -49,14 +69,14 @@ const createMovie = async (req, res) => {
 const updateMovie = async (req, res) => {
     const { movieCode } = req.params;
     const {
-        movieName, moviePoster, movieTime,
+        movieName, movieTime,
         description, director, actor, language,
-        releaseTime, status } = req.body;
+        startDate, endDate, movieType, status } = req.body;
     try {
         const updateMovie = await updateMovieService(movieCode, {
-            movieName, moviePoster, movieTime,
+            movieName, movieTime,
             description, director, actor, language,
-            releaseTime, status
+            startDate, endDate, movieType, status
         })
         res.status(200).send(updateMovie);
     } catch (error) {
@@ -81,5 +101,7 @@ module.exports = {
     getAllMovie,
     getByCodeMovie,
     updateMovie,
-    updateStatusMovie
+    updateStatusMovie,
+    getMovieByDateController,
+    getDateByMovieController
 }

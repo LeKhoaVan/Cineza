@@ -32,15 +32,16 @@ module.exports = (sequelize, DataTypes) => {
                 key: "code",
             }
         },
-        codeShowTime: {
-            type: DataTypes.STRING,
-            references: {
-                model: "ShowTime",
-                key: "code",
-            }
+        showDate: {
+            type: DataTypes.DATE,
+            allowNull: false,
         },
-        screenAt: {
-            type: DataTypes.TIME,
+        showStart: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        showEnd: {
+            type: DataTypes.DATE,
             allowNull: false,
         },
         status: {

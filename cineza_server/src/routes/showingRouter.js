@@ -7,7 +7,9 @@ const {
   updateShowController,
   getAllShowByMovieController,
   getAllShowByRapController,
-  getAllShowByMovieAndRap
+  getAllShowByMovieAndRap,
+  getShowByMovieAndDateController,
+  getShowByRapAndDateController
 } = require("../controller/showingController");
 
 const showingRouter = express.Router();
@@ -19,5 +21,7 @@ showingRouter.put("/put/:code", updateShowController);
 showingRouter.get("/get-all-by-movie/:codeMovie", getAllShowByMovieController);
 showingRouter.get("/get-all-by-rap/:codeRap", getAllShowByRapController);
 showingRouter.get("/get-by-movie-and-rap/:codeMovie/:codeRap", getAllShowByMovieAndRap)
+showingRouter.get("/get-by-movie-date/:codeMovie/:date", getShowByMovieAndDateController);
+showingRouter.get("/get-by-rap-date/:codeRap/:date", getShowByRapAndDateController)
 
 module.exports = showingRouter;
