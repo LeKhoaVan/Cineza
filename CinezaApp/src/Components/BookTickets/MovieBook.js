@@ -95,7 +95,7 @@ function BookByMovie() {
 
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate("MovieSelected", item);
+    navigation.navigate("MovieSelected", { codeMovie: item.code });
   };
 
   useEffect(() => {
@@ -115,7 +115,7 @@ function BookByMovie() {
         });
         setDataMovie(correctedDataArray);
         // setDataMovie(res.data);
-        console.log(correctedDataArray);
+        // console.log(correctedDataArray);
       })
       .catch((err) => {
         console.log(err);
