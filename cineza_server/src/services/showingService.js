@@ -46,6 +46,18 @@ const getShowByRapAndDateService = async (codeRap, date) => {
   return shows;
 }
 
+const getShowByRapMovieAndDateService = async (codeRap, codeMovie, date) => {
+  const query = `select s.code, s.codeMovie, s.codeRap, s.codeRoom, s.showDate, s.showStart, s.showEnd, s.status, m.movieName,
+  r.name as rapName, ro.name as roomName
+  from showing as s
+  join movie as m on m.code = s.codeMovie
+  join Rap as r on r.code = s.codeRap
+  join Room as ro on ro.code = s.codeRoom
+  where s.codeRap = '${codeRap}' and s.codeMovie = '${codeMovie}' and s.showDate like '${date}%';`
+  const [shows, metadata] = await db.sequelize.query(query);
+  return shows;
+}
+
 const createShowService = async (show) => {
   const newShow = await db.Showing.create(show);
   return newShow;
@@ -118,4 +130,5 @@ module.exports = {
   getAllShowByMovieAndRapService,
   getShowByMovieAndDateService,
   getShowByRapAndDateService,
+  getShowByRapMovieAndDateService
 };
