@@ -8,7 +8,12 @@ const {
   getAllShowByRapService,
   checkShow,
   getAllShowByMovieAndRapService,
+  getShowByMovieAndDateService,
+  getShowByRapAndDateService,
 } = require("../services/showingService");
+
+const { getByCodeService } = require("../services/movieService");
+const { INTEGER } = require("sequelize");
 
 const getAllShowController = async (req, res) => {
   try {
@@ -29,20 +34,51 @@ const getShowByCodeController = async (req, res) => {
   }
 };
 
-const createShowController = async (req, res) => {
-  const { code, codeMovie, codeRap, codeRoom, codeShowTime, screenAt, status } =
-    req.body;
+const getShowByMovieAndDateController = async (req, res) => {
+  const { codeMovie, date } = req.params;
   try {
-    const check = await checkShow(screenAt, codeRap, codeRoom, codeShowTime);
+    const shows = await getShowByMovieAndDateService(codeMovie, date);
+    res.status(200).send(shows);
+  } catch (error) {
+    res.status(500).send("error get show by movie and date: " + error);
+  }
+}
+
+const getShowByRapAndDateController = async (req, res) => {
+  const { codeRap, date } = req.params;
+  try {
+    const shows = await getShowByRapAndDateService(codeRap, date);
+    res.status(200).send(shows);
+  } catch (error) {
+    res.status(500).send("error get show by rap and date: " + error);
+  }
+}
+
+const createShowController = async (req, res) => {
+  const { code, codeMovie, codeRap, codeRoom, showDate, showStart, status } = req.body;
+
+  const newShowDate = new Date(showDate)
+  const newShowStart = new Date(showDate)
+  const newShowEnd = new Date(showDate);
+
+  newShowDate.setHours(0, 0, 0, 0);
+
+  const timeShowStart = showStart.split(":");
+  newShowStart.setHours(timeShowStart[0], timeShowStart[1], 0, 0)
+  newShowEnd.setHours(timeShowStart[0], timeShowStart[1], 0, 0)
+  try {
+    const movie = await getByCodeService(codeMovie);
+    const check = await checkShow(codeMovie, codeRap, codeRoom, newShowDate.toISOString(), newShowStart.toISOString());
+
+    const dataTime = movie.movieTime.split("h");
+
     if (check == null) {
+      // set thoi gian ket thuc showing
+      newShowEnd.setHours(newShowEnd.getHours() + parseInt(dataTime[0]));
+      newShowEnd.setMinutes(newShowEnd.getMinutes() + parseInt(dataTime[1]));
+      newShowEnd.setMinutes(newShowEnd.getMinutes() + 15);
       const newShow = await createShowService({
-        code,
-        codeMovie,
-        codeRap,
-        codeRoom,
-        codeShowTime,
-        screenAt,
-        status,
+        code, codeMovie, codeRap, codeRoom, showDate: newShowDate, showStart: newShowStart, showEnd: newShowEnd, status
       });
       res.status(201).send(newShow);
     } else {
@@ -120,5 +156,7 @@ module.exports = {
   updateShowController,
   getAllShowByMovieController,
   getAllShowByRapController,
-  getAllShowByMovieAndRap
+  getAllShowByMovieAndRap,
+  getShowByMovieAndDateController,
+  getShowByRapAndDateController
 };

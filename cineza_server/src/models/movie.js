@@ -42,7 +42,11 @@ module.exports = (sequelize, DataTypes) => {
                 isIn: [["TIENG VIET", "ANH", "TRUNG QUOC", "NHAT BAN"]]
             }
         },
-        releaseTime: {
+        startDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        endDate: {
             type: DataTypes.DATE,
             allowNull: true,
         },
