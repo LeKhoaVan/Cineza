@@ -10,6 +10,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Header from "../Header/Header";
 import axios from "axios";
+import { formatDateHandle } from "../../util";
 
 const data = {
   id: 1,
@@ -29,8 +30,8 @@ const MovieDetail = ({ route }) => {
   console.log(codeMovie);
   const [dataMovie, setDataMovie] = useState([]);
   const navigation = useNavigation();
-  const handleClick = () => {
-    navigation.navigate("MovieSelected");
+  const handleClick = (item) => {
+    navigation.navigate("MovieSelected", { codeMovie });
   };
   useEffect(() => {
     axios
@@ -49,7 +50,7 @@ const MovieDetail = ({ route }) => {
         // });
         setDataMovie(res.data);
         // setDataMovie(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -91,10 +92,16 @@ const MovieDetail = ({ route }) => {
         </View>
         <View style={styles.viewContent}>
           <Text style={styles.viewText}>Ngày phát hành: </Text>
-          <Text style={styles.viewTextData}>{dataMovie.releaseTime}</Text>
+          <Text style={styles.viewTextData}>
+            {formatDateHandle(dataMovie.startDate)}
+          </Text>
         </View>
         <View style={styles.viewContent}>
-          <Text style={styles.viewText}>Tác giả: </Text>
+          <Text style={styles.viewText}>Đạo diễn: </Text>
+          <Text style={styles.viewTextData}>{dataMovie.director}</Text>
+        </View>
+        <View style={styles.viewContent}>
+          <Text style={styles.viewText}>Diễn viên: </Text>
           <Text style={styles.viewTextData}>{dataMovie.actor}</Text>
         </View>
       </View>
@@ -138,6 +145,7 @@ const styles = StyleSheet.create({
   viewContent: {
     flexDirection: "row",
     flexWrap: "wrap",
+    marginTop: 10,
   },
   viewText: {
     fontSize: 18,
