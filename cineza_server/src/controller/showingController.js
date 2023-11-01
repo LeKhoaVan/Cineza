@@ -10,6 +10,7 @@ const {
   getAllShowByMovieAndRapService,
   getShowByMovieAndDateService,
   getShowByRapAndDateService,
+  getShowByRapMovieAndDateService,
 } = require("../services/showingService");
 
 const { getByCodeService } = require("../services/movieService");
@@ -51,6 +52,16 @@ const getShowByRapAndDateController = async (req, res) => {
     res.status(200).send(shows);
   } catch (error) {
     res.status(500).send("error get show by rap and date: " + error);
+  }
+}
+
+const getShowByRapMovieAndDateController = async (req, res) => {
+  const { codeRap, codeMovie, date } = req.params;
+  try {
+    const shows = await getShowByRapMovieAndDateService(codeRap, codeMovie, date);
+    res.status(200).send(shows);
+  } catch (error) {
+    res.status(500).send("error get show by rap, movie, date: " + error)
   }
 }
 
@@ -158,5 +169,6 @@ module.exports = {
   getAllShowByRapController,
   getAllShowByMovieAndRap,
   getShowByMovieAndDateController,
-  getShowByRapAndDateController
+  getShowByRapAndDateController,
+  getShowByRapMovieAndDateController,
 };
