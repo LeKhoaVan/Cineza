@@ -1,64 +1,65 @@
-
 module.exports = (sequelize, DataTypes) => {
-    const Showing = sequelize.define("Showing", {
-        id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            primaryKey: true
+  const Showing = sequelize.define(
+    "Showing",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      code: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      codeMovie: {
+        type: DataTypes.STRING,
+        references: {
+          model: "Movie",
+          key: "code",
         },
-        code: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
+      },
+      codeRap: {
+        type: DataTypes.STRING,
+        references: {
+          model: "Rap",
+          key: "code",
         },
-        codeMovie: {
-            type: DataTypes.STRING,
-            references: {
-                model: "Movie",
-                key: "code",
-            }
+      },
+      codeRoom: {
+        type: DataTypes.STRING,
+        references: {
+          model: "Room",
+          key: "code",
         },
-        codeRap: {
-            type: DataTypes.STRING,
-            references: {
-                model: "Rap",
-                key: "code",
-            }
+      },
+      showDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      showStart: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      showEnd: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "ACTIVE",
+        validate: {
+          isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]],
         },
-        codeRoom: {
-            type: DataTypes.STRING,
-            references: {
-                model: "Room",
-                key: "code",
-            }
-        },
-        showDate: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        showStart: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        showEnd: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        status: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: "ACTIVE",
-            validate: {
-                isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]]
-            }
-        },
-
+      },
     },
-        {
-            sequelize,
-            modelName: "Showing",
-            tableName: "Showing",
-            timestamps: true,
-        })
-    return Showing;
-}
+    {
+      sequelize,
+      modelName: "Showing",
+      tableName: "Showing",
+      timestamps: true,
+    }
+  );
+  return Showing;
+};

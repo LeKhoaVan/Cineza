@@ -138,7 +138,7 @@ function Slider_Movie() {
         });
         setDataMovie(correctedDataArray);
         // setDataMovie(res.data);
-        console.log(correctedDataArray);
+        // console.log(correctedDataArray);
       })
       .catch((err) => {
         console.log(err);

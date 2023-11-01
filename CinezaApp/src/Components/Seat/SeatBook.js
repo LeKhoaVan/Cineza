@@ -12,7 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const tableData = [
+const ComunitySeatData = [
   "A1",
   "A2",
   "A3",
@@ -20,6 +20,7 @@ const tableData = [
   "A5",
   "A6",
   "A7",
+  "A8",
   "B1",
   "B2",
   "B3",
@@ -27,6 +28,7 @@ const tableData = [
   "B5",
   "B6",
   "B7",
+  "B8",
   "C1",
   "C2",
   "C3",
@@ -34,6 +36,9 @@ const tableData = [
   "C5",
   "C6",
   "C7",
+  "C8",
+];
+const VipSeatData = [
   "D1",
   "D2",
   "D3",
@@ -41,6 +46,7 @@ const tableData = [
   "D5",
   "D6",
   "D7",
+  "D8",
   "E1",
   "E2",
   "E3",
@@ -48,20 +54,7 @@ const tableData = [
   "E5",
   "E6",
   "E7",
-  "F1",
-  "F2",
-  "F3",
-  "F4",
-  "F5",
-  "F6",
-  "F7",
-  "G1",
-  "G2",
-  "G3",
-  "G4",
-  "G5",
-  "G6",
-  "G7",
+  "E8",
 ];
 function SeatBook() {
   const navigation = useNavigation();
@@ -78,25 +71,34 @@ function SeatBook() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header />
-      <View style={{ marginTop: 20 }} />
+      <View style={{ marginVertical: 10, width: "100%" }}>
+        <Text style={{ textAlign: "center", fontSize: 18 }}>Phòng 01</Text>
+      </View>
       <View>
         <FlatList
-          numColumns={7}
-          data={tableData}
+          numColumns={8}
+          data={ComunitySeatData}
           renderItem={({ item }) => (
             <Pressable
               // onPress={() => onSeatSelected(item)}
-              style={{
-                margin: 10,
-                backgroundColor: "#f8f8f8",
-                borderColor: "gray",
-                borderWidth: 0.5,
-                width: 32,
-                height: 32,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 5,
-              }}
+              style={styles.listComunitySeat}
+            >
+              {/* {seats.includes(item) ? (
+              <Text style={{ backgroundColor: "#ffc40c" }}>{item}</Text>
+            ) : (
+              <Text>{item}</Text>
+            )} */}
+              <Text>{item}</Text>
+            </Pressable>
+          )}
+        />
+        <FlatList
+          numColumns={8}
+          data={VipSeatData}
+          renderItem={({ item }) => (
+            <Pressable
+              // onPress={() => onSeatSelected(item)}
+              style={styles.listVipSeat}
             >
               {/* {seats.includes(item) ? (
               <Text style={{ backgroundColor: "#ffc40c" }}>{item}</Text>
@@ -108,16 +110,27 @@ function SeatBook() {
           )}
         />
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          paddingLeft: 100,
-          marginTop: 20,
-          backgroundColor: "#D8D8D8",
-          padding: 10,
-        }}
-      >
+      <View style={styles.sign}>
+        <View>
+          <FontAwesome
+            style={{ textAlign: "center", marginBottom: 4 }}
+            name="square"
+            size={24}
+            color="#bfbca3"
+          />
+          <Text>Thường</Text>
+        </View>
+
+        <View>
+          <FontAwesome
+            style={{ textAlign: "center", marginBottom: 4 }}
+            name="square"
+            size={24}
+            color="#941833"
+          />
+          <Text>VIP</Text>
+        </View>
+
         <View>
           <FontAwesome
             style={{ textAlign: "center", marginBottom: 4 }}
@@ -125,10 +138,10 @@ function SeatBook() {
             size={24}
             color="#ffc40c"
           />
-          <Text>selected</Text>
+          <Text>Đang chọn</Text>
         </View>
 
-        <View style={{ marginHorizontal: 20 }}>
+        {/* <View style={{ marginHorizontal: 20 }}>
           <FontAwesome
             style={{ textAlign: "center", marginBottom: 4 }}
             name="square"
@@ -136,16 +149,16 @@ function SeatBook() {
             color="white"
           />
           <Text>Vacant</Text>
-        </View>
+        </View> */}
 
         <View>
           <FontAwesome
             style={{ textAlign: "center", marginBottom: 4 }}
             name="square"
             size={24}
-            color="#989898"
+            color="#e8e6e6"
           />
-          <Text>Occupied</Text>
+          <Text>Đã đặt</Text>
         </View>
       </View>
       <Pressable
@@ -191,5 +204,37 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "white",
     backgroundColor: "red",
+  },
+  listComunitySeat: {
+    margin: 7,
+    backgroundColor: "#bfbca3",
+    borderColor: "gray",
+    borderWidth: 0.5,
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  listVipSeat: {
+    margin: 7,
+    backgroundColor: "#941833",
+    borderColor: "gray",
+    borderWidth: 0.5,
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  sign: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+    paddingHorizontal: 30,
+    backgroundColor: "#D8D8D8",
+    padding: 10,
+    alignContent: "space-between",
+    justifyContent: "space-between",
   },
 });

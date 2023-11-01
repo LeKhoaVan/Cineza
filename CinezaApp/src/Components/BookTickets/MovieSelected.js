@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   SafeAreaView,
   LayoutAnimation,
@@ -13,18 +13,20 @@ import {
 import CalendarStrip from "react-native-calendar-strip";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../Header/Header";
+import axios from "axios";
+import { formatDateHandle } from "../../util";
 
-const ExpandableComponent = ({ item, onClickFunction, handleClick }) => {
+const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
   //Custom Component for the Expandable List
   const [layoutHeight, setLayoutHeight] = useState(0);
 
   useEffect(() => {
-    if (item.isExpanded) {
+    if (newItem.isExpanded) {
       setLayoutHeight(null);
     } else {
       setLayoutHeight(0);
     }
-  }, [item.isExpanded]);
+  }, [newItem.isExpanded]);
 
   return (
     <View>
@@ -33,7 +35,7 @@ const ExpandableComponent = ({ item, onClickFunction, handleClick }) => {
         onPress={onClickFunction}
         style={styles.header}
       >
-        <Text style={styles.headerText}>{item.category_name}</Text>
+        <Text style={styles.headerText}>{newItem.rapName}</Text>
       </TouchableOpacity>
       <View
         style={{
@@ -41,13 +43,16 @@ const ExpandableComponent = ({ item, onClickFunction, handleClick }) => {
           overflow: "hidden",
         }}
       >
-        {item.subcategory.map((item, key) => (
+        <View>
+          <Text>{newItem.showStart}</Text>
+        </View>
+        {[]?.map((item, key) => (
           <TouchableOpacity
             key={key}
             style={styles.content}
             onPress={handleClick}
           >
-            <Text style={styles.text}>{item.val}</Text>
+            <Text style={styles.text}>{newItem.showStart}</Text>
             {/* <View style={styles.separator} /> */}
           </TouchableOpacity>
         ))}
@@ -56,9 +61,37 @@ const ExpandableComponent = ({ item, onClickFunction, handleClick }) => {
   );
 };
 
-function MovieSelected() {
-  const [listDataSource, setListDataSource] = useState(data);
+function MovieSelected({ route }) {
+  const codeMovie = route.params.codeMovie;
+  // console.log(codeMovie);
+
+  const [startMovie, setStartMovie] = useState("");
+  const [endMovie, setEndMovie] = useState("");
+  const [showDate, setShowDate] = useState("");
+  const [showStart, setShowStart] = useState("");
+
+  const [listDataSource, setListDataSource] = useState([]);
   const navigation = useNavigation();
+
+  const onChangeHandleShowDate = (date) => {
+    const day = formatDateHandle(date);
+    // setShowDate(day);
+    console.log(day);
+    console.log(codeMovie);
+  };
+
+  const [isUpdating, setIsUpdating] = useState(false);
+  useEffect(() => {
+    setIsUpdating(!isUpdating);
+    console.log(showDate);
+  }, [showDate]);
+
+  const handleOnClickDay = (date) => {
+    console.log(date);
+    // Đánh dấu rằng bạn muốn cập nhật trạng thái
+    const day = formatDateHandle(date);
+    setShowDate(day);
+  };
 
   const handleClick = (item) => {
     navigation.navigate("SeatBook", item);
@@ -75,34 +108,104 @@ function MovieSelected() {
     setListDataSource(array);
   };
 
+  // Get movie by code
+  useEffect(() => {
+    axios
+      .get(`http://172.20.10.2:9000/cineza/api/v1/movie/` + codeMovie, {
+        timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+      })
+      .then((res) => {
+        setStartMovie(res.data.startDate);
+        setEndMovie(res.data.endDate);
+        console.log(res.data.startDate);
+        console.log(res.data.endDate);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  //data start date and end date movie
+  const datesWhitelist = [
+    {
+      start: startMovie,
+      end: endMovie,
+    },
+  ];
+
+  //Get show by code movie and date
+  useEffect(() => {
+    const getRap = async () => {
+      if (showDate != "") {
+        console.log("1:" + codeMovie);
+        console.log(showDate);
+
+        const dataRaps = await axios.get(
+          `http://172.20.10.2:9000/cineza/api/v1/show/get-by-movie-date/${codeMovie}/${showDate}`
+        );
+
+        if (dataRaps.status === 200) {
+          const seenIds = new Set();
+          const resultArray = [];
+
+          for (const item of dataRaps.data) {
+            if (!seenIds.has(item.codeRap)) {
+              seenIds.add(item.codeRap);
+              resultArray.push(item);
+            }
+          }
+          console.log(resultArray);
+          setListDataSource(resultArray);
+        } else {
+          console.log("error get rap by movie and data");
+        }
+      }
+    };
+    getRap();
+  }, [showDate]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Header />
         <View style={{ paddingVertical: 10, backgroundColor: "#d1d1cf" }} />
         <CalendarStrip
+          // numDaysInWeek={7}
           scrollable
           style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
+          minDate={startMovie}
+          maxDate={endMovie}
+          scrollToOnSetSelectedDate={false}
+          selectedDate={showDate ? showDate : "2023-12-12"}
+          onDateSelected={handleOnClickDay}
+          datesWhitelist={datesWhitelist}
           calendarColor={"black"}
           calendarHeaderStyle={{ color: "white" }}
           dateNumberStyle={{ color: "white" }}
           dateNameStyle={{ color: "white" }}
           highlightDateNameStyle={{ color: "yellow" }}
           highlightDateNumberStyle={{ color: "yellow" }}
+          daySelectionAnimation={{
+            type: "border",
+            duration: 1,
+            borderWidth: 1,
+            borderHighlightColor: "yellow",
+          }}
           iconContainer={{ flex: 0.1 }}
         />
 
         <ScrollView>
-          {listDataSource.map((item, key) => (
+          {listDataSource?.map((item, key) => (
             <ExpandableComponent
-              key={item.category_name}
+              key={item.rapName}
               onClickFunction={() => {
                 updateLayout(key);
+                console.log("test item: " + item.code);
               }}
               handleClick={() => {
                 handleClick(item);
               }}
-              item={item}
+              newItem={item}
             />
           ))}
         </ScrollView>
