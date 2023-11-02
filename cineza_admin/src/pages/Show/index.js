@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import ShowDetail from "../ShowDetail";
-import { formatDateHandle } from "../../components/util";
+import { formatDateHandle, formatTimeHandle } from "../../components/util";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import "./show.css";
 import axios from "axios";
@@ -13,7 +13,7 @@ const columns = [
   },
   {
     title: "Giờ chiếu",
-    data: "screenAt",
+    data: "showStart",
   },
   {
     title: "Ngày chiếu",
@@ -76,6 +76,7 @@ const ShowTime = () => {
             return {
               ...item,
               showDate: formatDateHandle(item.showDate),
+              showStart: formatTimeHandle(item.showStart),
             };
           });
           setContext(dataResult);
@@ -115,10 +116,7 @@ const ShowTime = () => {
           />
         )}
         {openModelAdd && (
-          <ShowDetail
-            addBtn={true}
-            onClickHandleClose={onClickHandleCloseP}
-          />
+          <ShowDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
         )}
       </div>
     </div>

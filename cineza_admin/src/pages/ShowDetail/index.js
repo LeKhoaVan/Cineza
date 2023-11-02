@@ -27,7 +27,7 @@ const dataStatus = [
 
 const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
-  const [screenAt, setScreenAt] = useState("");
+  const [showStart, setShowStart] = useState("");
   const [codeMovie, setCodeMovie] = useState("");
   const [codeShowTime, setCodeShowTime] = useState("");
   const [codeRap, setCodeRap] = useState("");
@@ -46,7 +46,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [dataShowTime, setDataShowTime] = useState([]);
 
   const [isValidCode, setIsValidCode] = useState(false);
-  const [isValidScreenAt, setIsValidScreenAt] = useState(false);
+  const [isValidShowStart, setIsValidShowStart] = useState(false);
   const [isValidCodeMovie, setIsValidCodeMovie] = useState(false);
   const [isValidCodeShowTime, setIsValidCodeShowTime] = useState(false);
   const [isValidCodeRap, setIsValidCodeRap] = useState(false);
@@ -77,9 +77,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const onChangeHandleCode = (text) => {
     setCode(text.target.value);
   };
-  const onChangeHandleScreenAt = (text) => {
-    setScreenAt(text);
-    console.log(text);
+  const onChangeHandleShowStart = (text) => {
+    setShowStart(text);
+    // console.log(text);
   };
 
   useEffect(() => {
@@ -178,7 +178,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       );
       if (result.status === 200) {
         setCode(result.data.code);
-        setScreenAt(result.data.screenAt);
+        setShowStart(result.data.showStart);
         setStatus(result.data.status);
 
         setCodeMovie(result.data.codeMovie);
@@ -237,6 +237,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         );
         if (allRap.status === 200) {
           setDataRap(allRap.data);
+          setDataRoom([]);
         } else {
           console.error("get all Rap error");
         }
@@ -251,20 +252,22 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     const getAllRoom = async () => {
       try {
-        const allRoom = await axios.get(
-          `http://localhost:9000/cineza/api/v1/room/get-all`
-        );
-        if (allRoom.status === 200) {
-          setDataRoom(allRoom.data);
-        } else {
-          console.error("get all Room error");
+        if (codeRap != "") {
+          const allRoom = await axios.get(
+            `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRap}`
+          );
+          if (allRoom.status === 200) {
+            setDataRoom(allRoom.data);
+          } else {
+            console.error("get all Room error");
+          }
         }
       } catch (error) {
         console.error("get all Room error: " + error);
       }
     };
     getAllRoom();
-  }, []);
+  }, [codeRap]);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -281,7 +284,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
 
     setCode("");
     setStatus("");
-    setScreenAt("");
+    setShowStart("");
     setCodeMovie("");
     setCodeShowTime("");
     setCodeRap("");
@@ -291,7 +294,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const onClickHandleSave = async () => {
     const show = {
       code: code,
-      screenAt: screenAt,
+      showStart: showStart,
       status: status,
       codeMovie: codeMovie,
       codeShowTime: codeShowTime,
@@ -427,8 +430,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 <TimePicker
                   format="hh:mm a"
                   openClockOnFocus={false}
-                  value={screenAt}
-                  onChange={(text) => onChangeHandleScreenAt(text)}
+                  value={showStart}
+                  onChange={(text) => onChangeHandleShowStart(text)}
                 />
               </div>
             </div>

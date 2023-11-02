@@ -43,7 +43,7 @@ const getShowByMovieAndDateController = async (req, res) => {
   } catch (error) {
     res.status(500).send("error get show by movie and date: " + error);
   }
-}
+};
 
 const getShowByRapAndDateController = async (req, res) => {
   const { codeRap, date } = req.params;
@@ -53,43 +53,61 @@ const getShowByRapAndDateController = async (req, res) => {
   } catch (error) {
     res.status(500).send("error get show by rap and date: " + error);
   }
-}
+};
 
 const getShowByRapMovieAndDateController = async (req, res) => {
   const { codeRap, codeMovie, date } = req.params;
   try {
-    const shows = await getShowByRapMovieAndDateService(codeRap, codeMovie, date);
+    const shows = await getShowByRapMovieAndDateService(
+      codeRap,
+      codeMovie,
+      date
+    );
     res.status(200).send(shows);
   } catch (error) {
-    res.status(500).send("error get show by rap, movie, date: " + error)
+    res.status(500).send("error get show by rap, movie, date: " + error);
   }
-}
+};
 
 const createShowController = async (req, res) => {
-  const { code, codeMovie, codeRap, codeRoom, showDate, showStart, status } = req.body;
+  const { code, codeMovie, codeRap, codeRoom, showDate, showStart, status } =
+    req.body;
 
-  const newShowDate = new Date(showDate)
-  const newShowStart = new Date(showDate)
+  const newShowDate = new Date(showDate);
+  const newShowStart = new Date(showDate);
   const newShowEnd = new Date(showDate);
 
   newShowDate.setHours(0, 0, 0, 0);
 
   const timeShowStart = showStart.split(":");
-  newShowStart.setHours(timeShowStart[0], timeShowStart[1], 0, 0)
-  newShowEnd.setHours(timeShowStart[0], timeShowStart[1], 0, 0)
+  newShowStart.setHours(timeShowStart[0], timeShowStart[1], 0, 0);
+  newShowEnd.setHours(timeShowStart[0], timeShowStart[1], 0, 0);
   try {
     const movie = await getByCodeService(codeMovie);
-    const check = await checkShow(codeMovie, codeRap, codeRoom, newShowDate.toISOString(), newShowStart.toISOString());
+    const check = await checkShow(
+      codeMovie,
+      codeRap,
+      codeRoom,
+      newShowDate.toISOString(),
+      newShowStart.toISOString()
+    );
 
     const dataTime = movie.movieTime.split("h");
 
     if (check == null) {
-      // set thoi gian ket thuc showing
+      // set thoi gian ket thuc showingdsadsa
       newShowEnd.setHours(newShowEnd.getHours() + parseInt(dataTime[0]));
       newShowEnd.setMinutes(newShowEnd.getMinutes() + parseInt(dataTime[1]));
       newShowEnd.setMinutes(newShowEnd.getMinutes() + 15);
       const newShow = await createShowService({
-        code, codeMovie, codeRap, codeRoom, showDate: newShowDate, showStart: newShowStart, showEnd: newShowEnd, status
+        code,
+        codeMovie,
+        codeRap,
+        codeRoom,
+        showDate: newShowDate,
+        showStart: newShowStart,
+        showEnd: newShowEnd,
+        status,
       });
       res.status(201).send(newShow);
     } else {
@@ -153,12 +171,12 @@ const getAllShowByRapController = async (req, res) => {
 const getAllShowByMovieAndRap = async (req, res) => {
   const { codeMovie, codeRap } = req.params;
   try {
-    const shows = await getAllShowByMovieAndRapService(codeMovie, codeRap)
+    const shows = await getAllShowByMovieAndRapService(codeMovie, codeRap);
     res.status(200).send(shows);
   } catch (error) {
     res.status(500).send("error get show by movie and rap: " + error);
   }
-}
+};
 
 module.exports = {
   getAllShowController,

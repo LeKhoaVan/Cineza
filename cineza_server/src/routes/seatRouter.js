@@ -1,6 +1,7 @@
 const {
   getAllSeatController,
   getAllSeatByRoomController,
+  getAllSeatByRoomAndTypeController,
   createSeatController,
   getSeatByCodeController,
   updateSeatController,
@@ -12,6 +13,10 @@ const seatRouter = express.Router();
 
 seatRouter.get("/get-all", getAllSeatController);
 seatRouter.get("/get-all-by-room/:codeRoom", getAllSeatByRoomController);
+seatRouter.get(
+  "/get-all-by-room-type/:codeTypeSeat/:codeRoom",
+  getAllSeatByRoomAndTypeController
+);
 seatRouter.post("/create", createSeatController);
 seatRouter.get("/get-by-code/:code", getSeatByCodeController);
 seatRouter.put("/put/:code", updateSeatController);

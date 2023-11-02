@@ -6,11 +6,24 @@ const formatDateHandle = (inputDate) => {
   const day = String(date.getUTCDate()).padStart(2, "0");
   const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
   const year = date.getUTCFullYear();
+  const hour = String(date.getUTCHours()).padStart(2, "0");
 
   // Format the date as dd-MM-yyyy
   const formattedDate = `${year}-${month}-${day}`;
 
   return formattedDate;
+};
+
+const formatTimeHandle = (inputDate) => {
+  const date = new Date(inputDate);
+
+  const hour = String(date.getUTCHours()).padStart(2, "0");
+  const minute = String(date.getUTCMinutes()).padStart(2, "0");
+
+  // Format the time hh:mm
+  const formattedTime = `${hour}:${minute}`;
+
+  return formattedTime;
 };
 
 const formatFromObjectToDate = (inputDate) => {
@@ -33,5 +46,6 @@ const formatFromObjectToDate = (inputDate) => {
 module.exports = {
   formatDateHandle,
   formatFromObjectToDate,
+  formatTimeHandle,
   // formatFromDatetoObject
 };
