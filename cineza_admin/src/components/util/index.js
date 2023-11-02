@@ -1,27 +1,38 @@
-
 const formatDateHandle = (inputDate) => {
-    // Create a new Date object from the input date string
-    const date = new Date(inputDate);
+  // Create a new Date object from the input date string
+  const date = new Date(inputDate);
 
-    // Get day, month, and year components
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
-    const year = date.getUTCFullYear();
+  // Get day, month, and year components
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  const year = date.getUTCFullYear();
 
-    // Format the date as dd-MM-yyyy
-    const formattedDate = `${day}-${month}-${year}`;
+  // Format the date as dd-MM-yyyy
+  const formattedDate = `${day}-${month}-${year}`;
 
-    return formattedDate;
-}
+  return formattedDate;
+};
 
 const formatFromObjectToDate = (inputDate) => {
-    const date = new Date(inputDate);
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const year = date.getUTCFullYear();
-    const formattedDate = `${day}-${month}-${year}`;
-    return formattedDate;
-}
+  const date = new Date(inputDate);
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+  const formattedDate = `${day}-${month}-${year}`;
+  return formattedDate;
+};
+
+const formatTimeHandle = (inputDate) => {
+  const date = new Date(inputDate);
+
+  const hour = String(date.getUTCHours()).padStart(2, "0");
+  const minute = String(date.getUTCMinutes()).padStart(2, "0");
+
+  // Format the time hh:mm
+  const formattedTime = `${hour}:${minute}`;
+
+  return formattedTime;
+};
 
 // const formatFromDatetoObject = (inputStringDate) => {
 //     const parsedDate = parse(inputStringDate, 'dd-MM-yyyy', new Date());
@@ -32,7 +43,8 @@ const formatFromObjectToDate = (inputDate) => {
 // }
 
 module.exports = {
-    formatDateHandle,
-    formatFromObjectToDate,
-    // formatFromDatetoObject
+  formatDateHandle,
+  formatFromObjectToDate,
+  formatTimeHandle,
+  // formatFromDatetoObject
 };

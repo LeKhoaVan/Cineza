@@ -14,11 +14,12 @@ import CalendarStrip from "react-native-calendar-strip";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../Header/Header";
 import axios from "axios";
-import { formatDateHandle } from "../../util";
+import { formatDateHandle, formatTimeHandle } from "../../util";
 
 const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
   //Custom Component for the Expandable List
   const [layoutHeight, setLayoutHeight] = useState(0);
+  const [dataShow, setDataShow] = useState([]);
 
   useEffect(() => {
     if (newItem.isExpanded) {
@@ -27,6 +28,23 @@ const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
       setLayoutHeight(0);
     }
   }, [newItem.isExpanded]);
+
+  useEffect(() => {
+    const getDataShow = async () => {
+      const response = await axios.get(
+        `http://172.20.10.2:9000/cineza/api/v1/show/get-by-rap-movie-data/${
+          newItem.codeRap
+        }/${newItem.codeMovie}/${formatDateHandle(newItem.showStart)}`
+      );
+      if (response.status === 200) {
+        setDataShow(response.data);
+        // console.log("test getdataShow: " + response.data);
+      } else {
+        console.log("error get data show");
+      }
+    };
+    getDataShow();
+  }, []);
 
   return (
     <View>
@@ -43,16 +61,15 @@ const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
           overflow: "hidden",
         }}
       >
-        <View>
-          <Text>{newItem.showStart}</Text>
-        </View>
-        {[]?.map((item, key) => (
+        {dataShow?.map((newItem, key) => (
           <TouchableOpacity
             key={key}
             style={styles.content}
             onPress={handleClick}
           >
-            <Text style={styles.text}>{newItem.showStart}</Text>
+            <Text style={styles.text}>
+              {formatTimeHandle(newItem.showStart)}
+            </Text>
             {/* <View style={styles.separator} /> */}
           </TouchableOpacity>
         ))}
@@ -73,12 +90,12 @@ function MovieSelected({ route }) {
   const [listDataSource, setListDataSource] = useState([]);
   const navigation = useNavigation();
 
-  const onChangeHandleShowDate = (date) => {
-    const day = formatDateHandle(date);
-    // setShowDate(day);
-    console.log(day);
-    console.log(codeMovie);
-  };
+  // const onChangeHandleShowDate = (date) => {
+  //   const day = formatDateHandle(date);
+  //   // setShowDate(day);
+  //   console.log(day);
+  //   console.log(codeMovie);
+  // };
 
   const [isUpdating, setIsUpdating] = useState(false);
   useEffect(() => {
@@ -87,14 +104,14 @@ function MovieSelected({ route }) {
   }, [showDate]);
 
   const handleOnClickDay = (date) => {
-    console.log(date);
+    // console.log(date);
     // Đánh dấu rằng bạn muốn cập nhật trạng thái
     const day = formatDateHandle(date);
     setShowDate(day);
   };
 
   const handleClick = (item) => {
-    navigation.navigate("SeatBook", item);
+    navigation.navigate("SeatBook", { item });
   };
 
   if (Platform.OS === "android") {
@@ -133,13 +150,10 @@ function MovieSelected({ route }) {
     },
   ];
 
-  //Get show by code movie and date
+  //Get rap by code movie and date
   useEffect(() => {
     const getRap = async () => {
       if (showDate != "") {
-        console.log("1:" + codeMovie);
-        console.log(showDate);
-
         const dataRaps = await axios.get(
           `http://172.20.10.2:9000/cineza/api/v1/show/get-by-movie-date/${codeMovie}/${showDate}`
         );
@@ -154,7 +168,7 @@ function MovieSelected({ route }) {
               resultArray.push(item);
             }
           }
-          console.log(resultArray);
+          // console.log(resultArray);
           setListDataSource(resultArray);
         } else {
           console.log("error get rap by movie and data");
@@ -200,7 +214,7 @@ function MovieSelected({ route }) {
               key={item.rapName}
               onClickFunction={() => {
                 updateLayout(key);
-                console.log("test item: " + item.code);
+                // console.log("test item: " + item.code);
               }}
               handleClick={() => {
                 handleClick(item);
