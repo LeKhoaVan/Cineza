@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import iconPen from "../../assets/imageButtons/iconPen.png";
 import iconCreateNew from "../../assets/imageButtons/iconCreateNew.png";
@@ -29,9 +30,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [showStart, setShowStart] = useState("");
   const [codeMovie, setCodeMovie] = useState("");
-  const [codeShowTime, setCodeShowTime] = useState("");
   const [codeRap, setCodeRap] = useState("");
   const [codeRoom, setCodeRoom] = useState("");
+  const [showDate, setShowDate] = useState("")
   const [status, setStatus] = useState("");
 
   const [edit, setEdit] = useState(false);
@@ -43,12 +44,11 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [dataMovie, setDataMovie] = useState([]);
   const [dataRap, setDataRap] = useState([]);
   const [dataRoom, setDataRoom] = useState([]);
-  const [dataShowTime, setDataShowTime] = useState([]);
+  const [dates, setDates] = useState([]);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidShowStart, setIsValidShowStart] = useState(false);
   const [isValidCodeMovie, setIsValidCodeMovie] = useState(false);
-  const [isValidCodeShowTime, setIsValidCodeShowTime] = useState(false);
   const [isValidCodeRap, setIsValidCodeRap] = useState(false);
   const [isValidCodeRoom, setIsValidCodeRoom] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
@@ -65,9 +65,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxCodeMovie = (event) => {
     setCodeMovie(event.target.value);
   };
-  const handleChangeComboboxCodeShowTime = (event) => {
-    setCodeShowTime(event.target.value);
-  };
+
   const handleChangeComboboxCodeRap = (event) => {
     setCodeRap(event.target.value);
   };
@@ -81,6 +79,11 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowStart(text);
     // console.log(text);
   };
+
+  const handleChangeComboboxShowDate = (text) => {
+
+    setShowDate(text.target.value)
+  }
 
   useEffect(() => {
     onHandleFocusCode();
@@ -98,6 +101,25 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     onHandleFocusCodeMovie();
+    const getDate = async () => {
+      const resutlDate = await axios.get(`http://localhost:9000/cineza/api/v1/movie/${codeMovie}`);
+      if (resutlDate.status === 200) {
+        const startDate = moment(resutlDate.data.startDate);
+        const endDate = moment(resutlDate.data.endDate);
+
+        const daysInRange = [];
+
+        let currentDate = startDate.clone();
+        while (currentDate.isSameOrBefore(endDate, "day")) {
+          daysInRange.push(currentDate.format("YYYY-MM-DD"));
+          currentDate.add(1, "days");
+        }
+        setDates(daysInRange)
+      } else {
+        console.log("error get date by movie")
+      }
+    };
+    getDate();
   }, [codeMovie]);
 
   const onHandleFocusCodeMovie = () => {
@@ -110,19 +132,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     }
   };
 
-  useEffect(() => {
-    onHandleFocusCodeShowTime();
-  }, [codeShowTime]);
-
-  const onHandleFocusCodeShowTime = () => {
-    if (editCode || edit) {
-      if (codeShowTime == undefined || codeShowTime.length <= 0) {
-        setIsValidCodeShowTime(true);
-      } else {
-        setIsValidCodeShowTime(false);
-      }
-    }
-  };
 
   useEffect(() => {
     onHandleFocusCodeRap();
@@ -141,6 +150,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     onHandleFocusCodeRoom();
   }, [codeRoom]);
+
 
   const onHandleFocusCodeRoom = () => {
     if (editCode || edit) {
@@ -182,7 +192,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         setStatus(result.data.status);
 
         setCodeMovie(result.data.codeMovie);
-        setCodeShowTime(result.data.codeShowTime);
         setCodeRap(result.data.codeRap);
         setCodeRoom(result.data.codeRoom);
       }
@@ -209,24 +218,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     getAllMovie();
   }, []);
 
-  //combobox show time
-  useEffect(() => {
-    const getAllShowTime = async () => {
-      try {
-        const allShowTime = await axios.get(
-          `http://localhost:9000/cineza/api/v1/show-time/get-all`
-        );
-        if (allShowTime.status === 200) {
-          setDataShowTime(allShowTime.data);
-        } else {
-          console.error("get all city error");
-        }
-      } catch (error) {
-        console.error("get all country error: " + error);
-      }
-    };
-    getAllShowTime();
-  }, []);
+
 
   //combobox rap
   useEffect(() => {
@@ -286,7 +278,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setStatus("");
     setShowStart("");
     setCodeMovie("");
-    setCodeShowTime("");
     setCodeRap("");
     setCodeRoom("");
   };
@@ -297,7 +288,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       showStart: showStart,
       status: status,
       codeMovie: codeMovie,
-      codeShowTime: codeShowTime,
       codeRap: codeRap,
       codeRoom: codeRoom,
     };
@@ -305,15 +295,13 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     onHandleFocusCodeMovie();
     onHandleFocusCodeRap();
     onHandleFocusCodeRoom();
-    onHandleFocusCodeShowTime();
     onHandleFocusStatus();
     if (
       !isValidCode &
       !isValidCodeMovie &
       !isValidCodeRap &
       !isValidStatus &
-      !isValidCodeRoom &
-      !isValidCodeShowTime
+      !isValidCodeRoom
     ) {
       try {
         console.log(show);
@@ -494,7 +482,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                     {dataMovie.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.code}>
-                          {st.code}
+                          {st.movieName}
                         </MenuItem>
                       );
                     })}
@@ -507,7 +495,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             </div>
 
             <div className="show-detail-input">
-              <label>Mã lịch chiếu</label>
+              <label>Ngày chiếu</label>
               <div className="show-detail-input-dem"></div>
               <div className="input-show-detail-container">
                 <FormControl
@@ -515,28 +503,28 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                   size="small"
                 >
                   <InputLabel id="demo-select-small-label">
-                    mã lịch chiếu
+                    Ngày chiếu
                   </InputLabel>
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    value={codeShowTime}
-                    label="mã lịch chiếu"
-                    onChange={handleChangeComboboxCodeShowTime}
-                    onFocus={onHandleFocusCodeShowTime}
+                    value={showDate}
+                    label="Ngày chiếu"
+                    onChange={handleChangeComboboxShowDate}
+                    // onFocus={onHandleFocusCodeShowTime}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {dataShowTime.map((st, index) => {
+                    {dates.map((st, index) => {
                       return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
+                        <MenuItem key={index} value={st}>
+                          {st}
                         </MenuItem>
                       );
                     })}
                   </Select>
                 </FormControl>
-                {isValidCodeShowTime && (
+                {[] && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>
