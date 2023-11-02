@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import ProductCard from "./ProductCard";
 import Header from "../Header/Header";
 
-const OtherProduct = () => {
+const OtherProduct = ({ route }) => {
   const data = [
     {
       id: "0",
@@ -59,6 +59,8 @@ const OtherProduct = () => {
       veg: true,
     },
   ];
+
+  // console.log(route.params.item);
   const navigation = useNavigation();
 
   return (

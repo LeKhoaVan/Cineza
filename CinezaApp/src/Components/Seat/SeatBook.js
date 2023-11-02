@@ -6,6 +6,7 @@ import {
   FlatList,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Header from "../Header/Header";
 import { FontAwesome } from "@expo/vector-icons";
@@ -59,11 +60,16 @@ const VipSeatData = [
 ];
 function SeatBook({ route }) {
   const codeRoom = route.params.item.codeRoom;
-  console.log(route.params.item.codeRoom);
+  // console.log(route.params.item.code);
   // console.log(route.params.item);
 
   const [dataComunitySeat, setDataComunitySeat] = useState([]);
   const [dataVipSeat, setDataVipSeat] = useState([]);
+  const [dataVipSeatFormat, setDataVipSeatFormat] = useState([]);
+  const [dataComunitySeatFormat, setDataComunitySeatFormat] = useState([]);
+  const [price, setPrice] = useState(0);
+
+  const [seatSelected, setSeatSelected] = useState([]);
 
   const navigation = useNavigation();
   const { seats, setSeats } = useState();
@@ -80,7 +86,11 @@ function SeatBook({ route }) {
       )
       .then((res) => {
         setDataComunitySeat(res.data);
-        // console.log(res.data);
+        const newData = res.data.map((item) => ({
+          ...item,
+          selectedUI: false,
+        }));
+        setDataComunitySeatFormat(newData);
       })
       .catch((err) => {
         console.log(err);
@@ -99,22 +109,161 @@ function SeatBook({ route }) {
       )
       .then((res) => {
         setDataVipSeat(res.data);
-        // console.log(res.data);
+        const newData = res.data.map((item) => ({
+          ...item,
+          selectedUI: false,
+        }));
+        setDataVipSeatFormat(newData);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  // const onSeatSelected = (item) => {
-  //   const seatSelected = seats.find((seat) => seat === item);
-  //   if (seatSelected) {
-  //     seats.filter((seat) => seat !== item);
-  //   } else {
-  //     setSeats([...seats, item]);
-  //   }
-  // };
-  // console.log(seats);
+  //chọn ghế thường
+  const onComunitySeatSelected = (item) => {
+    const seatSelectedT = dataComunitySeatFormat.find((seat) => seat === item);
+    if (seatSelectedT) {
+      const newData = dataComunitySeatFormat.map((i) => {
+        if (i === item) {
+          if (seatSelected.length < 5) {
+            return { ...i, selectedUI: !i.selectedUI };
+          } else {
+            Alert.alert("tối đa chọn 5 ghế");
+            return { ...i };
+          }
+        } else {
+          return { ...i };
+        }
+      });
+      setDataComunitySeatFormat(newData);
+
+      dataComunitySeatFormat.forEach(async (i) => {
+        if (i === item) {
+          if (i.selectedUI) {
+            setPrice(price - i.value);
+          } else {
+            if (seatSelected.length < 5) {
+              const resultPrice = await axios.get(
+                `http://172.20.10.2:9000/cineza/api/v1/seat/get-price/${item.codeTypeSeat}`
+              );
+              if (resultPrice.status === 200) {
+                setPrice(price + resultPrice.data.value);
+                setSeatSelected([...seatSelected, i]);
+                console.log("test", seatSelected);
+              } else {
+                console.log("error get price");
+              }
+            }
+          }
+        }
+      });
+    }
+  };
+
+  //chọn ghế vip
+  const onSeatSelected = (item) => {
+    const seatSelectedT = dataVipSeatFormat.find((seat) => seat === item);
+    if (seatSelectedT) {
+      // const newData = dataVipSeatFormat.map((i) => {
+      //   if (i === item) {
+      //     if (seatSelected.length <= 5) {
+      //       return { ...i, selectedUI: !i.selectedUI };
+      //     } else {
+      //       if (i.selectedUI) {
+      //         setPrice(price - i.value);
+      //         seatSelected.filter((se) => se === i);
+      //         console.log(seatSelected.length);
+      //         console.log("test");
+      //         return { ...i, selectedUI: false };
+      //       } else {
+      //         Alert.alert("tối đa chọn 5 ghế");
+      //         console.log("1234", seatSelected);
+      //         return { ...i };
+      //       }
+      //     }
+      //   } else {
+      //     return { ...i };
+      //   }
+      // });
+      // setDataVipSeatFormat(newData);
+
+      // dataVipSeatFormat.forEach((i) => {
+      //   if (i === item) {
+      //     if (i.selectedUI) {
+      //       setPrice(price - i.value);
+      //     } else {
+      //       if (seatSelected.length <= 5) {
+      //         setPrice(price + i.value);
+      //         i = { ...i, selectedUI: true };
+      //         setSeatSelected([...seatSelected, i]);
+      //         dataVipSeatFormat = [...dataVipSeatFormat, seatSelected];
+      //       }
+      //     }
+      //   }
+      // });
+
+      const newew = dataVipSeatFormat.map((data) => {
+        if (data === item) {
+          if (data.selectedUI) {
+            setPrice(price - data.value);
+            console.log("test tue");
+            const newArray = seatSelected.filter((item4) => {
+              console.log(item.code);
+              return item4.code !== item.code;
+            });
+            // setSeatSelected(test);
+            console.log(data);
+            console.log(newArray.length);
+            setSeatSelected(newArray);
+            return { ...data, selectedUI: false };
+          } else {
+            if (seatSelected.length <= 5) {
+              setPrice(price + data.value);
+
+              setSeatSelected([...seatSelected, data]);
+              return { ...data, selectedUI: true };
+            }
+          }
+        }
+        return data;
+      });
+      setDataVipSeatFormat(newew);
+    }
+  };
+
+  const onClickHandleSave = () => {
+    seatSelected.forEach(async (seat) => {
+      let ticket = {
+        codeShowing: route.params.item.code,
+        codeSeat: seat.code,
+        codeUser: "user01",
+        status: "ACTIVE",
+      };
+
+      try {
+        console.log(ticket);
+        const response = await axios.post(
+          `http://172.20.10.2:9000/cineza/api/v1/ticket/create`,
+          ticket
+        );
+        if (response.status === 201) {
+          console.log("Lưu thành công");
+          // setShowAlert(true);
+        } else {
+          console.log("Lưu thất bại");
+          // setShowAlert(true);
+        }
+      } catch (error) {
+        console.log("save fail: " + error);
+        // setShowAlert(true);
+      }
+    });
+    navigation.navigate("OtherProduct", { item: route.params.item });
+  };
+
+  // navigation.navigate("OtherProduct");
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header />
@@ -126,35 +275,40 @@ function SeatBook({ route }) {
       <View>
         <FlatList
           numColumns={8}
-          data={dataComunitySeat}
+          data={dataComunitySeatFormat}
           renderItem={({ item }) => (
             <Pressable
-              // onPress={() => onSeatSelected(item)}
+              onPress={() => onComunitySeatSelected(item)}
               style={styles.listComunitySeat}
             >
-              {/* {seats.includes(item) ? (
-              <Text style={{ backgroundColor: "#ffc40c" }}>{item}</Text>
-            ) : (
-              <Text>{item}</Text>
-            )} */}
-              <Text>{item.position}</Text>
+              {item?.selectedUI ? (
+                <Text style={{ backgroundColor: "#ffc40c" }}>
+                  {item.position}
+                </Text>
+              ) : (
+                <Text>{item?.position}</Text>
+              )}
             </Pressable>
           )}
         />
         <FlatList
           numColumns={8}
-          data={dataVipSeat}
+          data={dataVipSeatFormat}
           renderItem={({ item }) => (
             <Pressable
-              // onPress={() => onSeatSelected(item)}
-              style={styles.listVipSeat}
+              onPress={() => onSeatSelected(item)}
+              style={[
+                styles.listVipSeat,
+                // item.isBook === "SELECTED" && styles.bookedSeat,
+              ]}
             >
-              {/* {seats.includes(item) ? (
-              <Text style={{ backgroundColor: "#ffc40c" }}>{item}</Text>
-            ) : (
-              <Text>{item}</Text>
-            )} */}
-              <Text>{item.position}</Text>
+              {item?.selectedUI ? (
+                <Text style={{ backgroundColor: "#ffc40c" }}>
+                  {item.position}
+                </Text>
+              ) : (
+                <Text>{item?.position}</Text>
+              )}
             </Pressable>
           )}
         />
@@ -228,14 +382,10 @@ function SeatBook({ route }) {
           }}
         >
           <View>
-            <Text>Total: </Text>
+            <Text>Total: {price} VND</Text>
           </View>
 
-          <Pressable
-            onPress={() => {
-              navigation.navigate("OtherProduct");
-            }}
-          >
+          <Pressable onPress={() => onClickHandleSave()}>
             <Text style={styles.buttonPay}>Đặt vé</Text>
           </Pressable>
         </View>
@@ -285,5 +435,9 @@ const styles = StyleSheet.create({
     padding: 10,
     alignContent: "space-between",
     justifyContent: "space-between",
+  },
+  bookedSeat: {
+    backgroundColor: "#e8e6e6",
+    borderColor: "transparent",
   },
 });

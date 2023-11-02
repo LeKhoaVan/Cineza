@@ -4,7 +4,7 @@ const { getShowByCodeService } = require("./showingService");
 
 const getAllTicketService = async () => {
   const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
-        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName, se.position,
+        r.name as rapName, ro.name as roomName, s.showDate, s.showStart, s.showEnd, m.code as movieCode, m.movieName, se.position,
         t.codeUser, v.fullName
     from ticket as t
     join showing as s on t.codeShowing = s.code
@@ -12,14 +12,13 @@ const getAllTicketService = async () => {
     join movie as m on s.codeMovie = m.code
     join rap as r on s.codeRap = r.code
     join room as ro on s.codeRoom = ro.code
-    join showtime as sh on s.codeShowTime = sh.code
     join valuestructure as v on v.code = t.codeUser;`;
   const [allTicket, metadata] = await db.sequelize.query(query);
   return allTicket;
 };
 
 const getTicketByCodeService = async (code) => {
-  const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
+  const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeSeat, 
         r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName,
         t.codeUser, v.fullName
     from ticket as t
@@ -28,7 +27,6 @@ const getTicketByCodeService = async (code) => {
     join movie as m on s.codeMovie = m.code
     join rap as r on s.codeRap = r.code
     join room as ro on s.codeRoom = ro.code
-    join showtime as sh on s.codeShowTime = sh.code
     join valuestructure as v on v.code = t.codeUser
     where t.code = '${code}'`;
   const [ticket, metadata] = await db.sequelize.query(query);
@@ -37,7 +35,7 @@ const getTicketByCodeService = async (code) => {
 
 const getTicketByShowingService = async (codeShowing) => {
   const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
-        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName,
+        r.name as rapName, ro.name as roomName, s.showDate, s.showStart, s.showEnd, m.code as movieCode, m.movieName,
         t.codeUser, v.fullName
         from ticket as t
         join showing as s on t.codeShowing = s.code
@@ -45,7 +43,6 @@ const getTicketByShowingService = async (codeShowing) => {
         join movie as m on s.codeMovie = m.code
         join rap as r on s.codeRap = r.code
         join room as ro on s.codeRoom = ro.code
-        join showtime as sh on s.codeShowTime = sh.code
         join valuestructure as v on v.code = t.codeUser
         where t.codeShowing = '${codeShowing}'`;
   const [ticket, metadata] = await db.sequelize.query(query);
@@ -61,25 +58,25 @@ const checkSeatBook = async (codeSeat, codeShowing) => {
 const createTicketService = async (ticket) => {
   // get showing => ticketEffecticeAt, ticketExpiryAt
   const showing = await getShowByCodeService(ticket.codeShowing);
-  const effectDay = showing.showDate;
+  ticket.ticketEffecticeAt = showing.showStart;
 
-  const arrTime = showing.screenAt.split(":");
-  if (arrTime.length > 2) {
-    effectDay.setHours(arrTime[0], arrTime[1], arrTime[2], 0);
-    ticket.ticketEffecticeAt = effectDay.toISOString();
-  }
+  // const arrTime = showing.showStart.split(":");
+  // if (arrTime.length > 2) {
+  //   effectDay.setHours(arrTime[0], arrTime[1], arrTime[2], 0);
+  //   ticket.ticketEffecticeAt = effectDay.toISOString();
+  // }
 
   //get movie => cat chuoi lay so => movieTime
-  const movie = await getByCodeService(showing.codeMovie);
-  const timeMovie = parseFloat(movie.movieTime);
-  const hours = Math.floor(timeMovie);
-  const minutes = Math.floor((timeMovie - hours) * 60);
-  const seconds = Math.floor(((timeMovie - hours) * 60 - minutes) * 60);
+  // const movie = await getByCodeService(showing.codeMovie);
+  // const timeMovie = parseFloat(movie.movieTime);
+  // const hours = Math.floor(timeMovie);
+  // const minutes = Math.floor((timeMovie - hours) * 60);
+  // const seconds = Math.floor(((timeMovie - hours) * 60 - minutes) * 60);
 
-  effectDay.setUTCHours(effectDay.getUTCHours() + hours);
-  effectDay.setUTCMinutes(effectDay.getUTCMinutes() + minutes);
-  effectDay.setUTCSeconds(effectDay.getUTCSeconds() + seconds);
-  ticket.ticketExpiryAt = effectDay;
+  // effectDay.setUTCHours(effectDay.getUTCHours() + hours);
+  // effectDay.setUTCMinutes(effectDay.getUTCMinutes() + minutes);
+  // effectDay.setUTCSeconds(effectDay.getUTCSeconds() + seconds);
+  ticket.ticketExpiryAt = showing.showEnd;
   ticket.bookAt = new Date();
 
   const newTicket = await db.Ticket.create(ticket);

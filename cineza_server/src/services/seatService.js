@@ -20,13 +20,23 @@ const getAllSeatByCodeRoomService = async (codeRoom) => {
 };
 
 const getAllSeatByCodeRoomAndCodeTypeService = async (codeRoom, codeType) => {
-  const query = `select s.code, s.codeTypeSeat, s.position, s.codeRoom, s.status, s.isBook , r.name as nameRoom, ts.type as typeSeat
+  const query = `select s.code, s.codeTypeSeat, s.position, s.codeRoom, s.status, s.isBook , r.name as nameRoom, ts.type as typeSeat, p.value
   from seat as s
   join room as r on r.code = s.codeRoom
   join typeSeat as ts on ts.code = s.codeTypeSeat
-    where s.codeRoom = '${codeRoom}' and s.codeTypeSeat = '${codeType}'`;
+  join price as p on p.codeTypeSeat = ts.code
+  join priceheader as ph on ph.code = p.codeHeader
+    where s.codeRoom = '${codeRoom}' and s.codeTypeSeat = '${codeType}' and ph.status="ACTIVE"`;
   const [allSeat, setAllSeat] = await db.sequelize.query(query);
   return allSeat;
+};
+
+const getPriceSeatService = async (codeTypeSeat) => {
+  const query = `select p.value, p.codeTypeSeat, ph.status from price as p
+  join priceheader as ph on ph.code = p.codeHeader
+  where p.codeTypeSeat = '${codeTypeSeat}' and ph.status = 'ACTIVE'`;
+  const [price, metadata] = await db.sequelize.query(query);
+  return price[0];
 };
 
 const getAllSeatByCodeService = async (code) => {
@@ -70,4 +80,5 @@ module.exports = {
   getAllSeatByCodeService,
   getValueSeatByCodeService,
   updateSeatService,
+  getPriceSeatService,
 };
