@@ -6,6 +6,7 @@ const {
   getAllSeatByCodeService,
   getValueSeatByCodeService,
   updateSeatService,
+  getPriceSeatService,
 } = require("../services/seatService");
 
 const getAllSeatController = async (req, res) => {
@@ -48,6 +49,16 @@ const getSeatByCodeController = async (req, res) => {
     res.status(200).send(seat);
   } catch (error) {
     res.status(500).send("error get seat by code: " + error);
+  }
+};
+
+const getPriceSeatController = async (req, res) => {
+  const { codeTypeSeat } = req.params;
+  try {
+    const price = await getPriceSeatService(codeTypeSeat);
+    res.status(200).send(price);
+  } catch (error) {
+    res.status(400).send("error price seat: " + error);
   }
 };
 
@@ -102,4 +113,5 @@ module.exports = {
   getSeatByCodeController,
   createSeatController,
   updateSeatController,
+  getPriceSeatController,
 };
