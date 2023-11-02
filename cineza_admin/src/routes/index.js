@@ -18,7 +18,6 @@ import Movie from "../pages/Movie";
 import OtherProduct from "../pages/OtherProduct";
 import PriceHeader from "../pages/PriceHeader";
 import Price from "../pages/Price";
-import ShowTime from "../pages/ShowTime";
 import Show from "../pages/Show";
 import Ticket from "../pages/Ticket";
 import TicketBook from "../pages/TicketBook";
@@ -112,18 +111,17 @@ const publicRouter = [
   },
   { path: "/show", componet: Show, layout: DefaultLayout, sidebar: Sidebar },
   {
-    path: "/show-time",
-    componet: ShowTime,
-    layout: DefaultLayout,
-    sidebar: Sidebar,
-  },
-  {
     path: "/ticket",
     componet: Ticket,
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
-  { path: "/book-ticket", componet: TicketBook, layout: DefaultLayout, sidebar: Sidebar }
+  {
+    path: "/book-ticket",
+    componet: TicketBook,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  },
 ];
 
 const privateRouter = [];

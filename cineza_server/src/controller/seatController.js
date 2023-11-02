@@ -1,6 +1,7 @@
 const {
   getAllSeatService,
   getAllSeatByCodeRoomService,
+  getAllSeatByCodeRoomAndCodeTypeService,
   createSeatService,
   getAllSeatByCodeService,
   getValueSeatByCodeService,
@@ -25,6 +26,21 @@ const getAllSeatByRoomController = async (req, res) => {
     res.status(500).send("error get all seat by room: " + error);
   }
 };
+
+const getAllSeatByRoomAndTypeController = async (req, res) => {
+  const { codeRoom } = req.params;
+  const { codeTypeSeat } = req.params;
+  try {
+    const allSeat = await getAllSeatByCodeRoomAndCodeTypeService(
+      codeRoom,
+      codeTypeSeat
+    );
+    res.status(200).send(allSeat);
+  } catch (error) {
+    res.status(500).send("error get all seat by room and type: " + error);
+  }
+};
+
 const getSeatByCodeController = async (req, res) => {
   const { code } = req.params;
   try {
@@ -82,6 +98,7 @@ const updateSeatController = async (req, res) => {
 module.exports = {
   getAllSeatController,
   getAllSeatByRoomController,
+  getAllSeatByRoomAndTypeController,
   getSeatByCodeController,
   createSeatController,
   updateSeatController,

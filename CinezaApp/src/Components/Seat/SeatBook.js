@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import Header from "../Header/Header";
 import { FontAwesome } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 const ComunitySeatData = [
   "A1",
@@ -56,9 +57,55 @@ const VipSeatData = [
   "E7",
   "E8",
 ];
-function SeatBook() {
+function SeatBook({ route }) {
+  const codeRoom = route.params.item.codeRoom;
+  console.log(route.params.item.codeRoom);
+  // console.log(route.params.item);
+
+  const [dataComunitySeat, setDataComunitySeat] = useState([]);
+  const [dataVipSeat, setDataVipSeat] = useState([]);
+
   const navigation = useNavigation();
   const { seats, setSeats } = useState();
+
+  //get ghế thường
+  useEffect(() => {
+    axios
+      .get(
+        `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/` +
+          codeRoom,
+        {
+          timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+        }
+      )
+      .then((res) => {
+        setDataComunitySeat(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  //get ghế vip
+  useEffect(() => {
+    axios
+      .get(
+        `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/` +
+          codeRoom,
+        {
+          timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+        }
+      )
+      .then((res) => {
+        setDataVipSeat(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   // const onSeatSelected = (item) => {
   //   const seatSelected = seats.find((seat) => seat === item);
   //   if (seatSelected) {
@@ -72,12 +119,14 @@ function SeatBook() {
     <SafeAreaView style={{ flex: 1 }}>
       <Header />
       <View style={{ marginVertical: 10, width: "100%" }}>
-        <Text style={{ textAlign: "center", fontSize: 18 }}>Phòng 01</Text>
+        <Text style={{ textAlign: "center", fontSize: 18 }}>
+          {route.params.item.roomName}
+        </Text>
       </View>
       <View>
         <FlatList
           numColumns={8}
-          data={ComunitySeatData}
+          data={dataComunitySeat}
           renderItem={({ item }) => (
             <Pressable
               // onPress={() => onSeatSelected(item)}
@@ -88,13 +137,13 @@ function SeatBook() {
             ) : (
               <Text>{item}</Text>
             )} */}
-              <Text>{item}</Text>
+              <Text>{item.position}</Text>
             </Pressable>
           )}
         />
         <FlatList
           numColumns={8}
-          data={VipSeatData}
+          data={dataVipSeat}
           renderItem={({ item }) => (
             <Pressable
               // onPress={() => onSeatSelected(item)}
@@ -105,7 +154,7 @@ function SeatBook() {
             ) : (
               <Text>{item}</Text>
             )} */}
-              <Text>{item}</Text>
+              <Text>{item.position}</Text>
             </Pressable>
           )}
         />

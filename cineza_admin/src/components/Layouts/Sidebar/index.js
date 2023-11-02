@@ -8,9 +8,8 @@ import iconThongKe from "../../../assets/imageButtons/iconReport.png";
 import iconUser from "../../../assets/imageButtons/iconUser.png";
 import iconHierarchyStructure from "../../../assets/imageButtons/hierarchicalStructureIcon.png";
 import iconPriceList from "../../../assets/imageButtons/iconPriceList.png";
-import iconCalendar from "../../../assets/imageButtons/iconCalendar.png";
 import iconShow from "../../../assets/imageButtons/iconShow.png";
-import iconBook from "../../../assets/imageButtons/iconBook.png"
+import iconBook from "../../../assets/imageButtons/iconBook.png";
 const Sidebar = () => {
   const context = [
     {
@@ -26,7 +25,6 @@ const Sidebar = () => {
     { text: "Đồ đi kèm", image: iconOther, href: "/other-product" },
     { text: "Bảng giá", image: iconPriceList, href: "/price" },
     { text: "Thống kê", image: iconThongKe, href: "#" },
-    { text: "Lịch chiếu", image: iconCalendar, href: "/show-time" },
     { text: "Suất chiếu", image: iconShow, href: "/show" },
   ];
   return (

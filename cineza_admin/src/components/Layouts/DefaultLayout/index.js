@@ -22,7 +22,6 @@ import Movie from "../../../pages/Movie";
 import OtherProduct from "../../../pages/OtherProduct";
 import PriceHeader from "../../../pages/PriceHeader";
 import Price from "../../../pages/Price";
-import ShowTime from "../../../pages/ShowTime";
 import Show from "../../../pages/Show";
 import Ticket from "../../../pages/Ticket";
 import TicketBook from "../../../pages/TicketBook";
@@ -54,7 +53,6 @@ const DefaultLayout = (props) => {
       child.type === PriceHeader ||
       child.type === Price ||
       child.type === Show ||
-      child.type === ShowTime ||
       child.type === Ticket ||
       child.type == TicketBook
     ) {
