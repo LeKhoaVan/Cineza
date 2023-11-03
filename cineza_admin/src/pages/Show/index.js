@@ -73,10 +73,27 @@ const ShowTime = () => {
         );
         if (result.status == 200) {
           const dataResult = result.data.map((item) => {
+            const inputDateTime = new Date(item.showDate);
+            // Đặt múi giờ châu Á (UTC+7)
+            const timeZoneOffset = 7 * 60; // UTC offset in minutes
+            const asiaTime = new Date(inputDateTime.getTime() + timeZoneOffset * 60000);
+            // Định dạng ngày theo "DD-MM-YYYY"
+            const day = asiaTime.getDate();
+            const month = asiaTime.getMonth() + 1;
+            const year = asiaTime.getFullYear();
+            const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+
+            const inputTime = new Date(item.showStart);
+
+            const asstime = new Date(inputTime.getTime() + timeZoneOffset * 60000)
+            const hour = asstime.getUTCHours();
+            const minute = asstime.getUTCMinutes();
+            const minuteResult = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
+
             return {
               ...item,
-              showDate: formatDateHandle(item.showDate),
-              showStart: formatTimeHandle(item.showStart),
+              showDate: formattedDateTime,
+              showStart: minuteResult
             };
           });
           setContext(dataResult);
