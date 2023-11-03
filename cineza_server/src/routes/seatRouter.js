@@ -5,6 +5,7 @@ const {
   createSeatController,
   getSeatByCodeController,
   updateSeatController,
+  getPriceSeatController,
 } = require("../controller/seatController");
 
 const express = require("express");
@@ -19,6 +20,7 @@ seatRouter.get(
 );
 seatRouter.post("/create", createSeatController);
 seatRouter.get("/get-by-code/:code", getSeatByCodeController);
+seatRouter.get("/get-price/:codeTypeSeat", getPriceSeatController);
 seatRouter.put("/put/:code", updateSeatController);
 
 module.exports = seatRouter;

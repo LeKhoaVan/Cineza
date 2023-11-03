@@ -17,12 +17,28 @@ const formatDateHandle = (inputDate) => {
 const formatTimeHandle = (inputDate) => {
   const date = new Date(inputDate);
 
-  const hour = String(date.getUTCHours()).padStart(2, "0");
-  const minute = String(date.getUTCMinutes()).padStart(2, "0");
+  const options = {
+    timeZone: "Asia/Ho_Chi_Minh",
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+
+  const formattedResult = new Intl.DateTimeFormat("en-US", options).format(
+    date
+  );
+
+  const arrInput = formattedResult.split(",");
+  const arrRight = arrInput[1].split(":");
+  const hour = arrRight[0];
+  const minute = arrRight[1];
 
   // Format the time hh:mm
   const formattedTime = `${hour}:${minute}`;
-
   return formattedTime;
 };
 
