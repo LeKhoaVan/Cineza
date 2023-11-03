@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Header/Header";
+import { formatDayHandle, formatTimeHandle } from "../../util";
 const data = {
   title: "Beetlejuice",
   year: "Thứ 2, 3/11/2023",
@@ -15,7 +16,17 @@ const data = {
     "https://images-na.ssl-images-amazon.com/images/M/MV5BMTMzODU0NTkxMF5BMl5BanBnXkFtZTcwMjQ4MzMzMw@@._V1_SX300.jpg",
 };
 
-function PayScreen() {
+function PayScreen({ route }) {
+  const ticketData = route.params.dataTicket;
+  const seat = route.params.seats;
+  const total = route.params.value;
+  // const [position, setPosition] = useState([]);
+  const dataSeat = seat.map((data) => {
+    console.log(data.position);
+    return data.position + ",";
+  });
+  // console.log(route.params.dataTicket);
+  // console.log(route.params.seats);
   return (
     <View style={{ flex: 1 }}>
       <Header />
@@ -44,25 +55,26 @@ function PayScreen() {
           }}
         >
           <Text style={{ fontSize: 18, fontWeight: "600", color: "black" }}>
-            {data.title}
+            {ticketData.movieName}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "black" }}>
-            {data.year}
+            {formatDayHandle(ticketData.showDate)}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "black" }}>
-            {data.time}
+            {formatTimeHandle(ticketData.showStart)}-
+            {formatTimeHandle(ticketData.showEnd)}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "black" }}>
-            {data.rap}
+            {ticketData.rapName}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "black" }}>
-            {data.cineza}
+            {ticketData.roomName}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "black" }}>
-            {data.seat}
+            {dataSeat}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "red" }}>
-            Tổng Thanh Toán: {data.total}
+            Tổng Thanh Toán: {total}
           </Text>
         </View>
       </View>

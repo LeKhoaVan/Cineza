@@ -59,8 +59,11 @@ const OtherProduct = ({ route }) => {
       veg: true,
     },
   ];
-
-  // console.log(route.params.item);
+  const dataTicket = route.params.show;
+  const seats = route.params.seatSelected;
+  const value = route.params.price;
+  console.log(route.params.value);
+  // console.log(route.params.seatSelected);
   const navigation = useNavigation();
 
   return (
@@ -99,7 +102,7 @@ const OtherProduct = ({ route }) => {
 
           <Pressable
             onPress={() => {
-              navigation.navigate("PayScreen");
+              navigation.navigate("PayScreen", { dataTicket, seats, value });
             }}
           >
             <Text style={styles.buttonPay}>Thanh toán</Text>
