@@ -19,6 +19,7 @@ import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import axios from "axios";
+import { formatFromObjectToDate } from "../../components/util";
 
 const dataStatus = [
   { id: "ACTIVE", value: "ACTIVE" },
@@ -50,6 +51,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [isValidShowStart, setIsValidShowStart] = useState(false);
   const [isValidCodeMovie, setIsValidCodeMovie] = useState(false);
   const [isValidCodeRap, setIsValidCodeRap] = useState(false);
+  const [isValidShowDate, setIsValidShowDate] = useState(false);
   const [isValidCodeRoom, setIsValidCodeRoom] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
 
@@ -81,7 +83,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   };
 
   const handleChangeComboboxShowDate = (text) => {
-
     setShowDate(text.target.value)
   }
 
@@ -101,25 +102,27 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     onHandleFocusCodeMovie();
-    const getDate = async () => {
-      const resutlDate = await axios.get(`http://localhost:9000/cineza/api/v1/movie/${codeMovie}`);
-      if (resutlDate.status === 200) {
-        const startDate = moment(resutlDate.data.startDate);
-        const endDate = moment(resutlDate.data.endDate);
+    if (codeMovie != "") {
+      const getDate = async () => {
+        const resutlDate = await axios.get(`http://localhost:9000/cineza/api/v1/movie/${codeMovie}`);
+        if (resutlDate.status === 200) {
+          const startDate = moment(resutlDate.data.startDate);
+          const endDate = moment(resutlDate.data.endDate);
 
-        const daysInRange = [];
+          const daysInRange = [];
 
-        let currentDate = startDate.clone();
-        while (currentDate.isSameOrBefore(endDate, "day")) {
-          daysInRange.push(currentDate.format("YYYY-MM-DD"));
-          currentDate.add(1, "days");
+          let currentDate = startDate.clone();
+          while (currentDate.isSameOrBefore(endDate, "day")) {
+            daysInRange.push(currentDate.format("DD-MM-YYYY"));
+            currentDate.add(1, "days");
+          }
+          setDates(daysInRange)
+        } else {
+          console.log("error get date by movie")
         }
-        setDates(daysInRange)
-      } else {
-        console.log("error get date by movie")
-      }
-    };
-    getDate();
+      };
+      getDate();
+    }
   }, [codeMovie]);
 
   const onHandleFocusCodeMovie = () => {
@@ -177,26 +180,61 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
+    onHandleFocusShowDate();
+  }, [showDate]);
+
+  const onHandleFocusShowDate = () => {
+    if (editCode || edit) {
+      if (showDate == undefined || showDate.length == 0) {
+        setIsValidShowDate(true);
+      } else {
+        setIsValidShowDate(false);
+      }
+    }
+  };
+
+  useEffect(() => {
     if (addBtn) {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
-    }
-    const getShow = async () => {
-      const result = await axios.get(
-        `http://localhost:9000/cineza/api/v1/show/get-by-code/${codeShow}`
-      );
-      if (result.status === 200) {
-        setCode(result.data.code);
-        setShowStart(result.data.showStart);
-        setStatus(result.data.status);
+    } else {
+      const getShow = async () => {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/show/get-by-code/${codeShow}`
+        );
+        if (result.status === 200) {
+          setCode(result.data.code);
 
-        setCodeMovie(result.data.codeMovie);
-        setCodeRap(result.data.codeRap);
-        setCodeRoom(result.data.codeRoom);
-      }
-    };
-    getShow();
+          const inputDateTimeTime = new Date(result.data.showStart);
+          const timeZoneOffsetTime = 7 * 60; // UTC offset in minutes
+          const asiaTimeTime = new Date(inputDateTimeTime.getTime() + timeZoneOffsetTime * 60000);
+          console.log(asiaTimeTime.toISOString())
+          console.log(result.data.showStart)
+          setShowStart(asiaTimeTime.toISOString());
+
+          setStatus(result.data.status);
+          console.log(result.data.showDate)
+
+          const inputDateTime = new Date(result.data.showDate);
+          // Đặt múi giờ châu Á (UTC+7)
+          const timeZoneOffset = 7 * 60; // UTC offset in minutes
+          const asiaTime = new Date(inputDateTime.getTime() + timeZoneOffset * 60000);
+          // Định dạng ngày theo "DD-MM-YYYY"
+          const day = asiaTime.getDate();
+          const month = asiaTime.getMonth() + 1;
+          const year = asiaTime.getFullYear();
+          const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+
+          setShowDate(formattedDateTime);
+
+          setCodeMovie(result.data.codeMovie);
+          setCodeRap(result.data.codeRap);
+          setCodeRoom(result.data.codeRoom);
+        }
+      };
+      getShow();
+    }
   }, []);
 
   //combobox movie
@@ -279,6 +317,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowStart("");
     setCodeMovie("");
     setCodeRap("");
+    setShowDate("")
+    setDates([])
     setCodeRoom("");
   };
 
@@ -288,6 +328,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       showStart: showStart,
       status: status,
       codeMovie: codeMovie,
+      showDate: new Date(moment(showDate, 'DD-MM-YYYY').format('YYYY-MM-DD')),
       codeRap: codeRap,
       codeRoom: codeRoom,
     };
@@ -418,6 +459,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 <TimePicker
                   format="hh:mm a"
                   openClockOnFocus={false}
+
                   value={showStart}
                   onChange={(text) => onChangeHandleShowStart(text)}
                 />
@@ -510,8 +552,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                     id="demo-select-small"
                     value={showDate}
                     label="Ngày chiếu"
+
                     onChange={handleChangeComboboxShowDate}
-                    // onFocus={onHandleFocusCodeShowTime}
+                    onFocus={onHandleFocusShowDate}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
@@ -524,7 +567,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                     })}
                   </Select>
                 </FormControl>
-                {[] && (
+                {isValidShowDate && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>

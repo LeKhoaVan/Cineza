@@ -92,7 +92,7 @@ const createShowController = async (req, res) => {
       newShowStart.toISOString()
     );
 
-    const dataTime = movie.movieTime.split("h");
+    const dataTime = movie.movieTime.split("h:");
 
     if (check == null) {
       // set thoi gian ket thuc showingdsadsa
