@@ -64,7 +64,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [openTime, setOpenTime] = useState("");
   const [closeTime, setCloseTime] = useState("");
   const [status, setStatus] = useState("");
-  const [rooms, setRooms] = useState([]);
 
   const [country, setCountry] = useState([]);
   const [countryId, setCountryId] = useState("");
@@ -75,6 +74,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [ward, setWard] = useState([]);
   const [wardId, setWardId] = useState("");
 
+  const [rooms, setRooms] = useState([]);
   const [codeRoom, setCodeRoom] = useState("");
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModelAdd, setOpenModelAdd] = useState(false);
@@ -92,8 +92,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
 
-
-
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
@@ -108,8 +106,9 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/rap";
+    // window.location.href = "/cineza/admin/rap";
     setOpenModalDetail(false);
+    setOpenModelAdd(false);
   };
 
   const onClickHandleBtnAdd = () => {
@@ -335,6 +334,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     getAllCountry();
   }, []);
 
+  //get phòng by code rạp
   useEffect(() => {
     const getRooms = async () => {
       try {
@@ -732,12 +732,14 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
           </div>
         </div>
         <div className="rap-detail-container-page">
-          <div style={{
-            display: "flex",
-            flexDirection: "row",
-            paddingRight: "10px",
-            alignItems: "center",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingRight: "10px",
+              alignItems: "center",
+            }}
+          >
             <h2>Danh sách phòng</h2>
             <img
               src={iconAdd}
@@ -747,7 +749,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
             />
           </div>
           <div className="rap-detail-table-page">
-            <Table column={titleColumn} data={rooms} onRowClick={handleRowClick} />
+            <Table
+              column={titleColumn}
+              data={rooms}
+              onRowClick={handleRowClick}
+            />
             {/*  */}
           </div>
           {openModalDetail && (
@@ -757,7 +763,10 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
             />
           )}
           {openModelAdd && (
-            <RoomDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+            <RoomDetail
+              addBtn={true}
+              onClickHandleClose={onClickHandleCloseP}
+            />
           )}
         </div>
       </div>

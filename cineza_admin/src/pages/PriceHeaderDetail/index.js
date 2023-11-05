@@ -4,9 +4,12 @@ import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import Alert from "../../components/Alert";
+import Table from "../../components/Table";
 import TableInPage from "../../components/TableInPage";
 import "./priceHeaderDetail.css";
+import PriceDetail from "../PriceDetail";
 import {
   formatDateHandle,
   formatFromObjectToDate,
@@ -33,48 +36,65 @@ const dataStatus = [
 ];
 
 const data = [
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
-  { id: 1, name: 'Alice', age: 25 },
-  { id: 2, name: 'Bob', age: 30 },
-  { id: 3, name: 'Charlie', age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 22 },
 ];
 
-const columns = ['id', 'name', 'age'];
+const columns = [
+  {
+    title: "Code",
+    data: "code",
+  },
+  {
+    title: "Giá",
+    data: "value",
+  },
+  {
+    title: "Bảng giá header",
+    data: "nameHeader",
+  },
+  {
+    title: "Loại ghế",
+    data: "typeSeat",
+  },
+];
 
 const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
@@ -95,11 +115,35 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidDescription, setIsValidDescription] = useState(false);
 
+  const [prices, setPrices] = useState([]);
+  const [codePrice, setCodePrice] = useState("");
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModelAdd, setOpenModelAdd] = useState(false);
+
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
+
+  //handle rooms
+  const handleRowClick = (row) => {
+    // console.log(row);
+    setCodePrice(row);
+    setOpenModalDetail(!openModalDetail);
+  };
+
+  const onClickHandleCloseP = async () => {
+    // window.location.href = "/cineza/admin/rap";
+    setOpenModalDetail(false);
+    setOpenModelAdd(false);
+  };
+
+  const onClickHandleBtnAdd = () => {
+    setOpenModelAdd(true);
+    console.log(openModelAdd);
+  };
+  ////////////////////////////////////////////////////
 
   const onChangeHandleCode = (text) => {
     setCode(text.target.value);
@@ -264,6 +308,24 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     };
 
     getPriceHeader();
+  }, []);
+
+  //get price by code price header
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeader}`
+        );
+        if (result.status == 200) {
+          setPrices(result.data);
+        }
+      } catch (error) {
+        console.log("error get api all price " + error);
+      }
+    };
+
+    getData();
   }, []);
 
   return (
@@ -434,10 +496,38 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           </div>
         </div>
         <div className="price-detail-container-page">
-          <h2>Danh sách chi tiết</h2>
-          <div className="price-detail-table-page">
-            <TableInPage data={data} columns={columns} />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingRight: "10px",
+              alignItems: "center",
+            }}
+          >
+            <h2>Danh sách bảng giá</h2>
+            <img
+              src={iconAdd}
+              alt="btn-add"
+              className="room-btn-add"
+              onClick={onClickHandleBtnAdd}
+            />
           </div>
+          <div className="price-detail-table-page">
+            <Table column={columns} data={prices} onRowClick={handleRowClick} />
+            {/*  */}
+          </div>
+          {openModalDetail && (
+            <PriceDetail
+              onClickHandleClose={onClickHandleCloseP}
+              codePrice={codePrice}
+            />
+          )}
+          {openModelAdd && (
+            <PriceDetail
+              addBtn={true}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
         </div>
       </div>
     </div>

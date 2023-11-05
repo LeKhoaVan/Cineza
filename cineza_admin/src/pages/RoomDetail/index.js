@@ -6,8 +6,11 @@ import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import Alert from "../../components/Alert";
+import Table from "../../components/Table";
 import "./roomDetail.css";
+import SeatDetail from "../SeatDetail";
 
 import { Link, useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
@@ -21,6 +24,33 @@ const dataStatus = [
   { id: "ACTIVE", value: "ACTIVE" },
   { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
   { id: "DESTROY", value: "DESTROY" },
+];
+
+const titleColumn = [
+  {
+    title: "Code",
+    data: "code",
+  },
+  {
+    title: "Vị trí",
+    data: "position",
+  },
+  {
+    title: "Tên phòng",
+    data: "nameRoom",
+  },
+  {
+    title: "Loại",
+    data: "typeSeat",
+  },
+  {
+    title: "Trạng thái",
+    data: "status",
+  },
+  {
+    title: "Trạng thái ghế",
+    data: "isBook",
+  },
 ];
 
 const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
@@ -37,6 +67,11 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
 
   const [dataRap, setDataRap] = useState([]);
 
+  const [seats, setSeats] = useState([]);
+  const [codeSeat, setCodeSeat] = useState("");
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModelAdd, setOpenModelAdd] = useState(false);
+
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
@@ -46,6 +81,24 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  //handle seats
+  const handleRowClick = (row) => {
+    console.log(row);
+    setCodeSeat(row);
+    setOpenModalDetail(!openModalDetail);
+  };
+
+  const onClickHandleCloseP = async () => {
+    // window.location.href = "/cineza/admin/rap";
+    setOpenModalDetail(false);
+    setOpenModelAdd(false);
+  };
+
+  const onClickHandleBtnAdd = () => {
+    setOpenModelAdd(true);
+    console.log(openModelAdd);
   };
 
   const handleChangeComboboxStatus = (event) => {
@@ -156,6 +209,24 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
       }
     };
     getAllRap();
+  }, []);
+
+  //get ghế by code phòng
+  useEffect(() => {
+    const getSeats = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setSeats(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getSeats();
   }, []);
 
   const onClickHandleEdit = () => {
@@ -404,6 +475,45 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
           </div>
 
           <div className="room-detail-content-right"></div>
+        </div>
+
+        <div className="room-detail-container-page">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingRight: "10px",
+              alignItems: "center",
+            }}
+          >
+            <h2>Danh sách ghế</h2>
+            <img
+              src={iconAdd}
+              alt="btn-add"
+              className="room-btn-add"
+              onClick={onClickHandleBtnAdd}
+            />
+          </div>
+          <div className="room-detail-table-page">
+            <Table
+              column={titleColumn}
+              data={seats}
+              onRowClick={handleRowClick}
+            />
+            {/*  */}
+          </div>
+          {openModalDetail && (
+            <SeatDetail
+              onClickHandleClose={onClickHandleCloseP}
+              codeSeat={codeSeat}
+            />
+          )}
+          {openModelAdd && (
+            <SeatDetail
+              addBtn={true}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
         </div>
       </div>
     </div>

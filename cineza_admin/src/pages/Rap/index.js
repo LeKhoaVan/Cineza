@@ -50,7 +50,7 @@ const Rap = () => {
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/rap";
+    // window.location.href = "/cineza/admin/rap";
     setOpenModalDetail(false);
   };
 
