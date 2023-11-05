@@ -120,26 +120,54 @@ function SeatBook({ route }) {
 
   //get ghế vip
   useEffect(() => {
-    axios
-      .get(
-        `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/` +
-          codeRoom,
-        {
-          timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-        }
-      )
-      .then((res) => {
-        // setDataVipSeat(res.data);
-        const newData = res.data.map((item) => ({
-          ...item,
-          selectedUI: false,
-        }));
-        setDataVipSeatFormat(newData);
-      })
-      .catch((err) => {
-        console.log(err);
+    const getAll = async () => {
+      let dataSeat;
+      axios
+        .get(
+          `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/` +
+            codeRoom,
+          {
+            timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+          }
+        )
+        .then((res) => {
+          // setDataVipSeat(res.data);
+          const newData = res.data.map((item) => ({
+            ...item,
+            selectedUI: false,
+          }));
+          setDataVipSeatFormat(newData);
+          dataSeat = newData;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      const tickets = await axios.get(
+        `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`
+      );
+      const dataTicket = tickets.data;
+      const resultSeat = dataSeat.map((s) => {
+        let tam = s;
+        dataTicket.forEach((t) => {
+          console.log(s.position + "TaoNE" + t.position);
+          if (t.position == s.position) {
+            tam = { ...s, isBook: "SELECTED" };
+            return { ...s, isBook: "SELECTED" };
+          } else {
+            return { ...s };
+          }
+        });
+        return tam;
       });
+      setDataVipSeatFormat(resultSeat);
+    };
+    getAll();
   }, []);
+
+  useEffect(() => {
+    console.log("OngNoiMNe", dataVipSeatFormat);
+  }, [dataVipSeatFormat]);
 
   //chọn ghế thường
   const onComunitySeatSelected = (item) => {
@@ -335,11 +363,18 @@ function SeatBook({ route }) {
               style={[
                 styles.listVipSeat,
                 // dataTicket.map((data) => {
-                //   item.position === data.position && styles.bookedSeat;
+                //   if (item.position === data.position) {
+                //     return styles.bookedSeat;
+                //   } else {
+                //     return styles.listVipSeat;
+                //   }
                 // }),
-                // item.isBook === "NOTSELECTED" && styles.bookedSeat,
-                item.position === seats && styles.bookedSeat,
+                item.isBook === "SELECTED"
+                  ? styles.bookedSeat
+                  : styles.listVipSeat,
+                // item.position === seats && styles.bookedSeat,
               ]}
+              disabled={item.isBook === "SELECTED"}
             >
               {item?.selectedUI ? (
                 <Text
