@@ -2,10 +2,11 @@ const { db } = require("../models/index");
 const moment = require('moment'); // require
 const getAllShowService = async () => {
   const query = `select s.code, s.codeMovie, s.codeRap, s.codeRoom, s.showDate , s.showStart, s.showEnd, s.status, m.movieName as nameMovie, r.name as nameRap,  ro.name as nameRoom
-        from showing as s 
-        join movie as m on s.codeMovie = m.code
-        join rap as r on s.codeRap = r.code
-        join room as ro on s.codeRoom = ro.code`;
+  from showing as s 
+  join movie as m on s.codeMovie = m.code
+  join rap as r on s.codeRap = r.code
+  join room as ro on s.codeRoom = ro.code
+  ORDER BY s.showDate DESC;`;
   const [allShow, metadata] = await db.sequelize.query(query);
   return allShow;
 };

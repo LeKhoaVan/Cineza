@@ -205,16 +205,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         );
         if (result.status === 200) {
           setCode(result.data.code);
-
-          const inputDateTimeTime = new Date(result.data.showStart);
-          const timeZoneOffsetTime = 7 * 60; // UTC offset in minutes
-          const asiaTimeTime = new Date(inputDateTimeTime.getTime() + timeZoneOffsetTime * 60000);
-          console.log(asiaTimeTime.toISOString())
-          console.log(result.data.showStart)
-          setShowStart(asiaTimeTime.toISOString());
+          setShowStart(new Date(result.data.showStart));
 
           setStatus(result.data.status);
-          console.log(result.data.showDate)
 
           const inputDateTime = new Date(result.data.showDate);
           // Đặt múi giờ châu Á (UTC+7)
@@ -225,7 +218,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           const month = asiaTime.getMonth() + 1;
           const year = asiaTime.getFullYear();
           const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
-
           setShowDate(formattedDateTime);
 
           setCodeMovie(result.data.codeMovie);
@@ -328,7 +320,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       showStart: showStart,
       status: status,
       codeMovie: codeMovie,
-      showDate: new Date(moment(showDate, 'DD-MM-YYYY').format('YYYY-MM-DD')),
+      showDate: moment(showDate, 'DD-MM-YYYY').format('YYYY-MM-DD'),
       codeRap: codeRap,
       codeRoom: codeRoom,
     };

@@ -92,12 +92,12 @@ const createShowController = async (req, res) => {
       newShowStart.toISOString()
     );
 
-    const dataTime = movie.movieTime.split("h:");
-
+    const hours = Math.floor(parseInt(movie.movieTime) / 60)
+    const minues = parseInt(movie.movieTime) % 60;
     if (check == null) {
       // set thoi gian ket thuc showingdsadsa
-      newShowEnd.setHours(newShowEnd.getHours() + parseInt(dataTime[0]));
-      newShowEnd.setMinutes(newShowEnd.getMinutes() + parseInt(dataTime[1]));
+      newShowEnd.setHours(newShowEnd.getHours() + hours);
+      newShowEnd.setMinutes(newShowEnd.getMinutes() + minues);
       newShowEnd.setMinutes(newShowEnd.getMinutes() + 15);
       const newShow = await createShowService({
         code,
