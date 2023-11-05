@@ -62,8 +62,8 @@ const OtherProduct = ({ route }) => {
   const dataTicket = route.params.show;
   const seats = route.params.seatSelected;
   const value = route.params.price;
-  console.log(route.params.value);
-  // console.log(route.params.seatSelected);
+  console.log(route.params.price);
+  console.log(route.params.show);
   const navigation = useNavigation();
 
   return (
