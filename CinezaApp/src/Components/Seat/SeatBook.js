@@ -60,12 +60,13 @@ const VipSeatData = [
 ];
 function SeatBook({ route }) {
   const codeRoom = route.params.item.codeRoom;
+  const codeShow = route.params.item.code;
   const show = route.params.item;
-  // console.log(route.params.item.code);
-  // console.log(show);
+  // console.log(codeShow);
 
-  const [dataComunitySeat, setDataComunitySeat] = useState([]);
-  const [dataVipSeat, setDataVipSeat] = useState([]);
+  const [dataTicket, setDataTicket] = useState([]);
+  // const [dataComunitySeat, setDataComunitySeat] = useState([]);
+  // const [dataVipSeat, setDataVipSeat] = useState([]);
   const [dataVipSeatFormat, setDataVipSeatFormat] = useState([]);
   const [dataComunitySeatFormat, setDataComunitySeatFormat] = useState([]);
   const [price, setPrice] = useState(0);
@@ -73,7 +74,26 @@ function SeatBook({ route }) {
   const [seatSelected, setSeatSelected] = useState([]);
 
   const navigation = useNavigation();
-  const { seats, setSeats } = useState();
+  // const { seats, setSeats } = useState();
+
+  //get ticket by code show
+  useEffect(() => {
+    axios
+      .get(
+        `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/` +
+          codeShow,
+        {
+          timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+        }
+      )
+      .then((res) => {
+        setDataTicket(res.data);
+        console.log(res.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   //get ghế thường
   useEffect(() => {
@@ -86,7 +106,7 @@ function SeatBook({ route }) {
         }
       )
       .then((res) => {
-        setDataComunitySeat(res.data);
+        // setDataComunitySeat(res.data);
         const newData = res.data.map((item) => ({
           ...item,
           selectedUI: false,
@@ -109,7 +129,7 @@ function SeatBook({ route }) {
         }
       )
       .then((res) => {
-        setDataVipSeat(res.data);
+        // setDataVipSeat(res.data);
         const newData = res.data.map((item) => ({
           ...item,
           selectedUI: false,
@@ -125,7 +145,7 @@ function SeatBook({ route }) {
   const onComunitySeatSelected = (item) => {
     const seatSelectedT = dataComunitySeatFormat.find((seat) => seat === item);
     if (seatSelectedT) {
-      const newew = dataComunitySeatFormat.map((data) => {
+      const newews = dataComunitySeatFormat.map((data) => {
         if (data === item) {
           if (data.selectedUI) {
             setPrice(price - data.value);
@@ -152,7 +172,7 @@ function SeatBook({ route }) {
         }
         return data;
       });
-      setDataComunitySeatFormat(newew);
+      setDataComunitySeatFormat(newews);
     }
   };
 
@@ -259,10 +279,16 @@ function SeatBook({ route }) {
     navigation.navigate("OtherProduct", {
       show,
       seatSelected,
-      // price,
+      price,
     });
   };
-  // navigation.navigate("OtherProduct");
+
+  const seats = dataTicket.map((data) => {
+    console.log(data.position);
+    return data.position;
+  });
+  console.log(seats);
+  // console.log(price);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -299,6 +325,7 @@ function SeatBook({ route }) {
             </Pressable>
           )}
         />
+
         <FlatList
           numColumns={8}
           data={dataVipSeatFormat}
@@ -307,7 +334,11 @@ function SeatBook({ route }) {
               onPress={() => onSeatSelected(item)}
               style={[
                 styles.listVipSeat,
-                // item.isBook === "SELECTED" && styles.bookedSeat,
+                // dataTicket.map((data) => {
+                //   item.position === data.position && styles.bookedSeat;
+                // }),
+                // item.isBook === "NOTSELECTED" && styles.bookedSeat,
+                item.position === seats && styles.bookedSeat,
               ]}
             >
               {item?.selectedUI ? (
