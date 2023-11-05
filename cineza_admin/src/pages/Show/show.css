@@ -17,10 +17,36 @@
   margin-left: 37px;
   border-radius: 50%;
   padding: 5px;
+
   &:hover {
     background-color: rgb(217, 217, 217);
   }
 }
+
+.showing-find-container {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  width: 55%;
+  flex-direction: row;
+}
+
+.showing-input-find {
+  width: 50%;
+  height: 20px;
+  padding: 10px;
+  padding-right: 50px;
+  border-radius: 20px 0px 20px 0px;
+}
+
+.showing-button-img {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 15%;
+  right: 3%;
+}
+
 .table-all-show {
   overflow-y: auto;
 }

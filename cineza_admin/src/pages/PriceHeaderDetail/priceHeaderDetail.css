@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .price-header-detail-header {
@@ -238,4 +239,15 @@
   height: 29px;
   padding-left: 17px;
   margin-right: 230px;
+}
+
+.price-detail-container-page {
+  width: 99%;
+}
+
+.price-detail-table-page {
+  width: 100%;
+  height: 350px;
+  /* background-color: black; */
+  overflow-y: auto;
 }

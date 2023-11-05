@@ -102,7 +102,7 @@ const Ticket = () => {
           alignItems: "center",
         }}
       >
-        <h3>Lịch chiếu phim</h3>
+        <h3>Danh sách vé</h3>
         <img
           src={iconAdd}
           alt="btn-add"

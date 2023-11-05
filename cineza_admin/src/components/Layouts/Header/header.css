@@ -5,7 +5,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: #85b4d0;
+    background-color: #000000;
 }
 
 .header-logo {
@@ -39,6 +39,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    color: white;
 }
 
 .header-inform-avatar {
@@ -55,7 +56,9 @@
 }
 
 .header-inform-action {
+    color: white;
     padding-right: 10px;
+    filter: invert(100%);
 }
 
 .button-more {
