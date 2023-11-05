@@ -36,7 +36,7 @@ const getTicketByCodeService = async (code) => {
 const getTicketByShowingService = async (codeShowing) => {
   const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, 
         r.name as rapName, ro.name as roomName, s.showDate, s.showStart, s.showEnd, m.code as movieCode, m.movieName,
-        t.codeUser, v.fullName
+        t.codeUser, v.fullName, se.position
         from ticket as t
         join showing as s on t.codeShowing = s.code
         join seat as se on t.codeSeat = se.code

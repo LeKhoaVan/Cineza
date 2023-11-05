@@ -25,6 +25,7 @@ function PayScreen({ route }) {
     console.log(data.position);
     return data.position + ",";
   });
+  console.log(dataSeat);
   // console.log(route.params.dataTicket);
   // console.log(route.params.seats);
   return (
