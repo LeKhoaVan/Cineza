@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .room-detail-header {
@@ -232,4 +233,27 @@
   width: 50%;
   height: 100%;
   padding-top: 50px;
+}
+
+.room-detail-container-page {
+  width: 99%;
+}
+
+.room-detail-table-page {
+  width: 100%;
+  height: 350px;
+  /* background-color: black; */
+  overflow-y: auto;
+}
+
+.room-btn-add {
+  width: 30px;
+  height: 30px;
+  margin-left: 37px;
+  border-radius: 50%;
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(217, 217, 217);
+  }
 }
