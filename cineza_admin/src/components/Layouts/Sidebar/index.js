@@ -18,14 +18,15 @@ const Sidebar = () => {
       href: "/hierarchy-structure",
     },
     // { text: "Người sử dụng", image: iconUser, href: "/users" },
-    { text: "Rạp", image: iconRap, href: "/rap" },
-    { text: "Vé", image: iconVe, href: "/ticket" },
+    { text: "Quản lý rạp", image: iconRap, href: "/rap" },
+    { text: "Quản lý vé", image: iconVe, href: "/ticket" },
     { text: "Đặt vé", image: iconBook, href: "/book-ticket" },
-    { text: "Phim", image: iconPhim, href: "/movie" },
+    { text: "Quản lý phim", image: iconPhim, href: "/movie" },
     { text: "Đồ đi kèm", image: iconOther, href: "/other-product" },
-    { text: "Bảng giá", image: iconPriceList, href: "/price" },
+    { text: "Quản lý bảng giá", image: iconPriceList, href: "/price" },
+    { text: "Quản lý suất chiếu", image: iconShow, href: "/show" },
     { text: "Thống kê", image: iconThongKe, href: "#" },
-    { text: "Suất chiếu", image: iconShow, href: "/show" },
+
   ];
   return (
     <div className="sidebar-container">

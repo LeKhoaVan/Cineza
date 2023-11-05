@@ -104,6 +104,7 @@ const Movie = () => {
               <p>Ngày ra mắt: {formatDateHandle(movie.startDate)}</p>
               <p>Đạo diễn: {movie.director}</p>
               <p>Diễn viên: {movie.actor}</p>
+              <p>Thời lượng: {movie.movieTime} phút</p>
               <p>Trạng thái: {movie.status}</p>
             </div>
           </div>

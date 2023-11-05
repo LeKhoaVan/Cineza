@@ -9,6 +9,7 @@ html {
 
 :root {
     --width-layout: 100vh;
+    --height-layout: 100vh;
     --width-content: 90vh;
 }
 

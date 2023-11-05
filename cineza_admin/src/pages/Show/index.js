@@ -3,6 +3,7 @@ import Table from "../../components/Table";
 import ShowDetail from "../ShowDetail";
 import { formatDateHandle, formatTimeHandle } from "../../components/util";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import iconFind from "../../assets/imageButtons/iconFind.png";
 import "./show.css";
 import axios from "axios";
 
@@ -74,20 +75,14 @@ const ShowTime = () => {
         if (result.status == 200) {
           const dataResult = result.data.map((item) => {
             const inputDateTime = new Date(item.showDate);
-            // Đặt múi giờ châu Á (UTC+7)
-            const timeZoneOffset = 7 * 60; // UTC offset in minutes
-            const asiaTime = new Date(inputDateTime.getTime() + timeZoneOffset * 60000);
-            // Định dạng ngày theo "DD-MM-YYYY"
-            const day = asiaTime.getDate();
-            const month = asiaTime.getMonth() + 1;
-            const year = asiaTime.getFullYear();
+            const day = inputDateTime.getDate();
+            const month = inputDateTime.getMonth() + 1;
+            const year = inputDateTime.getFullYear();
             const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
 
             const inputTime = new Date(item.showStart);
-
-            const asstime = new Date(inputTime.getTime() + timeZoneOffset * 60000)
-            const hour = asstime.getUTCHours();
-            const minute = asstime.getUTCMinutes();
+            const hour = inputTime.getHours();
+            const minute = inputTime.getMinutes();
             const minuteResult = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
 
             return {
@@ -116,13 +111,26 @@ const ShowTime = () => {
           alignItems: "center",
         }}
       >
-        <h3>Xuất chiếu phim</h3>
+        <h3>Suất chiếu phim</h3>
         <img
           src={iconAdd}
           alt="btn-add"
           className="show-btn-add"
           onClick={onClickHandleBtnAdd}
         />
+        <div className="showing-find-container">
+          <input
+            id="find"
+            className="showing-input-find"
+          // onChange={onChangeHandleFind}
+          />
+          <img
+            className="showing-button-img"
+            src={iconFind}
+            alt="tìm kiếm"
+            htmlFor="find"
+          />
+        </div>
       </div>
       <div className="table-all-show">
         <Table column={columns} data={context} onRowClick={onHandleSelect} />
