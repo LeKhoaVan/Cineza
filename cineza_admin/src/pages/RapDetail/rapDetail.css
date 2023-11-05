@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .rap-detail-header {
@@ -238,4 +239,27 @@
   height: 29px;
   padding-left: 17px;
   margin-right: 230px;
+}
+
+.rap-detail-container-page {
+  width: 99%;
+}
+
+.rap-detail-table-page {
+  width: 100%;
+  height: 350px;
+  /* background-color: black; */
+  overflow-y: auto;
+}
+
+.room-btn-add {
+  width: 30px;
+  height: 30px;
+  margin-left: 37px;
+  border-radius: 50%;
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(217, 217, 217);
+  }
 }

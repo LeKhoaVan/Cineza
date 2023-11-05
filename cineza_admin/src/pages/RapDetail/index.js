@@ -6,8 +6,11 @@ import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import Table from "../../components/Table";
 import Alert from "../../components/Alert";
 import "./rapDetail.css";
+import RoomDetail from "../RoomDetail";
 
 import { Link, useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
@@ -35,6 +38,25 @@ const dataStatus = [
   { id: "DESTROY", value: "DESTROY" },
 ];
 
+const titleColumn = [
+  {
+    title: "Code",
+    data: "code",
+  },
+  {
+    title: "Tên phòng",
+    data: "name",
+  },
+  {
+    title: "Tên rap",
+    data: "nameRap",
+  },
+  {
+    title: "Trạng thái",
+    data: "status",
+  },
+];
+
 const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
@@ -42,6 +64,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [openTime, setOpenTime] = useState("");
   const [closeTime, setCloseTime] = useState("");
   const [status, setStatus] = useState("");
+  const [rooms, setRooms] = useState([]);
 
   const [country, setCountry] = useState([]);
   const [countryId, setCountryId] = useState("");
@@ -51,6 +74,10 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [districtId, setDistrictId] = useState("");
   const [ward, setWard] = useState([]);
   const [wardId, setWardId] = useState("");
+
+  const [codeRoom, setCodeRoom] = useState("");
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModelAdd, setOpenModelAdd] = useState(false);
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -65,11 +92,31 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
 
+
+
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
+
+  //handle rooms
+  const handleRowClick = (row) => {
+    console.log(row);
+    setCodeRoom(row);
+    setOpenModalDetail(!openModalDetail);
+  };
+
+  const onClickHandleCloseP = async () => {
+    window.location.href = "/cineza/admin/rap";
+    setOpenModalDetail(false);
+  };
+
+  const onClickHandleBtnAdd = () => {
+    setOpenModelAdd(true);
+    console.log(openModelAdd);
+  };
+  ////////////////////////////////////////////////////
 
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
@@ -286,6 +333,23 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
       }
     };
     getAllCountry();
+  }, []);
+
+  useEffect(() => {
+    const getRooms = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapBy}`
+        );
+        if (result.status === 200) {
+          setRooms(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getRooms();
   }, []);
 
   const onClickHandleEdit = () => {
@@ -666,6 +730,35 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="rap-detail-container-page">
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}>
+            <h2>Danh sách phòng</h2>
+            <img
+              src={iconAdd}
+              alt="btn-add"
+              className="room-btn-add"
+              onClick={onClickHandleBtnAdd}
+            />
+          </div>
+          <div className="rap-detail-table-page">
+            <Table column={titleColumn} data={rooms} onRowClick={handleRowClick} />
+            {/*  */}
+          </div>
+          {openModalDetail && (
+            <RoomDetail
+              onClickHandleClose={onClickHandleCloseP}
+              codeRoom={codeRoom}
+            />
+          )}
+          {openModelAdd && (
+            <RoomDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+          )}
         </div>
       </div>
     </div>
