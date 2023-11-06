@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       code: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
         unique: true,
       },
       codeMovie: {

@@ -33,16 +33,7 @@ const columns = [
     data: "status",
   },
 ];
-const data = [
-  {
-    code: "showTime1",
-    screenAt: "Vincom Gò Vấp",
-    showDate: "5-9-2023",
-    nameMovie: "Kẻ hủy diệt",
-    nameRap: "Vincom Gò Vấp",
-    status: "ACTIVE",
-  },
-];
+
 const ShowTime = () => {
   const [context, setContext] = useState([]);
 
@@ -57,50 +48,59 @@ const ShowTime = () => {
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/show";
+    // window.location.href = "/cineza/admin/show";
     setOpenModalDetail(false);
+    setOpenModelAdd(false)
   };
 
   const onClickHandleBtnAdd = () => {
     setOpenModelAdd(true);
-    console.log(openModelAdd);
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await axios.get(
-          "http://localhost:9000/cineza/api/v1/show/get-all"
-        );
-        if (result.status == 200) {
-          const dataResult = result.data.map((item) => {
-            const inputDateTime = new Date(item.showDate);
-            const day = inputDateTime.getDate();
-            const month = inputDateTime.getMonth() + 1;
-            const year = inputDateTime.getFullYear();
-            const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
-
-            const inputTime = new Date(item.showStart);
-            const hour = inputTime.getHours();
-            const minute = inputTime.getMinutes();
-            const minuteResult = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
-
-            return {
-              ...item,
-              showDate: formattedDateTime,
-              showStart: minuteResult
-            };
-          });
-          setContext(dataResult);
-          // console.log(result.data);
-        }
-      } catch (error) {
-        console.log("error get api all show " + error);
-      }
-    };
-
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModalDetail]);
+
+  useEffect(() => {
+    getData();
+  }, [openModelAdd]);
+
+  const getData = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:9000/cineza/api/v1/show/get-all"
+      );
+      if (result.status == 200) {
+        const dataResult = result.data.map((item) => {
+          const inputDateTime = new Date(item.showDate);
+          const day = inputDateTime.getDate();
+          const month = inputDateTime.getMonth() + 1;
+          const year = inputDateTime.getFullYear();
+          const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+
+          const inputTime = new Date(item.showStart);
+          const hour = inputTime.getHours();
+          const minute = inputTime.getMinutes();
+          const minuteResult = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
+
+          return {
+            ...item,
+            showDate: formattedDateTime,
+            showStart: minuteResult
+          };
+        });
+        setContext(dataResult);
+        // console.log(result.data);
+      }
+    } catch (error) {
+      console.log("error get api all show " + error);
+    }
+  };
+
   return (
     <div className="show-container">
       <div
