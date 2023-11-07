@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./tableInPage.css";
 
-const TableInPage = ({ column, data }) => {
+const TableInPage = ({ column, data, onClickRow }) => {
     return (
         <table className="table-inpage-container ">
             <thead>
@@ -20,7 +20,7 @@ const TableInPage = ({ column, data }) => {
                         <tr key={index} className="table-inpage-content">
                             {column?.map((title, idx) => {
                                 return (
-                                    <td style={{ padding: 12 }} key={idx}>
+                                    <td onClick={() => onClickRow(dt["code"])} style={{ padding: 12 }} key={idx}>
                                         {dt[title.data]}
                                     </td>
                                 )
