@@ -1,5 +1,4 @@
 import React from "react";
-
 import iconPen from "../../assets/imageButtons/iconPen.png";
 import iconCreateNew from "../../assets/imageButtons/iconCreateNew.png";
 import iconDelete from "../../assets/imageButtons/iconDelete.png";
@@ -17,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import FlatList from "flatlist-react/lib";
 import Select from "@mui/material/Select";
 import axios from "axios";
 
@@ -68,6 +68,8 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const [dataRap, setDataRap] = useState([]);
 
   const [seats, setSeats] = useState([]);
+  const [comunitySeats, setComunitySeats] = useState([]);
+  const [vipSeats, setVipSeats] = useState([]);
   const [codeSeat, setCodeSeat] = useState("");
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModelAdd, setOpenModelAdd] = useState(false);
@@ -87,6 +89,12 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const handleRowClick = (row) => {
     console.log(row);
     setCodeSeat(row);
+    setOpenModalDetail(!openModalDetail);
+  };
+
+  const handleSeatClick = (item) => {
+    console.log(item);
+    setCodeSeat(item.code);
     setOpenModalDetail(!openModalDetail);
   };
 
@@ -220,6 +228,42 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
         );
         if (result.status === 200) {
           setSeats(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getSeats();
+  }, []);
+
+  //get ghế thường by code phòng
+  useEffect(() => {
+    const getSeats = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setComunitySeats(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getSeats();
+  }, []);
+
+  //get ghế vip by code phòng
+  useEffect(() => {
+    const getSeats = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setVipSeats(result.data);
           // console.log(result.data);
         }
       } catch (error) {
@@ -477,43 +521,72 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
           <div className="room-detail-content-right"></div>
         </div>
 
-        <div className="room-detail-container-page">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              paddingRight: "10px",
-              alignItems: "center",
-            }}
-          >
-            <h2>Danh sách ghế</h2>
-            <img
-              src={iconAdd}
-              alt="btn-add"
-              className="room-btn-add"
-              onClick={onClickHandleBtnAdd}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}
+        >
+          <h2>Danh sách ghế</h2>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="room-btn-add"
+            onClick={onClickHandleBtnAdd}
+          />
+        </div>
+        <div
+          style={{
+            width: "99%",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div className="room-detail-container-page-left">
+            <div className="room-detail-table-page">
+              <Table
+                column={titleColumn}
+                data={seats}
+                onRowClick={handleRowClick}
+              />
+              {/*  */}
+            </div>
+            {openModalDetail && (
+              <SeatDetail
+                onClickHandleClose={onClickHandleCloseP}
+                codeSeat={codeSeat}
+              />
+            )}
+            {openModelAdd && (
+              <SeatDetail
+                addBtn={true}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+          </div>
+          <div className="room-detail-container-page-right">
+            <FlatList
+              list={comunitySeats}
+              renderItem={(item) => (
+                <div className="room-detail-container-page-right-comunity">
+                  <b>{item.position}</b>
+                </div>
+              )}
+            />
+            <FlatList
+              list={vipSeats}
+              renderItem={(item) => (
+                <div
+                  className="room-detail-container-page-right-vip"
+                  // onClick={handleSeatClick(item)}
+                >
+                  <b>{item.position}</b>
+                </div>
+              )}
             />
           </div>
-          <div className="room-detail-table-page">
-            <Table
-              column={titleColumn}
-              data={seats}
-              onRowClick={handleRowClick}
-            />
-            {/*  */}
-          </div>
-          {openModalDetail && (
-            <SeatDetail
-              onClickHandleClose={onClickHandleCloseP}
-              codeSeat={codeSeat}
-            />
-          )}
-          {openModelAdd && (
-            <SeatDetail
-              addBtn={true}
-              onClickHandleClose={onClickHandleCloseP}
-            />
-          )}
         </div>
       </div>
     </div>

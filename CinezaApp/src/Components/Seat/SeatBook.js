@@ -323,17 +323,9 @@ function SeatBook({ route }) {
               onPress={() => onSeatSelected(item)}
               style={[
                 styles.listVipSeat,
-                // dataTicket.map((data) => {
-                //   if (item.position === data.position) {
-                //     return styles.bookedSeat;
-                //   } else {
-                //     return styles.listVipSeat;
-                //   }
-                // }),
                 item.isBook === "SELECTED"
                   ? styles.bookedSeat
                   : styles.listVipSeat,
-                // item.position === seats && styles.bookedSeat,
               ]}
               disabled={item.isBook === "SELECTED"}
             >
