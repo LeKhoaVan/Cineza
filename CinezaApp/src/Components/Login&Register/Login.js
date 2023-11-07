@@ -8,7 +8,7 @@ function Login() {
   //Navigation
   const navigation = useNavigation();
   const hanldPressRegister = () => {
-    navigation.navigate("Register");
+    navigation.navigate("Đăng ký");
   };
 
   return (

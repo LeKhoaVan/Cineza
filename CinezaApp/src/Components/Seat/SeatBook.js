@@ -77,23 +77,23 @@ function SeatBook({ route }) {
   // const { seats, setSeats } = useState();
 
   //get ticket by code show
-  useEffect(() => {
-    axios
-      .get(
-        `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/` +
-          codeShow,
-        {
-          timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-        }
-      )
-      .then((res) => {
-        setDataTicket(res.data);
-        console.log(res.data.length);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/` +
+  //         codeShow,
+  //       {
+  //         timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setDataTicket(res.data);
+  //       console.log(res.data.length);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   //get ghế thường
   useEffect(() => {
@@ -150,7 +150,6 @@ function SeatBook({ route }) {
       const resultSeat = dataSeat.map((s) => {
         let tam = s;
         dataTicket.forEach((t) => {
-          console.log(s.position + "TaoNE" + t.position);
           if (t.position == s.position) {
             tam = { ...s, isBook: "SELECTED" };
             return { ...s, isBook: "SELECTED" };
@@ -165,9 +164,9 @@ function SeatBook({ route }) {
     getAll();
   }, []);
 
-  useEffect(() => {
-    console.log("OngNoiMNe", dataVipSeatFormat);
-  }, [dataVipSeatFormat]);
+  // useEffect(() => {
+  //   console.log("OngNoiMNe", dataVipSeatFormat);
+  // }, [dataVipSeatFormat]);
 
   //chọn ghế thường
   const onComunitySeatSelected = (item) => {
@@ -208,44 +207,6 @@ function SeatBook({ route }) {
   const onSeatSelected = (item) => {
     const seatSelectedT = dataVipSeatFormat.find((seat) => seat === item);
     if (seatSelectedT) {
-      // const newData = dataVipSeatFormat.map((i) => {
-      //   if (i === item) {
-      //     if (seatSelected.length <= 5) {
-      //       return { ...i, selectedUI: !i.selectedUI };
-      //     } else {
-      //       if (i.selectedUI) {
-      //         setPrice(price - i.value);
-      //         seatSelected.filter((se) => se === i);
-      //         console.log(seatSelected.length);
-      //         console.log("test");
-      //         return { ...i, selectedUI: false };
-      //       } else {
-      //         Alert.alert("tối đa chọn 5 ghế");
-      //         console.log("1234", seatSelected);
-      //         return { ...i };
-      //       }
-      //     }
-      //   } else {
-      //     return { ...i };
-      //   }
-      // });
-      // setDataVipSeatFormat(newData);
-
-      // dataVipSeatFormat.forEach((i) => {
-      //   if (i === item) {
-      //     if (i.selectedUI) {
-      //       setPrice(price - i.value);
-      //     } else {
-      //       if (seatSelected.length <= 5) {
-      //         setPrice(price + i.value);
-      //         i = { ...i, selectedUI: true };
-      //         setSeatSelected([...seatSelected, i]);
-      //         dataVipSeatFormat = [...dataVipSeatFormat, seatSelected];
-      //       }
-      //     }
-      //   }
-      // });
-
       const newew = dataVipSeatFormat.map((data) => {
         if (data === item) {
           if (data.selectedUI) {
@@ -304,7 +265,7 @@ function SeatBook({ route }) {
         // setShowAlert(true);
       }
     });
-    navigation.navigate("OtherProduct", {
+    navigation.navigate("Đồ đi kèm", {
       show,
       seatSelected,
       price,
@@ -464,7 +425,7 @@ function SeatBook({ route }) {
           }}
         >
           <View>
-            <Text>Total: {price} đ</Text>
+            <Text> {price} đ</Text>
           </View>
 
           <Pressable onPress={() => onClickHandleSave()}>

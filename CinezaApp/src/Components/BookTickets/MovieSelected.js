@@ -111,7 +111,7 @@ function MovieSelected({ route }) {
   };
 
   const handleClick = (item) => {
-    navigation.navigate("SeatBook", { item });
+    navigation.navigate("Chọn ghế", { item });
   };
 
   if (Platform.OS === "android") {

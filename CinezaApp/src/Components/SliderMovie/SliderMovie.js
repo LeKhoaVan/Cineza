@@ -118,7 +118,7 @@ function Slider_Movie() {
   const navigation = useNavigation();
 
   const handleClick = (item) => {
-    navigation.navigate("MovieDetail", { item });
+    navigation.navigate("Thông tin phim", { item });
   };
 
   useEffect(() => {

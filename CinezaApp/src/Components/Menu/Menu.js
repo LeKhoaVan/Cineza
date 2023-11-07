@@ -17,12 +17,12 @@ function Menu() {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("BookByMovie")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Danh sách phim")}>
         <Text style={styles.bookTicket}>Đặt vé theo Phim</Text>
         <View style={styles.separator}></View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("BookByRap")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Danh sách rạp")}>
         <Text style={styles.bookTicket}>Đặt vé theo Rạp</Text>
         <View style={styles.separator}></View>
       </TouchableOpacity>
@@ -38,7 +38,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("Danh sách rạp")}
         >
           <Feather name="user" size={30} color="white" />
           <Text style={{ color: "white" }}>Thành viên</Text>
@@ -46,7 +46,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          onPress={() => navigation.navigate("Danh sách rạp")}
         >
           <MaterialCommunityIcons name="theater" size={30} color="white" />
           <Text style={{ color: "white" }}>Rạp</Text>
@@ -54,7 +54,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("BookByRap")}
         >
           <MaterialIcons name="stars" size={30} color="white" />
           <Text style={{ color: "white" }}>Rạp đặc biệt</Text>
@@ -62,7 +62,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("BookByRap")}
         >
           <FontAwesome name="gift" size={30} color="white" />
           <Text style={{ color: "white" }}>Tin mới & Ưu đãi</Text>
@@ -70,7 +70,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("BookByRap")}
         >
           <Foundation name="ticket" size={30} color="white" />
           <Text style={{ color: "white" }}>Vé của tôi</Text>
@@ -78,7 +78,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("BookByRap")}
         >
           <Fontisto name="shopping-store" size={30} color="white" />
           <Text style={{ color: "white" }}>Cineza Store</Text>
@@ -86,7 +86,7 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("BookByRap")}
         >
           <Octicons name="credit-card" size={30} color="white" />
           <Text style={{ color: "white" }}>Cineza eGift</Text>
@@ -94,18 +94,18 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate("BookByRap")}
+          // onPress={() => navigation.navigate("BookByRap")}
         >
           <FontAwesome5 name="stack-exchange" size={30} color="white" />
           <Text style={{ color: "white" }}>Đổi ưu đãi</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Đăng nhập")}>
         <Text style={styles.bookTicket}>Đăng nhập</Text>
         <View style={styles.separator}></View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Đăng ký")}>
         <Text style={styles.bookTicket}>Đăng ký</Text>
         <View style={styles.separator}></View>
       </TouchableOpacity>

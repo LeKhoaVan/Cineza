@@ -75,7 +75,7 @@ function PayScreen({ route }) {
             {dataSeat}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: "600", color: "red" }}>
-            Tổng Thanh Toán: {total}
+            Tổng Thanh Toán: {total} đ
           </Text>
         </View>
       </View>
@@ -123,7 +123,7 @@ function PayScreen({ route }) {
             }}
           >
             <Text style={{ fontSize: 18, marginLeft: 5 }}>Tổng cộng</Text>
-            <Text style={{ fontSize: 18, marginRight: 5 }}>{data.total}</Text>
+            <Text style={{ fontSize: 18, marginRight: 5 }}>{total} đ</Text>
           </View>
           <View
             style={{

@@ -31,7 +31,7 @@ const MovieDetail = ({ route }) => {
   const [dataMovie, setDataMovie] = useState([]);
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate("MovieSelected", { codeMovie });
+    navigation.navigate("Chọn rạp", { codeMovie });
   };
   useEffect(() => {
     axios
