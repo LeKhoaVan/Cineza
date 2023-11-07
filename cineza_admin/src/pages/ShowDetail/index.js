@@ -6,8 +6,10 @@ import iconCreateNew from "../../assets/imageButtons/iconCreateNew.png";
 import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
-import iconDetail from "../../assets/imageButtons/iconDetail.png";
+import iconRoom from "../../assets/imageButtons/iconRoom.png";
+import iconBack from "../../assets/imageButtons/iconBack.png";
 import Alert from "../../components/Alert";
+import TableInPage from "../../components/TableInPage";
 import "./showDetail.css";
 
 import { useEffect, useState } from "react";
@@ -19,13 +21,27 @@ import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import axios from "axios";
-import { formatFromObjectToDate } from "../../components/util";
+import { formatDateHandle, formatTimeHandle } from "../../components/util";
+import { flushSync } from "react-dom";
 
 const dataStatus = [
   { id: "ACTIVE", value: "ACTIVE" },
   { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
   { id: "DESTROY", value: "DESTROY" },
 ];
+
+const column = [
+  { title: "Tên người dùng", data: "fullName" },
+  { title: "Phim", data: "movieName" },
+  { title: "Ngày chiếu", data: "showDate" },
+  { title: "Giờ chiếu", data: "showStart" },
+  { title: "Rap", data: "rapName" },
+  { title: "Phòng", data: "roomName" },
+  { title: "Ghế", data: "codeSeat" },
+  { title: "Ngày đặt vé", data: "bookAt" },
+  { title: "Trạng thái", data: "status" }
+]
+
 
 const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
@@ -35,6 +51,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [codeRoom, setCodeRoom] = useState("");
   const [showDate, setShowDate] = useState("")
   const [status, setStatus] = useState("");
+  const [dataTicket, setDataTicket] = useState([]);
+  const [dataSeatVip, setDataSeatVip] = useState([]);
+  const [dataSeatThuong, setDataSeatThuong] = useState([])
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -46,6 +65,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [dataRap, setDataRap] = useState([]);
   const [dataRoom, setDataRoom] = useState([]);
   const [dates, setDates] = useState([]);
+  // const [dataTicket, setDataTicket] = useState([]);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidShowStart, setIsValidShowStart] = useState(false);
@@ -55,11 +75,26 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [isValidCodeRoom, setIsValidCodeRoom] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
 
+  const [showDetail, setShowDetail] = useState(true);
+  const [showRoom, setShowRoom] = useState(false);
+  const [showTicket, setShowTicket] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
+
+  const handleOnClickBack = () => {
+    setShowRoom(false);
+    setShowTicket(false);
+    setShowDetail(true);
+  }
+
+  const handleOnClickBackTicket = () => {
+    setShowRoom(false);
+    setShowTicket(false);
+    setShowDetail(true);
+  }
 
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
@@ -227,7 +262,82 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       };
       getShow();
     }
+  }, [codeShow]);
+
+  useEffect(() => {
+    const getAllTicket = async () => {
+      const allTicket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`);
+      if (allTicket.status === 200) {
+        const resultTickets = allTicket.data.map((t) => {
+          return { ...t, showDate: formatDateHandle(t.showDate), showStart: formatTimeHandle(t.showStart), bookAt: formatDateHandle(t.bookAt) }
+        })
+        setDataTicket(resultTickets);
+      } else {
+        console.error("get all ticket in showing");
+      }
+    };
+
+    getAllTicket();
   }, []);
+
+  useEffect(() => {
+    if (codeRoom != "") {
+      const getAllSeat = async () => {
+        const allSeat = await axios.get(`http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`);
+        const allTicket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`);
+        if (allSeat.status === 200) {
+          const result = allSeat.data;
+
+          // do du lieu ghe vao so do
+          let resultVip = []
+          let resultThuong = [];
+          result.forEach(seat => {
+            let newSeat = { ...seat, booked: false };
+            if (seat.typeSeat == "VIP") {
+              resultVip = [...resultVip, newSeat]
+            } else if (seat.typeSeat == "COMUNITY") {
+              resultThuong = [...resultThuong, newSeat];
+            }
+          });
+
+          console.log(allTicket)
+          if (allTicket.status === 200) {
+            //check ghe thuong da duoc book hay chua
+            resultThuong = resultThuong.map((thuong) => {
+              const foundTicket = allTicket.data.find(ticket => thuong.code === ticket.codeSeat);
+
+              if (foundTicket) {
+                return { ...thuong, booked: true };
+              } else {
+                return { ...thuong, booked: false };
+              }
+            })
+
+            //check ghe thuong da duoc book hay chua
+            resultVip = resultVip.map((vip) => {
+              const foundTicket = allTicket.data.find(ticket => vip.code === ticket.codeSeat);
+
+              if (foundTicket) {
+                return { ...vip, booked: true };
+              } else {
+                return { ...vip, booked: false };
+              }
+            })
+          }
+
+          setDataSeatVip(resultVip);
+          setDataSeatThuong(resultThuong);
+        } else {
+          console.error("error get all seat in show detail");
+        }
+      }
+      getAllSeat();
+    }
+  }, [codeRoom]);
+
+  useEffect(() => {
+    console.log(dataSeatThuong)
+  }, [dataSeatThuong])
 
   //combobox movie
   useEffect(() => {
@@ -247,7 +357,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     };
     getAllMovie();
   }, []);
-
 
 
   //combobox rap
@@ -376,9 +485,91 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     }
   };
 
+  const onClickHandleShowRoom = () => {
+    setShowDetail(false);
+    setShowTicket(false);
+    setShowRoom(true);
+  }
+
+  const handleOnClickRow = (code) => {
+    setShowDetail(false);
+    setShowRoom(false);
+    setShowTicket(true);
+  }
+
   return (
     <div className="show-detail-background">
-      <div className="show-detail-container">
+
+      {showRoom && (<div className="show-room-container">
+        <div className="show-room-diagram">
+          <img src={iconBack} onClick={handleOnClickBack} className="show-room-iconBack" alt="icon-back" />
+          <h3>Sơ đồ ghế</h3>
+          <div className="seat-show-container">
+            {dataSeatThuong?.map((seat, index) => (
+              <div
+                key={index}
+                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
+              // onClick={() => toggleSeat(index, seat)}
+              >
+                Ghế {seat?.position}
+              </div>
+            ))}
+
+            {dataSeatVip?.map((seat, index) => (
+              <div
+                key={index}
+                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
+              // onClick={() => toggleSeat(index, seat)}
+              >
+                Ghế {seat?.position}
+              </div>
+            ))}
+          </div>
+          <div className="show-color-status">
+            <div className="color-vip">Ghế VIP</div>
+            <div className="color-thuong">Ghế Thường</div>
+            <div className="color-booked">Ghế đã đặt</div>
+          </div>
+        </div>
+
+        <div className="show-room-detail">
+          <h3>Thông tin phòng</h3>
+        </div>
+      </div>)}
+
+      {showTicket && (<div className="show-room-container">
+        <div className="show-room-diagram">
+          <img src={iconBack} onClick={handleOnClickBackTicket} className="show-room-iconBack" alt="icon-back" />
+          <h3>Sơ đồ ghế</h3>
+          <div className="seat-show-container">
+            {dataSeatThuong?.map((seat, index) => (
+              <div
+                key={index}
+                className={`seat-show ${seat != "" ? 'occupied-show' : ''}`}
+              // onClick={() => toggleSeat(index, seat)}
+              >
+                Ghế {seat.position}
+              </div>
+            ))}
+
+            {dataSeatVip?.map((seat, index) => (
+              <div
+                key={index}
+                className={`seat-show ${seat != "" ? 'occupied-show' : ''}`}
+              // onClick={() => toggleSeat(index, seat)}
+              >
+                Ghế {seat.position}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="show-room-detail">
+          <h3>Thông tin vé</h3>
+        </div>
+      </div>)}
+
+      {showDetail == undefined ? true : showDetail && (<div className="show-detail-container">
         <div className="show-detail-header">
           <div className="show-detail-header-edit">
             <div
@@ -395,6 +586,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
+
             <div
               className="show-detail-header-edit-new-delete"
               onClick={onClickHandleNew}
@@ -408,18 +600,23 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 <p>Xóa</p>
               </div>
             </div>
+
             <div
-              className="show-detail-header-close"
-              onClick={onClickHandleClose}
+              className="show-detail-header-edit-show-room"
+              onClick={onClickHandleShowRoom}
             >
-              <img className="iconClose" src={iconClose} alt="close" />
+              <img className="iconDetail" src={iconRoom} alt="update" />
+              <p>Phòng chiếu</p>
+            </div>
+            <div
+              className="show-detail-header-close">
+              <img className="iconClose" onClick={onClickHandleClose} src={iconClose} alt="close" />
             </div>
           </div>
           <div className="show-detail-header-name">
             <span>{code} </span>
           </div>
         </div>
-
         <div className="show-detail-content">
           <div className="show-detail-content-left">
             {showAlert && (
@@ -634,7 +831,13 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             </div>
           </div>
         </div>
+
+        <h3>Danh sách vé</h3>
+        <div className="show-detail-table-content">
+          <TableInPage data={dataTicket} column={column} onClickRow={handleOnClickRow} />
+        </div>
       </div>
+      )}
     </div>
   );
 };
