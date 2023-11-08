@@ -1,17 +1,18 @@
 .table-inpage-container {
+    padding-top: 10px;
     border-collapse: collapse;
-    width: 95%;
+    width: 100%;
     padding-right: 20px;
     color: rgba(0, 0, 0, 0.87);
-    font-size: 12px;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .table-inpage-title {
     padding: 10px;
     text-align: left;
     padding-top: 50px;
-    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1rem;
     border-bottom: 1px solid #ddd;
 }
 

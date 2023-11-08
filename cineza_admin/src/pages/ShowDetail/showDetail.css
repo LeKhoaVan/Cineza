@@ -10,6 +10,39 @@
   align-items: center;
 }
 
+.show-room-container {
+  width: 95%;
+  height: 90%;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.show-room-iconBack {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(214, 214, 214);
+  }
+}
+
+.show-room-diagram {
+  width: 69%;
+  height: 100%;
+}
+
+
+.show-room-detail {
+  width: 29%;
+  height: 100%;
+  background-color: aquamarine;
+}
+
 .show-detail-container {
   width: 95%;
   height: 90%;
@@ -19,21 +52,22 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .show-detail-header {
   width: 100%;
-  height: 25%;
+  height: 10%;
 }
 
 .show-detail-header-edit {
   width: 100%;
-  height: 50%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-content: center;
-  padding: 5px;
+  padding: 3px;
   border-bottom: 1px solid black;
 }
 
@@ -45,7 +79,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   border-right: 1px solid black;
 
   &:hover {
@@ -61,13 +95,13 @@
 
 /* update */
 .show-detail-header-edit-update {
-  width: 5%;
+  width: 7%;
   height: 100%;
   padding-left: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   border-right: 1px solid black;
 
   &:hover {
@@ -77,8 +111,8 @@
 }
 
 .icon-update {
-  width: 30px;
-  height: 30px;
+  width: 10px;
+  height: 10px;
 }
 
 .show-detail-header-edit-detail {
@@ -99,7 +133,7 @@
   }
 }
 
-.icon-detail {
+.iconDetail {
   width: 30px;
   height: 30px;
 }
@@ -110,14 +144,17 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .show-detail-header-edit-new {
   width: 100%;
-  height: 50%;
+  height: 35%;
   display: flex;
   flex-direction: row;
+  padding-top: 3px;
+  padding-bottom: 5px;
   align-items: center;
   justify-content: center;
 
@@ -134,8 +171,10 @@
 
 .show-detail-header-edit-delete {
   width: 100%;
-  height: 50%;
+  height: 35%;
   display: flex;
+  padding-top: 5px;
+  margin-top: 3px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -149,6 +188,24 @@
 .iconDelete {
   width: 30px;
   height: 30px;
+}
+
+.show-detail-header-edit-show-room {
+  width: 8%;
+  height: 100%;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid black;
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    background-color: rgb(201, 201, 201);
+    cursor: pointer;
+  }
 }
 
 /* close */
@@ -196,7 +253,7 @@
 }
 
 .show-detail-input {
-  width: 100%;
+  width: 98%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -238,4 +295,69 @@
   height: 29px;
   padding-left: 17px;
   margin-right: 230px;
+}
+
+.show-detail-table-content {
+  width: 99%;
+  height: 200px;
+  /* overflow: auto; */
+}
+
+.seat-show-container {
+  margin-top: 20px;
+  min-height: 40%;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  /* Tạo 6 cột có chiều rộng bằng nhau */
+  gap: 20px;
+  /* Khoảng cách giữa các ghế */
+}
+
+.seat-show {
+  width: 60px;
+  height: 60px;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.occupied-show {
+  background-color: #e8e6e6;
+  /* Màu ghế đã được chọn */
+}
+
+.seat-thuong {
+  background-color: #bfbca3;
+}
+
+.seat-vip {
+  background-color: #941833;
+}
+
+.show-color-status {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.color-vip {
+  width: 50px;
+  height: 50px;
+  background-color: #941833;
+}
+
+.color-thuong {
+  width: 50px;
+  height: 50px;
+  background-color: #bfbca3;
+}
+
+.color-booked {
+  width: 50px;
+  height: 50px;
+  background-color: #e8e6e6;
 }
