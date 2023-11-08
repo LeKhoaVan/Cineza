@@ -1,19 +1,22 @@
 import React from "react";
-
 import iconPen from "../../assets/imageButtons/iconPen.png";
 import iconCreateNew from "../../assets/imageButtons/iconCreateNew.png";
 import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
+import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import Alert from "../../components/Alert";
+import Table from "../../components/Table";
 import "./roomDetail.css";
+import SeatDetail from "../SeatDetail";
 
 import { Link, useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import FlatList from "flatlist-react/lib";
 import Select from "@mui/material/Select";
 import axios from "axios";
 
@@ -21,6 +24,33 @@ const dataStatus = [
   { id: "ACTIVE", value: "ACTIVE" },
   { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
   { id: "DESTROY", value: "DESTROY" },
+];
+
+const titleColumn = [
+  {
+    title: "Code",
+    data: "code",
+  },
+  {
+    title: "Vị trí",
+    data: "position",
+  },
+  {
+    title: "Tên phòng",
+    data: "nameRoom",
+  },
+  {
+    title: "Loại",
+    data: "typeSeat",
+  },
+  {
+    title: "Trạng thái",
+    data: "status",
+  },
+  {
+    title: "Trạng thái ghế",
+    data: "isBook",
+  },
 ];
 
 const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
@@ -37,6 +67,13 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
 
   const [dataRap, setDataRap] = useState([]);
 
+  const [seats, setSeats] = useState([]);
+  const [comunitySeats, setComunitySeats] = useState([]);
+  const [vipSeats, setVipSeats] = useState([]);
+  const [codeSeat, setCodeSeat] = useState("");
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModelAdd, setOpenModelAdd] = useState(false);
+
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
@@ -46,6 +83,30 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  //handle seats
+  const handleRowClick = (row) => {
+    console.log(row);
+    setCodeSeat(row);
+    setOpenModalDetail(!openModalDetail);
+  };
+
+  const handleSeatClick = (item) => {
+    console.log(item);
+    setCodeSeat(item.code);
+    setOpenModalDetail(!openModalDetail);
+  };
+
+  const onClickHandleCloseP = async () => {
+    // window.location.href = "/cineza/admin/rap";
+    setOpenModalDetail(false);
+    setOpenModelAdd(false);
+  };
+
+  const onClickHandleBtnAdd = () => {
+    setOpenModelAdd(true);
+    console.log(openModelAdd);
   };
 
   const handleChangeComboboxStatus = (event) => {
@@ -156,6 +217,60 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
       }
     };
     getAllRap();
+  }, []);
+
+  //get ghế by code phòng
+  useEffect(() => {
+    const getSeats = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setSeats(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getSeats();
+  }, []);
+
+  //get ghế thường by code phòng
+  useEffect(() => {
+    const getSeats = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setComunitySeats(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getSeats();
+  }, []);
+
+  //get ghế vip by code phòng
+  useEffect(() => {
+    const getSeats = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setVipSeats(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    };
+    getSeats();
   }, []);
 
   const onClickHandleEdit = () => {
@@ -404,6 +519,74 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
           </div>
 
           <div className="room-detail-content-right"></div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}
+        >
+          <h2>Danh sách ghế</h2>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="room-btn-add"
+            onClick={onClickHandleBtnAdd}
+          />
+        </div>
+        <div
+          style={{
+            width: "99%",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div className="room-detail-container-page-left">
+            <div className="room-detail-table-page">
+              <Table
+                column={titleColumn}
+                data={seats}
+                onRowClick={handleRowClick}
+              />
+              {/*  */}
+            </div>
+            {openModalDetail && (
+              <SeatDetail
+                onClickHandleClose={onClickHandleCloseP}
+                codeSeat={codeSeat}
+              />
+            )}
+            {openModelAdd && (
+              <SeatDetail
+                addBtn={true}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+          </div>
+          <div className="room-detail-container-page-right">
+            <FlatList
+              list={comunitySeats}
+              renderItem={(item) => (
+                <div className="room-detail-container-page-right-comunity">
+                  <b>{item.position}</b>
+                </div>
+              )}
+            />
+            <FlatList
+              list={vipSeats}
+              renderItem={(item) => (
+                <div
+                  className="room-detail-container-page-right-vip"
+                  // onClick={handleSeatClick(item)}
+                >
+                  <b>{item.position}</b>
+                </div>
+              )}
+            />
+          </div>
         </div>
       </div>
     </div>

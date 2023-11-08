@@ -59,7 +59,7 @@ function BookByRap() {
   const [listDataSource, setListDataSource] = useState(data);
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate("RapSelected", item);
+    navigation.navigate("Chọn phim", item);
   };
 
   if (Platform.OS === "android") {

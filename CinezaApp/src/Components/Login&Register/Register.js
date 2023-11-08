@@ -74,7 +74,7 @@ function Register() {
   };
 
   const hanldPressLogin = () => {
-    navigation.navigate("Login");
+    navigation.navigate("Đăng nhập");
   };
 
   return (

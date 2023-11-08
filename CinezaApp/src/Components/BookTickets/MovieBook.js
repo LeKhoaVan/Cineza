@@ -6,11 +6,12 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  StyleSheet,
 } from "react-native";
 import Header from "../Header/Header";
-import styles from "./Style_ByMovie";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { formatDayHandle } from "../../util";
 
 const data = [
   {
@@ -75,27 +76,27 @@ const data = [
   },
 ];
 
-function Item({ item, handleClick }) {
+const Item = ({ item, handleClick }) => {
   return (
     <View style={{ borderBottomWidth: 1, borderBottomColor: "#d1d1cf" }}>
       <TouchableOpacity style={styles.item} onPress={() => handleClick(item)}>
         <Image style={styles.image} source={{ uri: item.moviePoster }}></Image>
         <View style={styles.description}>
           <Text style={styles.title}>{item.movieName}</Text>
-          <Text style={styles.title}>{item.releaseTime}</Text>
-          <Text style={styles.title}>{item.movieTime}</Text>
+          <Text style={styles.year}>{formatDayHandle(item.startDate)}</Text>
+          <Text style={styles.year}>{item.movieTime}</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 function BookByMovie() {
   const [dataMovie, setDataMovie] = useState([]);
 
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate("MovieSelected", { codeMovie: item.code });
+    navigation.navigate("Chọn rạp", { codeMovie: item.code });
   };
 
   useEffect(() => {
@@ -139,3 +140,39 @@ function BookByMovie() {
 }
 
 export default BookByMovie;
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#fff",
+  },
+  item: {
+    backgroundColor: "#ffff",
+    paddingTop: 5,
+    // marginVertical: 8,
+    // marginHorizontal: 16,
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  image: {
+    width: 100,
+    height: 140,
+  },
+  description: {
+    flex: 1,
+    flexDirection: "column",
+    flexWrap: "wrap",
+    marginLeft: 10,
+  },
+  title: {
+    paddingTop: 10,
+    fontSize: 20,
+    height: 50,
+  },
+  year: {
+    fontSize: 16,
+    color: "#a5a874",
+  },
+});

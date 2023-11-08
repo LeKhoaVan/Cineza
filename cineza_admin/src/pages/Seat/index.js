@@ -82,7 +82,7 @@ const Seat = () => {
   }, []);
 
   return (
-    <div className="seat-container">
+    <div className="seats-container">
       <div className="seat-content">
         <Link to={"/rap"}>
           <img src={iconBack} className="img-btn-sidebar" />

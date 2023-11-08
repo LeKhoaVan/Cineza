@@ -1,5 +1,13 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View, Image } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const data = [
   {
@@ -15,6 +23,10 @@ const data = [
 ];
 
 const AnotherShow = () => {
+  const navigation = useNavigation();
+  const handleClick = () => {
+    navigation.navigate("4DX");
+  };
   return (
     <View style={styles.container}>
       <FlatList
@@ -23,16 +35,18 @@ const AnotherShow = () => {
         renderItem={({ item }) => {
           return (
             <View style={styles.item}>
-              <Image
-                style={{
-                  width: 70,
-                  height: 70,
-                  marginBottom: 5,
-                  borderRadius: 50,
-                }}
-                source={{ uri: item.urlImg }}
-              ></Image>
-              <Text style={{ textAlign: "center" }}>{item.key}</Text>
+              <TouchableOpacity onPress={handleClick}>
+                <Image
+                  style={{
+                    width: 70,
+                    height: 70,
+                    marginBottom: 5,
+                    borderRadius: 50,
+                  }}
+                  source={{ uri: item.urlImg }}
+                ></Image>
+                <Text style={{ textAlign: "center" }}>{item.key}</Text>
+              </TouchableOpacity>
             </View>
           );
         }}

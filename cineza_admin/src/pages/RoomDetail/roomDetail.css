@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .room-detail-header {
@@ -232,4 +233,55 @@
   width: 50%;
   height: 100%;
   padding-top: 50px;
+}
+
+.room-detail-container-page {
+  width: 99%;
+}
+
+.room-detail-container-page-left {
+  width: 50%;
+}
+.room-detail-container-page-right {
+  width: 40%;
+  margin-left: 40px;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  /* Tạo 6 cột có chiều rộng bằng nhau */
+  gap: 1px;
+}
+.room-detail-container-page-right-comunity {
+  border: 1px solid #110d0d;
+  width: 40px;
+  height: 40px;
+  padding-left: 20px;
+  padding-top: 20px;
+  background-color: #bfbca3;
+}
+.room-detail-container-page-right-vip {
+  border: 1px solid #110d0d;
+  width: 40px;
+  height: 40px;
+  padding-left: 20px;
+  padding-top: 20px;
+  background-color: #941833;
+}
+.room-detail-table-page {
+  width: 100%;
+  height: 350px;
+  /* background-color: black; */
+  overflow-y: auto;
+}
+
+.room-btn-add {
+  width: 30px;
+  height: 30px;
+  margin-left: 37px;
+  border-radius: 50%;
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(217, 217, 217);
+  }
 }

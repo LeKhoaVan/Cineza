@@ -25,7 +25,7 @@ function ChangePassword() {
         <TextInput
           secureTextEntry={isPassword}
           placeholder="Mật khẩu hiện tại"
-          style={{ height: 50, fontSize: 20 }}
+          style={styles.textInput}
         />
         <TouchableOpacity
           style={{
@@ -45,7 +45,7 @@ function ChangePassword() {
         <TextInput
           secureTextEntry={isPassword}
           placeholder="Mật khẩu mới"
-          style={{ height: 50, fontSize: 20 }}
+          style={styles.textInput}
         />
         <TouchableOpacity
           style={{
@@ -65,7 +65,7 @@ function ChangePassword() {
         <TextInput
           secureTextEntry={isPassword}
           placeholder="Nhập lại mật khẩu"
-          style={{ height: 50, fontSize: 20 }}
+          style={styles.textInput}
         />
         <TouchableOpacity
           style={{
@@ -117,4 +117,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginLeft: 50,
   },
+  textInput: { height: 40, fontSize: 20, marginLeft: 10 },
 });

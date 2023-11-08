@@ -97,12 +97,12 @@ const OtherProduct = ({ route }) => {
           }}
         >
           <View>
-            <Text>Total: </Text>
+            <Text>Tổng tiền: {value} đ </Text>
           </View>
 
           <Pressable
             onPress={() => {
-              navigation.navigate("PayScreen", { dataTicket, seats, value });
+              navigation.navigate("Thanh toán", { dataTicket, seats, value });
             }}
           >
             <Text style={styles.buttonPay}>Thanh toán</Text>

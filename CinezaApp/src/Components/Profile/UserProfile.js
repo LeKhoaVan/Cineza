@@ -51,7 +51,9 @@ function UserProfile() {
       <View style={{}}>
         <View style={styles.item}>
           <Entypo name="v-card" size={30} color="black" />
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Thông tin tài khoản")}
+          >
             <Text style={{ fontSize: 18, paddingLeft: 10 }}>
               Thông tin tài khoản
             </Text>
@@ -66,7 +68,7 @@ function UserProfile() {
         <View style={{ padding: 20, backgroundColor: "#d1d1cf" }} />
         <View style={styles.item}>
           <FontAwesome name="history" size={30} color="black" />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Lịch sử vé")}>
             <Text style={{ fontSize: 18, paddingLeft: 15 }}>
               Lịch sử giao dịch
             </Text>
