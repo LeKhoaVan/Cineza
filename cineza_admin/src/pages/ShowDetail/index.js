@@ -46,6 +46,7 @@ const column = [
 const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [showStart, setShowStart] = useState("");
+  const [showEnd, setShowEnd] = useState("");
   const [codeMovie, setCodeMovie] = useState("");
   const [codeRap, setCodeRap] = useState("");
   const [codeRoom, setCodeRoom] = useState("");
@@ -53,7 +54,17 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [status, setStatus] = useState("");
   const [dataTicket, setDataTicket] = useState([]);
   const [dataSeatVip, setDataSeatVip] = useState([]);
-  const [dataSeatThuong, setDataSeatThuong] = useState([])
+  const [dataSeatThuong, setDataSeatThuong] = useState([]);
+  const [dataSeatTicketVip, setDataSeatTicketVip] = useState([]);
+  const [dataSeatTicketThuong, setDataSeatTicketThuong] = useState([]);
+
+  const [rapName, setRapName] = useState("");
+  const [roomName, setRoomName] = useState("");
+  const [movieName, setMovieName] = useState("");
+  const [totalSeat, setTotalSeat] = useState(0);
+  const [totalBook, setTotalBook] = useState(0);
+  const [codeTicket, setCodeTicket] = useState("");
+  const [ticket, setTicket] = useState("");
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -241,6 +252,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         if (result.status === 200) {
           setCode(result.data.code);
           setShowStart(new Date(result.data.showStart));
+          setShowEnd(new Date(result.data.showEnd));
 
           setStatus(result.data.status);
 
@@ -258,6 +270,10 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           setCodeMovie(result.data.codeMovie);
           setCodeRap(result.data.codeRap);
           setCodeRoom(result.data.codeRoom);
+
+          setRapName(result.data.nameRap)
+          setRoomName(result.data.nameRoom)
+          setMovieName(result.data.movieName);
         }
       };
       getShow();
@@ -269,7 +285,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       const allTicket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`);
       if (allTicket.status === 200) {
         const resultTickets = allTicket.data.map((t) => {
-          return { ...t, showDate: formatDateHandle(t.showDate), showStart: formatTimeHandle(t.showStart), bookAt: formatDateHandle(t.bookAt) }
+          return { ...t, showDate: formatDateHandle(t.showDate), showStart: `${new Date(t.showStart).getHours()}:${new Date(t.showStart).getMinutes()}`, bookAt: formatDateHandle(t.bookAt) }
         })
         setDataTicket(resultTickets);
       } else {
@@ -291,7 +307,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           // do du lieu ghe vao so do
           let resultVip = []
           let resultThuong = [];
-          result.forEach(seat => {
+          let totalSeatTam = 0;
+          result.forEach((seat, idx) => {
+            totalSeatTam = idx;
             let newSeat = { ...seat, booked: false };
             if (seat.typeSeat == "VIP") {
               resultVip = [...resultVip, newSeat]
@@ -299,14 +317,16 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               resultThuong = [...resultThuong, newSeat];
             }
           });
+          setTotalSeat(totalSeatTam + 1);
 
-          console.log(allTicket)
+          let totalBookTam = 0
           if (allTicket.status === 200) {
             //check ghe thuong da duoc book hay chua
             resultThuong = resultThuong.map((thuong) => {
               const foundTicket = allTicket.data.find(ticket => thuong.code === ticket.codeSeat);
 
               if (foundTicket) {
+                totalBookTam++;
                 return { ...thuong, booked: true };
               } else {
                 return { ...thuong, booked: false };
@@ -318,12 +338,14 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               const foundTicket = allTicket.data.find(ticket => vip.code === ticket.codeSeat);
 
               if (foundTicket) {
+                totalBookTam++;
                 return { ...vip, booked: true };
               } else {
                 return { ...vip, booked: false };
               }
             })
           }
+          setTotalBook(totalBookTam);
 
           setDataSeatVip(resultVip);
           setDataSeatThuong(resultThuong);
@@ -334,10 +356,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       getAllSeat();
     }
   }, [codeRoom]);
-
-  useEffect(() => {
-    console.log(dataSeatThuong)
-  }, [dataSeatThuong])
 
   //combobox movie
   useEffect(() => {
@@ -495,7 +513,60 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowDetail(false);
     setShowRoom(false);
     setShowTicket(true);
+    setCodeTicket(code);
   }
+
+  useEffect(() => {
+    if (codeTicket != "") {
+      const getTicket = async () => {
+        const allSeat = await axios.get(`http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`);
+        const ticket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`);
+        if (ticket.status === 200) {
+          setTicket(ticket.data);
+          if (allSeat.status === 200) {
+            let resultVip = []
+            let resultThuong = [];
+            const result = allSeat.data;
+
+            result.forEach((seat, idx) => {
+              let newSeat = { ...seat, booked: false };
+              if (seat.typeSeat == "VIP") {
+                resultVip = [...resultVip, newSeat]
+              } else if (seat.typeSeat == "COMUNITY") {
+                resultThuong = [...resultThuong, newSeat];
+              }
+            });
+
+            resultThuong = resultThuong.map((thuong) => {
+              if (thuong.code == ticket.data.codeSeat) {
+                return { ...thuong, booked: true };
+              } else {
+                return { ...thuong, booked: false };
+              }
+            })
+
+            //check ghe thuong da duoc book hay chua
+            resultVip = resultVip.map((vip) => {
+              if (vip.code == ticket.data.codeSeat) {
+                return { ...vip, booked: true };
+              } else {
+                return { ...vip, booked: false };
+              }
+            })
+
+            setDataSeatTicketThuong(resultThuong)
+            setDataSeatTicketVip(resultVip);
+          }
+        } else {
+          console.error("error get ticket in show ");
+        }
+      };
+      getTicket();
+    }
+
+  }, [codeTicket])
+
+
 
   return (
     <div className="show-detail-background">
@@ -533,7 +604,21 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         </div>
 
         <div className="show-room-detail">
-          <h3>Thông tin phòng</h3>
+          <div className="show-room-title">
+            <h3>Thông tin phòng</h3>
+          </div>
+          <div className="show-room-text">
+            <p>Rạp: {rapName}</p>
+            <p>Phòng: {roomName}</p>
+            <p>Phim: {movieName}</p>
+            <p>Ngày chiếu: {showDate.toString()}</p>
+            <p>Giờ chiếu: {showStart.getHours()}:{showStart.getMinutes()}</p>
+            <p>Giờ kết thúc: {showEnd.getHours()}:{showEnd.getMinutes()}</p>
+            <p>Tổng số ghế: {totalSeat}</p>
+            <p>Tổng số ghế được đặt: {totalBook}</p>
+            <p>Tổng số ghế trống: {totalSeat - totalBook}</p>
+            <p>Trạng thái: {status}</p>
+          </div>
         </div>
       </div>)}
 
@@ -542,30 +627,50 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           <img src={iconBack} onClick={handleOnClickBackTicket} className="show-room-iconBack" alt="icon-back" />
           <h3>Sơ đồ ghế</h3>
           <div className="seat-show-container">
-            {dataSeatThuong?.map((seat, index) => (
+            {dataSeatTicketThuong?.map((seat, index) => (
               <div
                 key={index}
-                className={`seat-show ${seat != "" ? 'occupied-show' : ''}`}
+                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
               // onClick={() => toggleSeat(index, seat)}
               >
-                Ghế {seat.position}
+                Ghế {seat?.position}
               </div>
             ))}
 
-            {dataSeatVip?.map((seat, index) => (
+            {dataSeatTicketVip?.map((seat, index) => (
               <div
                 key={index}
-                className={`seat-show ${seat != "" ? 'occupied-show' : ''}`}
+                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
               // onClick={() => toggleSeat(index, seat)}
               >
-                Ghế {seat.position}
+                Ghế {seat?.position}
               </div>
             ))}
+          </div>
+          <div className="show-color-status">
+            <div className="color-vip">Ghế VIP</div>
+            <div className="color-thuong">Ghế Thường</div>
+            <div className="color-booked">Ghế đã đặt</div>
           </div>
         </div>
 
         <div className="show-room-detail">
-          <h3>Thông tin vé</h3>
+          <div className="show-room-title">
+            <h3>Thông tin vé</h3>
+          </div>
+          <div className="show-room-text">
+            <p>Khách hàng: {ticket.fullName}</p>
+            <p>Phim: {ticket.movieName}</p>
+            <p>Ngày chiếu: {formatDateHandle(new Date(ticket.showDate))}</p>
+            <p>Giờ chiếu: {new Date(ticket.showStart).getHours()}:{new Date(ticket.showStart).getMinutes()} </p>
+            <p>Rạp: {ticket.rapName}</p>
+            <p>Phòng: {ticket.roomName}</p>
+            <p>ghế: {ticket.codeSeat} - {ticket.position}</p>
+            <p>Trạng thái: {ticket.status}</p>
+          </div>
+          <div className="show-room-btn">
+            <button className="btn-cancel">Hủy vé</button>
+          </div>
         </div>
       </div>)}
 
@@ -692,19 +797,19 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
 
           <div className="show-detail-content-right">
             <div className="show-detail-input">
-              <label>Mã phim</label>
+              <label>Tên phim</label>
               <div className="show-detail-input-dem"></div>
               <div className="input-show-detail-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">mã phim</InputLabel>
+                  <InputLabel id="demo-select-small-label">Tên phim</InputLabel>
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={codeMovie}
-                    label="mã phim"
+                    label="Tên phim"
                     onChange={handleChangeComboboxCodeMovie}
                     onFocus={onHandleFocusCodeMovie}
                     readOnly={!edit}
@@ -831,12 +936,12 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             </div>
           </div>
         </div>
-
         <h3>Danh sách vé</h3>
         <div className="show-detail-table-content">
           <TableInPage data={dataTicket} column={column} onClickRow={handleOnClickRow} />
         </div>
       </div>
+
       )}
     </div>
   );
