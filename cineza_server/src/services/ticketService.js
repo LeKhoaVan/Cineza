@@ -18,9 +18,9 @@ const getAllTicketService = async () => {
 };
 
 const getTicketByCodeService = async (code) => {
-  const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeSeat, 
-        r.name as rapName, ro.name as roomName, sh.showDate, s.screenAt, m.code as movieCode, m.movieName,
-        t.codeUser, v.fullName
+  const query = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.codeShowing, t.status, t.codeSeat, 
+        r.name as rapName, ro.code as roomCode, ro.name as roomName, s.showDate, s.showStart, s.showEnd, m.code as movieCode, m.movieName,
+        t.codeUser, v.fullName, se.position
     from ticket as t
     join showing as s on t.codeShowing = s.code
     join seat as se on t.codeSeat = se.code

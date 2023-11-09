@@ -50,3 +50,22 @@ html {
 .default-content {
     flex: 1;
 }
+
+.btn-cancel {
+    background-color: #f7894a;
+    /* Màu nền xanh lá cây */
+    color: #fff;
+    /* Màu chữ trắng */
+    border: none;
+    /* Loại bỏ đường viền */
+    padding: 10px 20px;
+    /* Kích thước nút */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    /* Bo góc nút */
+}
