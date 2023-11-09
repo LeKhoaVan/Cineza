@@ -569,6 +569,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
           <div className="room-detail-container-page-right">
             <FlatList
               list={comunitySeats}
+              renderWhenEmpty={() => <div></div>}
               renderItem={(item) => (
                 <div className="room-detail-container-page-right-comunity">
                   <b>{item.position}</b>
@@ -577,6 +578,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
             />
             <FlatList
               list={vipSeats}
+              renderWhenEmpty={() => <div></div>}
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"

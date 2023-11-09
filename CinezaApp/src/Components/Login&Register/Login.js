@@ -10,6 +10,9 @@ function Login() {
   const hanldPressRegister = () => {
     navigation.navigate("Đăng ký");
   };
+  const hanldPressForget = () => {
+    navigation.navigate("Quên mật khẩu");
+  };
 
   return (
     <View style={styles.container}>
@@ -78,8 +81,9 @@ function Login() {
       <View style={{ alignItems: "flex-end" }}>
         <TouchableOpacity
           style={{ margin: 15, marginTop: 25, marginRight: 25 }}
+          onPress={hanldPressForget}
         >
-          <Text style={{ fontSize: 20, color: "#63B8FF", fontWeight: "bold" }}>
+          <Text style={{ fontSize: 20, color: "#940a11", fontWeight: "bold" }}>
             Quên mật khẩu
           </Text>
         </TouchableOpacity>

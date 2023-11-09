@@ -23,6 +23,7 @@ import Ticket from "../pages/Ticket";
 import TicketBook from "../pages/TicketBook";
 
 const publicRouter = [
+  // { path: "/login", componet: Login, layout: DefaultLayout, sidebar: Sidebar },
   { path: "/home", componet: Home, layout: DefaultLayout, sidebar: Sidebar },
   {
     path: "/hierarchy-structure",
