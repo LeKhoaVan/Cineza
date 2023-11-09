@@ -20,14 +20,12 @@ function PayScreen({ route }) {
   const ticketData = route.params.dataTicket;
   const seat = route.params.seats;
   const total = route.params.value;
+  const posterMovie = route.params.poster;
   // const [position, setPosition] = useState([]);
   const dataSeat = seat.map((data) => {
-    console.log(data.position);
     return data.position + ",";
   });
   console.log(dataSeat);
-  // console.log(route.params.dataTicket);
-  // console.log(route.params.seats);
   return (
     <View style={{ flex: 1 }}>
       <Header />
@@ -47,7 +45,7 @@ function PayScreen({ route }) {
             borderRadius: 5,
             marginBottom: 10,
           }}
-          source={{ uri: data.image }}
+          source={{ uri: posterMovie }}
         />
         <View
           style={{

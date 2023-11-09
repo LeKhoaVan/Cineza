@@ -61,7 +61,9 @@ function UserProfile() {
         </View>
         <View style={styles.item}>
           <FontAwesome5 name="unlock-alt" size={30} color="black" />
-          <TouchableOpacity onPress={() => navigation.navigate("Đổi mật khẩu")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Thay đổi mật khẩu")}
+          >
             <Text style={{ fontSize: 18, paddingLeft: 15 }}>Đổi mật khẩu</Text>
           </TouchableOpacity>
         </View>

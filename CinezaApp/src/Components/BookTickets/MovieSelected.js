@@ -80,6 +80,7 @@ const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
 
 function MovieSelected({ route }) {
   const codeMovie = route.params.codeMovie;
+  const poster = route.params.poster;
   // console.log(codeMovie);
 
   const [startMovie, setStartMovie] = useState("");
@@ -111,7 +112,7 @@ function MovieSelected({ route }) {
   };
 
   const handleClick = (item) => {
-    navigation.navigate("Chọn ghế", { item });
+    navigation.navigate("Chọn ghế", { item, poster });
   };
 
   if (Platform.OS === "android") {
