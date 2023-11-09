@@ -40,7 +40,27 @@
 .show-room-detail {
   width: 29%;
   height: 100%;
-  background-color: aquamarine;
+  border-left: 2px solid black;
+  /* background-color: aquamarine; */
+}
+
+.show-room-title {
+  display: flex;
+  justify-content: center;
+}
+
+.show-room-text {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.show-room-text p {
+  padding-bottom: 20px;
+}
+
+.show-room-btn {
+  display: flex;
+  justify-content: center;
 }
 
 .show-detail-container {

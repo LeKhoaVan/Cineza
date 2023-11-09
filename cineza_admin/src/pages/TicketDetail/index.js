@@ -337,9 +337,8 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
             </div>
             <div
               className="ticket-detail-header-close"
-              onClick={onClickHandleClose}
             >
-              <img className="iconClose" src={iconClose} alt="close" />
+              <img onClick={onClickHandleClose} className="iconClose" src={iconClose} alt="close" />
             </div>
           </div>
           <div className="ticket-detail-name">
