@@ -96,7 +96,7 @@ function BookByMovie() {
 
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate("Chọn rạp", { codeMovie: item.code });
+    navigation.navigate("Chọn rạp", { codeMovie: item.code , poster: item.moviePoster });
   };
 
   useEffect(() => {

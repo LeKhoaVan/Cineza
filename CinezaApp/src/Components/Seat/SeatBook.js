@@ -62,6 +62,7 @@ function SeatBook({ route }) {
   const codeRoom = route.params.item.codeRoom;
   const codeShow = route.params.item.code;
   const show = route.params.item;
+  const poster = route.params.poster;
   // console.log(codeShow);
 
   const [dataTicket, setDataTicket] = useState([]);
@@ -97,25 +98,48 @@ function SeatBook({ route }) {
 
   //get ghế thường
   useEffect(() => {
-    axios
-      .get(
-        `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/` +
-          codeRoom,
-        {
-          timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-        }
-      )
-      .then((res) => {
-        // setDataComunitySeat(res.data);
-        const newData = res.data.map((item) => ({
-          ...item,
-          selectedUI: false,
-        }));
-        setDataComunitySeatFormat(newData);
-      })
-      .catch((err) => {
-        console.log(err);
+    const getAll = async () => {
+      let dataSeat;
+      axios
+        .get(
+          `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/` +
+            codeRoom,
+          {
+            timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+          }
+        )
+        .then((res) => {
+          // setDataComunitySeat(res.data);
+          const newData = res.data.map((item) => ({
+            ...item,
+            selectedUI: false,
+          }));
+          setDataComunitySeatFormat(newData);
+          dataSeat = newData;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      const tickets = await axios.get(
+        `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`
+      );
+      const dataTicket = tickets.data;
+      const resultSeat = dataSeat.map((s) => {
+        let tam = s;
+        dataTicket.forEach((t) => {
+          if (t.position == s.position) {
+            tam = { ...s, isBook: "SELECTED" };
+            return { ...s, isBook: "SELECTED" };
+          } else {
+            return { ...s };
+          }
+        });
+        return tam;
       });
+      setDataComunitySeatFormat(resultSeat);
+    };
+    getAll();
   }, []);
 
   //get ghế vip
@@ -176,14 +200,14 @@ function SeatBook({ route }) {
         if (data === item) {
           if (data.selectedUI) {
             setPrice(price - data.value);
-            console.log("test tue");
+            // console.log("test tue");
             const newArray = seatSelected.filter((item4) => {
               // console.log(item.code);
               return item4.code !== item.code;
             });
             // setSeatSelected(test);
             // console.log(data);
-            console.log(newArray.length);
+            // console.log(newArray.length);
             setSeatSelected(newArray);
             return { ...data, selectedUI: false };
           } else {
@@ -211,14 +235,14 @@ function SeatBook({ route }) {
         if (data === item) {
           if (data.selectedUI) {
             setPrice(price - data.value);
-            console.log("test tue");
+            // console.log("test tue");
             const newArray = seatSelected.filter((item4) => {
               // console.log(item.code);
               return item4.code !== item.code;
             });
             // setSeatSelected(test);
             // console.log(data);
-            console.log(newArray.length);
+            // console.log(newArray.length);
             setSeatSelected(newArray);
             return { ...data, selectedUI: false };
           } else {
@@ -265,19 +289,17 @@ function SeatBook({ route }) {
         // setShowAlert(true);
       }
     });
-    navigation.navigate("Đồ đi kèm", {
-      show,
-      seatSelected,
-      price,
-    });
+    if (seatSelected.length === 0) {
+      Alert.alert("Xin hãy chọn ít nhất 1 ghế");
+    } else {
+      navigation.navigate("Đồ đi kèm", {
+        show,
+        seatSelected,
+        price,
+        poster,
+      });
+    }
   };
-
-  const seats = dataTicket.map((data) => {
-    console.log(data.position);
-    return data.position;
-  });
-  console.log(seats);
-  // console.log(price);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -294,7 +316,13 @@ function SeatBook({ route }) {
           renderItem={({ item }) => (
             <Pressable
               onPress={() => onComunitySeatSelected(item)}
-              style={styles.listComunitySeat}
+              style={[
+                styles.listComunitySeat,
+                item.isBook === "SELECTED"
+                  ? styles.bookedSeat
+                  : styles.listComunitySeat,
+              ]}
+              disabled={item.isBook === "SELECTED"}
             >
               {item?.selectedUI ? (
                 <Text

@@ -15,6 +15,8 @@ import RapSelected from "./src/Components/BookTickets/RapSelected";
 import MovieDetail from "./src/Components/Movie/MovieDetail";
 import Login from "./src/Components/Login&Register/Login";
 import Register from "./src/Components/Login&Register/Register";
+import ForgetPassword from "./src/Components/Login&Register/ForgetPassword";
+import ModifyPassword from "./src/Components/Login&Register/ModifyPassword";
 import SeatBook from "./src/Components/Seat/SeatBook";
 import OtherProduct from "./src/Components/OtherProduct/OtherProduct";
 import PayScreen from "./src/Components/PayScreen/PayScreen";
@@ -32,11 +34,13 @@ export default function App() {
   const movieDetail = "Thông tin phim";
   const login = "Đăng nhập";
   const register = "Đăng ký";
+  const forget = "Quên mật khẩu";
+  const modify = "Đổi mật khẩu";
   const seatBook = "Chọn ghế";
   const otherProduct = "Đồ đi kèm";
   const payScreen = "Thanh toán";
   const userProfile = "Thành viên";
-  const changePassword = "Đổi mật khẩu";
+  const changePassword = "Thay đổi mật khẩu";
   const profileDetail = "Thông tin tài khoản";
   const ticketHistory = "Lịch sử vé";
   const item4dx = "4DX";
@@ -56,6 +60,8 @@ export default function App() {
         <Stack.Screen name={movieDetail} component={MovieDetail}></Stack.Screen>
         <Stack.Screen name={login} component={Login}></Stack.Screen>
         <Stack.Screen name={register} component={Register}></Stack.Screen>
+        <Stack.Screen name={forget} component={ForgetPassword}></Stack.Screen>
+        <Stack.Screen name={modify} component={ModifyPassword}></Stack.Screen>
         <Stack.Screen name={seatBook} component={SeatBook}></Stack.Screen>
         <Stack.Screen
           name={otherProduct}

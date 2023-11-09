@@ -27,11 +27,11 @@ const data = {
 
 const MovieDetail = ({ route }) => {
   const codeMovie = route.params.item.code;
-  console.log(codeMovie);
+  const poster = route.params.item.moviePoster;
   const [dataMovie, setDataMovie] = useState([]);
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate("Chọn rạp", { codeMovie });
+    navigation.navigate("Chọn rạp", { codeMovie, poster });
   };
   useEffect(() => {
     axios
