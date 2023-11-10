@@ -10,6 +10,7 @@ import iconHierarchyStructure from "../../../assets/imageButtons/hierarchicalStr
 import iconPriceList from "../../../assets/imageButtons/iconPriceList.png";
 import iconShow from "../../../assets/imageButtons/iconShow.png";
 import iconBook from "../../../assets/imageButtons/iconBook.png";
+import iconOrder from "../../../assets/imageButtons/iconOrder.png";
 const Sidebar = () => {
   const context = [
     {
@@ -25,6 +26,7 @@ const Sidebar = () => {
     { text: "Đồ đi kèm", image: iconOther, href: "/other-product" },
     { text: "Quản lý bảng giá", image: iconPriceList, href: "/price" },
     { text: "Quản lý suất chiếu", image: iconShow, href: "/show" },
+    { text: "Quản lý hóa đơn", image: iconOrder, href: "/order" },
     { text: "Thống kê", image: iconThongKe, href: "#" },
 
   ];

@@ -419,10 +419,16 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   }, [codeRap]);
 
   const onClickHandleEdit = () => {
-    setUpdate(true);
-    setCreateNew(false);
-    setEdit(true);
-    setEditCode(false);
+    console.log(dataTicket)
+    if (dataTicket.length == 0) {
+      setUpdate(true);
+      setCreateNew(false);
+      setEdit(true);
+      setEditCode(false);
+    } else {
+      setMessage("Đã có vé không thể chỉnh sửa");
+      setShowAlert(true);
+    }
   };
 
   const onClickHandleNew = () => {
@@ -439,6 +445,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowDate("")
     setDates([])
     setCodeRoom("");
+
+    setDataTicket([]);
   };
 
   const onClickHandleSave = async () => {

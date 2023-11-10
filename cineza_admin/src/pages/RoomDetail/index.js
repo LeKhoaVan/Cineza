@@ -242,7 +242,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/THUONG/${codeRoom}`
         );
         if (result.status === 200) {
           setComunitySeats(result.data);
@@ -260,7 +260,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/${codeRoom}`
         );
         if (result.status === 200) {
           setVipSeats(result.data);
@@ -582,7 +582,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                  // onClick={handleSeatClick(item)}
+                // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

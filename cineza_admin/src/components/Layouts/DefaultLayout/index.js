@@ -25,6 +25,7 @@ import Price from "../../../pages/Price";
 import Show from "../../../pages/Show";
 import Ticket from "../../../pages/Ticket";
 import TicketBook from "../../../pages/TicketBook";
+import Order from "../../../pages/Order"
 const DefaultLayout = (props) => {
   // gán biến component
   let sidebarComponent = "";
@@ -54,7 +55,8 @@ const DefaultLayout = (props) => {
       child.type === Price ||
       child.type === Show ||
       child.type === Ticket ||
-      child.type == TicketBook
+      child.type == TicketBook ||
+      child.type == Order
     ) {
       pageComponent = child;
     }
