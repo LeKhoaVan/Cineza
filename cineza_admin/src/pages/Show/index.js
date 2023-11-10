@@ -6,6 +6,10 @@ import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import iconFind from "../../assets/imageButtons/iconFind.png";
 import "./show.css";
 import axios from "axios";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const columns = [
   {
@@ -102,48 +106,76 @@ const ShowTime = () => {
   };
 
   return (
-    <div className="show-container">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingRight: "10px",
-          alignItems: "center",
-        }}
-      >
-        <h3>Suất chiếu phim</h3>
-        <img
-          src={iconAdd}
-          alt="btn-add"
-          className="show-btn-add"
-          onClick={onClickHandleBtnAdd}
-        />
-        <div className="showing-find-container">
-          <input
-            id="find"
-            className="showing-input-find"
-          // onChange={onChangeHandleFind}
-          />
+    <div className="show-wrapper">
+      <div className="show-container">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}
+        >
+          <h3>Suất chiếu phim</h3>
           <img
-            className="showing-button-img"
-            src={iconFind}
-            alt="tìm kiếm"
-            htmlFor="find"
+            src={iconAdd}
+            alt="btn-add"
+            className="show-btn-add"
+            onClick={onClickHandleBtnAdd}
           />
+          <div className="showing-find-container">
+            <input
+              id="find"
+              className="showing-input-find"
+              placeholder="Tên phim"
+            // onChange={onChangeHandleFind}
+            />
+            <img
+              className="showing-button-img"
+              src={iconFind}
+              alt="tìm kiếm"
+              htmlFor="find"
+            />
+            <FormControl
+              sx={{ width: "45%", marginLeft: "30px", marginRight: "10px" }}
+              size="small"
+            >
+              <InputLabel id="demo-select-small-label">Tên Rạp</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                // value={codeMovie}
+                label="Tên phim"
+              // onChange={handleChangeComboboxCodeMovie}
+              // onFocus={onHandleFocusCodeMovie}
+              // readOnly={!edit}
+              // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+              >
+                {[].map((st, index) => {
+                  return (
+                    <MenuItem key={index} value={st.code}>
+                      {st.movieName}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+        <div style={{ marginLeft: "-50px", paddingRight: "8%", width: "100%", height: "10px", borderBottom: "10px solid rgb(228, 228, 228)", }}></div>
+        <div className="table-all-show">
+          <Table column={columns} data={context} onRowClick={onHandleSelect} />
         </div>
       </div>
-      <div className="table-all-show">
-        <Table column={columns} data={context} onRowClick={onHandleSelect} />
-        {openModalDetail && (
-          <ShowDetail
-            codeShow={code}
-            onClickHandleClose={onClickHandleCloseP}
-          />
-        )}
-        {openModelAdd && (
-          <ShowDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
-        )}
-      </div>
+      {openModalDetail && (
+        <ShowDetail
+          codeShow={code}
+          onClickHandleClose={onClickHandleCloseP}
+        />
+      )}
+      {openModelAdd && (
+        <ShowDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+      )}
     </div>
   );
 };

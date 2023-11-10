@@ -3,9 +3,15 @@ import Table from "../../components/Table";
 import TicketDetail from "../TicketDetail";
 import { formatDateHandle } from "../../components/util";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
+import iconFind from "../../assets/imageButtons/iconFind.png";
 import iconBack from "../../assets/imageButtons/iconBack.png";
 import "./ticket.css";
 import axios from "axios";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import DatePicker from "react-datepicker";
 
 const columns = [
   {
@@ -169,97 +175,149 @@ const Ticket = () => {
   }, [code])
 
   return (
-    <div className="ticket-container">
-      {openAllTicket && (
-        <div className="ticket-content">
-          <div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingRight: "10px",
-                alignItems: "center",
-              }}
-            >
-              <h3>Danh sách vé</h3>
-              <img
-                src={iconAdd}
-                alt="btn-add"
-                className="ticket-btn-add"
-                onClick={onClickHandleBtnAdd}
-              />
-            </div>
-          </div>
-          <div className="table-all-ticket">
-            <Table column={columns} data={context} onRowClick={onHandleSelect} />
-          </div>
-        </div>
+    <div className="ticket-wrapper">
+      <div className="ticket-container">
+        {openAllTicket && (
+          <div className="ticket-content">
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <h3>Danh sách vé</h3>
+                <img
+                  src={iconAdd}
+                  alt="btn-add"
+                  className="ticket-btn-add"
+                  onClick={onClickHandleBtnAdd}
+                />
 
-      )}
-
-      {openModalDetail && (
-        <div className="show-detail-background">
-          <div className="show-room-container">
-            <div className="show-room-diagram">
-              <img src={iconBack} onClick={handleOnClickBackTicket} className="show-room-iconBack" alt="icon-back" />
-              <h3>Sơ đồ ghế</h3>
-              <div className="seat-show-container">
-                {dataSeatTicketThuong?.map((seat, index) => (
-                  <div
-                    key={index}
-                    className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
-                  // onClick={() => toggleSeat(index, seat)}
+                <div className="ticket-find-container">
+                  <input
+                    id="find"
+                    className="ticket-input-find"
+                    placeholder="tên phim"
+                  // onChange={onChangeHandleFind}
+                  />
+                  <img
+                    className="ticket-button-img"
+                    src={iconFind}
+                    alt="tìm kiếm"
+                    htmlFor="find"
+                  />
+                  <DatePicker
+                    locale="vi"
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText="Lọc ngày"
+                    // selected={dateOfBirthShow}
+                    // readOnly={!edit}
+                    // onChange={(date) => onChangeHandleDate(date)}
+                    fixedHeight="100%"
+                    portalId="root-portal"
+                    className="ticket-find-date"
+                  />
+                </div>
+                <FormControl
+                  sx={{ width: "15%", marginLeft: "15%", }}
+                  size="small"
+                >
+                  <InputLabel id="demo-select-small-label">Tên Rạp</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    // value={codeMovie}
+                    label="Tên phim"
+                  // onChange={handleChangeComboboxCodeMovie}
+                  // onFocus={onHandleFocusCodeMovie}
+                  // readOnly={!edit}
+                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    Ghế {seat?.position}
-                  </div>
-                ))}
-
-                {dataSeatTicketVip?.map((seat, index) => (
-                  <div
-                    key={index}
-                    className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
-                  // onClick={() => toggleSeat(index, seat)}
-                  >
-                    Ghế {seat?.position}
-                  </div>
-                ))}
-              </div>
-              <div className="show-color-status">
-                <div className="color-vip">Ghế VIP</div>
-                <div className="color-thuong">Ghế Thường</div>
-                <div className="color-booked">Ghế đã đặt</div>
+                    {[].map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.code}>
+                          {st.movieName}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
               </div>
             </div>
+            <div style={{ marginLeft: "-50px", paddingRight: "8%", width: "100%", height: "10px", borderBottom: "10px solid rgb(228, 228, 228)", }}></div>
+            <div className="table-all-ticket">
+              <Table column={columns} data={context} onRowClick={onHandleSelect} />
+            </div>
+          </div>
 
-            <div className="show-room-detail">
-              <div className="show-room-title">
-                <h3>Thông tin vé</h3>
+        )}
+
+        {openModalDetail && (
+          <div className="show-detail-background">
+            <div className="show-room-container">
+              <div className="show-room-diagram">
+                <img src={iconBack} onClick={handleOnClickBackTicket} className="show-room-iconBack" alt="icon-back" />
+                <h3>Sơ đồ ghế</h3>
+                <div className="seat-show-container">
+                  {dataSeatTicketThuong?.map((seat, index) => (
+                    <div
+                      key={index}
+                      className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
+                    // onClick={() => toggleSeat(index, seat)}
+                    >
+                      Ghế {seat?.position}
+                    </div>
+                  ))}
+
+                  {dataSeatTicketVip?.map((seat, index) => (
+                    <div
+                      key={index}
+                      className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
+                    // onClick={() => toggleSeat(index, seat)}
+                    >
+                      Ghế {seat?.position}
+                    </div>
+                  ))}
+                </div>
+                <div className="show-color-status">
+                  <div className="color-vip">Ghế VIP</div>
+                  <div className="color-thuong">Ghế Thường</div>
+                  <div className="color-booked">Ghế đã đặt</div>
+                </div>
               </div>
-              <div className="show-room-text">
-                <p>Khách hàng: {selectTicket.fullName}</p>
-                <p>Phim: {selectTicket.movieName}</p>
-                <p>Ngày chiếu: {formatDateHandle(new Date(selectTicket.showDate))}</p>
-                <p>Giờ chiếu: {new Date(selectTicket.showStart).getHours()}:{new Date(selectTicket.showStart).getMinutes()} </p>
-                <p>Rạp: {selectTicket.rapName}</p>
-                <p>Phòng: {selectTicket.roomName}</p>
-                <p>ghế: {selectTicket.codeSeat} - {selectTicket.position}</p>
-                <p>Trạng thái: {selectTicket.status}</p>
-              </div>
-              <div className="show-room-btn">
-                <button className="btn-cancel">Hủy vé</button>
+
+              <div className="show-room-detail">
+                <div className="show-room-title">
+                  <h3>Thông tin vé</h3>
+                </div>
+                <div className="show-room-text">
+                  <p>Khách hàng: {selectTicket.fullName}</p>
+                  <p>Phim: {selectTicket.movieName}</p>
+                  <p>Ngày chiếu: {formatDateHandle(new Date(selectTicket.showDate))}</p>
+                  <p>Giờ chiếu: {new Date(selectTicket.showStart).getHours()}:{new Date(selectTicket.showStart).getMinutes()} </p>
+                  <p>Rạp: {selectTicket.rapName}</p>
+                  <p>Phòng: {selectTicket.roomName}</p>
+                  <p>ghế: {selectTicket.codeSeat} - {selectTicket.position}</p>
+                  <p>Trạng thái: {selectTicket.status}</p>
+                </div>
+                <div className="show-room-btn">
+                  <button className="btn-cancel">Hủy vé</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      {openModelAdd && (
-        <TicketDetail
-          addBtn={true}
-          codeTicket={code}
-          onClickHandleClose={onClickHandleCloseP}
-        />
-      )}
-    </div >
+        )}
+        {openModelAdd && (
+          <TicketDetail
+            addBtn={true}
+            codeTicket={code}
+            onClickHandleClose={onClickHandleCloseP}
+          />
+        )}
+      </div >
+    </div>
   );
 };
 
