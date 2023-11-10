@@ -1,13 +1,19 @@
+.ticket-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(228, 228, 228);
+}
+
 .ticket-container {
   width: 92%;
   height: 90%;
   display: flex;
   position: sticky;
-  top: 4.5rem;
+  top: 5.5rem;
   left: 25%;
   border-radius: 40px;
-  border: 1px solid black;
   flex-direction: column;
+  background-color: white;
 }
 
 .ticket-content {
@@ -26,6 +32,40 @@
   &:hover {
     background-color: rgb(217, 217, 217);
   }
+}
+
+.ticket-find-container {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 45%;
+  left: 10%;
+  flex-direction: row;
+}
+
+.ticket-input-find {
+  width: 50%;
+  height: 20px;
+  padding: 10px;
+  padding-right: 50px;
+  border-radius: 20px 0px 20px 0px;
+}
+
+.ticket-button-img {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 15%;
+  right: 40%;
+}
+
+.ticket-find-date {
+  width: 65%;
+  margin-left: 8%;
+  height: 33px;
+  border: 1px solid black;
+  padding: 3px;
 }
 
 .table-all-ticket {
