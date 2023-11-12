@@ -49,9 +49,9 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "ACTIVE",
+        defaultValue: "Hoạt động",
         validate: {
-          isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]],
+          isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
         },
       },
     },
