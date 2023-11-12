@@ -222,6 +222,8 @@
 .input-address-rap {
   width: 100%;
   margin-top: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 .input-address-rap-combobox {

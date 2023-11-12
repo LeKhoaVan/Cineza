@@ -17,9 +17,9 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const dataIsBook = [
@@ -170,11 +170,6 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
-    if (addBtn) {
-      setEditCode(true);
-      setEdit(true);
-      setCreateNew(true);
-    }
     const getSeat = async () => {
       const result = await axios.get(
         `http://localhost:9000/cineza/api/v1/seat/get-by-code/${codeSeat}`
@@ -185,49 +180,10 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
         setCodeRoom(result.data.codeRoom);
         setCodeType(result.data.codeTypeSeat);
         setStatus(result.data.status);
-        setIsBook(result.data.isBook);
         // console.log(result.data.name);
       }
     };
     getSeat();
-  }, []);
-
-  // get all room
-  useEffect(() => {
-    const getAllRoom = async () => {
-      try {
-        const allRoom = await axios.get(
-          "http://localhost:9000/cineza/api/v1/room/get-all"
-        );
-        if (allRoom.status === 200) {
-          setDataRoom(allRoom.data);
-        } else {
-          console.error("error get room");
-        }
-      } catch (error) {
-        console.error("error get all room: " + error);
-      }
-    };
-    getAllRoom();
-  }, []);
-
-  // get all type seat
-  useEffect(() => {
-    const getAllTypeSeat = async () => {
-      try {
-        const allTypeSeat = await axios.get(
-          "http://localhost:9000/cineza/api/v1/type-seat/get-all"
-        );
-        if (allTypeSeat.status === 200) {
-          setDataTypeSeat(allTypeSeat.data);
-        } else {
-          console.error("error get room");
-        }
-      } catch (error) {
-        console.error("error get all room: " + error);
-      }
-    };
-    getAllTypeSeat();
   }, []);
 
   const onClickHandleEdit = () => {
@@ -237,19 +193,6 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
     setEditCode(false);
   };
 
-  const onClickHandleNew = () => {
-    setUpdate(false);
-    setCreateNew(true);
-    setEditCode(true);
-    setEdit(true);
-
-    setCode("");
-    setPosition("");
-    setCodeType("");
-    setStatus("");
-    setIsBook("");
-  };
-
   const onClickHandleSave = async () => {
     const seat = {
       code: code,
@@ -257,20 +200,10 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
       codeRoom: codeRoom,
       codeTypeSeat: codeType,
       status: status,
-      isBook: isBook,
+      isBook: "SELECTED",
     };
-    onHandleFocusCode();
-    onHandleFocusPosition();
     onHandleFocusStatus();
-    onHandleFocusCodeType();
-    onHandleFocusIsBook();
-    if (
-      !isValidCode &
-      !isValidPosition &
-      !isValidStatus &
-      !isValidCodeType &
-      !isValidIsBook
-    ) {
+    if (!isValidStatus) {
       try {
         console.log(seat);
         if (editCode) {
@@ -330,20 +263,6 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-
-            <div
-              className="seat-detail-header-edit-new-delete"
-              onClick={onClickHandleNew}
-            >
-              <div className="seat-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="seat-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
-            </div>
             <div
               className="seat-detail-header-close"
               onClick={onClickHandleClose}
@@ -387,8 +306,8 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                 <input
                   className="input-seat"
                   value={position}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  readOnly={!editCode}
+                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandlePosition(text)}
                   onFocus={onHandleFocusPosition}
                 />
@@ -397,7 +316,7 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            {/* <div className="seat-detail-input">
+            <div className="seat-detail-input">
               <label>Mã phòng</label>
               <div className="seat-detail-input-dem"></div>
               <div className="input-seat-container">
@@ -410,39 +329,6 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   // onFocus={onHandleFocusPosition}
                 />
               </div>
-            </div> */}
-            <div className="seat-detail-input">
-              <label>Mã phòng</label>
-              <div className="seat-detail-input-dem"></div>
-              <div className="input-seat-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Mã phòng</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeRoom}
-                    label="Room"
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={handleChangeComboboxCodeRoom}
-                    onFocus={onHandleFocusCodeRoom}
-                  >
-                    {dataRoom.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeRoom && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
             </div>
           </div>
 
@@ -451,33 +337,14 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
               <label>Loại</label>
               <div className="seat-detail-input-dem"></div>
               <div className="input-seat-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Loại</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeType}
-                    label="Loại"
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={handleChangeComboboxCodeType}
-                    onFocus={onHandleFocusCodeType}
-                  >
-                    {dataTypeSeat.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeType && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
+                <input
+                  className="input-seat"
+                  value={codeType}
+                  readOnly={!editCode}
+                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
+                  // onChange={(text) => onChangeHandleCodeRap(text)}
+                  // onFocus={onHandleFocusPosition}
+                />
               </div>
             </div>
 
@@ -489,12 +356,10 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={status}
-                    label="Status"
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                     onChange={handleChangeComboboxStatus}
@@ -510,42 +375,6 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   </Select>
                 </FormControl>
                 {isValidStatus && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-
-            <div className="seat-detail-input">
-              <label>Trạng thái ghế</label>
-              <div className="seat-detail-input-dem"></div>
-              <div className="input-seat-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">
-                    trạng thái
-                  </InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={isBook}
-                    label="trạng thái"
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={handleChangeComboboxIsBook}
-                    onFocus={onHandleFocusIsBook}
-                  >
-                    {dataIsBook.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidIsBook && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>

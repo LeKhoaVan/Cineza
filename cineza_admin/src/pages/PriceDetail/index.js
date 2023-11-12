@@ -345,14 +345,14 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">
+                  {/* <InputLabel id="demo-select-small-label">
                     Mã loại ghế
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={codeTypeSeat}
-                    label="mã loại ghế"
+                    // label="mã loại ghế"
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                     onChange={handleChangeComboboxCodeTypeSeat}
@@ -378,17 +378,17 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
               <div className="price-detail-input-dem"></div>
               <div className="input-price-detail-container">
                 <FormControl
-                  sx={{ width: "100%", marginRight: "80px" }}
+                  sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">
+                  {/* <InputLabel id="demo-select-small-label">
                     Mã bảng giá header
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={codeHeader}
-                    label="Mã bảng giá header"
+                    // label="Mã bảng giá header"
                     onChange={handleChangeComboboxCodeHeader}
                     onFocus={onHandleFocusCodeHeader}
                     readOnly={!edit}
@@ -397,7 +397,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
                     {dataHeader.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.code}>
-                          {st.code}
+                          {st.description}
                         </MenuItem>
                       );
                     })}

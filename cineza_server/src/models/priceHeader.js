@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isIn: [["ACTIVE", "TEMPORARY_LOCKED", "DESTROY"]],
+          isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
         },
       },
     },

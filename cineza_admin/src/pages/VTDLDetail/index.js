@@ -15,9 +15,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const levelAddressCompobox = [
@@ -36,8 +36,8 @@ const levelAddressCompobox = [
   {
     fullName: "Xa/Phuong",
     level: "XA/PHUONG",
-  }
-]
+  },
+];
 
 const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
   const location = useLocation();
@@ -97,17 +97,17 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     const getParentByLevel = async () => {
-      const result = await axios.get(`http://localhost:9000/cineza/api/v1/value/get-level?evel=${levelAddress}`);
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/value/get-level?evel=${levelAddress}`
+      );
       if (result.status === 200) {
-        setIdParentAddress(result.data.parentId)
+        setIdParentAddress(result.data.parentId);
       } else {
-        console.error("error get parent address by level")
+        console.error("error get parent address by level");
       }
-    }
+    };
     getParentByLevel();
-  }, [levelAddress])
-
-
+  }, [levelAddress]);
 
   const onChangeTypeAddress = (event) => {
     setTypeAddress(event.target.value);
@@ -148,7 +148,10 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
   const onHandleFocusParentAddress = () => {
     if (editCode || edit) {
       if (levelAddress != "QUOCGIA") {
-        if (idParentAddress == undefined || idParentAddress.trim().length <= 0) {
+        if (
+          idParentAddress == undefined ||
+          idParentAddress.trim().length <= 0
+        ) {
           setIsValidParentAddress(true);
         } else {
           setIsValidParentAddress(false);
@@ -179,13 +182,13 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setTypeAddress("Vị trí địa lý");
-      setIdtypeAddress("vtdl")
+      setIdtypeAddress("vtdl");
     }
     const getAddressByCode = async () => {
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/value/address/get-code/` +
-          codeAddressBy
+            codeAddressBy
         );
         if (response.status === 200) {
           console.log(response.data);
@@ -237,7 +240,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       fullName: nameAddress,
       status: statusAddress,
     };
-    console.log(address)
+    console.log(address);
     try {
       if (editCode) {
         const response = await axios.post(
@@ -255,7 +258,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       } else if (update) {
         const response = await axios.put(
           `http://localhost:9000/cineza/api/v1/value/address/put/` +
-          codeAddress,
+            codeAddress,
           address
         );
         if (response.status === 200) {
@@ -428,6 +431,25 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
+
+            <div className="address-detail-input">
+              <label>Cáp hành chính</label>
+              <div className="address-detail-input-dem"></div>
+              <div className="input-address-container">
+                <input
+                  className="input-address"
+                  readOnly={edit}
+                  value={levelAddress}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(code) => onChangeNameAddress(code)}
+                  onFocus={onHandleFocusNameAddress}
+                />
+                {isValidNameAddress && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
             <div className="address-detail-input">
               <label>Cấp hành chính</label>
               <div className="address-detail-input-dem"></div>
@@ -443,14 +465,14 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">
+                  {/* <InputLabel id="demo-select-small-label">
                     Cấp hành chính
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={levelAddress}
-                    label="Cấp hành chính"
+                    // label="Cấp hành chính"
                     onChange={(code) => onChangeLevelAddress(code)}
                     // onFocus={onHandleFocusParentAddress}
                     readOnly={!edit}
@@ -465,7 +487,6 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                     })}
                   </Select>
                 </FormControl>
-
               </div>
             </div>
           </div>
@@ -480,14 +501,14 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">
+                  {/* <InputLabel id="demo-select-small-label">
                     Trực thuộc
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={idParentAddress}
-                    label="Trực thuộc"
+                    // label="Trực thuộc"
                     onChange={handleChangeComboboxAddress}
                     onFocus={onHandleFocusParentAddress}
                     readOnly={!edit}
@@ -517,12 +538,12 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={statusAddress}
-                    label="Status"
+                    // label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatusAddress}
                     readOnly={!edit}

@@ -1,13 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   TextInput,
-} from "react-native";
+} from 'react-native';
 // import { Entypo } from "@expo/vector-icons";
-import { useState } from "react";
+
+import iconEye from '../../assets/imageButton/iconEye.png';
+import iconEyeHiden from '../../assets/imageButton/iconEyeHiden.png';
+import {useState} from 'react';
 
 function ChangePassword() {
   const [isPassword, setIsPassword] = useState(true);
@@ -19,7 +22,7 @@ function ChangePassword() {
     }
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "#d1d1cf" }}>
+    <View style={{flex: 1, backgroundColor: '#d1d1cf'}}>
       <Text style={styles.title}>MẬT KHẨU ĐĂNG NHẬP</Text>
       <View style={styles.item}>
         <TextInput
@@ -29,15 +32,16 @@ function ChangePassword() {
         />
         <TouchableOpacity
           style={{
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          onPress={hanldPressPass}
-        >
+          onPress={hanldPressPass}>
           {isPassword ? (
-            <Entypo name="eye-with-line" size={24} color="black" />
+            // <Entypo name="eye-with-line" size={24} color="black" />
+            <Image source={iconEyeHiden} style={{width: 20, height: 20}} />
           ) : (
-            <Entypo name="eye" size={24} color="black" />
+            // <Entypo name="eye" size={24} color="black" />
+            <Image source={iconEye} style={{width: 20, height: 20}} />
           )}
         </TouchableOpacity>
       </View>
@@ -49,11 +53,10 @@ function ChangePassword() {
         />
         <TouchableOpacity
           style={{
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          onPress={hanldPressPass}
-        >
+          onPress={hanldPressPass}>
           {isPassword ? (
             <Entypo name="eye-with-line" size={24} color="black" />
           ) : (
@@ -69,11 +72,10 @@ function ChangePassword() {
         />
         <TouchableOpacity
           style={{
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          onPress={hanldPressPass}
-        >
+          onPress={hanldPressPass}>
           {isPassword ? (
             <Entypo name="eye-with-line" size={24} color="black" />
           ) : (
@@ -82,7 +84,7 @@ function ChangePassword() {
         </TouchableOpacity>
       </View>
       <View style={styles.button}>
-        <Text style={{ textAlign: "center", fontSize: 22, color: "#fff" }}>
+        <Text style={{textAlign: 'center', fontSize: 22, color: '#fff'}}>
           Đổi mật khẩu
         </Text>
       </View>
@@ -98,24 +100,24 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     paddingVertical: 20,
     paddingTop: 30,
-    textAlign: "center",
+    textAlign: 'center',
   },
   item: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: "#d1d1cf",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
+    borderBottomColor: '#d1d1cf',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 5,
   },
   button: {
     paddingVertical: 10,
     marginTop: 30,
-    backgroundColor: "#940a11",
+    backgroundColor: '#940a11',
     width: 270,
     borderRadius: 50,
     marginLeft: 50,
   },
-  textInput: { height: 40, fontSize: 20, marginLeft: 10 },
+  textInput: {height: 40, fontSize: 20, marginLeft: 10},
 });

@@ -23,9 +23,9 @@ const FormData = require("form-data");
 registerLocale("vi", vi);
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const dataLevel = [
@@ -110,19 +110,19 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
   //   }, []);
 
   useEffect(() => {
-    onHandleFocusMovieTime()
-  }, [movieTime])
+    onHandleFocusMovieTime();
+  }, [movieTime]);
 
   const onHandleFocusMovieTime = () => {
     if (edit || editCode) {
       const regex = /^\d*$/;
       if (movieTime.trim().length <= 0 || !regex.test(movieTime)) {
-        setIsValidMovieTime(false)
+        setIsValidMovieTime(false);
       } else {
         setIsValidMovieTime(true);
       }
     }
-  }
+  };
 
   // useEffect(() => {
   //   onHandleFocusCodeAddress();
@@ -282,7 +282,6 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
     setEndDate(text);
   };
 
-
   return (
     <div className="movie-detail-background">
       <div className="movie-detail-container">
@@ -343,7 +342,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
-                // onFocus={onHandleFocusCode}
+                  // onFocus={onHandleFocusCode}
                 />
                 {/* {isValidCode && (
                   <p style={{ color: "red" }}>Mã không được bỏ trống</p>
@@ -361,7 +360,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleNameMovie(text)}
-                //   onFocus={onHandleFocusName}
+                  //   onFocus={onHandleFocusName}
                 />
                 {/* {isValidName && (
                   <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>
@@ -377,12 +376,12 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Thể loại</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Thể loại</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={movieType}
-                    label="Thể loại"
+                    // label="Thể loại"
                     onChange={handleChangeComboboxLevel}
                     // onFocus={onHandleFocusLevel}
                     readOnly={!edit}
@@ -417,7 +416,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                       : { height: "50px", background: "rgb(196, 196, 196)" }
                   }
                   onChange={(text) => onChangeHandleDescription(text)}
-                //   onFocus={onHandleFocusHome}
+                  //   onFocus={onHandleFocusHome}
                 />
                 {/* {isValidHome && <p style={{ color: "red" }}>Không bỏ trống</p>} */}
               </div>
@@ -468,7 +467,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleDirector(text)}
-                //   onFocus={onHandleFocusPhone}
+                  //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -485,7 +484,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleActor(text)}
-                //   onFocus={onHandleFocusPhone}
+                  //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -548,12 +547,12 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={status}
-                    label="Status"
+                    // label="Status"
                     onChange={handleChangeComboboxStatus}
                     // onFocus={onHandleFocusStatus}
                     readOnly={!edit}
@@ -581,12 +580,12 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Ngôn ngữ</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Ngôn ngữ</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={languageMovie}
-                    label="Ngôn ngữ"
+                    // label="Ngôn ngữ"
                     onChange={handleChangeComboboxLanguage}
                     // onFocus={onHandleFocusStatus}
                     readOnly={!edit}

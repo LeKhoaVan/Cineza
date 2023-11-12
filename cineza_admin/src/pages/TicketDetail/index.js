@@ -24,9 +24,9 @@ import vi from "date-fns/locale/vi";
 registerLocale("vi", vi);
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
@@ -335,10 +335,13 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
                 <p>Xóa</p>
               </div>
             </div>
-            <div
-              className="ticket-detail-header-close"
-            >
-              <img onClick={onClickHandleClose} className="iconClose" src={iconClose} alt="close" />
+            <div className="ticket-detail-header-close">
+              <img
+                onClick={onClickHandleClose}
+                className="iconClose"
+                src={iconClose}
+                alt="close"
+              />
             </div>
           </div>
           <div className="ticket-detail-name">
@@ -406,14 +409,14 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">
+                  {/* <InputLabel id="demo-select-small-label">
                     mã người dùng
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={codeUser}
-                    label="mã người dùng"
+                    // label="mã người dùng"
                     onChange={handleChangeComboboxCodeUser}
                     onFocus={onHandleFocusCodeUser}
                     readOnly={!edit}
@@ -442,14 +445,14 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">
+                  {/* <InputLabel id="demo-select-small-label">
                     mã suất chiếu
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={codeShowing}
-                    label="mã suất chiếu"
+                    // label="mã suất chiếu"
                     onChange={handleChangeComboboxCodeShowing}
                     onFocus={onHandleFocusCodeShowing}
                     readOnly={!edit}
@@ -478,12 +481,12 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">mã ghế</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">mã ghế</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={codeSeat}
-                    label="mã ghế"
+                    // label="mã ghế"
                     onChange={handleChangeComboboxCodeSeat}
                     onFocus={onHandleFocusCodeSeat}
                     readOnly={!edit}
@@ -512,12 +515,12 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
                   sx={{ width: "100%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={status}
-                    label="Status"
+                    // label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatus}
                     readOnly={!edit}

@@ -22,9 +22,9 @@ import vi from "date-fns/locale/vi";
 registerLocale("vi", vi);
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const dataTypePromotion = [
@@ -37,7 +37,7 @@ const dataTypeTicket = [
   { id: "VIP", value: "VIP" },
   { id: "THUONG", value: "THUONG" },
   { id: "DOI", value: "DOI" },
-]
+];
 
 const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
@@ -50,12 +50,12 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   const [typePromotion, settypePromotion] = useState("");
 
   const [codeMovie, setCodeMovie] = useState("");
-  const [purchaseValue, setPurchaseValue] = useState(null)
+  const [purchaseValue, setPurchaseValue] = useState(null);
   const [promotionValue, setPromotionValue] = useState(null);
   const [numberTicket, setNumberTicket] = useState(null);
   const [typeTicket, setTypeTicket] = useState(null);
   const [numberTicketGift, setNumberTicketGift] = useState(null);
-  const [maxMoney, setMaxMoney] = useState("")
+  const [maxMoney, setMaxMoney] = useState("");
   const [maxTurn, setMaxTurn] = useState("");
 
   const [dataMovie, setDataMovie] = useState([]);
@@ -67,7 +67,7 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   const [errors, setErrors] = useState({});
   const [FREEBIES, setFREEBIES] = useState(false);
   const [PROMOTION, setPROMOTION] = useState(false);
-  const [money, setMoney] = useState(true)
+  const [money, setMoney] = useState(true);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidCodeHeader, setIsValidCodeHeader] = useState(false);
@@ -99,16 +99,16 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxTypePromotion = (text) => {
     settypePromotion(text.target.value);
     if (text.target.value == "FREEBIES") {
-      setPROMOTION(false)
-      setFREEBIES(true)
+      setPROMOTION(false);
+      setFREEBIES(true);
     } else if (text.target.value == "PROMOTION") {
-      setPROMOTION(true)
-      setFREEBIES(false)
-      setMoney(true)
+      setPROMOTION(true);
+      setFREEBIES(false);
+      setMoney(true);
     } else {
-      setPROMOTION(true)
-      setFREEBIES(false)
-      setMoney(false)
+      setPROMOTION(true);
+      setFREEBIES(false);
+      setMoney(false);
     }
   };
   const handleChangeComboboxStatus = (text) => {
@@ -116,42 +116,44 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
   };
 
   const onChangeHandleNumberTicket = (txt) => {
-    setNumberTicket(txt.target.value)
-  }
+    setNumberTicket(txt.target.value);
+  };
   const handleChangeComboboxTypeTicket = (txt) => {
-    setTypeTicket(txt.target.value)
-  }
+    setTypeTicket(txt.target.value);
+  };
   const onChangeHandleTicketGift = (txt) => {
     setNumberTicketGift(txt.target.value);
-  }
+  };
   const handleChangeComboboxMovie = (text) => {
     setCodeMovie(text.target.value);
-  }
+  };
   const onChangeHandlePurchaseValue = (text) => {
-    setPurchaseValue(text.target.value)
-  }
+    setPurchaseValue(text.target.value);
+  };
   const onChangeHandlePromotionValue = (text) => {
     setPromotionValue(text.target.value);
-  }
+  };
 
   const onChangeHandleNumberMaxMoney = (text) => {
-    setMaxMoney(text.target.value)
-  }
+    setMaxMoney(text.target.value);
+  };
   const onChangeHandleNumberNumberTurn = (text) => {
-    setMaxTurn(text.target.value)
-  }
+    setMaxTurn(text.target.value);
+  };
 
   useEffect(() => {
     const getAllMovie = async () => {
-      const response = await axios.get(`http://localhost:9000/cineza/api/v1/movie/get-all`);
+      const response = await axios.get(
+        `http://localhost:9000/cineza/api/v1/movie/get-all`
+      );
       if (response.status == 200) {
-        setDataMovie(response.data)
+        setDataMovie(response.data);
       } else {
-        console.error("error get all movie")
+        console.error("error get all movie");
       }
-    }
+    };
     getAllMovie();
-  }, [])
+  }, []);
 
   useEffect(() => {
     onHandleFocusCode();
@@ -237,11 +239,10 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
       typePromotion: typePromotion,
       promotionHeaderCode: codeHeader,
       maxMoney: maxMoney,
-      maxTurn: maxTurn
+      maxTurn: maxTurn,
     };
 
     try {
-
       if (editCode) {
         const response = await axios.post(
           `http://localhost:9000/cineza/api/v1/promotion-line/create`,
@@ -255,18 +256,17 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
           promotionValue: promotionValue,
           numberTicket: numberTicket,
           typeTicket: typeTicket,
-          numberGiftTiket: numberTicketGift
-        }
+          numberGiftTiket: numberTicketGift,
+        };
         console.log(response);
         console.log(promotionDetail);
 
         const responseDetail = await axios.post(
           `http://localhost:9000/cineza/api/v1/promotion-detail/create`,
-          promotionDetail)
+          promotionDetail
+        );
 
-
-
-        if (response.status == 201 & responseDetail.status == 201) {
+        if ((response.status == 201) & (responseDetail.status == 201)) {
           setMessage("Lưu thành công");
           setShowAlert(true);
         } else {
@@ -306,13 +306,13 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
         setCodeHeader("");
         settypePromotion("");
         setStatus("");
-        setStartDay(new Date())
-        setEndDay(new Date())
+        setStartDay(new Date());
+        setEndDay(new Date());
       }
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/promotion-line/get-by-code/` +
-          codePromotion
+            codePromotion
         );
 
         if (response.status === 200) {
@@ -325,36 +325,36 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
           setStatus(response.data.promotionLineStatus);
           settypePromotion(response.data.typePromotion);
           setMaxMoney(response.data.maxMoney);
-          setMaxTurn(response.data.maxTurn)
+          setMaxTurn(response.data.maxTurn);
           if (response.data.typePromotion != "PROMOTION") {
-            setMoney(false)
+            setMoney(false);
           }
 
           const responseDetail = await axios.get(
-            `http://localhost:9000/cineza/api/v1/promotion-detail/get-all/` + response.data.code
-          )
-          console.log(responseDetail)
+            `http://localhost:9000/cineza/api/v1/promotion-detail/get-all/` +
+              response.data.code
+          );
+          console.log(responseDetail);
 
           if (responseDetail.status === 200) {
             setCodeMovie(responseDetail.data[0].movieCode);
 
             if (responseDetail.data[0].purchaseValue != null) {
-              setPurchaseValue(responseDetail.data[0].purchaseValue)
+              setPurchaseValue(responseDetail.data[0].purchaseValue);
             }
             if (responseDetail.data[0].promotionValue != null) {
-              setPromotionValue(responseDetail.data[0].promotionValue)
+              setPromotionValue(responseDetail.data[0].promotionValue);
             }
             if (responseDetail.data[0].numberTicket != null) {
-              setNumberTicket(responseDetail.data[0].numberTicket)
+              setNumberTicket(responseDetail.data[0].numberTicket);
             }
             if (responseDetail.data[0].typeTicket != null) {
-              setTypeTicket(responseDetail.data[0].typeTicket)
+              setTypeTicket(responseDetail.data[0].typeTicket);
             }
             if (responseDetail.data[0].numberGiftTiket != null) {
-              setNumberTicketGift(responseDetail.data[0].numberGiftTiket)
+              setNumberTicketGift(responseDetail.data[0].numberGiftTiket);
             }
           }
-
         } else {
           console.log("get user fail");
         }
@@ -523,7 +523,10 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            <div className="promotion-detail-input" style={{ paddingTop: "100px" }}>
+            <div
+              className="promotion-detail-input"
+              style={{ paddingTop: "100px" }}
+            >
               <label>Số vé tối thiểu</label>
               <div className="promotion-detail-input-dem"></div>
 
@@ -532,7 +535,11 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                   className="input-promotion"
                   value={numberTicket}
                   readOnly={!edit || PROMOTION}
-                  style={(edit & !PROMOTION) ? {} : { background: "rgb(196, 196, 196)" }}
+                  style={
+                    edit & !PROMOTION
+                      ? {}
+                      : { background: "rgb(196, 196, 196)" }
+                  }
                   onChange={(text) => onChangeHandleNumberTicket(text)}
                   onFocus={onHandleFocusCode}
                 />
@@ -559,7 +566,11 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                     onChange={handleChangeComboboxTypeTicket}
                     onFocus={onHandleFocusStatus}
                     readOnly={!edit || PROMOTION}
-                    style={(edit & !PROMOTION) ? {} : { background: "rgb(196, 196, 196)" }}
+                    style={
+                      edit & !PROMOTION
+                        ? {}
+                        : { background: "rgb(196, 196, 196)" }
+                    }
                   >
                     {dataTypeTicket.map((st, index) => {
                       return (
@@ -585,7 +596,11 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                   className="input-promotion"
                   value={numberTicketGift}
                   readOnly={!edit || PROMOTION}
-                  style={(edit & !PROMOTION) ? {} : { background: "rgb(196, 196, 196)" }}
+                  style={
+                    edit & !PROMOTION
+                      ? {}
+                      : { background: "rgb(196, 196, 196)" }
+                  }
                   onChange={(text) => onChangeHandleTicketGift(text)}
                   onFocus={onHandleFocusCode}
                 />
@@ -706,8 +721,13 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
               </div>
             </div>
 
-            <div className="promotion-detail-input" style={{ paddingTop: "40px" }}>
-              <label style={{ fontSize: 18, fontWeight: 600 }}>Cơ cấu khuyến mãi</label>
+            <div
+              className="promotion-detail-input"
+              style={{ paddingTop: "40px" }}
+            >
+              <label style={{ fontSize: 18, fontWeight: 600 }}>
+                Cơ cấu khuyến mãi
+              </label>
               <div className="promotion-detail-input-dem"></div>
             </div>
 
@@ -754,7 +774,9 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                   className="input-promotion"
                   value={purchaseValue}
                   readOnly={!editCode || FREEBIES}
-                  style={(edit & !FREEBIES) ? {} : { background: "rgb(196, 196, 196)" }}
+                  style={
+                    edit & !FREEBIES ? {} : { background: "rgb(196, 196, 196)" }
+                  }
                   onChange={(text) => onChangeHandlePurchaseValue(text)}
                   onFocus={onHandleFocusCode}
                 />
@@ -764,7 +786,11 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
               </div>
             </div>
             <div className="promotion-detail-input">
-              <label>{money != "" ? "Giá trị khuyến mãi (tiền)" : "Giá trị khuyến mãi (%)"}</label>
+              <label>
+                {money != ""
+                  ? "Giá trị khuyến mãi (tiền)"
+                  : "Giá trị khuyến mãi (%)"}
+              </label>
               <div className="promotion-detail-input-dem"></div>
 
               <div className="input-promotion-container">
@@ -772,7 +798,9 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                   className="input-promotion"
                   value={promotionValue}
                   readOnly={!editCode || FREEBIES}
-                  style={(edit & !FREEBIES) ? {} : { background: "rgb(196, 196, 196)" }}
+                  style={
+                    edit & !FREEBIES ? {} : { background: "rgb(196, 196, 196)" }
+                  }
                   onChange={(text) => onChangeHandlePromotionValue(text)}
                   onFocus={onHandleFocusCode}
                 />
@@ -781,7 +809,6 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </div>
