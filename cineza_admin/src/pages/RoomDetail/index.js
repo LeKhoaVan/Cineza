@@ -21,9 +21,9 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const titleColumn = [
@@ -47,13 +47,9 @@ const titleColumn = [
     title: "Trạng thái",
     data: "status",
   },
-  {
-    title: "Trạng thái ghế",
-    data: "isBook",
-  },
 ];
 
-const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
+const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [codeRap, setCodeRap] = useState("");
@@ -112,9 +108,9 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
   };
-  const handleChangeComboboxCodeRap = (text) => {
-    setCodeRap(text.target.value);
-  };
+  // const handleChangeComboboxCodeRap = (text) => {
+  //   setCodeRap(text.target.value);
+  // };
 
   const onChangeHandleCode = (text) => {
     setCode(text.target.value);
@@ -165,26 +161,26 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     }
   };
 
-  useEffect(() => {
-    onHandleFocusCodeRap();
-  }, [codeRap]);
+  // useEffect(() => {
+  //   onHandleFocusCodeRap();
+  // }, [codeRap]);
 
-  const onHandleFocusCodeRap = () => {
-    if (editCode || edit) {
-      if (codeRap == undefined || codeRap.length == 0) {
-        setIsValidCodeRap(true);
-      } else {
-        setIsValidCodeRap(false);
-      }
-    }
-  };
+  // const onHandleFocusCodeRap = () => {
+  //   if (editCode || edit) {
+  //     if (codeRap == undefined || codeRap.length == 0) {
+  //       setIsValidCodeRap(true);
+  //     } else {
+  //       setIsValidCodeRap(false);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     if (addBtn) {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
-      setCodeRap(codeRap);
+      setCodeRap(rapCode);
     }
     const getRoom = async () => {
       const result = await axios.get(
@@ -201,23 +197,23 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
   }, []);
 
   //all rap
-  useEffect(() => {
-    const getAllRap = async () => {
-      try {
-        const allRap = await axios.get(
-          "http://localhost:9000/cineza/api/v1/rap/get-all"
-        );
-        if (allRap.status === 200) {
-          setDataRap(allRap.data);
-        } else {
-          console.error("error get rap");
-        }
-      } catch (error) {
-        console.error("error get all rap: " + error);
-      }
-    };
-    getAllRap();
-  }, []);
+  // useEffect(() => {
+  //   const getAllRap = async () => {
+  //     try {
+  //       const allRap = await axios.get(
+  //         "http://localhost:9000/cineza/api/v1/rap/get-all"
+  //       );
+  //       if (allRap.status === 200) {
+  //         setDataRap(allRap.data);
+  //       } else {
+  //         console.error("error get rap");
+  //       }
+  //     } catch (error) {
+  //       console.error("error get all rap: " + error);
+  //     }
+  //   };
+  //   getAllRap();
+  // }, []);
 
   //get ghế by code phòng
   useEffect(() => {
@@ -242,7 +238,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/THUONG/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`
         );
         if (result.status === 200) {
           setComunitySeats(result.data);
@@ -260,7 +256,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/${codeRoom}`
         );
         if (result.status === 200) {
           setVipSeats(result.data);
@@ -289,7 +285,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     setCode("");
     setName("");
     setStatus("");
-    setCodeRap(codeRap);
+    // setCodeRap(codeRap);
   };
 
   const onClickHandleSave = async () => {
@@ -302,7 +298,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
     onHandleFocusCode();
     onHandleFocusName();
     onHandleFocusStatus();
-    if (!isValidCode & !isValidName & !isValidStatus & !isValidCodeRap) {
+    if (!isValidCode & !isValidName & !isValidStatus) {
       try {
         console.log(room);
         if (editCode) {
@@ -362,13 +358,13 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-            <Link
+            {/* <Link
               className="room-detail-header-edit-detail"
               to={"/room/code?code=" + code}
             >
               <img className="icon-detail" src={iconDetail} alt="update" />
               <p>Danh sách ghế</p>
-            </Link>
+            </Link> */}
             <div
               className="room-detail-header-edit-new-delete"
               onClick={onClickHandleNew}
@@ -434,7 +430,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            {/* <div className="room-detail-input">
+            <div className="room-detail-input">
               <label>Mã rap</label>
               <div className="room-detail-input-dem"></div>
               <div className="input-room-container">
@@ -447,9 +443,9 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                   // onFocus={onHandleFocusPosition}
                 />
               </div>
-            </div> */}
+            </div>
 
-            <div className="room-detail-input">
+            {/* <div className="room-detail-input">
               <label>Mã rap</label>
               <div className="room-detail-input-dem"></div>
               <div className="input-room-container">
@@ -481,7 +477,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="room-detail-input">
               <label>Trạng thái</label>
@@ -491,12 +487,12 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
                   <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
+                    // labelId="demo-select-small-label"
+                    // id="demo-select-small"
                     value={status}
-                    label="Status"
+                    // label="Status"
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                     onChange={handleChangeComboboxStatus}
@@ -520,7 +516,13 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
 
           <div className="room-detail-content-right"></div>
         </div>
-
+        <div
+          style={{
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
         <div
           style={{
             display: "flex",
@@ -530,12 +532,6 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
           }}
         >
           <h2>Danh sách ghế</h2>
-          <img
-            src={iconAdd}
-            alt="btn-add"
-            className="room-btn-add"
-            onClick={onClickHandleBtnAdd}
-          />
         </div>
         <div
           style={{
@@ -559,12 +555,12 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
                 codeSeat={codeSeat}
               />
             )}
-            {openModelAdd && (
+            {/* {openModelAdd && (
               <SeatDetail
                 addBtn={true}
                 onClickHandleClose={onClickHandleCloseP}
               />
-            )}
+            )} */}
           </div>
           <div className="room-detail-container-page-right">
             <FlatList
@@ -582,7 +578,7 @@ const RoomDetail = ({ codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                // onClick={handleSeatClick(item)}
+                  // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

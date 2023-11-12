@@ -21,9 +21,9 @@ import vi from "date-fns/locale/vi";
 registerLocale("vi", vi);
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const dataLevel = [
@@ -600,19 +600,17 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             <div className="user-detail-input">
               <label>Level</label>
               <div className="user-detail-input-dem"></div>
-              {/* <input className="input-user" value={levelUser} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                                onChange={(text) => onChangeHandleLevel(text)} /> */}
               <div className="input-user-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Level</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Level</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={levelUser}
-                    label="Level"
+                    // label="Level"
                     onChange={handleChangeComboboxLevel}
                     onFocus={onHandleFocusLevel}
                     readOnly={!edit}
@@ -695,12 +693,12 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={status}
-                    label="Status"
+                    // label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatus}
                     readOnly={!edit}
@@ -736,116 +734,164 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
             <div className="user-detail-input">
               <div className="user-detail-input-dem"></div>
-              <div className="input-address-user">
-                <FormControl
-                  className="input-address-user-combobox"
-                  sx={{ width: "28%", marginRight: "10px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Quốc gia</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={countryId}
-                    label="Quốc gia"
-                    onChange={handleChangeComboboxCountry}
-                    readOnly={!edit}
-                    onFocus={onHandleFocusAddress}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <div className="input-address-rap">
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginRight: 5,
+                      width: "22%",
+                    }}
                   >
-                    {country?.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.fullName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
+                    <label style={{ marginBottom: 5 }}>Quốc gia</label>
+                    <FormControl
+                      className="input-address-rap-combobox"
+                      sx={{ width: "100%", marginRight: "10px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">Quốc gia</InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={countryId}
+                        // label="Quốc gia"
+                        onChange={handleChangeComboboxCountry}
+                        readOnly={!edit}
+                        onFocus={onHandleFocusAddress}
+                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                      >
+                        {country?.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.id}>
+                              {st.fullName}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </div>
 
-                <FormControl
-                  className="input-address-user-combobox"
-                  sx={{ width: "28%", marginRight: "10px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Tỉnh/TP</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={cityId}
-                    label="Tinh/TP"
-                    onChange={handleChangeComboboxCity}
-                    onFocus={onHandleFocusAddress}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginRight: 5,
+                      width: "22%",
+                    }}
                   >
-                    {city?.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.fullName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
+                    <label style={{ marginBottom: 5 }}>Tỉnh/Thành</label>
+                    <FormControl
+                      className="input-address-rap-combobox"
+                      sx={{ width: "100%", marginRight: "10px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">Tỉnh/TP</InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={cityId}
+                        // label="Tinh/TP"
+                        onChange={handleChangeComboboxCity}
+                        onFocus={onHandleFocusAddress}
+                        readOnly={!edit}
+                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                      >
+                        {city?.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.id}>
+                              {st.fullName}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </div>
 
-                <FormControl
-                  className="input-address-user-combobox"
-                  sx={{ width: "28%", marginRight: "10px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginRight: 5,
+                      width: "22%",
+                    }}
+                  >
+                    <label style={{ marginBottom: 5 }}>Quận/Huyện</label>
+                    <FormControl
+                      className="input-address-rap-combobox"
+                      sx={{ width: "100%", marginRight: "10px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">
                     Quận/Huyện
-                  </InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={districtId}
-                    label="Quân./Huyện"
-                    onChange={handleChangeComboboxDistrict}
-                    onFocus={onHandleFocusAddress}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  </InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={districtId}
+                        // label="Quân./Huyện"
+                        onChange={handleChangeComboboxDistrict}
+                        onFocus={onHandleFocusAddress}
+                        readOnly={!edit}
+                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                      >
+                        {district?.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.id}>
+                              {st.fullName}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "22%",
+                    }}
                   >
-                    {district?.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.fullName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                <div style={{ height: "20px" }}></div>
-                <FormControl
-                  className="input-address-user-combobox"
-                  sx={{ width: "28%", marginRight: "10px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">
+                    <label style={{ marginBottom: 5 }}>Phường/Xã</label>
+                    <FormControl
+                      className="input-address-rap-combobox"
+                      sx={{ width: "100%", marginRight: "10px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">
                     Phường/Xã
-                  </InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={wardId}
-                    label="Phường/Xã"
-                    onChange={handleChangeComboboxWard}
-                    onFocus={onHandleFocusAddress}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {ward?.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.fullName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
+                  </InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={wardId}
+                        // label="Phường/Xã"
+                        onChange={handleChangeComboboxWard}
+                        onFocus={onHandleFocusAddress}
+                        readOnly={!edit}
+                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                      >
+                        {ward?.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.id}>
+                              {st.fullName}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </div>
+                </div>
+                <div style={{ height: "20px" }}></div>
                 {isValidAddress && (
-                  <p style={{ color: "red" }}>{errorAddress}</p>
+                  <p style={{ color: "red", width: "40%" }}>{errorAddress}</p>
                 )}
               </div>
             </div>

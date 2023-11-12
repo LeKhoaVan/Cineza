@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './Style_Header';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 // import { Entypo } from 'react-native-vector-icons';
-import iconMenu from "../../assets/imageButton/iconMenu.png";
+import iconMenu from '../../assets/imageButton/iconMenu.png';
+import iconUser from '../../assets/imageButton/iconUser.png';
 // import { FontAwesome5 } from "@expo/vector-icons";
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
 function Header() {
   const navigation = useNavigation();
@@ -14,6 +15,7 @@ function Header() {
         onPress={() => navigation.navigate('Thành viên')}
         style={styles.containerUser}>
         {/* <FontAwesome5 name="user-tie" size={24} color="white" /> */}
+        <Image source={iconUser} style={{width: 20, height: 20}} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.containerLogo}>
         <Text>Cineza App</Text>
@@ -22,7 +24,7 @@ function Header() {
         onPress={() => navigation.navigate('Menu')}
         style={styles.containerIcon}>
         {/* <Entypo name="menu" size={25} color="black" /> */}
-        <Image source={iconMenu} style={{ width: 20, height: 20 }} />
+        <Image source={iconMenu} style={{width: 20, height: 20}} />
       </TouchableOpacity>
     </View>
   );

@@ -30,9 +30,9 @@ import vi from "date-fns/locale/vi";
 registerLocale("vi", vi);
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const data = [
@@ -468,12 +468,12 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                   sx={{ width: "100%", marginRight: "80px" }}
                   size="small"
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={status}
-                    label="Status"
+                    // label="Status"
                     onChange={handleChangeComboboxStatus}
                     onFocus={onHandleFocusStatus}
                     readOnly={!edit}

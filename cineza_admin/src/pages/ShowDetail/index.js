@@ -25,9 +25,9 @@ import { formatDateHandle, formatTimeHandle } from "../../components/util";
 import { flushSync } from "react-dom";
 
 const dataStatus = [
-  { id: "ACTIVE", value: "ACTIVE" },
-  { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-  { id: "DESTROY", value: "DESTROY" },
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
 ];
 
 const column = [
@@ -39,9 +39,8 @@ const column = [
   { title: "Phòng", data: "roomName" },
   { title: "Ghế", data: "codeSeat" },
   { title: "Ngày đặt vé", data: "bookAt" },
-  { title: "Trạng thái", data: "status" }
-]
-
+  { title: "Trạng thái", data: "status" },
+];
 
 const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
@@ -50,7 +49,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [codeMovie, setCodeMovie] = useState("");
   const [codeRap, setCodeRap] = useState("");
   const [codeRoom, setCodeRoom] = useState("");
-  const [showDate, setShowDate] = useState("")
+  const [showDate, setShowDate] = useState("");
   const [status, setStatus] = useState("");
   const [dataTicket, setDataTicket] = useState([]);
   const [dataSeatVip, setDataSeatVip] = useState([]);
@@ -99,13 +98,13 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowRoom(false);
     setShowTicket(false);
     setShowDetail(true);
-  }
+  };
 
   const handleOnClickBackTicket = () => {
     setShowRoom(false);
     setShowTicket(false);
     setShowDetail(true);
-  }
+  };
 
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
@@ -129,8 +128,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   };
 
   const handleChangeComboboxShowDate = (text) => {
-    setShowDate(text.target.value)
-  }
+    setShowDate(text.target.value);
+  };
 
   useEffect(() => {
     onHandleFocusCode();
@@ -150,7 +149,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     onHandleFocusCodeMovie();
     if (codeMovie != "") {
       const getDate = async () => {
-        const resutlDate = await axios.get(`http://localhost:9000/cineza/api/v1/movie/${codeMovie}`);
+        const resutlDate = await axios.get(
+          `http://localhost:9000/cineza/api/v1/movie/${codeMovie}`
+        );
         if (resutlDate.status === 200) {
           const startDate = moment(resutlDate.data.startDate);
           const endDate = moment(resutlDate.data.endDate);
@@ -162,9 +163,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             daysInRange.push(currentDate.format("DD-MM-YYYY"));
             currentDate.add(1, "days");
           }
-          setDates(daysInRange)
+          setDates(daysInRange);
         } else {
-          console.log("error get date by movie")
+          console.log("error get date by movie");
         }
       };
       getDate();
@@ -180,7 +181,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       }
     }
   };
-
 
   useEffect(() => {
     onHandleFocusCodeRap();
@@ -199,7 +199,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     onHandleFocusCodeRoom();
   }, [codeRoom]);
-
 
   const onHandleFocusCodeRoom = () => {
     if (editCode || edit) {
@@ -259,20 +258,24 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           const inputDateTime = new Date(result.data.showDate);
           // Đặt múi giờ châu Á (UTC+7)
           const timeZoneOffset = 7 * 60; // UTC offset in minutes
-          const asiaTime = new Date(inputDateTime.getTime() + timeZoneOffset * 60000);
+          const asiaTime = new Date(
+            inputDateTime.getTime() + timeZoneOffset * 60000
+          );
           // Định dạng ngày theo "DD-MM-YYYY"
           const day = asiaTime.getDate();
           const month = asiaTime.getMonth() + 1;
           const year = asiaTime.getFullYear();
-          const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${
+            month < 10 ? "0" : ""
+          }${month}-${year}`;
           setShowDate(formattedDateTime);
 
           setCodeMovie(result.data.codeMovie);
           setCodeRap(result.data.codeRap);
           setCodeRoom(result.data.codeRoom);
 
-          setRapName(result.data.nameRap)
-          setRoomName(result.data.nameRoom)
+          setRapName(result.data.nameRap);
+          setRoomName(result.data.nameRoom);
           setMovieName(result.data.movieName);
         }
       };
@@ -282,11 +285,20 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     const getAllTicket = async () => {
-      const allTicket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`);
+      const allTicket = await axios.get(
+        `http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`
+      );
       if (allTicket.status === 200) {
         const resultTickets = allTicket.data.map((t) => {
-          return { ...t, showDate: formatDateHandle(t.showDate), showStart: `${new Date(t.showStart).getHours()}:${new Date(t.showStart).getMinutes()}`, bookAt: formatDateHandle(t.bookAt) }
-        })
+          return {
+            ...t,
+            showDate: formatDateHandle(t.showDate),
+            showStart: `${new Date(t.showStart).getHours()}:${new Date(
+              t.showStart
+            ).getMinutes()}`,
+            bookAt: formatDateHandle(t.bookAt),
+          };
+        });
         setDataTicket(resultTickets);
       } else {
         console.error("get all ticket in showing");
@@ -299,31 +311,37 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     if (codeRoom != "") {
       const getAllSeat = async () => {
-        const allSeat = await axios.get(`http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`);
-        const allTicket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`);
+        const allSeat = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`
+        );
+        const allTicket = await axios.get(
+          `http://localhost:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`
+        );
         if (allSeat.status === 200) {
           const result = allSeat.data;
 
           // do du lieu ghe vao so do
-          let resultVip = []
+          let resultVip = [];
           let resultThuong = [];
           let totalSeatTam = 0;
           result.forEach((seat, idx) => {
             totalSeatTam = idx;
             let newSeat = { ...seat, booked: false };
             if (seat.typeSeat == "VIP") {
-              resultVip = [...resultVip, newSeat]
+              resultVip = [...resultVip, newSeat];
             } else if (seat.typeSeat == "COMUNITY") {
               resultThuong = [...resultThuong, newSeat];
             }
           });
           setTotalSeat(totalSeatTam + 1);
 
-          let totalBookTam = 0
+          let totalBookTam = 0;
           if (allTicket.status === 200) {
             //check ghe thuong da duoc book hay chua
             resultThuong = resultThuong.map((thuong) => {
-              const foundTicket = allTicket.data.find(ticket => thuong.code === ticket.codeSeat);
+              const foundTicket = allTicket.data.find(
+                (ticket) => thuong.code === ticket.codeSeat
+              );
 
               if (foundTicket) {
                 totalBookTam++;
@@ -331,11 +349,13 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               } else {
                 return { ...thuong, booked: false };
               }
-            })
+            });
 
             //check ghe thuong da duoc book hay chua
             resultVip = resultVip.map((vip) => {
-              const foundTicket = allTicket.data.find(ticket => vip.code === ticket.codeSeat);
+              const foundTicket = allTicket.data.find(
+                (ticket) => vip.code === ticket.codeSeat
+              );
 
               if (foundTicket) {
                 totalBookTam++;
@@ -343,7 +363,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               } else {
                 return { ...vip, booked: false };
               }
-            })
+            });
           }
           setTotalBook(totalBookTam);
 
@@ -352,7 +372,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         } else {
           console.error("error get all seat in show detail");
         }
-      }
+      };
       getAllSeat();
     }
   }, [codeRoom]);
@@ -375,7 +395,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     };
     getAllMovie();
   }, []);
-
 
   //combobox rap
   useEffect(() => {
@@ -419,7 +438,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   }, [codeRap]);
 
   const onClickHandleEdit = () => {
-    console.log(dataTicket)
+    console.log(dataTicket);
     if (dataTicket.length == 0) {
       setUpdate(true);
       setCreateNew(false);
@@ -442,8 +461,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowStart("");
     setCodeMovie("");
     setCodeRap("");
-    setShowDate("")
-    setDates([])
+    setShowDate("");
+    setDates([]);
     setCodeRoom("");
 
     setDataTicket([]);
@@ -455,7 +474,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       showStart: showStart,
       status: status,
       codeMovie: codeMovie,
-      showDate: moment(showDate, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+      showDate: moment(showDate, "DD-MM-YYYY").format("YYYY-MM-DD"),
       codeRap: codeRap,
       codeRoom: codeRoom,
     };
@@ -515,31 +534,35 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setShowDetail(false);
     setShowTicket(false);
     setShowRoom(true);
-  }
+  };
 
   const handleOnClickRow = (code) => {
     setShowDetail(false);
     setShowRoom(false);
     setShowTicket(true);
     setCodeTicket(code);
-  }
+  };
 
   useEffect(() => {
     if (codeTicket != "") {
       const getTicket = async () => {
-        const allSeat = await axios.get(`http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`);
-        const ticket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`);
+        const allSeat = await axios.get(
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`
+        );
+        const ticket = await axios.get(
+          `http://localhost:9000/cineza/api/v1/ticket/get-by-code/${codeTicket}`
+        );
         if (ticket.status === 200) {
           setTicket(ticket.data);
           if (allSeat.status === 200) {
-            let resultVip = []
+            let resultVip = [];
             let resultThuong = [];
             const result = allSeat.data;
 
             result.forEach((seat, idx) => {
               let newSeat = { ...seat, booked: false };
               if (seat.typeSeat == "VIP") {
-                resultVip = [...resultVip, newSeat]
+                resultVip = [...resultVip, newSeat];
               } else if (seat.typeSeat == "COMUNITY") {
                 resultThuong = [...resultThuong, newSeat];
               }
@@ -551,7 +574,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               } else {
                 return { ...thuong, booked: false };
               }
-            })
+            });
 
             //check ghe thuong da duoc book hay chua
             resultVip = resultVip.map((vip) => {
@@ -560,9 +583,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               } else {
                 return { ...vip, booked: false };
               }
-            })
+            });
 
-            setDataSeatTicketThuong(resultThuong)
+            setDataSeatTicketThuong(resultThuong);
             setDataSeatTicketVip(resultVip);
           }
         } else {
@@ -571,386 +594,443 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       };
       getTicket();
     }
-
-  }, [codeTicket])
-
-
+  }, [codeTicket]);
 
   return (
     <div className="show-detail-background">
-
-      {showRoom && (<div className="show-room-container">
-        <div className="show-room-diagram">
-          <img src={iconBack} onClick={handleOnClickBack} className="show-room-iconBack" alt="icon-back" />
-          <h3>Sơ đồ ghế</h3>
-          <div className="seat-show-container">
-            {dataSeatThuong?.map((seat, index) => (
-              <div
-                key={index}
-                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
-              // onClick={() => toggleSeat(index, seat)}
-              >
-                Ghế {seat?.position}
-              </div>
-            ))}
-
-            {dataSeatVip?.map((seat, index) => (
-              <div
-                key={index}
-                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
-              // onClick={() => toggleSeat(index, seat)}
-              >
-                Ghế {seat?.position}
-              </div>
-            ))}
-          </div>
-          <div className="show-color-status">
-            <div className="color-vip">Ghế VIP</div>
-            <div className="color-thuong">Ghế Thường</div>
-            <div className="color-booked">Ghế đã đặt</div>
-          </div>
-        </div>
-
-        <div className="show-room-detail">
-          <div className="show-room-title">
-            <h3>Thông tin phòng</h3>
-          </div>
-          <div className="show-room-text">
-            <p>Rạp: {rapName}</p>
-            <p>Phòng: {roomName}</p>
-            <p>Phim: {movieName}</p>
-            <p>Ngày chiếu: {showDate.toString()}</p>
-            <p>Giờ chiếu: {showStart.getHours()}:{showStart.getMinutes()}</p>
-            <p>Giờ kết thúc: {showEnd.getHours()}:{showEnd.getMinutes()}</p>
-            <p>Tổng số ghế: {totalSeat}</p>
-            <p>Tổng số ghế được đặt: {totalBook}</p>
-            <p>Tổng số ghế trống: {totalSeat - totalBook}</p>
-            <p>Trạng thái: {status}</p>
-          </div>
-        </div>
-      </div>)}
-
-      {showTicket && (<div className="show-room-container">
-        <div className="show-room-diagram">
-          <img src={iconBack} onClick={handleOnClickBackTicket} className="show-room-iconBack" alt="icon-back" />
-          <h3>Sơ đồ ghế</h3>
-          <div className="seat-show-container">
-            {dataSeatTicketThuong?.map((seat, index) => (
-              <div
-                key={index}
-                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
-              // onClick={() => toggleSeat(index, seat)}
-              >
-                Ghế {seat?.position}
-              </div>
-            ))}
-
-            {dataSeatTicketVip?.map((seat, index) => (
-              <div
-                key={index}
-                className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
-              // onClick={() => toggleSeat(index, seat)}
-              >
-                Ghế {seat?.position}
-              </div>
-            ))}
-          </div>
-          <div className="show-color-status">
-            <div className="color-vip">Ghế VIP</div>
-            <div className="color-thuong">Ghế Thường</div>
-            <div className="color-booked">Ghế đã đặt</div>
-          </div>
-        </div>
-
-        <div className="show-room-detail">
-          <div className="show-room-title">
-            <h3>Thông tin vé</h3>
-          </div>
-          <div className="show-room-text">
-            <p>Khách hàng: {ticket.fullName}</p>
-            <p>Phim: {ticket.movieName}</p>
-            <p>Ngày chiếu: {formatDateHandle(new Date(ticket.showDate))}</p>
-            <p>Giờ chiếu: {new Date(ticket.showStart).getHours()}:{new Date(ticket.showStart).getMinutes()} </p>
-            <p>Rạp: {ticket.rapName}</p>
-            <p>Phòng: {ticket.roomName}</p>
-            <p>ghế: {ticket.codeSeat} - {ticket.position}</p>
-            <p>Trạng thái: {ticket.status}</p>
-          </div>
-          <div className="show-room-btn">
-            <button className="btn-cancel">Hủy vé</button>
-          </div>
-        </div>
-      </div>)}
-
-      {showDetail == undefined ? true : showDetail && (<div className="show-detail-container">
-        <div className="show-detail-header">
-          <div className="show-detail-header-edit">
-            <div
-              className="show-detail-header-edit-save"
-              onClick={onClickHandleSave}
-            >
-              <img className="icon-save" src={iconSave} alt="update" />
-              <p>Lưu</p>
-            </div>
-            <div
-              className="show-detail-header-edit-update"
-              onClick={onClickHandleEdit}
-            >
-              <img className="icon-update" src={iconPen} alt="update" />
-              <p>Chỉnh sửa</p>
-            </div>
-
-            <div
-              className="show-detail-header-edit-new-delete"
-              onClick={onClickHandleNew}
-            >
-              <div className="show-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="show-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
-            </div>
-
-            <div
-              className="show-detail-header-edit-show-room"
-              onClick={onClickHandleShowRoom}
-            >
-              <img className="iconDetail" src={iconRoom} alt="update" />
-              <p>Phòng chiếu</p>
-            </div>
-            <div
-              className="show-detail-header-close">
-              <img className="iconClose" onClick={onClickHandleClose} src={iconClose} alt="close" />
-            </div>
-          </div>
-          <div className="show-detail-header-name">
-            <span>{code} </span>
-          </div>
-        </div>
-        <div className="show-detail-content">
-          <div className="show-detail-content-left">
-            {showAlert && (
-              <Alert message={message} onClose={handleCloseAlert} />
-            )}
-            <div className="show-detail-input">
-              <label>Mã xuất chiếu</label>
-              <div className="show-detail-input-dem"></div>
-
-              <div className="input-show-detail-container">
-                <input
-                  className="input-show-detail"
-                  value={code}
-                  readOnly={!editCode}
-                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                  onChange={(text) => onChangeHandleCode(text)}
-                  onFocus={onHandleFocusCode}
-                />
-                {isValidCode && (
-                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-
-            <div className="show-detail-input">
-              <label>Thời gian chiếu</label>
-              <div className="show-detail-input-dem"></div>
-              <div className="input-show-detail-container">
-                <TimePicker
-                  format="hh:mm a"
-                  openClockOnFocus={false}
-
-                  value={showStart}
-                  onChange={(text) => onChangeHandleShowStart(text)}
-                />
-              </div>
-            </div>
-
-            <div className="show-detail-input">
-              <label>Trạng thái</label>
-              <div className="show-detail-input-dem"></div>
-              <div className="input-show-detail-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
+      {showRoom && (
+        <div className="show-room-container">
+          <div className="show-room-diagram">
+            <img
+              src={iconBack}
+              onClick={handleOnClickBack}
+              className="show-room-iconBack"
+              alt="icon-back"
+            />
+            <h3>Sơ đồ ghế</h3>
+            <div className="seat-show-container">
+              {dataSeatThuong?.map((seat, index) => (
+                <div
+                  key={index}
+                  className={`seat-show ${
+                    seat?.booked ? "occupied-show" : "seat-thuong"
+                  }`}
+                  // onClick={() => toggleSeat(index, seat)}
                 >
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={status}
-                    label="Status"
-                    onChange={handleChangeComboboxStatus}
-                    onFocus={onHandleFocusStatus}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataStatus.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidStatus && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
+                  Ghế {seat?.position}
+                </div>
+              ))}
+
+              {dataSeatVip?.map((seat, index) => (
+                <div
+                  key={index}
+                  className={`seat-show ${
+                    seat?.booked ? "occupied-show" : "seat-vip"
+                  }`}
+                  // onClick={() => toggleSeat(index, seat)}
+                >
+                  Ghế {seat?.position}
+                </div>
+              ))}
+            </div>
+            <div className="show-color-status">
+              <div className="color-vip">Ghế VIP</div>
+              <div className="color-thuong">Ghế Thường</div>
+              <div className="color-booked">Ghế đã đặt</div>
             </div>
           </div>
 
-          <div className="show-detail-content-right">
-            <div className="show-detail-input">
-              <label>Tên phim</label>
-              <div className="show-detail-input-dem"></div>
-              <div className="input-show-detail-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Tên phim</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeMovie}
-                    label="Tên phim"
-                    onChange={handleChangeComboboxCodeMovie}
-                    onFocus={onHandleFocusCodeMovie}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataMovie.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.movieName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeMovie && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
+          <div className="show-room-detail">
+            <div className="show-room-title">
+              <h3>Thông tin phòng</h3>
             </div>
-
-            <div className="show-detail-input">
-              <label>Ngày chiếu</label>
-              <div className="show-detail-input-dem"></div>
-              <div className="input-show-detail-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">
-                    Ngày chiếu
-                  </InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={showDate}
-                    label="Ngày chiếu"
-
-                    onChange={handleChangeComboboxShowDate}
-                    onFocus={onHandleFocusShowDate}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dates.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st}>
-                          {st}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidShowDate && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-
-            <div className="show-detail-input">
-              <label>Mã rạp</label>
-              <div className="show-detail-input-dem"></div>
-              <div className="input-show-detail-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">mã rạp</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeRap}
-                    label="mã rạp"
-                    onChange={handleChangeComboboxCodeRap}
-                    onFocus={onHandleFocusCodeRap}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataRap.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeRap && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-
-            <div className="show-detail-input">
-              <label>Mã phòng</label>
-              <div className="show-detail-input-dem"></div>
-              <div className="input-show-detail-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">mã phòng</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeRoom}
-                    label="mã phòng"
-                    onChange={handleChangeComboboxCodeRoom}
-                    onFocus={onHandleFocusCodeRoom}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataRoom.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeRoom && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
+            <div className="show-room-text">
+              <p>Rạp: {rapName}</p>
+              <p>Phòng: {roomName}</p>
+              <p>Phim: {movieName}</p>
+              <p>Ngày chiếu: {showDate.toString()}</p>
+              <p>
+                Giờ chiếu: {showStart.getHours()}:{showStart.getMinutes()}
+              </p>
+              <p>
+                Giờ kết thúc: {showEnd.getHours()}:{showEnd.getMinutes()}
+              </p>
+              <p>Tổng số ghế: {totalSeat}</p>
+              <p>Tổng số ghế được đặt: {totalBook}</p>
+              <p>Tổng số ghế trống: {totalSeat - totalBook}</p>
+              <p>Trạng thái: {status}</p>
             </div>
           </div>
         </div>
-        <h3>Danh sách vé</h3>
-        <div className="show-detail-table-content">
-          <TableInPage data={dataTicket} column={column} onClickRow={handleOnClickRow} />
-        </div>
-      </div>
-
       )}
+
+      {showTicket && (
+        <div className="show-room-container">
+          <div className="show-room-diagram">
+            <img
+              src={iconBack}
+              onClick={handleOnClickBackTicket}
+              className="show-room-iconBack"
+              alt="icon-back"
+            />
+            <h3>Sơ đồ ghế</h3>
+            <div className="seat-show-container">
+              {dataSeatTicketThuong?.map((seat, index) => (
+                <div
+                  key={index}
+                  className={`seat-show ${
+                    seat?.booked ? "occupied-show" : "seat-thuong"
+                  }`}
+                  // onClick={() => toggleSeat(index, seat)}
+                >
+                  Ghế {seat?.position}
+                </div>
+              ))}
+
+              {dataSeatTicketVip?.map((seat, index) => (
+                <div
+                  key={index}
+                  className={`seat-show ${
+                    seat?.booked ? "occupied-show" : "seat-vip"
+                  }`}
+                  // onClick={() => toggleSeat(index, seat)}
+                >
+                  Ghế {seat?.position}
+                </div>
+              ))}
+            </div>
+            <div className="show-color-status">
+              <div className="color-vip">Ghế VIP</div>
+              <div className="color-thuong">Ghế Thường</div>
+              <div className="color-booked">Ghế đã đặt</div>
+            </div>
+          </div>
+
+          <div className="show-room-detail">
+            <div className="show-room-title">
+              <h3>Thông tin vé</h3>
+            </div>
+            <div className="show-room-text">
+              <p>Khách hàng: {ticket.fullName}</p>
+              <p>Phim: {ticket.movieName}</p>
+              <p>Ngày chiếu: {formatDateHandle(new Date(ticket.showDate))}</p>
+              <p>
+                Giờ chiếu: {new Date(ticket.showStart).getHours()}:
+                {new Date(ticket.showStart).getMinutes()}{" "}
+              </p>
+              <p>Rạp: {ticket.rapName}</p>
+              <p>Phòng: {ticket.roomName}</p>
+              <p>
+                ghế: {ticket.codeSeat} - {ticket.position}
+              </p>
+              <p>Trạng thái: {ticket.status}</p>
+            </div>
+            <div className="show-room-btn">
+              <button className="btn-cancel">Hủy vé</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDetail == undefined
+        ? true
+        : showDetail && (
+            <div className="show-detail-container">
+              <div className="show-detail-header">
+                <div className="show-detail-header-edit">
+                  <div
+                    className="show-detail-header-edit-save"
+                    onClick={onClickHandleSave}
+                  >
+                    <img className="icon-save" src={iconSave} alt="update" />
+                    <p>Lưu</p>
+                  </div>
+                  <div
+                    className="show-detail-header-edit-update"
+                    onClick={onClickHandleEdit}
+                  >
+                    <img className="icon-update" src={iconPen} alt="update" />
+                    <p>Chỉnh sửa</p>
+                  </div>
+
+                  <div
+                    className="show-detail-header-edit-new-delete"
+                    onClick={onClickHandleNew}
+                  >
+                    <div className="show-detail-header-edit-new">
+                      <img
+                        className="iconNew"
+                        src={iconCreateNew}
+                        alt="create new"
+                      />
+                      <p>Tạo mới</p>
+                    </div>
+                    <div className="show-detail-header-edit-delete">
+                      <img
+                        className="iconDelete"
+                        src={iconDelete}
+                        alt="delete"
+                      />
+                      <p>Xóa</p>
+                    </div>
+                  </div>
+
+                  <div
+                    className="show-detail-header-edit-show-room"
+                    onClick={onClickHandleShowRoom}
+                  >
+                    <img className="iconDetail" src={iconRoom} alt="update" />
+                    <p>Phòng chiếu</p>
+                  </div>
+                  <div className="show-detail-header-close">
+                    <img
+                      className="iconClose"
+                      onClick={onClickHandleClose}
+                      src={iconClose}
+                      alt="close"
+                    />
+                  </div>
+                </div>
+                <div className="show-detail-header-name">
+                  <span>{code} </span>
+                </div>
+              </div>
+              <div className="show-detail-content">
+                <div className="show-detail-content-left">
+                  {showAlert && (
+                    <Alert message={message} onClose={handleCloseAlert} />
+                  )}
+                  <div className="show-detail-input">
+                    <label>Mã xuất chiếu</label>
+                    <div className="show-detail-input-dem"></div>
+
+                    <div className="input-show-detail-container">
+                      <input
+                        className="input-show-detail"
+                        value={code}
+                        readOnly={!editCode}
+                        style={
+                          editCode ? {} : { background: "rgb(196, 196, 196)" }
+                        }
+                        onChange={(text) => onChangeHandleCode(text)}
+                        onFocus={onHandleFocusCode}
+                      />
+                      {isValidCode && (
+                        <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="show-detail-input">
+                    <label>Thời gian chiếu</label>
+                    <div className="show-detail-input-dem"></div>
+                    <div className="input-show-detail-container">
+                      <TimePicker
+                        format="hh:mm a"
+                        openClockOnFocus={false}
+                        value={showStart}
+                        onChange={(text) => onChangeHandleShowStart(text)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="show-detail-input">
+                    <label>Trạng thái</label>
+                    <div className="show-detail-input-dem"></div>
+                    <div className="input-show-detail-container">
+                      <FormControl
+                        sx={{ width: "52%", marginRight: "80px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={status}
+                          // label="Status"
+                          onChange={handleChangeComboboxStatus}
+                          onFocus={onHandleFocusStatus}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {dataStatus.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.id}>
+                                {st.value}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                      {isValidStatus && (
+                        <p style={{ color: "red" }}>Không được bỏ trống</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="show-detail-content-right">
+                  <div className="show-detail-input">
+                    <label>Tên phim</label>
+                    <div className="show-detail-input-dem"></div>
+                    <div className="input-show-detail-container">
+                      <FormControl
+                        sx={{ width: "52%", marginRight: "80px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">
+                          Tên phim
+                        </InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={codeMovie}
+                          // label="Tên phim"
+                          onChange={handleChangeComboboxCodeMovie}
+                          onFocus={onHandleFocusCodeMovie}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {dataMovie.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.movieName}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                      {isValidCodeMovie && (
+                        <p style={{ color: "red" }}>Không được bỏ trống</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="show-detail-input">
+                    <label>Ngày chiếu</label>
+                    <div className="show-detail-input-dem"></div>
+                    <div className="input-show-detail-container">
+                      <FormControl
+                        sx={{ width: "52%", marginRight: "80px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">
+                          Ngày chiếu
+                        </InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={showDate}
+                          // label="Ngày chiếu"
+                          onChange={handleChangeComboboxShowDate}
+                          onFocus={onHandleFocusShowDate}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {dates.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st}>
+                                {st}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                      {isValidShowDate && (
+                        <p style={{ color: "red" }}>Không được bỏ trống</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="show-detail-input">
+                    <label>Mã rạp</label>
+                    <div className="show-detail-input-dem"></div>
+                    <div className="input-show-detail-container">
+                      <FormControl
+                        sx={{ width: "52%", marginRight: "80px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">mã rạp</InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={codeRap}
+                          // label="mã rạp"
+                          onChange={handleChangeComboboxCodeRap}
+                          onFocus={onHandleFocusCodeRap}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {dataRap.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.code}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                      {isValidCodeRap && (
+                        <p style={{ color: "red" }}>Không được bỏ trống</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="show-detail-input">
+                    <label>Mã phòng</label>
+                    <div className="show-detail-input-dem"></div>
+                    <div className="input-show-detail-container">
+                      <FormControl
+                        sx={{ width: "52%", marginRight: "80px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">mã phòng</InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={codeRoom}
+                          // label="mã phòng"
+                          onChange={handleChangeComboboxCodeRoom}
+                          onFocus={onHandleFocusCodeRoom}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {dataRoom.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.code}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                      {isValidCodeRoom && (
+                        <p style={{ color: "red" }}>Không được bỏ trống</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h3>Danh sách vé</h3>
+              <div className="show-detail-table-content">
+                <TableInPage
+                  data={dataTicket}
+                  column={column}
+                  onClickRow={handleOnClickRow}
+                />
+              </div>
+            </div>
+          )}
     </div>
   );
 };

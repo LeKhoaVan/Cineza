@@ -33,10 +33,6 @@ const titleColumn = [
     title: "Trạng thái",
     data: "status",
   },
-  {
-    title: "Trạng thái ghế",
-    data: "isBook",
-  },
 ];
 
 const Seat = () => {

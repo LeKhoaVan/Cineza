@@ -61,12 +61,12 @@ const Ticket = () => {
 
   const [dataSeatTicketVip, setDataSeatTicketVip] = useState([]);
   const [dataSeatTicketThuong, setDataSeatTicketThuong] = useState([]);
-  const [selectTicket, setSelectTicket] = useState("")
+  const [selectTicket, setSelectTicket] = useState("");
 
   const onHandleSelect = (row) => {
     setCode(row);
-    setOpenAllTicket(false)
-    setOpenModelAdd(false)
+    setOpenAllTicket(false);
+    setOpenModelAdd(false);
     setOpenModalDetail(true);
   };
 
@@ -74,17 +74,17 @@ const Ticket = () => {
     // window.location.href = "/cineza/admin/ticket";
     setOpenModalDetail(false);
     setOpenModelAdd(false);
-    setOpenAllTicket(true)
+    setOpenAllTicket(true);
   };
 
   const handleOnClickBackTicket = () => {
-    setOpenModalDetail(false)
-    setOpenModelAdd(false)
-    setOpenAllTicket(true)
-  }
+    setOpenModalDetail(false);
+    setOpenModelAdd(false);
+    setOpenAllTicket(true);
+  };
 
   const onClickHandleBtnAdd = () => {
-    setOpenAllTicket(false)
+    setOpenAllTicket(false);
     setOpenModalDetail(false);
     setOpenModelAdd(true);
   };
@@ -110,7 +110,9 @@ const Ticket = () => {
         const dataResult = result.data.map((item) => {
           return {
             ...item,
-            showStart: `${new Date(item.showStart).getHours()}:${new Date(item.showStart).getMinutes()}`,
+            showStart: `${new Date(item.showStart).getHours()}:${new Date(
+              item.showStart
+            ).getMinutes()}`,
             showDate: formatDateHandle(item.showDate),
             bookAt: formatDateHandle(item.bookAt),
           };
@@ -123,23 +125,26 @@ const Ticket = () => {
     }
   };
 
-
   useEffect(() => {
     if (code != "") {
       const getTicket = async () => {
-        const ticket = await axios.get(`http://localhost:9000/cineza/api/v1/ticket/get-by-code/${code}`);
+        const ticket = await axios.get(
+          `http://localhost:9000/cineza/api/v1/ticket/get-by-code/${code}`
+        );
         if (ticket.status === 200) {
           setSelectTicket(ticket.data);
-          const allSeat = await axios.get(`http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${ticket.data.roomCode}`);
+          const allSeat = await axios.get(
+            `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${ticket.data.roomCode}`
+          );
           if (allSeat.status === 200) {
-            let resultVip = []
+            let resultVip = [];
             let resultThuong = [];
             const result = allSeat.data;
 
             result.forEach((seat, idx) => {
               let newSeat = { ...seat, booked: false };
               if (seat.typeSeat == "VIP") {
-                resultVip = [...resultVip, newSeat]
+                resultVip = [...resultVip, newSeat];
               } else if (seat.typeSeat == "COMUNITY") {
                 resultThuong = [...resultThuong, newSeat];
               }
@@ -151,7 +156,7 @@ const Ticket = () => {
               } else {
                 return { ...thuong, booked: false };
               }
-            })
+            });
 
             //check ghe thuong da duoc book hay chua
             resultVip = resultVip.map((vip) => {
@@ -160,9 +165,9 @@ const Ticket = () => {
               } else {
                 return { ...vip, booked: false };
               }
-            })
+            });
 
-            setDataSeatTicketThuong(resultThuong)
+            setDataSeatTicketThuong(resultThuong);
             setDataSeatTicketVip(resultVip);
           }
         } else {
@@ -171,8 +176,7 @@ const Ticket = () => {
       };
       getTicket();
     }
-
-  }, [code])
+  }, [code]);
 
   return (
     <div className="ticket-wrapper">
@@ -200,7 +204,7 @@ const Ticket = () => {
                     id="find"
                     className="ticket-input-find"
                     placeholder="tên phim"
-                  // onChange={onChangeHandleFind}
+                    // onChange={onChangeHandleFind}
                   />
                   <img
                     className="ticket-button-img"
@@ -221,7 +225,7 @@ const Ticket = () => {
                   />
                 </div>
                 <FormControl
-                  sx={{ width: "15%", marginLeft: "15%", }}
+                  sx={{ width: "15%", marginLeft: "15%" }}
                   size="small"
                 >
                   <InputLabel id="demo-select-small-label">Tên Rạp</InputLabel>
@@ -230,10 +234,10 @@ const Ticket = () => {
                     id="demo-select-small"
                     // value={codeMovie}
                     label="Tên phim"
-                  // onChange={handleChangeComboboxCodeMovie}
-                  // onFocus={onHandleFocusCodeMovie}
-                  // readOnly={!edit}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    // onChange={handleChangeComboboxCodeMovie}
+                    // onFocus={onHandleFocusCodeMovie}
+                    // readOnly={!edit}
+                    // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {[].map((st, index) => {
                       return (
@@ -246,26 +250,44 @@ const Ticket = () => {
                 </FormControl>
               </div>
             </div>
-            <div style={{ marginLeft: "-50px", paddingRight: "8%", width: "100%", height: "10px", borderBottom: "10px solid rgb(228, 228, 228)", }}></div>
+            <div
+              style={{
+                marginLeft: "-50px",
+                paddingRight: "8%",
+                width: "100%",
+                height: "10px",
+                borderBottom: "10px solid rgb(228, 228, 228)",
+              }}
+            ></div>
             <div className="table-all-ticket">
-              <Table column={columns} data={context} onRowClick={onHandleSelect} />
+              <Table
+                column={columns}
+                data={context}
+                onRowClick={onHandleSelect}
+              />
             </div>
           </div>
-
         )}
 
         {openModalDetail && (
           <div className="show-detail-background">
             <div className="show-room-container">
               <div className="show-room-diagram">
-                <img src={iconBack} onClick={handleOnClickBackTicket} className="show-room-iconBack" alt="icon-back" />
+                <img
+                  src={iconBack}
+                  onClick={handleOnClickBackTicket}
+                  className="show-room-iconBack"
+                  alt="icon-back"
+                />
                 <h3>Sơ đồ ghế</h3>
                 <div className="seat-show-container">
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-thuong'}`}
-                    // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${
+                        seat?.booked ? "occupied-show" : "seat-thuong"
+                      }`}
+                      // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -274,8 +296,10 @@ const Ticket = () => {
                   {dataSeatTicketVip?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${seat?.booked ? 'occupied-show' : 'seat-vip'}`}
-                    // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${
+                        seat?.booked ? "occupied-show" : "seat-vip"
+                      }`}
+                      // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -295,11 +319,19 @@ const Ticket = () => {
                 <div className="show-room-text">
                   <p>Khách hàng: {selectTicket.fullName}</p>
                   <p>Phim: {selectTicket.movieName}</p>
-                  <p>Ngày chiếu: {formatDateHandle(new Date(selectTicket.showDate))}</p>
-                  <p>Giờ chiếu: {new Date(selectTicket.showStart).getHours()}:{new Date(selectTicket.showStart).getMinutes()} </p>
+                  <p>
+                    Ngày chiếu:{" "}
+                    {formatDateHandle(new Date(selectTicket.showDate))}
+                  </p>
+                  <p>
+                    Giờ chiếu: {new Date(selectTicket.showStart).getHours()}:
+                    {new Date(selectTicket.showStart).getMinutes()}{" "}
+                  </p>
                   <p>Rạp: {selectTicket.rapName}</p>
                   <p>Phòng: {selectTicket.roomName}</p>
-                  <p>ghế: {selectTicket.codeSeat} - {selectTicket.position}</p>
+                  <p>
+                    ghế: {selectTicket.codeSeat} - {selectTicket.position}
+                  </p>
                   <p>Trạng thái: {selectTicket.status}</p>
                 </div>
                 <div className="show-room-btn">
@@ -316,7 +348,7 @@ const Ticket = () => {
             onClickHandleClose={onClickHandleCloseP}
           />
         )}
-      </div >
+      </div>
     </div>
   );
 };
