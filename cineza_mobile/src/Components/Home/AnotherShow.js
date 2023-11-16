@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -6,8 +6,11 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Linking
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
+import config from "../../config";
 
 const data = [
   {
@@ -27,6 +30,8 @@ const AnotherShow = () => {
   const handleClick = () => {
     navigation.navigate("4DX");
   };
+
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -51,9 +56,13 @@ const AnotherShow = () => {
           );
         }}
       />
+
+
     </View>
+
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {},

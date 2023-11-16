@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './StyleSliderMovie';
 import {
   View,
@@ -9,9 +9,11 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {useNavigation} from '@react-navigation/native';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+
+import config from '../../config';
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = SLIDER_WIDTH * 0.68;
@@ -79,7 +81,7 @@ const data = [
   },
 ];
 
-const RenderItem = ({item, handleClick}) => {
+const RenderItem = ({ item, handleClick }) => {
   return (
     <View
       style={{
@@ -91,14 +93,14 @@ const RenderItem = ({item, handleClick}) => {
       }}>
       <TouchableOpacity onPress={() => handleClick(item)}>
         <Image
-          source={{uri: item.moviePoster}}
-          style={{width: 230, height: 320, borderRadius: 10}}
+          source={{ uri: item.moviePoster }}
+          style={{ width: 230, height: 320, borderRadius: 10 }}
         />
         <Text
           style={{
             marginVertical: 10,
             fontSize: 20,
-            fontWeight: 'bold',
+            fontWeight: 700,
             color: 'white',
             textAlign: 'center',
           }}>
@@ -115,13 +117,13 @@ function Slider_Movie() {
   const isCarousel = useRef(null);
   const navigation = useNavigation();
 
-  const handleClick = item => {
-    navigation.navigate('Thông tin phim', {item});
+  const handleClick = (item) => {
+    navigation.navigate('Thông tin phim', { item });
   };
 
   useEffect(() => {
     axios
-      .get(`http://172.20.10.2:9000/cineza/api/v1/movie/get-all`, {
+      .get(`http://${config.IPP4}:9000/cineza/api/v1/movie/get-all`, {
         timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
       })
       .then(res => {
@@ -130,7 +132,7 @@ function Slider_Movie() {
           const originalImagePath = item.moviePoster;
           const correctedImagePath = originalImagePath
             .replace(/\\/g, '/')
-            .replace('localhost', '172.20.10.2');
+            .replace('localhost', config.IPP4);
           item.moviePoster = correctedImagePath;
           return item;
         });
@@ -145,11 +147,11 @@ function Slider_Movie() {
 
   return (
     <View
-      style={{paddingTop: 30, alignItems: 'center', backgroundColor: 'black'}}>
+      style={{ paddingTop: 30, alignItems: 'center', backgroundColor: 'black' }}>
       <Carousel
         ref={isCarousel}
         data={dataMovie}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <RenderItem handleClick={handleClick} item={item} />
         )}
         sliderWidth={SLIDER_WIDTH}

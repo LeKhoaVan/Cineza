@@ -7,94 +7,71 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
+  Image
 } from 'react-native';
 import Header from '../Header/Header';
 // import { FontAwesome } from "@expo/vector-icons";
 import iconSquare from '../../assets/imageButton/iconSquare.png';
-import React, {useState, useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-function SeatBook({route}) {
+import config from '../../config';
+
+function SeatBook({ route }) {
   const codeRoom = route.params.item.codeRoom;
   const codeShow = route.params.item.code;
   const show = route.params.item;
   const poster = route.params.poster;
-  // console.log(codeShow);
 
   const [dataTicket, setDataTicket] = useState([]);
-  // const [dataComunitySeat, setDataComunitySeat] = useState([]);
-  // const [dataVipSeat, setDataVipSeat] = useState([]);
+
   const [dataVipSeatFormat, setDataVipSeatFormat] = useState([]);
   const [dataComunitySeatFormat, setDataComunitySeatFormat] = useState([]);
   const [price, setPrice] = useState(0);
 
   const [seatSelected, setSeatSelected] = useState([]);
+  const [checkSave, setCheckSave] = useState(true);
 
   const navigation = useNavigation();
-  // const { seats, setSeats } = useState();
-
-  //get ticket by code show
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/` +
-  //         codeShow,
-  //       {
-  //         timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-  //       }
-  //     )
-  //     .then((res) => {
-  //       setDataTicket(res.data);
-  //       console.log(res.data.length);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   //get ghế thường
   useEffect(() => {
     const getAll = async () => {
       let dataSeat;
-      axios
-        .get(
-          `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/` +
-            codeRoom,
-          {
-            timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-          },
-        )
-        .then(res => {
-          // setDataComunitySeat(res.data);
-          const newData = res.data.map(item => ({
-            ...item,
-            selectedUI: false,
-          }));
-          setDataComunitySeatFormat(newData);
-          dataSeat = newData;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+
+      const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/THUONG/${codeRoom}`)
+      if (res.status == 200) {
+        const newData = res.data?.map(item => ({
+          ...item,
+          selectedUI: false,
+        }));
+        setDataComunitySeatFormat(newData);
+        dataSeat = newData;
+      } else {
+        console.error("error get ticket thuong")
+      }
 
       const tickets = await axios.get(
-        `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`,
+        `http://${config.IPP4}:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`,
       );
-      const dataTicket = tickets.data;
-      const resultSeat = dataSeat.map(s => {
-        let tam = s;
-        dataTicket.forEach(t => {
-          if (t.position == s.position) {
-            tam = {...s, isBook: 'SELECTED'};
-            return {...s, isBook: 'SELECTED'};
-          } else {
-            return {...s};
-          }
+      if (tickets.status == 200) {
+        const dataTicket = tickets.data;
+        const resultSeat = dataSeat?.map(s => {
+          let tam = s;
+          dataTicket.forEach(t => {
+            if (t.position == s.position) {
+              tam = { ...s, isBook: 'SELECTED' };
+            } else {
+              // return { ...s };
+            }
+          });
+          return tam;
         });
-        return tam;
-      });
-      setDataComunitySeatFormat(resultSeat);
+        setDataComunitySeatFormat(resultSeat);
+      } else {
+        console.error("error get tickets thuong");
+      }
     };
     getAll();
   }, []);
@@ -105,15 +82,15 @@ function SeatBook({route}) {
       let dataSeat;
       axios
         .get(
-          `http://172.20.10.2:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/` +
-            codeRoom,
+          `http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/` +
+          codeRoom,
           {
             timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
           },
         )
         .then(res => {
           // setDataVipSeat(res.data);
-          const newData = res.data.map(item => ({
+          const newData = res.data?.map(item => ({
             ...item,
             selectedUI: false,
           }));
@@ -125,17 +102,17 @@ function SeatBook({route}) {
         });
 
       const tickets = await axios.get(
-        `http://172.20.10.2:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`,
+        `http://${config.IPP4}:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`,
       );
       const dataTicket = tickets.data;
-      const resultSeat = dataSeat.map(s => {
+      const resultSeat = dataSeat?.map(s => {
         let tam = s;
         dataTicket.forEach(t => {
           if (t.position == s.position) {
-            tam = {...s, isBook: 'SELECTED'};
-            return {...s, isBook: 'SELECTED'};
+            tam = { ...s, isBook: 'SELECTED' };
+            return { ...s, isBook: 'SELECTED' };
           } else {
-            return {...s};
+            return { ...s };
           }
         });
         return tam;
@@ -145,34 +122,27 @@ function SeatBook({route}) {
     getAll();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("OngNoiMNe", dataVipSeatFormat);
-  // }, [dataVipSeatFormat]);
 
   //chọn ghế thường
   const onComunitySeatSelected = item => {
     const seatSelectedT = dataComunitySeatFormat.find(seat => seat === item);
     if (seatSelectedT) {
-      const newews = dataComunitySeatFormat.map(data => {
+      const newews = dataComunitySeatFormat?.map(data => {
         if (data === item) {
           if (data.selectedUI) {
             setPrice(price - data.value);
-            // console.log("test tue");
             const newArray = seatSelected.filter(item4 => {
-              // console.log(item.code);
               return item4.code !== item.code;
             });
-            // setSeatSelected(test);
-            // console.log(data);
-            // console.log(newArray.length);
+
             setSeatSelected(newArray);
-            return {...data, selectedUI: false};
+            return { ...data, selectedUI: false };
           } else {
             if (seatSelected.length <= 5) {
               setPrice(price + data.value);
 
               setSeatSelected([...seatSelected, data]);
-              return {...data, selectedUI: true};
+              return { ...data, selectedUI: true };
             } else {
               Alert.alert('tối đa chọn 6 ghế');
             }
@@ -188,26 +158,22 @@ function SeatBook({route}) {
   const onSeatSelected = item => {
     const seatSelectedT = dataVipSeatFormat.find(seat => seat === item);
     if (seatSelectedT) {
-      const newew = dataVipSeatFormat.map(data => {
+      const newew = dataVipSeatFormat?.map(data => {
         if (data === item) {
           if (data.selectedUI) {
             setPrice(price - data.value);
-            // console.log("test tue");
             const newArray = seatSelected.filter(item4 => {
-              // console.log(item.code);
               return item4.code !== item.code;
             });
-            // setSeatSelected(test);
-            // console.log(data);
-            // console.log(newArray.length);
+
             setSeatSelected(newArray);
-            return {...data, selectedUI: false};
+            return { ...data, selectedUI: false };
           } else {
             if (seatSelected.length <= 5) {
               setPrice(price + data.value);
 
               setSeatSelected([...seatSelected, data]);
-              return {...data, selectedUI: true};
+              return { ...data, selectedUI: true };
             } else {
               Alert.alert('tối đa chọn 6 ghế');
             }
@@ -219,19 +185,18 @@ function SeatBook({route}) {
     }
   };
 
-  const onClickHandleSave = item => {
+  const onClickHandleSave = () => {
     seatSelected.forEach(async seat => {
       let ticket = {
         codeShowing: route.params.item.code,
         codeSeat: seat.code,
         codeUser: 'user01',
-        status: 'ACTIVE',
+        status: 'Hoạt động',
       };
 
       try {
-        // console.log(ticket);
         const response = await axios.post(
-          `http://172.20.10.2:9000/cineza/api/v1/ticket/create`,
+          `http://${config.IPP4}:9000/cineza/api/v1/ticket/create`,
           ticket,
         );
         if (response.status === 201) {
@@ -240,15 +205,18 @@ function SeatBook({route}) {
         } else {
           console.log('Lưu thất bại');
           // setShowAlert(true);
+          setCheckSave(false);
         }
       } catch (error) {
         console.log('save fail: ' + error);
+        setCheckSave(false);
         // setShowAlert(true);
       }
     });
+
     if (seatSelected.length === 0) {
       Alert.alert('Xin hãy chọn ít nhất 1 ghế');
-    } else {
+    } else if (setCheckSave) {
       navigation.navigate('Đồ đi kèm', {
         show,
         seatSelected,
@@ -259,10 +227,10 @@ function SeatBook({route}) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Header />
-      <View style={{marginVertical: 10, width: '100%'}}>
-        <Text style={{textAlign: 'center', fontSize: 18}}>
+      <View style={{ marginVertical: 10, width: '100%' }}>
+        <Text style={{ textAlign: 'center', fontSize: 18 }}>
           {route.params.item.roomName}
         </Text>
       </View>
@@ -270,7 +238,7 @@ function SeatBook({route}) {
         <FlatList
           numColumns={8}
           data={dataComunitySeatFormat}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Pressable
               onPress={() => onComunitySeatSelected(item)}
               style={[
@@ -301,7 +269,7 @@ function SeatBook({route}) {
         <FlatList
           numColumns={8}
           data={dataVipSeatFormat}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Pressable
               onPress={() => onSeatSelected(item)}
               style={[
@@ -331,91 +299,53 @@ function SeatBook({route}) {
       </View>
       <View style={styles.sign}>
         <View>
-          {/* <FontAwesome
-            style={{ textAlign: "center", marginBottom: 4 }}
-            name="square"
-            size={24}
-            color="#bfbca3"
-          /> */}
-          <Image
-            source={iconSquare}
+          <View
             style={{
               width: 20,
               height: 20,
               textAlign: 'center',
               marginBottom: 4,
-              color: '#bfbca3',
+              backgroundColor: '#bfbca3',
             }}
           />
           <Text>Thường</Text>
         </View>
 
         <View>
-          {/* <FontAwesome
-            style={{textAlign: 'center', marginBottom: 4}}
-            name="square"
-            size={24}
-            color="#941833"
-          /> */}
-          <Image
-            source={iconSquare}
+          <View
             style={{
               width: 20,
               height: 20,
               textAlign: 'center',
               marginBottom: 4,
-              color: '#f52749',
+              backgroundColor: "#f52749",
             }}
           />
           <Text>VIP</Text>
         </View>
 
         <View>
-          {/* <FontAwesome
-            style={{textAlign: 'center', marginBottom: 4}}
-            name="square"
-            size={24}
-            color="#ffc40c"
-          /> */}
-          <Image
-            source={iconSquare}
+          <View
             style={{
               width: 20,
               height: 20,
               textAlign: 'center',
               marginBottom: 4,
-              color: '#ffc40c',
+              backgroundColor: '#ffc40c',
             }}
           />
           <Text>Đang chọn</Text>
         </View>
 
-        {/* <View style={{ marginHorizontal: 20 }}>
-          <FontAwesome
-            style={{ textAlign: "center", marginBottom: 4 }}
-            name="square"
-            size={24}
-            color="white"
-          />
-          <Text>Vacant</Text>
-        </View> */}
-
         <View>
-          {/* <FontAwesome
-            style={{textAlign: 'center', marginBottom: 4}}
-            name="square"
-            size={24}
-            color="#e8e6e6"
-          /> */}
 
-          <Image
-            source={iconSquare}
+          <View
             style={{
               width: 20,
               height: 20,
               textAlign: 'center',
               marginBottom: 4,
-              color: '#e8e6e6',
+              backgroundColor: '#e8e6e6',
             }}
           />
           <Text>Đã đặt</Text>

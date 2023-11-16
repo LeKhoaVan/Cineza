@@ -15,11 +15,13 @@ import { useNavigation } from "@react-navigation/native";
 import Header from "../Header/Header";
 import axios from "axios";
 import { formatDateHandle, formatTimeHandle } from "../../util";
+import config from "../../config";
 
-const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
+const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
   //Custom Component for the Expandable List
   const [layoutHeight, setLayoutHeight] = useState(0);
   const [dataShow, setDataShow] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (newItem.isExpanded) {
@@ -32,19 +34,21 @@ const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
   useEffect(() => {
     const getDataShow = async () => {
       const response = await axios.get(
-        `http://172.20.10.2:9000/cineza/api/v1/show/get-by-rap-movie-data/${
-          newItem.codeRap
+        `http://${config.IPP4}:9000/cineza/api/v1/show/get-by-rap-movie-data/${newItem.codeRap
         }/${newItem.codeMovie}/${formatDateHandle(newItem.showStart)}`
       );
       if (response.status === 200) {
         setDataShow(response.data);
-        // console.log("test getdataShow: " + response.data);
       } else {
         console.log("error get data show");
       }
     };
     getDataShow();
   }, []);
+
+  const handleOnClick = (item) => {
+    navigation.navigate("Chọn ghế", { item, poster });
+  }
 
   return (
     <View>
@@ -65,7 +69,7 @@ const ExpandableComponent = ({ newItem, onClickFunction, handleClick }) => {
           <TouchableOpacity
             key={key}
             style={styles.content}
-            onPress={handleClick}
+            onPress={() => handleOnClick(newItem)}
           >
             <Text style={styles.text}>
               {formatTimeHandle(newItem.showStart)}
@@ -91,28 +95,20 @@ function MovieSelected({ route }) {
   const [listDataSource, setListDataSource] = useState([]);
   const navigation = useNavigation();
 
-  // const onChangeHandleShowDate = (date) => {
-  //   const day = formatDateHandle(date);
-  //   // setShowDate(day);
-  //   console.log(day);
-  //   console.log(codeMovie);
-  // };
 
   const [isUpdating, setIsUpdating] = useState(false);
   useEffect(() => {
     setIsUpdating(!isUpdating);
-    console.log(showDate);
   }, [showDate]);
 
   const handleOnClickDay = (date) => {
-    // console.log(date);
     // Đánh dấu rằng bạn muốn cập nhật trạng thái
     const day = formatDateHandle(date);
     setShowDate(day);
   };
 
   const handleClick = (item) => {
-    navigation.navigate("Chọn ghế", { item, poster });
+    // navigation.navigate("Chọn ghế", { item, poster });
   };
 
   if (Platform.OS === "android") {
@@ -125,18 +121,15 @@ function MovieSelected({ route }) {
     array[index]["isExpanded"] = !array[index]["isExpanded"];
     setListDataSource(array);
   };
-
   // Get movie by code
   useEffect(() => {
     axios
-      .get(`http://172.20.10.2:9000/cineza/api/v1/movie/` + codeMovie, {
+      .get(`http://${config.IPP4}:9000/cineza/api/v1/movie/` + codeMovie, {
         timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
       })
       .then((res) => {
         setStartMovie(res.data.startDate);
         setEndMovie(res.data.endDate);
-        console.log(res.data.startDate);
-        console.log(res.data.endDate);
       })
       .catch((err) => {
         console.log(err);
@@ -156,20 +149,19 @@ function MovieSelected({ route }) {
     const getRap = async () => {
       if (showDate != "") {
         const dataRaps = await axios.get(
-          `http://172.20.10.2:9000/cineza/api/v1/show/get-by-movie-date/${codeMovie}/${showDate}`
+          `http://${config.IPP4}:9000/cineza/api/v1/show/get-by-movie-date/${codeMovie}/${showDate}`
         );
 
         if (dataRaps.status === 200) {
           const seenIds = new Set();
           const resultArray = [];
 
-          for (const item of dataRaps.data) {
+          for (let item of dataRaps.data) {
             if (!seenIds.has(item.codeRap)) {
               seenIds.add(item.codeRap);
               resultArray.push(item);
             }
           }
-          // console.log(resultArray);
           setListDataSource(resultArray);
         } else {
           console.log("error get rap by movie and data");
@@ -215,12 +207,9 @@ function MovieSelected({ route }) {
               key={item.rapName}
               onClickFunction={() => {
                 updateLayout(key);
-                // console.log("test item: " + item.code);
-              }}
-              handleClick={() => {
-                handleClick(item);
               }}
               newItem={item}
+              poster={poster}
             />
           ))}
         </ScrollView>

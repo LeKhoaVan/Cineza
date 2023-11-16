@@ -12,6 +12,8 @@ import Header from "../Header/Header";
 import axios from "axios";
 import { formatDateHandle } from "../../util";
 
+import config from "../../config";
+
 const data = {
   id: 1,
   title: "Beetlejuice",
@@ -28,44 +30,43 @@ const data = {
 const MovieDetail = ({ route }) => {
   const codeMovie = route.params.item.code;
   const poster = route.params.item.moviePoster;
-  const [dataMovie, setDataMovie] = useState([]);
+  const [dataMovie, setDataMovie] = useState("");
   const navigation = useNavigation();
   const handleClick = (item) => {
     navigation.navigate("Chọn rạp", { codeMovie, poster });
   };
+
   useEffect(() => {
     axios
-      .get(`http://172.20.10.2:9000/cineza/api/v1/movie/` + codeMovie, {
-        timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-      })
+      .get(`http://${config.IPP4}:9000/cineza/api/v1/movie/${codeMovie}`)
       .then((res) => {
         // const originalDataArray = res.data;
         // const correctedDataArray = originalDataArray.map((item) => {
         //   const originalImagePath = item.moviePoster;
         //   const correctedImagePath = originalImagePath
         //     .replace(/\\/g, "/")
-        //     .replace("localhost", "172.20.10.2");
+        //     .replace("localhost", "192.168.1.8");
         //   item.moviePoster = correctedImagePath;
         //   return item;
         // });
-        setDataMovie(res.data);
+        let resultData = res.data;
+        resultData.moviePoster = res.data.moviePoster.replace(/\\/g, "/").replace("localhost", "192.168.1.8");
+        setDataMovie(resultData);
         // setDataMovie(res.data);
-        // console.log(res.data);
+
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   return (
     <View style={styles.container}>
       <Header />
       <View>
-        <Image
-          style={styles.image}
-          source={{
-            uri: dataMovie.moviePoster,
-          }}
-        />
+        {dataMovie == "" ? "" : (<Image style={styles.image} source={{ uri: dataMovie?.moviePoster, }}
+          alt="movie poster"
+        />)}
       </View>
       <View style={styles.content}>
         <Text
@@ -73,7 +74,7 @@ const MovieDetail = ({ route }) => {
             width: "100%",
             textAlign: "center",
             fontSize: 24,
-            fontWeight: 600,
+            fontWeight: '600',
             marginBottom: 20,
           }}
         >
@@ -84,7 +85,7 @@ const MovieDetail = ({ route }) => {
             style={{
               width: "100%",
               fontSize: 18,
-              fontWeight: 400,
+              fontWeight: '400',
             }}
           >
             {dataMovie.description}
@@ -128,6 +129,7 @@ const MovieDetail = ({ route }) => {
 };
 
 export default MovieDetail;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -149,12 +151,12 @@ const styles = StyleSheet.create({
   },
   viewText: {
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: '400',
     color: "#b3a58d",
   },
   viewTextData: {
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: '400',
   },
   buttonBookTicket: {
     color: "#fff",

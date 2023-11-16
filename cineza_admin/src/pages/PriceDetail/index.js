@@ -414,7 +414,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                     {dataHeader.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.code}>
-                          {st.description}
+                          {st.code}
                         </MenuItem>
                       );
                     })}
