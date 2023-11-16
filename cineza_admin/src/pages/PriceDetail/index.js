@@ -26,7 +26,7 @@ import Select from "@mui/material/Select";
 //   { id: "VIP", value: "VIP" },
 // ];
 
-const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
+const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   const [code, setCode] = useState("");
   const [value, setValue] = useState("");
   const [codeTypeSeat, setCodeTypeSeat] = useState("");
@@ -61,9 +61,9 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
   const handleChangeComboboxCodeTypeSeat = (text) => {
     setCodeTypeSeat(text.target.value);
   };
-  const handleChangeComboboxCodeHeader = (text) => {
-    setCodeHeader(text.target.value);
-  };
+  // const handleChangeComboboxCodeHeader = (text) => {
+  //   setCodeHeader(text.target.value);
+  // };
 
   useEffect(() => {
     onHandleFocusCode();
@@ -107,25 +107,26 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
     }
   };
 
-  useEffect(() => {
-    onHandleFocusCodeHeader();
-  }, [codeHeader]);
+  // useEffect(() => {
+  //   onHandleFocusCodeHeader();
+  // }, [codeHeader]);
 
-  const onHandleFocusCodeHeader = () => {
-    if (editCode || edit) {
-      if (codeHeader == undefined || codeHeader.trim().length <= 0) {
-        setIsValidCodeHeader(true);
-      } else {
-        setIsValidCodeHeader(false);
-      }
-    }
-  };
+  // const onHandleFocusCodeHeader = () => {
+  //   if (editCode || edit) {
+  //     if (codeHeader == undefined || codeHeader.trim().length <= 0) {
+  //       setIsValidCodeHeader(true);
+  //     } else {
+  //       setIsValidCodeHeader(false);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     if (addBtn) {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
+      setCodeHeader(headerCode);
     }
     const getPrice = async () => {
       try {
@@ -169,24 +170,24 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
   }, []);
 
   //all price header
-  useEffect(() => {
-    const getAllPriceHeader = async () => {
-      try {
-        const allPriceHeader = await axios.get(
-          "http://localhost:9000/cineza/api/v1/price-header/get-all"
-        );
-        if (allPriceHeader.status === 200) {
-          setDataHeader(allPriceHeader.data);
-          // console.log(allPriceHeader.data);
-        } else {
-          console.error("error get Price Header");
-        }
-      } catch (error) {
-        console.error("error get all Price Header: " + error);
-      }
-    };
-    getAllPriceHeader();
-  }, []);
+  // useEffect(() => {
+  //   const getAllPriceHeader = async () => {
+  //     try {
+  //       const allPriceHeader = await axios.get(
+  //         "http://localhost:9000/cineza/api/v1/price-header/get-all"
+  //       );
+  //       if (allPriceHeader.status === 200) {
+  //         setDataHeader(allPriceHeader.data);
+  //         // console.log(allPriceHeader.data);
+  //       } else {
+  //         console.error("error get Price Header");
+  //       }
+  //     } catch (error) {
+  //       console.error("error get all Price Header: " + error);
+  //     }
+  //   };
+  //   getAllPriceHeader();
+  // }, []);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -204,7 +205,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
     setCode("");
     setValue("");
     setCodeTypeSeat("");
-    setCodeHeader("");
+    setCodeHeader(codeHeader);
   };
 
   const onClickHandleSave = async () => {
@@ -374,6 +375,22 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
             </div>
 
             <div className="price-detail-input">
+              <label>Mã bảng giá Header</label>
+              <div className="price-detail-input-dem"></div>
+
+              <div className="input-price-detail-container">
+                <input
+                  className="input-price-detail"
+                  value={codeHeader}
+                  readOnly={true}
+                  style={{ background: "rgb(196, 196, 196)" }}
+                  // onChange={(text) => onChangeHandleCode(text)}
+                  // onFocus={onHandleFocusCode}
+                />
+              </div>
+            </div>
+
+            {/* <div className="price-detail-input">
               <label>Mã bảng giá header</label>
               <div className="price-detail-input-dem"></div>
               <div className="input-price-detail-container">
@@ -381,9 +398,9 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  {/* <InputLabel id="demo-select-small-label">
+                   <InputLabel id="demo-select-small-label">
                     Mã bảng giá header
-                  </InputLabel> */}
+                  </InputLabel> 
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
@@ -407,7 +424,7 @@ const PriceDetail = ({ codePrice, onClickHandleClose, addBtn }) => {
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

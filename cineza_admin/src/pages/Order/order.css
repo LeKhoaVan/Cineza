@@ -1,0 +1,34 @@
+.order-container {
+  width: 100%;
+  height: 100%;
+
+  background-color: rgb(228, 228, 228);
+}
+.order-container-content {
+  width: 90%;
+  height: 70%;
+  display: flex;
+  position: sticky;
+  top: 7.5rem;
+  left: 25%;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 40px;
+  /* border: 1px solid black; */
+  background-color: white;
+}
+
+.order-btn-add {
+  width: 30px;
+  height: 30px;
+  margin-left: 37px;
+  border-radius: 50%;
+  padding: 5px;
+  &:hover {
+    background-color: rgb(217, 217, 217);
+  }
+}
+.table-all-order {
+  margin-top: 10px;
+  overflow-y: auto;
+}

@@ -437,47 +437,13 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                 <input
                   className="input-room"
                   value={codeRap}
-                  readOnly={!editCode}
-                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
+                  readOnly={true}
+                  style={{ background: "rgb(196, 196, 196)" }}
                   // onChange={(text) => onChangeHandleCodeRap(text)}
                   // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
-
-            {/* <div className="room-detail-input">
-              <label>Mã rap</label>
-              <div className="room-detail-input-dem"></div>
-              <div className="input-room-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <InputLabel id="demo-select-small-label">Mã rap</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeRap}
-                    label="Status"
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={handleChangeComboboxCodeRap}
-                    onFocus={onHandleFocusCodeRap}
-                  >
-                    {dataRap.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeRap && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div> */}
 
             <div className="room-detail-input">
               <label>Trạng thái</label>
@@ -518,8 +484,11 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
         </div>
         <div
           style={{
+            marginLeft: -20,
+            paddingRight: 40,
             width: "100%",
             height: "10px",
+            marginTop: 20,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
         ></div>

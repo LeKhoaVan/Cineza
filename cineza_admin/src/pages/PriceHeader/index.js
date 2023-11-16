@@ -101,6 +101,15 @@ const PriceHeader = () => {
             onClick={onClickHandleBtnAdd}
           />
         </div>
+        <div
+          style={{
+            marginLeft: "-30px",
+            paddingRight: "8%",
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
 
         <div className="table-all-price-header">
           <Table column={columns} data={context} onRowClick={onHandleSelect} />
