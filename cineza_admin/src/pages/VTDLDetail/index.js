@@ -95,19 +95,19 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
     setLevelAddress(event.target.value);
   };
 
-  useEffect(() => {
-    const getParentByLevel = async () => {
-      const result = await axios.get(
-        `http://localhost:9000/cineza/api/v1/value/get-level?evel=${levelAddress}`
-      );
-      if (result.status === 200) {
-        setIdParentAddress(result.data.parentId);
-      } else {
-        console.error("error get parent address by level");
-      }
-    };
-    getParentByLevel();
-  }, [levelAddress]);
+  // useEffect(() => {
+  //   const getParentByLevel = async () => {
+  //     const result = await axios.get(
+  //       `http://localhost:9000/cineza/api/v1/value/get-level?evel=${levelAddress}`
+  //     );
+  //     if (result.status === 200) {
+  //       setIdParentAddress(result.data.parentId);
+  //     } else {
+  //       console.error("error get parent address by level");
+  //     }
+  //   };
+  //   getParentByLevel();
+  // }, [levelAddress]);
 
   const onChangeTypeAddress = (event) => {
     setTypeAddress(event.target.value);
@@ -432,7 +432,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
               </div>
             </div>
 
-            <div className="address-detail-input">
+            {/* <div className="address-detail-input">
               <label>Cáp hành chính</label>
               <div className="address-detail-input-dem"></div>
               <div className="input-address-container">
@@ -448,7 +448,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="address-detail-input">
               <label>Cấp hành chính</label>

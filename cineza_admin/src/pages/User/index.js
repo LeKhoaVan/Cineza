@@ -5,8 +5,8 @@ import Table from "../../components/Table";
 import UserDetail from "../UserDetail";
 import { formatDateHandle } from "../../components/util/index";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
-import iconBack from "../../assets/imageButtons/iconBack.png"
-import { useLocation } from 'react-router-dom';
+import iconBack from "../../assets/imageButtons/iconBack.png";
+import { useLocation } from "react-router-dom";
 import "./user.css";
 
 const columns = [
@@ -38,7 +38,7 @@ const columns = [
     data: "dateOfBirth",
   },
   {
-    title: "Status",
+    title: "Trạng thái",
     data: "status",
   },
 ];
@@ -66,18 +66,18 @@ const User = () => {
 
   const onClickHandleBtnAdd = () => {
     setOpenModelAdd(true);
-
   };
 
   const onClickHandleBack = () => {
     window.location.href = "http://localhost:3000/cineza/admin/users";
-  }
+  };
 
   useEffect(() => {
     const getData = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:9000/cineza/api/v1/value/user/get-by-level?level=" + levelUser
+          "http://localhost:9000/cineza/api/v1/value/user/get-by-level?level=" +
+            levelUser
         );
         if (result.status == 200) {
           const dataSetup = result.data.map((item) => {
@@ -99,7 +99,11 @@ const User = () => {
   return (
     <div className="user-container">
       <div className="user-content">
-        <img src={iconBack} className="vtdllevl-btn-back" onClick={onClickHandleBack} />
+        <img
+          src={iconBack}
+          className="vtdllevl-btn-back"
+          onClick={onClickHandleBack}
+        />
         <div
           style={{
             display: "flex",
@@ -116,6 +120,15 @@ const User = () => {
             onClick={onClickHandleBtnAdd}
           />
         </div>
+        <div
+          style={{
+            marginLeft: "-40px",
+            paddingRight: "8%",
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
         <div className="table-all-user">
           <Table column={columns} data={context} onRowClick={onHandleSelect} />
           {openModalDetail && (

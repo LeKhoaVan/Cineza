@@ -69,8 +69,8 @@
 }
 
 .table-all-ticket {
-  width: 100%;
-  height: 72%;
-  margin-top: 20;
+  /* width: 100%; */
+  /* height: 72%; */
+  margin-top: 10px;
   overflow-y: auto;
 }

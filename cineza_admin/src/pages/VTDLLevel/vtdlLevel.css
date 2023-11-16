@@ -1,37 +1,40 @@
 .address-level-container {
-    width: 97%;
-    height: 100%;
-    display: flex;
-    flex: 1;
-    padding-left: 30px;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(221, 221, 221);
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  background-color: rgb(228, 228, 228);
 }
 
 .vtdllevl-btn-back {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    padding: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  padding: 10px;
 
-    &:hover {
-        background-color: rgb(212, 212, 212);
-    }
+  &:hover {
+    background-color: rgb(212, 212, 212);
+  }
 }
 
 .address-level-content {
-    width: 90%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-    padding-left: 10px;
-    border-radius: 30px;
-    /* border: 1px solid black; */
-    background-color: white;
+  width: 90%;
+  position: sticky;
+  top: 7.5rem;
+  left: 25%;
+  height: 100%;
+  padding-bottom: 200px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  padding-left: 40px;
+  border-radius: 30px;
+  /* border: 1px solid black; */
+  background-color: white;
 }
 
 .table-all-address {
-    overflow-y: auto;
+  overflow-y: auto;
+  margin-top: 10px;
 }

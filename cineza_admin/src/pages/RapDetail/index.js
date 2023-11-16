@@ -561,7 +561,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
               <div className="rap-detail-input-dem"></div>
               <div className="input-rap-container">
                 <TimePicker
-                  format="hh:mm:ss a"
+                  format="hh:mm a"
                   openClockOnFocus={false}
                   value={openTime}
                   onChange={(text) => onChangeHandleOpenTime(text)}
@@ -573,7 +573,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
               <div className="rap-detail-input-dem"></div>
               <div className="input-rap-container">
                 <TimePicker
-                  format="hh:mm:ss a"
+                  format="hh:mm a"
                   value={closeTime}
                   openClockOnFocus={false}
                   onChange={(e) => onChangeHandleCloseTime(e)}
@@ -781,8 +781,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
         </div>
         <div
           style={{
+            marginLeft: -20,
+            paddingRight: 40,
             width: "100%",
             height: "10px",
+            marginTop: 20,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
         ></div>
