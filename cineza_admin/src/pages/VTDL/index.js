@@ -48,7 +48,7 @@ const columns = [
     data: "parentId",
   },
   {
-    title: "Status",
+    title: "Trạng thái",
     data: "status",
   },
 ];
@@ -116,12 +116,23 @@ const VTDL = () => {
             onClick={onClickHandleBtnAdd}
           />
         </div>
-        <Table
-          column={columns}
-          data={dataColumn}
-          onRowClick={onClickHandleRow}
-          toLink={"/vtdl/level?level="}
-        />
+        <div
+          style={{
+            marginLeft: "-40px",
+            paddingRight: "8%",
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
+        <div className="page_vtdl_table">
+          <Table
+            column={columns}
+            data={dataColumn}
+            onRowClick={onClickHandleRow}
+            toLink={"/vtdl/level?level="}
+          />
+        </div>
       </div>
       {openModalAdd && (
         <VTDLDetail onClickHandleClose={onClickHandleCloseP} addBtn={true} />

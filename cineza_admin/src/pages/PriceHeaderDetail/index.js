@@ -495,6 +495,16 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             </div>
           </div>
         </div>
+        <div style={{ height: "20px", padding: 10 }}></div>
+        <div
+          style={{
+            marginLeft: "-10px",
+            paddingRight: "8%",
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
         <div className="price-detail-container-page">
           <div
             style={{
@@ -525,6 +535,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           {openModelAdd && (
             <PriceDetail
               addBtn={true}
+              headerCode={code}
               onClickHandleClose={onClickHandleCloseP}
             />
           )}

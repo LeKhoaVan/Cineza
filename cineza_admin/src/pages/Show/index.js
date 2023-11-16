@@ -54,7 +54,7 @@ const ShowTime = () => {
   const onClickHandleCloseP = async () => {
     // window.location.href = "/cineza/admin/show";
     setOpenModalDetail(false);
-    setOpenModelAdd(false)
+    setOpenModelAdd(false);
   };
 
   const onClickHandleBtnAdd = () => {
@@ -84,17 +84,21 @@ const ShowTime = () => {
           const day = inputDateTime.getDate();
           const month = inputDateTime.getMonth() + 1;
           const year = inputDateTime.getFullYear();
-          const formattedDateTime = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${
+            month < 10 ? "0" : ""
+          }${month}-${year}`;
 
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
+            minute < 10 ? "0" : ""
+          }${minute}`;
 
           return {
             ...item,
             showDate: formattedDateTime,
-            showStart: minuteResult
+            showStart: minuteResult,
           };
         });
         setContext(dataResult);
@@ -128,7 +132,7 @@ const ShowTime = () => {
               id="find"
               className="showing-input-find"
               placeholder="Tên phim"
-            // onChange={onChangeHandleFind}
+              // onChange={onChangeHandleFind}
             />
             <img
               className="showing-button-img"
@@ -146,10 +150,10 @@ const ShowTime = () => {
                 id="demo-select-small"
                 // value={codeMovie}
                 label="Tên phim"
-              // onChange={handleChangeComboboxCodeMovie}
-              // onFocus={onHandleFocusCodeMovie}
-              // readOnly={!edit}
-              // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                // onChange={handleChangeComboboxCodeMovie}
+                // onFocus={onHandleFocusCodeMovie}
+                // readOnly={!edit}
+                // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
               >
                 {[].map((st, index) => {
                   return (
@@ -162,16 +166,21 @@ const ShowTime = () => {
             </FormControl>
           </div>
         </div>
-        <div style={{ marginLeft: "-50px", paddingRight: "8%", width: "100%", height: "10px", borderBottom: "10px solid rgb(228, 228, 228)", }}></div>
+        <div
+          style={{
+            marginLeft: "-50px",
+            paddingRight: "8%",
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
         <div className="table-all-show">
           <Table column={columns} data={context} onRowClick={onHandleSelect} />
         </div>
       </div>
       {openModalDetail && (
-        <ShowDetail
-          codeShow={code}
-          onClickHandleClose={onClickHandleCloseP}
-        />
+        <ShowDetail codeShow={code} onClickHandleClose={onClickHandleCloseP} />
       )}
       {openModelAdd && (
         <ShowDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />

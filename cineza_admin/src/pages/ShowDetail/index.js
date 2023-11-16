@@ -329,7 +329,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             let newSeat = { ...seat, booked: false };
             if (seat.typeSeat == "VIP") {
               resultVip = [...resultVip, newSeat];
-            } else if (seat.typeSeat == "COMUNITY") {
+            } else if (seat.typeSeat == "Thường") {
               resultThuong = [...resultThuong, newSeat];
             }
           });

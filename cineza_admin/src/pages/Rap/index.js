@@ -66,7 +66,16 @@ const Rap = () => {
           "http://localhost:9000/cineza/api/v1/rap/get-all"
         );
         if (result.status == 200) {
-          setContext(result.data);
+          const resutlData = result.data.map((r) => {
+            let time = r.openTime.split(":");
+            r.openTime = `${time[0]}:${time[1]}`;
+
+            time = r.closeTime.split(":");
+            r.closeTime = `${time[0]}:${time[1]}`;
+            return r;
+          });
+          setContext(resutlData);
+
           // console.log(result.data);
         }
       } catch (error) {
@@ -78,33 +87,45 @@ const Rap = () => {
   }, []);
   return (
     <div className="rap-container">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingRight: "10px",
-          alignItems: "center",
-        }}
-      >
-        <h3>Rap chiếu phim</h3>
-        <img
-          src={iconAdd}
-          alt="btn-add"
-          className="rap-btn-add"
-          onClick={onClickHandleBtnAdd}
-        />
-      </div>
-      <div className="table-all-rap">
-        <Table column={columns} data={context} onRowClick={onHandleSelect} />
-        {openModalDetail && (
-          <RapDetail
-            codeRapBy={code}
-            onClickHandleClose={onClickHandleCloseP}
+      <div className="rap-container-content">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: "10px",
+            alignItems: "center",
+          }}
+        >
+          <h3>Rap chiếu phim</h3>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="rap-btn-add"
+            onClick={onClickHandleBtnAdd}
           />
-        )}
-        {openModelAdd && (
-          <RapDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
-        )}
+        </div>
+        <div
+          style={{
+            marginLeft: "-50px",
+            paddingRight: "8%",
+            width: "100%",
+            height: "10px",
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
+
+        <div className="table-all-rap">
+          <Table column={columns} data={context} onRowClick={onHandleSelect} />
+          {openModalDetail && (
+            <RapDetail
+              codeRapBy={code}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+          {openModelAdd && (
+            <RapDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 .page_vtdl_container {
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    background-color: rgb(202, 202, 202);
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  background-color: rgb(228, 228, 228);
 }
 
 /* .page_vtdl_sibar {
@@ -18,17 +18,21 @@
 } */
 
 .page_vtdl_content {
-    width: 90%;
-    position: sticky;
-    top: 7.5rem;
-    left: 24%;
-    height: 100%;
-    padding-bottom: 200px;
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-    padding-left: 40px;
-    border-radius: 30px;
-    /* border: 1px solid black; */
-    background-color: white;
+  width: 90%;
+  position: sticky;
+  top: 7.5rem;
+  left: 25%;
+  height: 100%;
+  padding-bottom: 200px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  padding-left: 40px;
+  border-radius: 30px;
+  /* border: 1px solid black; */
+  background-color: white;
+}
+
+.page_vtdl_table {
+  margin-top: 10px;
 }
