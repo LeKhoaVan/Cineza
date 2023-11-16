@@ -63,9 +63,7 @@ export default function App() {
         <Stack.Screen name={forget} component={ForgetPassword}></Stack.Screen>
         <Stack.Screen name={modify} component={ModifyPassword}></Stack.Screen>
         <Stack.Screen name={seatBook} component={SeatBook}></Stack.Screen>
-        <Stack.Screen
-          name={otherProduct}
-          component={OtherProduct}
+        <Stack.Screen name={otherProduct} component={OtherProduct}
         ></Stack.Screen>
         <Stack.Screen name={payScreen} component={PayScreen}></Stack.Screen>
         <Stack.Screen

@@ -59,12 +59,15 @@ const OtherProduct = ({ route }) => {
       veg: true,
     },
   ];
-  const dataTicket = route.params.show;
+  const dataShow = route.params.show;
   const seats = route.params.seatSelected;
   const value = route.params.price;
   const poster = route.params.poster;
+
+  console.log("--------------data other product-----------------")
   console.log(route.params.price);
   console.log(route.params.show);
+  console.log(route.params.poster);
   const navigation = useNavigation();
 
   return (
@@ -104,7 +107,7 @@ const OtherProduct = ({ route }) => {
           <Pressable
             onPress={() => {
               navigation.navigate("Thanh toán", {
-                dataTicket,
+                dataShow,
                 seats,
                 value,
                 poster,

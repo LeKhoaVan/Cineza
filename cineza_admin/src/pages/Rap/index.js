@@ -4,6 +4,9 @@ import RapDetail from "../RapDetail";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import "./rap.css";
 import axios from "axios";
+import { Button } from "@mui/material";
+
+const CryptoJS = require('crypto-js'); // npm install crypto-js
 
 const columns = [
   {
@@ -37,6 +40,7 @@ const columns = [
 //   },
 // ];
 const Rap = () => {
+
   const [context, setContext] = useState([]);
 
   const [openModalDetail, setOpenModalDetail] = useState(false);
