@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './Style_Menu';
 
 import iconHome from '../../assets/imageButton/iconHome.png';
 import iconHomeTheater from '../../assets/imageButton/iconHomeTheater.png';
 import iconTicket from '../../assets/imageButton/iconTicket.png';
 
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 // import { Entypo } from "@expo/vector-icons";
 // import { Feather } from "@expo/vector-icons";
@@ -37,8 +37,8 @@ function Menu() {
           style={styles.item}
           onPress={() => navigation.navigate('Home')}>
           {/* <Entypo name="home" size={30} color="white" /> */}
-          <Image source={iconHome} style={{width: 24, height: 24}} />
-          <Text style={{color: 'white'}}>Trang chủ</Text>
+          <Image source={iconHome} style={{ width: 24, height: 24 }} />
+          <Text style={{ color: 'white' }}>Trang chủ</Text>
         </TouchableOpacity>
 
         {/* <TouchableOpacity
@@ -53,8 +53,8 @@ function Menu() {
           style={styles.item}
           onPress={() => navigation.navigate('Danh sách rạp')}>
           {/* <MaterialCommunityIcons name="theater" size={30} color="white" /> */}
-          <Image source={iconHomeTheater} style={{width: 24, height: 24}} />
-          <Text style={{color: 'white'}}>Rạp</Text>
+          <Image source={iconHomeTheater} style={{ width: 24, height: 24 }} />
+          <Text style={{ color: 'white' }}>Rạp</Text>
         </TouchableOpacity>
 
         {/* <TouchableOpacity
@@ -75,12 +75,12 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-          // onPress={() => navigation.navigate("BookByRap")}
+        // onPress={() => navigation.navigate("BookByRap")}
         >
           {/* <Foundation name="ticket" size={30} color="white" /> */}
 
-          <Image source={iconTicket} style={{width: 24, height: 24}} />
-          <Text style={{color: 'white'}}>Vé của tôi</Text>
+          <Image source={iconTicket} style={{ width: 24, height: 24 }} />
+          <Text style={{ color: 'white' }}>Vé của tôi</Text>
         </TouchableOpacity>
 
         {/* <TouchableOpacity

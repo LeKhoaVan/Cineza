@@ -5,12 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image
 } from 'react-native';
 // import { Entypo } from "@expo/vector-icons";
 
 import iconEye from '../../assets/imageButton/iconEye.png';
 import iconEyeHiden from '../../assets/imageButton/iconEyeHiden.png';
-import {useState} from 'react';
+import { useState } from 'react';
 
 function ChangePassword() {
   const [isPassword, setIsPassword] = useState(true);
@@ -22,7 +23,7 @@ function ChangePassword() {
     }
   };
   return (
-    <View style={{flex: 1, backgroundColor: '#d1d1cf'}}>
+    <View style={{ flex: 1, backgroundColor: '#d1d1cf' }}>
       <Text style={styles.title}>MẬT KHẨU ĐĂNG NHẬP</Text>
       <View style={styles.item}>
         <TextInput
@@ -38,10 +39,10 @@ function ChangePassword() {
           onPress={hanldPressPass}>
           {isPassword ? (
             // <Entypo name="eye-with-line" size={24} color="black" />
-            <Image source={iconEyeHiden} style={{width: 20, height: 20}} />
+            <Image source={iconEyeHiden} style={{ width: 20, height: 20 }} />
           ) : (
             // <Entypo name="eye" size={24} color="black" />
-            <Image source={iconEye} style={{width: 20, height: 20}} />
+            <Image source={iconEye} style={{ width: 20, height: 20 }} />
           )}
         </TouchableOpacity>
       </View>
@@ -84,7 +85,7 @@ function ChangePassword() {
         </TouchableOpacity>
       </View>
       <View style={styles.button}>
-        <Text style={{textAlign: 'center', fontSize: 22, color: '#fff'}}>
+        <Text style={{ textAlign: 'center', fontSize: 22, color: '#fff' }}>
           Đổi mật khẩu
         </Text>
       </View>
@@ -119,5 +120,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginLeft: 50,
   },
-  textInput: {height: 40, fontSize: 20, marginLeft: 10},
+  textInput: { height: 40, fontSize: 20, marginLeft: 10 },
 });

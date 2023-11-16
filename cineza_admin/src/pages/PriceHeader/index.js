@@ -29,16 +29,7 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    code: "ph01",
-    type: "VIP",
-    startDay: "11/11/2023",
-    endDay: "12/12/2023",
-    status: "ACTIVE",
-    description: "Mùa đông",
-  },
-];
+
 const PriceHeader = () => {
   const [context, setContext] = useState([]);
   const [openModelAdd, setOpenModelAdd] = useState(false);
