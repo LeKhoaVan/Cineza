@@ -127,27 +127,28 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setCodeHeader(headerCode);
-    }
-    const getPrice = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/price/get-by-code/${codePrice}`
-        );
-        if (response.status === 200) {
-          setCode(response.data.code);
-          setValue(response.data.value);
-          setCodeHeader(response.data.codeHeader);
-          setCodeTypeSeat(response.data.codeTypeSeat);
-          console.log(response.data.codeHeader);
-        } else {
-          console.log("get price fail");
+      console.log(codeHeader);
+    } else {
+      const getPrice = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:9000/cineza/api/v1/price/get-by-code/${codePrice}`
+          );
+          if (response.status === 200) {
+            setCode(response.data.code);
+            setValue(response.data.value);
+            setCodeHeader(response.data.codeHeader);
+            setCodeTypeSeat(response.data.codeTypeSeat);
+            console.log(response.data.codeHeader);
+          } else {
+            console.log("get price fail");
+          }
+        } catch (error) {
+          console.log("error get price: " + error);
         }
-      } catch (error) {
-        console.log("error get price: " + error);
-      }
-    };
-
-    getPrice();
+      };
+      getPrice();
+    }
   }, []);
 
   //all type seat
@@ -339,7 +340,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           </div>
           <div className="price-detail-content-right">
             <div className="price-detail-input">
-              <label>Mã loại ghế</label>
+              <label>Loại ghế</label>
               <div className="price-detail-input-dem"></div>
               <div className="input-price-detail-container">
                 <FormControl
@@ -362,7 +363,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                     {dataTypeSeat.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.code}>
-                          {st.code}
+                          {st.type}
                         </MenuItem>
                       );
                     })}
