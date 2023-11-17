@@ -50,7 +50,7 @@ const MovieDetail = ({ route }) => {
         //   return item;
         // });
         let resultData = res.data;
-        resultData.moviePoster = res.data.moviePoster.replace(/\\/g, "/").replace("localhost", "192.168.1.8");
+        resultData.moviePoster = res.data.moviePoster.replace(/\\/g, "/").replace("localhost", config.IPP4);
         setDataMovie(resultData);
         // setDataMovie(res.data);
 

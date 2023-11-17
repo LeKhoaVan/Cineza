@@ -17,14 +17,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
-            // codeTicket: {
-            //     type: DataTypes.UUID,
-            //     allowNull: true,
-            //     references: {
-            //         model: "Ticket",
-            //         key: "code"
-            //     }
-            // },
             codeProduct: {
                 type: DataTypes.STRING,
                 allowNull: true,

@@ -127,7 +127,6 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setCodeHeader(headerCode);
-      console.log(codeHeader);
     } else {
       const getPrice = async () => {
         try {
@@ -137,7 +136,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           if (response.status === 200) {
             setCode(response.data.code);
             setValue(response.data.value);
-            setCodeHeader(response.data.codeHeader);
+            // setCodeHeader(response.data.codeHeader);
             setCodeTypeSeat(response.data.codeTypeSeat);
             console.log(response.data.codeHeader);
           } else {
@@ -147,6 +146,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           console.log("error get price: " + error);
         }
       };
+
       getPrice();
     }
   }, []);
@@ -206,7 +206,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     setCode("");
     setValue("");
     setCodeTypeSeat("");
-    setCodeHeader(codeHeader);
+    // setCodeHeader(codeHeader);
   };
 
   const onClickHandleSave = async () => {
@@ -385,8 +385,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onChange={(text) => onChangeHandleCode(text)}
+                // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>

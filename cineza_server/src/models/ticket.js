@@ -5,11 +5,12 @@ module.exports = (sequelize, DataTypes) => {
             id: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
-                primaryKey: true,
+                primaryKey: false,
             },
             code: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true,
             },
             bookAt: {
                 type: DataTypes.DATE,
@@ -28,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 defaultValue: "Hoạt động",
                 validate: {
-                  isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
+                    isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
                 },
             },
             codeShowing: {
