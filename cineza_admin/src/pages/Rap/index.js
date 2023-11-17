@@ -6,8 +6,6 @@ import "./rap.css";
 import axios from "axios";
 import { Button } from "@mui/material";
 
-const CryptoJS = require('crypto-js'); // npm install crypto-js
-
 const columns = [
   {
     title: "Code",
@@ -40,7 +38,6 @@ const columns = [
 //   },
 // ];
 const Rap = () => {
-
   const [context, setContext] = useState([]);
 
   const [openModalDetail, setOpenModalDetail] = useState(false);
@@ -55,12 +52,11 @@ const Rap = () => {
 
   const onClickHandleCloseP = async () => {
     // window.location.href = "/cineza/admin/rap";
-    setOpenModalDetail(false);
+    setOpenModalDetail(!openModalDetail);
   };
 
   const onClickHandleBtnAdd = () => {
-    setOpenModelAdd(true);
-    console.log(openModelAdd);
+    setOpenModelAdd(!openModelAdd);
   };
 
   useEffect(() => {
@@ -94,13 +90,16 @@ const Rap = () => {
       <div className="rap-container-content">
         <div
           style={{
+            width: "100%",
+            height: "15%",
             display: "flex",
             flexDirection: "row",
-            paddingRight: "10px",
+            // paddingRight: "10px",
             alignItems: "center",
+            boxShadow: "2px 5px 5px #575353",
           }}
         >
-          <h3>Rap chiếu phim</h3>
+          <h3 style={{ paddingLeft: 10 }}>Rap chiếu phim</h3>
           <img
             src={iconAdd}
             alt="btn-add"
@@ -113,22 +112,37 @@ const Rap = () => {
             marginLeft: "-50px",
             paddingRight: "8%",
             width: "100%",
-            height: "10px",
-            borderBottom: "10px solid rgb(228, 228, 228)",
+            height: 5,
+            borderBottom: "20px solid rgb(228, 228, 228)",
           }}
         ></div>
 
-        <div className="table-all-rap">
-          <Table column={columns} data={context} onRowClick={onHandleSelect} />
-          {openModalDetail && (
-            <RapDetail
-              codeRapBy={code}
-              onClickHandleClose={onClickHandleCloseP}
+        <div
+          style={{
+            width: "100%",
+            height: "80%",
+            boxShadow: "2px 5px 5px #575353",
+          }}
+        >
+          <div className="table-all-rap">
+            <Table
+              column={columns}
+              data={context}
+              onRowClick={onHandleSelect}
             />
-          )}
-          {openModelAdd && (
-            <RapDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
-          )}
+            {openModalDetail && (
+              <RapDetail
+                codeRapBy={code}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+            {openModelAdd && (
+              <RapDetail
+                addBtn={true}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -149,7 +149,6 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
 
       getPrice();
     }
-
   }, []);
 
   //all type seat
@@ -341,7 +340,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           </div>
           <div className="price-detail-content-right">
             <div className="price-detail-input">
-              <label>Mã loại ghế</label>
+              <label>Loại ghế</label>
               <div className="price-detail-input-dem"></div>
               <div className="input-price-detail-container">
                 <FormControl
@@ -364,7 +363,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                     {dataTypeSeat.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.code}>
-                          {st.code}
+                          {st.type}
                         </MenuItem>
                       );
                     })}
