@@ -74,9 +74,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [ward, setWard] = useState([]);
   const [wardId, setWardId] = useState("");
 
+  const [openModalRapDetail, setOpenModalRapDetail] = useState(true);
+
   const [rooms, setRooms] = useState([]);
   const [codeRoom, setCodeRoom] = useState("");
-  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModalRoomDetail, setOpenModalRoomDetail] = useState(false);
   const [openModelAdd, setOpenModelAdd] = useState(false);
 
   const [edit, setEdit] = useState(false);
@@ -102,18 +104,20 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const handleRowClick = (row) => {
     console.log(row);
     setCodeRoom(row);
-    setOpenModalDetail(!openModalDetail);
+    setOpenModalRapDetail(false);
+    setOpenModalRoomDetail(true);
   };
 
   const onClickHandleCloseP = async () => {
     // window.location.href = "/cineza/admin/rap";
-    setOpenModalDetail(false);
+    setOpenModalRoomDetail(false);
+    setOpenModalRapDetail(true);
     setOpenModelAdd(false);
   };
 
   const onClickHandleBtnAdd = () => {
     setOpenModelAdd(true);
-    console.log(openModelAdd);
+    setOpenModalRapDetail(false);
   };
   ////////////////////////////////////////////////////
 
@@ -444,393 +448,407 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   return (
     <div className="rap-detail-background">
-      <div className="rap-detail-container">
-        <div className="rap-detail-header">
-          <div className="rap-detail-header-edit">
-            <div
-              className="rap-detail-header-edit-save"
-              onClick={onClickHandleSave}
-            >
-              <img className="icon-save" src={iconSave} alt="update" />
-              <p>Lưu</p>
-            </div>
-            <div
-              className="rap-detail-header-edit-update"
-              onClick={onClickHandleEdit}
-            >
-              <img className="icon-update" src={iconPen} alt="update" />
-              <p>Chỉnh sửa</p>
-            </div>
-            {/* <Link
+      {openModalRapDetail && (
+        <div className="rap-detail-container">
+          <div className="rap-detail-header">
+            <div className="rap-detail-header-edit">
+              <div
+                className="rap-detail-header-edit-save"
+                onClick={onClickHandleSave}
+              >
+                <img className="icon-save" src={iconSave} alt="update" />
+                <p>Lưu</p>
+              </div>
+              <div
+                className="rap-detail-header-edit-update"
+                onClick={onClickHandleEdit}
+              >
+                <img className="icon-update" src={iconPen} alt="update" />
+                <p>Chỉnh sửa</p>
+              </div>
+              {/* <Link
               className="rap-detail-header-edit-detail"
               to={"/rap/code?code=" + code}
             >
               <img className="icon-detail" src={iconDetail} alt="update" />
               <p>Danh sách phòng</p>
             </Link> */}
-            <div
-              className="rap-detail-header-edit-new-delete"
-              onClick={onClickHandleNew}
-            >
-              <div className="rap-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
+              <div
+                className="rap-detail-header-edit-new-delete"
+                onClick={onClickHandleNew}
+              >
+                <div className="rap-detail-header-edit-new">
+                  <img
+                    className="iconNew"
+                    src={iconCreateNew}
+                    alt="create new"
+                  />
+                  <p>Tạo mới</p>
+                </div>
+                <div className="rap-detail-header-edit-delete">
+                  <img className="iconDelete" src={iconDelete} alt="delete" />
+                  <p>Xóa</p>
+                </div>
               </div>
-              <div className="rap-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
+              <div
+                className="rap-detail-header-close"
+                onClick={onClickHandleClose}
+              >
+                <img className="iconClose" src={iconClose} alt="close" />
               </div>
             </div>
-            <div
-              className="rap-detail-header-close"
-              onClick={onClickHandleClose}
-            >
-              <img className="iconClose" src={iconClose} alt="close" />
+            <div className="rap-detail-header-name">
+              <span>{code} - </span> <span>-{name} </span>
             </div>
           </div>
-          <div className="rap-detail-header-name">
-            <span>{code} - </span> <span>-{name} </span>
-          </div>
-        </div>
 
-        <div className="rap-detail-content">
-          <div className="rap-detail-content-left">
-            {showAlert && (
-              <Alert message={message} onClose={handleCloseAlert} />
-            )}
-            <div className="rap-detail-input">
-              <label>Mã rạp</label>
-              <div className="rap-detail-input-dem"></div>
+          <div className="rap-detail-content">
+            <div className="rap-detail-content-left">
+              {showAlert && (
+                <Alert message={message} onClose={handleCloseAlert} />
+              )}
+              <div className="rap-detail-input">
+                <label>Mã rạp</label>
+                <div className="rap-detail-input-dem"></div>
 
-              <div className="input-rap-container">
-                <input
-                  className="input-rap"
-                  value={code}
-                  readOnly={!editCode}
-                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                  onChange={(text) => onChangeHandleCode(text)}
-                  onFocus={onHandleFocusCode}
-                />
-                {isValidCode && (
-                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
-                )}
+                <div className="input-rap-container">
+                  <input
+                    className="input-rap"
+                    value={code}
+                    readOnly={!editCode}
+                    style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
+                    onChange={(text) => onChangeHandleCode(text)}
+                    onFocus={onHandleFocusCode}
+                  />
+                  {isValidCode && (
+                    <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="rap-detail-input">
-              <label>Tên rạp</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
-                <input
-                  className="input-rap"
-                  value={name}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  onChange={(text) => onChangeHandleName(text)}
-                  onFocus={onHandleFocusName}
-                />
-                {isValidName && (
-                  <p style={{ color: "red" }}>"Không để trống"</p>
-                )}
-              </div>
-            </div>
-            <div className="rap-detail-input">
-              <label>Vị trí</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
-                <input
-                  className="input-rap"
-                  value={numberRap}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  onChange={(text) => onChangeHandleNumberRap(text)}
-                  onFocus={onHandleFocusNumberRap}
-                />
-                {isValidNumberRap && (
-                  <p style={{ color: "red" }}>"Không để trống"</p>
-                )}
-              </div>
-            </div>
-            {/* {editCode && (
-              
-            )} */}
-          </div>
-
-          <div className="rap-detail-content-right">
-            <div className="rap-detail-input">
-              <label>Thời gian mở</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
-                <TimePicker
-                  format="hh:mm a"
-                  openClockOnFocus={false}
-                  value={openTime}
-                  onChange={(text) => onChangeHandleOpenTime(text)}
-                />
-              </div>
-            </div>
-            <div className="rap-detail-input">
-              <label>Thời gian đóng</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
-                <TimePicker
-                  format="hh:mm a"
-                  value={closeTime}
-                  openClockOnFocus={false}
-                  onChange={(e) => onChangeHandleCloseTime(e)}
-                />
-              </div>
-            </div>
-            <div className="rap-detail-input">
-              <label>Trạng thái</label>
-              <div className="rap-detail-input-dem"></div>
-              <div className="input-rap-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={status}
-                    // label="Status"
-                    onChange={handleChangeComboboxStatus}
-                    onFocus={onHandleFocusStatus}
+              <div className="rap-detail-input">
+                <label>Tên rạp</label>
+                <div className="rap-detail-input-dem"></div>
+                <div className="input-rap-container">
+                  <input
+                    className="input-rap"
+                    value={name}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataStatus.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidStatus && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
+                    onChange={(text) => onChangeHandleName(text)}
+                    onFocus={onHandleFocusName}
+                  />
+                  {isValidName && (
+                    <p style={{ color: "red" }}>"Không để trống"</p>
+                  )}
+                </div>
               </div>
+              <div className="rap-detail-input">
+                <label>Vị trí</label>
+                <div className="rap-detail-input-dem"></div>
+                <div className="input-rap-container">
+                  <input
+                    className="input-rap"
+                    value={numberRap}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    onChange={(text) => onChangeHandleNumberRap(text)}
+                    onFocus={onHandleFocusNumberRap}
+                  />
+                  {isValidNumberRap && (
+                    <p style={{ color: "red" }}>"Không để trống"</p>
+                  )}
+                </div>
+              </div>
+              {/* {editCode && (
+              
+            )} */}
             </div>
 
-            <div className="rap-detail-input">
-              <div className="rap-detail-input-dem"></div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
-                }}
-              >
-                <div className="input-address-rap">
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginRight: 5,
-                      width: "22%",
-                    }}
+            <div className="rap-detail-content-right">
+              <div className="rap-detail-input">
+                <label>Thời gian mở</label>
+                <div className="rap-detail-input-dem"></div>
+                <div className="input-rap-container">
+                  <TimePicker
+                    format="hh:mm a"
+                    openClockOnFocus={false}
+                    value={openTime}
+                    onChange={(text) => onChangeHandleOpenTime(text)}
+                  />
+                </div>
+              </div>
+              <div className="rap-detail-input">
+                <label>Thời gian đóng</label>
+                <div className="rap-detail-input-dem"></div>
+                <div className="input-rap-container">
+                  <TimePicker
+                    format="hh:mm a"
+                    value={closeTime}
+                    openClockOnFocus={false}
+                    onChange={(e) => onChangeHandleCloseTime(e)}
+                  />
+                </div>
+              </div>
+              <div className="rap-detail-input">
+                <label>Trạng thái</label>
+                <div className="rap-detail-input-dem"></div>
+                <div className="input-rap-container">
+                  <FormControl
+                    sx={{ width: "52%", marginRight: "80px" }}
+                    size="small"
                   >
-                    <label style={{ marginBottom: 5 }}>Quốc gia</label>
-                    <FormControl
-                      className="input-address-rap-combobox"
-                      sx={{ width: "100%", marginRight: "10px" }}
-                      size="small"
+                    {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
+                    <Select
+                      labelId="demo-select-small-label"
+                      id="demo-select-small"
+                      value={status}
+                      // label="Status"
+                      onChange={handleChangeComboboxStatus}
+                      onFocus={onHandleFocusStatus}
+                      readOnly={!edit}
+                      style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                     >
-                      {/* <InputLabel id="demo-select-small-label">Quốc gia</InputLabel> */}
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={countryId}
-                        // label="Quốc gia"
-                        onChange={handleChangeComboboxCountry}
-                        readOnly={!edit}
-                        onFocus={onHandleFocusAddress}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                      >
-                        {country?.map((st, index) => {
-                          return (
-                            <MenuItem key={index} value={st.code}>
-                              {st.fullName}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </div>
+                      {dataStatus.map((st, index) => {
+                        return (
+                          <MenuItem key={index} value={st.id}>
+                            {st.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                  {isValidStatus && (
+                    <p style={{ color: "red" }}>Không được bỏ trống</p>
+                  )}
+                </div>
+              </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginRight: 5,
-                      width: "22%",
-                    }}
-                  >
-                    <label style={{ marginBottom: 5 }}>Tỉnh/Thành</label>
-                    <FormControl
-                      className="input-address-rap-combobox"
-                      sx={{ width: "100%", marginRight: "10px" }}
-                      size="small"
+              <div className="rap-detail-input">
+                <div className="rap-detail-input-dem"></div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                  }}
+                >
+                  <div className="input-address-rap">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        marginRight: 5,
+                        width: "22%",
+                      }}
                     >
-                      {/* <InputLabel id="demo-select-small-label">Tỉnh/TP</InputLabel> */}
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={cityId}
-                        // label="Tinh/TP"
-                        onChange={handleChangeComboboxCity}
-                        onFocus={onHandleFocusAddress}
-                        readOnly={!edit}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                      <label style={{ marginBottom: 5 }}>Quốc gia</label>
+                      <FormControl
+                        className="input-address-rap-combobox"
+                        sx={{ width: "100%", marginRight: "10px" }}
+                        size="small"
                       >
-                        {city?.map((st, index) => {
-                          return (
-                            <MenuItem key={index} value={st.code}>
-                              {st.fullName}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </div>
+                        {/* <InputLabel id="demo-select-small-label">Quốc gia</InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={countryId}
+                          // label="Quốc gia"
+                          onChange={handleChangeComboboxCountry}
+                          readOnly={!edit}
+                          onFocus={onHandleFocusAddress}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {country?.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.fullName}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginRight: 5,
-                      width: "22%",
-                    }}
-                  >
-                    <label style={{ marginBottom: 5 }}>Quận/Huyện</label>
-                    <FormControl
-                      className="input-address-rap-combobox"
-                      sx={{ width: "100%", marginRight: "10px" }}
-                      size="small"
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        marginRight: 5,
+                        width: "22%",
+                      }}
                     >
-                      {/* <InputLabel id="demo-select-small-label">
+                      <label style={{ marginBottom: 5 }}>Tỉnh/Thành</label>
+                      <FormControl
+                        className="input-address-rap-combobox"
+                        sx={{ width: "100%", marginRight: "10px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">Tỉnh/TP</InputLabel> */}
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={cityId}
+                          // label="Tinh/TP"
+                          onChange={handleChangeComboboxCity}
+                          onFocus={onHandleFocusAddress}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {city?.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.fullName}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        marginRight: 5,
+                        width: "22%",
+                      }}
+                    >
+                      <label style={{ marginBottom: 5 }}>Quận/Huyện</label>
+                      <FormControl
+                        className="input-address-rap-combobox"
+                        sx={{ width: "100%", marginRight: "10px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">
                     Quận/Huyện
                   </InputLabel> */}
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={districtId}
-                        // label="Quân./Huyện"
-                        onChange={handleChangeComboboxDistrict}
-                        onFocus={onHandleFocusAddress}
-                        readOnly={!edit}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                      >
-                        {district?.map((st, index) => {
-                          return (
-                            <MenuItem key={index} value={st.code}>
-                              {st.fullName}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </div>
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={districtId}
+                          // label="Quân./Huyện"
+                          onChange={handleChangeComboboxDistrict}
+                          onFocus={onHandleFocusAddress}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {district?.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.fullName}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      width: "22%",
-                    }}
-                  >
-                    <label style={{ marginBottom: 5 }}>Phường/Xã</label>
-                    <FormControl
-                      className="input-address-rap-combobox"
-                      sx={{ width: "100%", marginRight: "10px" }}
-                      size="small"
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "22%",
+                      }}
                     >
-                      {/* <InputLabel id="demo-select-small-label">
+                      <label style={{ marginBottom: 5 }}>Phường/Xã</label>
+                      <FormControl
+                        className="input-address-rap-combobox"
+                        sx={{ width: "100%", marginRight: "10px" }}
+                        size="small"
+                      >
+                        {/* <InputLabel id="demo-select-small-label">
                     Phường/Xã
                   </InputLabel> */}
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={wardId}
-                        // label="Phường/Xã"
-                        onChange={handleChangeComboboxWard}
-                        onFocus={onHandleFocusAddress}
-                        readOnly={!edit}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                      >
-                        {ward?.map((st, index) => {
-                          return (
-                            <MenuItem key={index} value={st.code}>
-                              {st.fullName}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={wardId}
+                          // label="Phường/Xã"
+                          onChange={handleChangeComboboxWard}
+                          onFocus={onHandleFocusAddress}
+                          readOnly={!edit}
+                          style={
+                            edit ? {} : { background: "rgb(196, 196, 196)" }
+                          }
+                        >
+                          {ward?.map((st, index) => {
+                            return (
+                              <MenuItem key={index} value={st.code}>
+                                {st.fullName}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
                   </div>
+                  <div style={{ height: "20px" }}></div>
+                  {isValidAddress && (
+                    <p style={{ color: "red", width: "40%" }}>{errorAddress}</p>
+                  )}
                 </div>
-                <div style={{ height: "20px" }}></div>
-                {isValidAddress && (
-                  <p style={{ color: "red", width: "40%" }}>{errorAddress}</p>
-                )}
               </div>
             </div>
           </div>
-        </div>
-        <div
-          style={{
-            marginLeft: -20,
-            paddingRight: 40,
-            width: "100%",
-            height: "10px",
-            marginTop: 20,
-            borderBottom: "10px solid rgb(228, 228, 228)",
-          }}
-        ></div>
-        <div className="rap-detail-container-page">
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              paddingRight: "10px",
-              alignItems: "center",
+              marginLeft: -20,
+              paddingRight: 40,
+              width: "100%",
+              height: "10px",
+              marginTop: 20,
+              borderBottom: "10px solid rgb(228, 228, 228)",
             }}
-          >
-            <h2>Danh sách phòng</h2>
-            <img
-              src={iconAdd}
-              alt="btn-add"
-              className="room-btn-add"
-              onClick={onClickHandleBtnAdd}
-            />
+          ></div>
+          <div className="rap-detail-container-page">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                paddingRight: "10px",
+                alignItems: "center",
+              }}
+            >
+              <h2>Danh sách phòng</h2>
+              <img
+                src={iconAdd}
+                alt="btn-add"
+                className="room-btn-add"
+                onClick={onClickHandleBtnAdd}
+              />
+            </div>
+            <div className="rap-detail-table-page">
+              <Table
+                column={titleColumn}
+                data={rooms}
+                onRowClick={handleRowClick}
+              />
+              {/*  */}
+            </div>
           </div>
-          <div className="rap-detail-table-page">
-            <Table
-              column={titleColumn}
-              data={rooms}
-              onRowClick={handleRowClick}
-            />
-            {/*  */}
-          </div>
-          {openModalDetail && (
-            <RoomDetail
-              onClickHandleClose={onClickHandleCloseP}
-              codeRoom={codeRoom}
-              rapCode={code}
-            />
-          )}
-          {openModelAdd && (
-            <RoomDetail
-              addBtn={true}
-              // codeRoom={codeRoom}
-              rapCode={code}
-              onClickHandleClose={onClickHandleCloseP}
-            />
-          )}
         </div>
-      </div>
+      )}
+      {openModalRoomDetail && (
+        <RoomDetail
+          onClickHandleClose={onClickHandleCloseP}
+          codeRoom={codeRoom}
+          rapCode={code}
+        />
+      )}
+      {openModelAdd && (
+        <RoomDetail
+          addBtn={true}
+          // codeRoom={codeRoom}
+          rapCode={code}
+          onClickHandleClose={onClickHandleCloseP}
+        />
+      )}
     </div>
   );
 };
