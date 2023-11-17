@@ -63,11 +63,8 @@ const OtherProduct = ({ route }) => {
   const seats = route.params.seatSelected;
   const value = route.params.price;
   const poster = route.params.poster;
+  const tickets = route.params.tickets;
 
-  console.log("--------------data other product-----------------")
-  console.log(route.params.price);
-  console.log(route.params.show);
-  console.log(route.params.poster);
   const navigation = useNavigation();
 
   return (
@@ -111,6 +108,7 @@ const OtherProduct = ({ route }) => {
                 seats,
                 value,
                 poster,
+                tickets,
               });
             }}
           >

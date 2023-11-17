@@ -186,42 +186,47 @@ function SeatBook({ route }) {
   };
 
   const onClickHandleSave = () => {
+    let tickets = [];
     seatSelected.forEach(async seat => {
-      let ticket = {
-        codeShowing: route.params.item.code,
-        codeSeat: seat.code,
-        codeUser: 'user01',
-        status: 'Hoạt động',
-      };
+      tickets = [...tickets, { codeShowing: route.params.item.code, codeSeat: seat.code, codeUser: 'user01', status: 'Hoạt động' }]
+    })
+    // seatSelected.forEach(async seat => {
+    //   let ticket = {
+    //     codeShowing: route.params.item.code,
+    //     codeSeat: seat.code,
+    //     codeUser: 'user01',
+    //     status: 'Hoạt động',
+    //   };
 
-      try {
-        const response = await axios.post(
-          `http://${config.IPP4}:9000/cineza/api/v1/ticket/create`,
-          ticket,
-        );
-        if (response.status === 201) {
-          console.log('Lưu thành công');
-          // setShowAlert(true);
-        } else {
-          console.log('Lưu thất bại');
-          // setShowAlert(true);
-          setCheckSave(false);
-        }
-      } catch (error) {
-        console.log('save fail: ' + error);
-        setCheckSave(false);
-        // setShowAlert(true);
-      }
-    });
+    //   try {
+    //     const response = await axios.post(
+    //       `http://${config.IPP4}:9000/cineza/api/v1/ticket/create`,
+    //       ticket,
+    //     );
+    //     if (response.status === 201) {
+    //       console.log('Lưu thành công');
+    //       // setShowAlert(true);
+    //     } else {
+    //       console.log('Lưu thất bại');
+    //       // setShowAlert(true);
+    //       setCheckSave(false);
+    //     }
+    //   } catch (error) {
+    //     console.log('save fail: ' + error);
+    //     setCheckSave(false);
+    //     // setShowAlert(true);
+    //   }
+    // });
 
     if (seatSelected.length === 0) {
       Alert.alert('Xin hãy chọn ít nhất 1 ghế');
-    } else if (setCheckSave) {
+    } else {
       navigation.navigate('Đồ đi kèm', {
         show,
         seatSelected,
         price,
         poster,
+        tickets,
       });
     }
   };

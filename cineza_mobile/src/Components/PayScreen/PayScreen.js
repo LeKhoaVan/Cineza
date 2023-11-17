@@ -13,11 +13,7 @@ function PayScreen({ route }) {
   const seat = route.params.seats;
   const total = route.params.value;
   const posterMovie = route.params.poster;
-
-  console.log("--------------data pay screen-----------------")
-  console.log(route.params.value);
-  console.log(route.params.dataShow);
-  console.log(route.params.poster);
+  const tickets = route.params.tickets;
 
   const dataSeat = seat.map(data => {
     return data.position + ',';
@@ -26,6 +22,32 @@ function PayScreen({ route }) {
   const [dataPay, setDataPay] = useState("")
 
   const handleOnPressThanToan = async () => {
+    // codeTickets.forEach(async (codeTicket) => {
+    //   try {
+    //     let dataOrder = {
+    //       codeTicket: codeTicket,
+    //       codeUser: "user01",
+    //       description: "test save",
+    //       status: "Hoạt động"
+    //     };
+    //     console.log("---------------dataOrder---------")
+    //     console.log(dataOrder)
+    //     const response = await axios.post(
+    //       `http://${config.IPP4}:9000/cineza/api/v1/order/save${dataOrder}`);
+    //     if (response.status === 201) {
+    //       console.log('Lưu order thành công');
+    //       // setShowAlert(true);
+    //     } else {
+    //       console.log('Lưu order thất bại');
+    //       // setShowAlert(true);
+    //     }
+    //   } catch (error) {
+    //     console.log('save order fail: ' + error);
+    //   }
+    // });
+
+    // payment zalopay
+
     const dataPay = {
       value: total,
       dataSeat: dataSeat,
@@ -45,27 +67,62 @@ function PayScreen({ route }) {
   }
 
   useEffect(() => {
-    let counter = 0;
+    if (dataPay != "") {
+      let counter = 0;
+      const logEvery5Seconds = () => {
+        const intervalId = setInterval(async () => {
+          const result = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/check-status-payment`);
+          console.log(result.data)
+          if (result.status == 200) {
+            if (result.data.returncode == 1) {
+              // save ticket
+              const codeTicket = [];
+              for (const t of tickets) {
+                try {
+                  const response = await axios.post(
+                    `http://${config.IPP4}:9000/cineza/api/v1/ticket/create`,
+                    t,
+                  );
+                  if (response.status === 201) {
+                    codeTicket.push(response.data.code);
+                    console.log(response.data.code);
+                    console.log('Lưu ticket thành công');
+                  } else {
+                    console.log('Lưu thất bại');
+                  }
+                } catch (error) {
+                  console.log('Save fail: ' + error);
+                }
+              }
 
-    const logEvery5Seconds = () => {
-      const intervalId = setInterval(async () => {
-        const result = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/check-status-payment`);
-        if (result.status == 200) {
-          if (result.data.returncode == 1) {
-            console.log("chuyển qua trang hóa đơn")
-            clearInterval(intervalId);
+              const dataOrder = {
+                codeTicket: codeTicket,
+                codeUser: "user01",
+                description: "test save",
+                status: "Hoạt động"
+              }
+              console.log("--------------------dataOrder_____________")
+              console.log(dataOrder)
+              const responseOrder = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/order/save`, dataOrder);
+              if (responseOrder.status === 201) {
+                console.log('Lưu order thành công');
+              } else {
+                console.log('Lưu order thất bại');
+              }
+              console.log("chuyển qua trang hóa đơn")
+              clearInterval(intervalId);
+            }
           }
-        }
-        counter++;
+          counter++;
 
-        if (counter === 5) {
-          clearInterval(intervalId); // Dừng lại sau 5 lần
-        }
-      }, 5000);
-    };
+          if (counter === 5) {
+            clearInterval(intervalId); // Dừng lại sau 5 lần
+          }
+        }, 5000);
+      };
 
-    logEvery5Seconds();
-
+      logEvery5Seconds();
+    }
   }, [dataPay]);
 
   return (

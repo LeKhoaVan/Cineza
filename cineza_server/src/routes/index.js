@@ -22,6 +22,7 @@ const promotionDetailRouter = require("./promotionDetailRouter");
 const typeSeatRouter = require("./typeSeatRouter");
 const showingRouter = require("./showingRouter");
 const ticketRouter = require("./ticketRouter")
+const orderRouter = require("./orderRouter");
 
 const rootRouter = express.Router();
 
@@ -41,6 +42,8 @@ rootRouter.use("/price", priceRouter);
 rootRouter.use("/type-seat", typeSeatRouter);
 rootRouter.use("/show", showingRouter)
 rootRouter.use("/ticket", ticketRouter);
+rootRouter.use("/order", orderRouter);
+
 
 let dataAppTransId = "";
 

@@ -127,27 +127,29 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setCodeHeader(headerCode);
-    }
-    const getPrice = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/price/get-by-code/${codePrice}`
-        );
-        if (response.status === 200) {
-          setCode(response.data.code);
-          setValue(response.data.value);
-          setCodeHeader(response.data.codeHeader);
-          setCodeTypeSeat(response.data.codeTypeSeat);
-          console.log(response.data.codeHeader);
-        } else {
-          console.log("get price fail");
+    } else {
+      const getPrice = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:9000/cineza/api/v1/price/get-by-code/${codePrice}`
+          );
+          if (response.status === 200) {
+            setCode(response.data.code);
+            setValue(response.data.value);
+            // setCodeHeader(response.data.codeHeader);
+            setCodeTypeSeat(response.data.codeTypeSeat);
+            console.log(response.data.codeHeader);
+          } else {
+            console.log("get price fail");
+          }
+        } catch (error) {
+          console.log("error get price: " + error);
         }
-      } catch (error) {
-        console.log("error get price: " + error);
-      }
-    };
+      };
 
-    getPrice();
+      getPrice();
+    }
+
   }, []);
 
   //all type seat
@@ -205,7 +207,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     setCode("");
     setValue("");
     setCodeTypeSeat("");
-    setCodeHeader(codeHeader);
+    // setCodeHeader(codeHeader);
   };
 
   const onClickHandleSave = async () => {
@@ -384,8 +386,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onChange={(text) => onChangeHandleCode(text)}
+                // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>
