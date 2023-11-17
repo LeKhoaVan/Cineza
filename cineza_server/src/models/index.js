@@ -128,8 +128,8 @@ db.Order.belongsTo(db.ValueStructure, { foreignKey: "codeUser" });
 db.Order.hasMany(db.OrderDetail, { foreignKey: "codeOder" })
 db.OrderDetail.belongsTo(db.Order, { foreignKey: "codeOder" });
 
-db.Ticket.hasOne(db.OrderDetail, { foreignKey: "codeTicket", unique: true });
-db.OrderDetail.belongsTo(db.Ticket, { foreignKey: "codeTicket" });
+db.Ticket.hasOne(db.OrderDetail, { foreignKey: "codeTicket", targetKey: "code" });
+db.OrderDetail.belongsTo(db.Ticket, { foreignKey: "codeTicket", targetKey: "code" });
 
 db.OtherProduct.hasMany(db.OrderDetail, { foreignKey: "codeProduct" })
 db.OrderDetail.belongsTo(db.OtherProduct, { foreignKey: "codeProduct" });

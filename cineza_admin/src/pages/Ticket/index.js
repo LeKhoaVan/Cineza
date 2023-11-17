@@ -145,7 +145,7 @@ const Ticket = () => {
               let newSeat = { ...seat, booked: false };
               if (seat.typeSeat == "VIP") {
                 resultVip = [...resultVip, newSeat];
-              } else if (seat.typeSeat == "COMUNITY") {
+              } else if (seat.typeSeat == "THUONG") {
                 resultThuong = [...resultThuong, newSeat];
               }
             });
@@ -204,7 +204,7 @@ const Ticket = () => {
                     id="find"
                     className="ticket-input-find"
                     placeholder="tên phim"
-                    // onChange={onChangeHandleFind}
+                  // onChange={onChangeHandleFind}
                   />
                   <img
                     className="ticket-button-img"
@@ -234,10 +234,10 @@ const Ticket = () => {
                     id="demo-select-small"
                     // value={codeMovie}
                     label="Tên phim"
-                    // onChange={handleChangeComboboxCodeMovie}
-                    // onFocus={onHandleFocusCodeMovie}
-                    // readOnly={!edit}
-                    // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  // onChange={handleChangeComboboxCodeMovie}
+                  // onFocus={onHandleFocusCodeMovie}
+                  // readOnly={!edit}
+                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {[].map((st, index) => {
                       return (
@@ -284,10 +284,9 @@ const Ticket = () => {
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-thuong"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -296,10 +295,9 @@ const Ticket = () => {
                   {dataSeatTicketVip?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-vip"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
