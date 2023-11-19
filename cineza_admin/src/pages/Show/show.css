@@ -5,15 +5,15 @@
 }
 
 .show-container {
-  width: 90%;
-  height: 80%;
+  width: 95%;
+  height: 90%;
   display: flex;
   position: sticky;
-  top: 6.5rem;
-  left: 25%;
+  top: 5.5rem;
+  left: 24%;
   flex-direction: column;
-  padding: 20px;
-  border-radius: 40px;
+  /* padding: 20px;
+  border-radius: 40px; */
   background-color: white;
 }
 

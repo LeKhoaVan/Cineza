@@ -68,26 +68,47 @@ const UserLevel = () => {
   // }, []);
 
   return (
-    <div className="address-level-container">
-      <div className="address-level-content">
-        <h3>Cấp người dùng</h3>
-        <div style={{ height: "10px" }}></div>
-        <div
-          style={{
-            marginLeft: "-40px",
-            paddingRight: "8%",
-            width: "100%",
-            height: "10px",
-            borderBottom: "10px solid rgb(228, 228, 228)",
-          }}
-        ></div>
-        <div className="table-all-address">
-          <Table
-            column={titleColumn}
-            data={dataColumn}
-            onRowClick={handleRowClick}
-            toLinkUser={"/user-level?level="}
-          />
+    <div className="user-level-wrapper">
+      <div className="user-level-container">
+        <div className="user-level-content">
+          <div
+            style={{
+              width: "100%",
+              height: "15%",
+              display: "flex",
+              flexDirection: "row",
+              // paddingRight: "10px",
+              alignItems: "center",
+              boxShadow: "2px 5px 5px #575353",
+            }}
+          >
+            <h3 style={{ paddingLeft: 10 }}>Cấp người dùng</h3>
+          </div>
+          <div
+            style={{
+              marginLeft: "-20px",
+              paddingRight: "8%",
+              width: "100%",
+              height: 5,
+              borderBottom: "10px solid rgb(228, 228, 228)",
+            }}
+          ></div>
+          <div
+            style={{
+              width: "100%",
+              height: "82%",
+              boxShadow: "2px 5px 5px #575353",
+            }}
+          >
+            <div className="table-all-user">
+              <Table
+                column={titleColumn}
+                data={dataColumn}
+                onRowClick={handleRowClick}
+                toLinkUser={"/user-level?level="}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

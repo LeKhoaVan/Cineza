@@ -65,13 +65,16 @@ const Order = () => {
       <div className="rap-container-content">
         <div
           style={{
+            width: "100%",
+            height: "15%",
             display: "flex",
             flexDirection: "row",
-            paddingRight: "10px",
+            // paddingRight: "10px",
             alignItems: "center",
+            boxShadow: "2px 5px 5px #575353",
           }}
         >
-          <h3>Danh sách hóa đơn</h3>
+          <h3 style={{ paddingLeft: 10 }}>Danh sách hóa đơn</h3>
           {/* <img
             src={iconAdd}
             alt="btn-add"
@@ -81,25 +84,37 @@ const Order = () => {
         </div>
         <div
           style={{
-            marginLeft: "-50px",
+            marginLeft: "-20px",
             paddingRight: "8%",
             width: "100%",
-            height: "10px",
+            height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
         ></div>
 
-        <div className="table-all-rap">
-          <Table column={titleColumn} data={data} onRowClick={onHandleSelect} />
-          {openModalDetail && (
-            <OrderDetail
-              codeOrder={code}
-              onClickHandleClose={onClickHandleCloseP}
+        <div
+          style={{
+            width: "100%",
+            height: "82%",
+            boxShadow: "2px 5px 5px #575353",
+          }}
+        >
+          <div className="table-all-rap">
+            <Table
+              column={titleColumn}
+              data={data}
+              onRowClick={onHandleSelect}
             />
-          )}
-          {/* {openModelAdd && (
+            {openModalDetail && (
+              <OrderDetail
+                codeOrder={code}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+            {/* {openModelAdd && (
             <RapDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />
           )} */}
+          </div>
         </div>
       </div>
     </div>

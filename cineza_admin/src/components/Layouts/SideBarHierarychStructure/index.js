@@ -15,7 +15,7 @@ const SidebarHierarchyStructure = () => {
     { text: "Khuyến mãi", image: iconPromotion, href: "/promotions" },
   ];
   return (
-    <div className="sidebar-hierarchy-structure">
+    <div className="sidebar-hierarych-structure">
       <div className="sidebar-btn-back">
         <Link to={"/home"}>
           <img src={iconBack} className="img-btn-sidebar" />

@@ -114,13 +114,15 @@ const ShowTime = () => {
       <div className="show-container">
         <div
           style={{
+            width: "100%",
+            height: "15%",
+            boxShadow: "2px 5px 5px #575353",
             display: "flex",
             flexDirection: "row",
-            paddingRight: "10px",
             alignItems: "center",
           }}
         >
-          <h3>Suất chiếu phim</h3>
+          <h3 style={{ paddingLeft: 10 }}>Suất chiếu phim</h3>
           <img
             src={iconAdd}
             alt="btn-add"
@@ -168,15 +170,27 @@ const ShowTime = () => {
         </div>
         <div
           style={{
-            marginLeft: "-50px",
+            marginLeft: "-20px",
             paddingRight: "8%",
             width: "100%",
-            height: "10px",
+            height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
         ></div>
-        <div className="table-all-show">
-          <Table column={columns} data={context} onRowClick={onHandleSelect} />
+        <div
+          style={{
+            width: "100%",
+            height: "82%",
+            boxShadow: "2px 5px 5px #575353",
+          }}
+        >
+          <div className="table-all-show">
+            <Table
+              column={columns}
+              data={context}
+              onRowClick={onHandleSelect}
+            />
+          </div>
         </div>
       </div>
       {openModalDetail && (
