@@ -39,7 +39,7 @@ const levelAddressCompobox = [
   },
 ];
 
-const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
+const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
   const location = useLocation();
   const levelAddressIN = new URLSearchParams(location.search).get("level");
 
@@ -181,6 +181,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
+      setLevelAddress(levelAr);
       setTypeAddress("Vị trí địa lý");
       setIdtypeAddress("vtdl");
     }
@@ -226,6 +227,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
     setCodeAddress("");
     setNameAddress("");
     setStatusAddress("");
+    setLevelAddress(levelAddress);
   };
 
   const onClickHandleSave = async () => {
@@ -432,42 +434,29 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
               </div>
             </div>
 
-            {/* <div className="address-detail-input">
+            <div className="address-detail-input">
               <label>Cáp hành chính</label>
               <div className="address-detail-input-dem"></div>
               <div className="input-address-container">
                 <input
                   className="input-address"
-                  readOnly={edit}
-                  value={levelAddress}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  onChange={(code) => onChangeNameAddress(code)}
-                  onFocus={onHandleFocusNameAddress}
-                />
-                {isValidNameAddress && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div> */}
-
-            <div className="address-detail-input">
-              <label>Cấp hành chính</label>
-              <div className="address-detail-input-dem"></div>
-              <div className="input-address-container">
-                {/* <input
-                  className="input-address"
                   readOnly={true}
                   value={levelAddress}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  onChange={(code) => onChangeLevelAddress(code)}
-                /> */}
+                  // onChange={(code) => onChangeNameAddress(code)}
+                  // onFocus={onHandleFocusNameAddress}
+                />
+              </div>
+            </div>
+
+            {/* <div className="address-detail-input">
+              <label>Cấp hành chính</label>
+              <div className="address-detail-input-dem"></div>
+              <div className="input-address-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  {/* <InputLabel id="demo-select-small-label">
-                    Cấp hành chính
-                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
@@ -488,7 +477,7 @@ const VTDLDetail = ({ codeAddressBy, onClickHandleClose, addBtn }) => {
                   </Select>
                 </FormControl>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="address-detail-content-right">
             <div className="address-detail-input">

@@ -98,45 +98,58 @@ const VTDL = () => {
     setOpenModelAdd(false);
   };
   return (
-    <div className="page_vtdl_container">
-      <div className="page_vtdl_content">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            paddingRight: "10px",
-            alignItems: "center",
-          }}
-        >
-          <h3>Vị trí địa lý</h3>
-          <img
-            src={iconAdd}
-            alt="btn-add"
-            className="user-btn-add"
-            onClick={onClickHandleBtnAdd}
-          />
+    <div className="vtdl-wrapper">
+      <div className="page_vtdl_container">
+        <div className="page_vtdl_content">
+          <div
+            style={{
+              width: "100%",
+              height: "15%",
+              display: "flex",
+              flexDirection: "row",
+              // paddingRight: "10px",
+              alignItems: "center",
+              boxShadow: "2px 5px 5px #575353",
+            }}
+          >
+            <h3 style={{ paddingLeft: 10 }}>Vị trí địa lý</h3>
+            {/* <img
+              src={iconAdd}
+              alt="btn-add"
+              className="vtdl-btn-add"
+              onClick={onClickHandleBtnAdd}
+            /> */}
+          </div>
+          <div
+            style={{
+              marginLeft: "-20px",
+              paddingRight: "8%",
+              width: "100%",
+              height: 5,
+              borderBottom: "10px solid rgb(228, 228, 228)",
+            }}
+          ></div>
+          <div
+            style={{
+              width: "100%",
+              height: "82%",
+              boxShadow: "2px 5px 5px #575353",
+            }}
+          >
+            <div className="page_vtdl_table">
+              <Table
+                column={columns}
+                data={dataColumn}
+                onRowClick={onClickHandleRow}
+                toLink={"/vtdl/level?level="}
+              />
+            </div>
+          </div>
         </div>
-        <div
-          style={{
-            marginLeft: "-40px",
-            paddingRight: "8%",
-            width: "100%",
-            height: "10px",
-            borderBottom: "10px solid rgb(228, 228, 228)",
-          }}
-        ></div>
-        <div className="page_vtdl_table">
-          <Table
-            column={columns}
-            data={dataColumn}
-            onRowClick={onClickHandleRow}
-            toLink={"/vtdl/level?level="}
-          />
-        </div>
+        {/* {openModalAdd && (
+          <VTDLDetail onClickHandleClose={onClickHandleCloseP} addBtn={true} />
+        )} */}
       </div>
-      {openModalAdd && (
-        <VTDLDetail onClickHandleClose={onClickHandleCloseP} addBtn={true} />
-      )}
     </div>
   );
 };

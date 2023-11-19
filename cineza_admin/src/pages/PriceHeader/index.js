@@ -29,7 +29,6 @@ const columns = [
   },
 ];
 
-
 const PriceHeader = () => {
   const [context, setContext] = useState([]);
   const [openModelAdd, setOpenModelAdd] = useState(false);
@@ -75,16 +74,19 @@ const PriceHeader = () => {
 
   return (
     <div className="price-header-container">
-      <div className="price-container">
+      <div className="price-header-content">
         <div
           style={{
+            width: "100%",
+            height: "15%",
             display: "flex",
             flexDirection: "row",
-            paddingRight: "10px",
+            // paddingRight: "10px",
             alignItems: "center",
+            boxShadow: "2px 5px 5px #575353",
           }}
         >
-          <h3>Bảng giá Header</h3>
+          <h3 style={{ paddingLeft: 10 }}>Bảng giá Header</h3>
           <img
             src={iconAdd}
             alt="btn-add"
@@ -94,29 +96,41 @@ const PriceHeader = () => {
         </div>
         <div
           style={{
-            marginLeft: "-30px",
+            marginLeft: "-20px",
             paddingRight: "8%",
             width: "100%",
-            height: "10px",
+            height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
         ></div>
 
-        <div className="table-all-price-header">
-          <Table column={columns} data={context} onRowClick={onHandleSelect} />
-          {openModelDetail && (
-            <PriceHeaderDetail
-              codePriceHeader={codeHeader}
-              onClickHandleClose={onClickHandleCloseP}
+        <div
+          style={{
+            width: "100%",
+            height: "82%",
+            boxShadow: "2px 5px 5px #575353",
+          }}
+        >
+          <div className="table-all-price-header">
+            <Table
+              column={columns}
+              data={context}
+              onRowClick={onHandleSelect}
             />
-          )}
-          {openModelAdd && (
-            <PriceHeaderDetail
-              addBtn={true}
-              codePriceHeader={codeHeader}
-              onClickHandleClose={onClickHandleCloseP}
-            />
-          )}
+            {openModelDetail && (
+              <PriceHeaderDetail
+                codePriceHeader={codeHeader}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+            {openModelAdd && (
+              <PriceHeaderDetail
+                addBtn={true}
+                codePriceHeader={codeHeader}
+                onClickHandleClose={onClickHandleCloseP}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -109,18 +109,18 @@ const Rap = () => {
         </div>
         <div
           style={{
-            marginLeft: "-50px",
+            marginLeft: "-20px",
             paddingRight: "8%",
             width: "100%",
             height: 5,
-            borderBottom: "20px solid rgb(228, 228, 228)",
+            borderBottom: "10px solid rgb(228, 228, 228)",
           }}
         ></div>
 
         <div
           style={{
             width: "100%",
-            height: "80%",
+            height: "82%",
             boxShadow: "2px 5px 5px #575353",
           }}
         >

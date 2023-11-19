@@ -5,12 +5,12 @@
   background-color: rgb(228, 228, 228);
 }
 .rap-container-content {
-  width: 90%;
-  height: 80%;
+  width: 95%;
+  height: 90%;
   display: flex;
   position: sticky;
-  top: 7.5rem;
-  left: 25%;
+  top: 5.5rem;
+  left: 24%;
   flex-direction: column;
   /* padding: 20px; */
   /* border-radius: 40px; */

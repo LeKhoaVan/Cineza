@@ -597,6 +597,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                 </div>
               </div>
             )}
+
             <div className="user-detail-input">
               <label>Level</label>
               <div className="user-detail-input-dem"></div>

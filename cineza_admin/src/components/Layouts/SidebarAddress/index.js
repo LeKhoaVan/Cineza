@@ -7,7 +7,7 @@ const SidebarAddress = () => {
 
     ]
     return (
-        <div className="sidebar-container">
+        <div className="sidebar-address-container">
             {context.map((ct, index) => {
                 return <ButtonSidebar key={index} text={ct.text} image={ct.image} href={ct.href} />
             })}
