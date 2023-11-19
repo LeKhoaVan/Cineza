@@ -181,19 +181,20 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
       setEdit(true);
       setCreateNew(true);
       setCodeRap(rapCode);
+    } else {
+      const getRoom = async () => {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/room/get-by-code/${codeRoom}`
+        );
+        if (result.status === 200) {
+          setCode(result.data.code);
+          setName(result.data.name);
+          setCodeRap(result.data.codeRap);
+          setStatus(result.data.status);
+        }
+      };
+      getRoom();
     }
-    const getRoom = async () => {
-      const result = await axios.get(
-        `http://localhost:9000/cineza/api/v1/room/get-by-code/${codeRoom}`
-      );
-      if (result.status === 200) {
-        setCode(result.data.code);
-        setName(result.data.name);
-        setCodeRap(result.data.codeRap);
-        setStatus(result.data.status);
-      }
-    };
-    getRoom();
   }, []);
 
   //all rap
@@ -285,7 +286,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     setCode("");
     setName("");
     setStatus("");
-    // setCodeRap(codeRap);
+    setCodeRap(codeRap);
   };
 
   const onClickHandleSave = async () => {
@@ -310,7 +311,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
             setMessage("Lưu thành công");
             setShowAlert(true);
 
-            onClickHandleNew()
+            onClickHandleNew();
           } else {
             setMessage("Lưu thất bại");
             setShowAlert(true);
@@ -360,25 +361,12 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-            {/* <Link
-              className="room-detail-header-edit-detail"
-              to={"/room/code?code=" + code}
-            >
-              <img className="icon-detail" src={iconDetail} alt="update" />
-              <p>Danh sách ghế</p>
-            </Link> */}
             <div
-              className="room-detail-header-edit-new-delete"
+              className="room-detail-header-edit-update"
               onClick={onClickHandleNew}
             >
-              <div className="room-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="room-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
             </div>
             <div
               className="room-detail-header-close"
@@ -441,8 +429,8 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                   value={codeRap}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                // onChange={(text) => onChangeHandleCodeRap(text)}
-                // onFocus={onHandleFocusPosition}
+                  // onChange={(text) => onChangeHandleCodeRap(text)}
+                  // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
@@ -549,7 +537,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                // onClick={handleSeatClick(item)}
+                  // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

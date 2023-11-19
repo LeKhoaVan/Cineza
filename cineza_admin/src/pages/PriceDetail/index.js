@@ -238,22 +238,19 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
               <p>Chỉnh sửa</p>
             </div>
             <div
-              className="price-detail-header-edit-new-delete"
+              className="price-detail-header-edit-update"
               onClick={onClickHandleNew}
             >
-              <div className="price-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="price-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
             </div>
-            <div
-              className="price-detail-header-close"
-            >
-              <img className="iconClose" src={iconClose} onClick={onClickHandleClose} alt="close" />
+            <div className="price-detail-header-close">
+              <img
+                className="iconClose"
+                src={iconClose}
+                onClick={onClickHandleClose}
+                alt="close"
+              />
             </div>
           </div>
           <div className="price-detail-name">
@@ -351,8 +348,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                // onChange={(text) => onChangeHandleCode(text)}
-                // onFocus={onHandleFocusCode}
+                  // onChange={(text) => onChangeHandleCode(text)}
+                  // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>

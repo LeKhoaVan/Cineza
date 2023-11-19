@@ -36,17 +36,17 @@ const PriceHeader = () => {
   const [codeHeader, setCodeHeader] = useState("");
   const onHandleSelect = (row) => {
     setCodeHeader(row);
-    setOpenModelAdd(false)
+    setOpenModelAdd(false);
     setOpenModelDetail(true);
   };
 
   const onClickHandleBtnAdd = () => {
-    setOpenModelDetail(false)
+    setOpenModelDetail(false);
     setOpenModelAdd(true);
   };
 
   const onClickHandleCloseP = () => {
-    setOpenModelAdd(false)
+    setOpenModelAdd(false);
     setOpenModelDetail(false);
   };
 
@@ -77,7 +77,6 @@ const PriceHeader = () => {
   useEffect(() => {
     getData();
   }, [openModelAdd]);
-
 
   useEffect(() => {
     getData();
