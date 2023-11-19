@@ -47,44 +47,57 @@ const Rap = () => {
   const onHandleSelect = (row) => {
     // console.log(row);
     setCode(row);
-    setOpenModalDetail(!openModalDetail);
+    setOpenModelAdd(false)
+    setOpenModalDetail(true);
   };
 
   const onClickHandleCloseP = async () => {
-    // window.location.href = "/cineza/admin/rap";
-    setOpenModalDetail(!openModalDetail);
+    setOpenModelAdd(false)
+    setOpenModalDetail(false);
   };
 
   const onClickHandleBtnAdd = () => {
-    setOpenModelAdd(!openModelAdd);
+    setOpenModalDetail(false)
+    setOpenModelAdd(true);
+  };
+
+  // get all rap
+  const getData = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:9000/cineza/api/v1/rap/get-all"
+      );
+      if (result.status == 200) {
+        const resutlData = result.data.map((r) => {
+          let time = r.openTime.split(":");
+          r.openTime = `${time[0]}:${time[1]}`;
+
+          time = r.closeTime.split(":");
+          r.closeTime = `${time[0]}:${time[1]}`;
+          return r;
+        });
+        setContext(resutlData);
+
+        // console.log(result.data);
+      }
+    } catch (error) {
+      console.log("error get api all rap " + error);
+    }
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await axios.get(
-          "http://localhost:9000/cineza/api/v1/rap/get-all"
-        );
-        if (result.status == 200) {
-          const resutlData = result.data.map((r) => {
-            let time = r.openTime.split(":");
-            r.openTime = `${time[0]}:${time[1]}`;
-
-            time = r.closeTime.split(":");
-            r.closeTime = `${time[0]}:${time[1]}`;
-            return r;
-          });
-          setContext(resutlData);
-
-          // console.log(result.data);
-        }
-      } catch (error) {
-        console.log("error get api all rap " + error);
-      }
-    };
-
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModalDetail]);
+
+  useEffect(() => {
+    getData();
+  }, [openModelAdd]);
+
+
   return (
     <div className="rap-container">
       <div className="rap-container-content">

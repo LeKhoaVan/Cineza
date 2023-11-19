@@ -1,8 +1,9 @@
 .vtdl-wrapper {
-  width: 100%;
-  height: 100%;
+  width: 99%;
+  height: 99%;
   background-color: rgb(228, 228, 228);
 }
+
 .page_vtdl_container {
   width: 95%;
   height: 90%;

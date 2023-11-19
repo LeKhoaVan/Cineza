@@ -1,8 +1,9 @@
 .other-product-container {
-  width: 100%;
-  height: 100%;
+  width: 99%;
+  height: 99%;
   background-color: rgb(228, 228, 228);
 }
+
 .other-product-content {
   width: 95%;
   height: 92%;
@@ -21,6 +22,7 @@
   margin-left: 37px;
   border-radius: 50%;
   padding: 5px;
+
   &:hover {
     background-color: rgb(217, 217, 217);
   }
@@ -47,7 +49,7 @@
 
 /* Thiết lập kiểu CSS cho mỗi thẻ bộ phim */
 .other-product-card {
-  width: calc(48% - 12px);
+  width: calc(48% - 15px);
   display: flex;
   flex-direction: row;
   /* box-shadow: 2px 5px 5px #575353; */

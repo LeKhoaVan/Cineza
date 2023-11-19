@@ -29,6 +29,19 @@
       filter: invert(100%);
     }
   }
+
+  &:active {
+    border-left: #80a5bd 5px solid;
+    background-color: rgb(196, 196, 196);
+
+    .button-context-text {
+      color: white;
+    }
+
+    .button-context-img {
+      filter: invert(100%);
+    }
+  }
 }
 
 .button-context {
@@ -50,4 +63,20 @@
   font-size: 0.8rem;
   font-weight: bold;
   color: rgb(0, 0, 0);
+}
+
+.none-selected {
+}
+
+.selected {
+  border-left: #80a5bd 5px solid;
+  background-color: rgb(196, 196, 196);
+
+  .button-context-text {
+    color: white;
+  }
+
+  .button-context-img {
+    filter: invert(100%);
+  }
 }
