@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
                     key: "code"
                 }
             },
+            priceTotal: {
+                type: DataTypes.FLOAT,
+                allowNull: false
+            },
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,

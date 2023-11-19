@@ -37,7 +37,7 @@ function Menu() {
           style={styles.item}
           onPress={() => navigation.navigate('Home')}>
           {/* <Entypo name="home" size={30} color="white" /> */}
-          <Image source={iconHome} style={{ width: 24, height: 24 }} />
+          <Image source={iconHome} style={{ width: 45, height: 45, tintColor: "white" }} />
           <Text style={{ color: 'white' }}>Trang chủ</Text>
         </TouchableOpacity>
 
@@ -53,7 +53,7 @@ function Menu() {
           style={styles.item}
           onPress={() => navigation.navigate('Danh sách rạp')}>
           {/* <MaterialCommunityIcons name="theater" size={30} color="white" /> */}
-          <Image source={iconHomeTheater} style={{ width: 24, height: 24 }} />
+          <Image source={iconHomeTheater} style={{ width: 45, height: 45, tintColor: "white" }} />
           <Text style={{ color: 'white' }}>Rạp</Text>
         </TouchableOpacity>
 
@@ -75,11 +75,11 @@ function Menu() {
 
         <TouchableOpacity
           style={styles.item}
-        // onPress={() => navigation.navigate("BookByRap")}
+          onPress={() => navigation.navigate("Lịch sử vé")}
         >
           {/* <Foundation name="ticket" size={30} color="white" /> */}
 
-          <Image source={iconTicket} style={{ width: 24, height: 24 }} />
+          <Image source={iconTicket} style={{ width: 45, height: 45, tintColor: "white" }} />
           <Text style={{ color: 'white' }}>Vé của tôi</Text>
         </TouchableOpacity>
 

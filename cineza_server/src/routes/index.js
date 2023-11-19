@@ -93,6 +93,7 @@ rootRouter.post("/test-bank", async (req, res) => {
     order.embeddata +
     "|" +
     order.item;
+
   order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
 
   const dataResult = await axios.post(config.endpoint, null, { params: order });
