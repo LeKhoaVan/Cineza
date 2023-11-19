@@ -11,6 +11,7 @@
   max-height: 15%;
   display: flex;
   flex-direction: row;
+  box-shadow: 2px 5px 5px #575353;
   margin-top: 5px;
   margin-left: 10px;
   margin-right: 10px;
@@ -36,10 +37,10 @@
 }
 
 .movie-button-img {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    right: 20%;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 20%;
 }
 
 .movie-header-add {
@@ -64,6 +65,7 @@
 
 /* Thiết lập các kiểu CSS cho danh sách phim */
 .movie-list {
+  width: 96%;
   max-height: 85%;
   overflow-y: auto;
   display: flex;
@@ -71,19 +73,20 @@
   flex-wrap: wrap;
   gap: 20px;
   margin-left: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
+  box-shadow: 2px 5px 5px #575353;
   /* Khoảng cách giữa các bộ phim */
 }
 
 /* Thiết lập kiểu CSS cho mỗi thẻ bộ phim */
 .movie-card {
-  width: calc(48% - 20px);
+  width: calc(48% - 12px);
   display: flex;
   flex-direction: row;
   /* Độ rộng 50% và trừ đi khoảng cách giữa các bộ phim */
   border: 1px solid #ddd;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 5px 5px #575353;
   background-color: #fff;
 
   &:hover {

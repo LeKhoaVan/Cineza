@@ -1,10 +1,40 @@
-.address-level-container {
+.address-level-wrapper {
   width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex: 1;
-  flex-direction: row;
+  height: 100%;
   background-color: rgb(228, 228, 228);
+}
+.address-level-container {
+  width: 95%;
+  height: 90%;
+  display: flex;
+  position: sticky;
+  top: 5.5rem;
+  left: 24%;
+  /* border-radius: 40px; */
+  flex-direction: column;
+  background-color: white;
+}
+
+.address-level-content {
+  width: 100%;
+  height: 100%;
+}
+
+.address-level-btn-add {
+  width: 30px;
+  height: 30px;
+  margin-left: 37px;
+  border-radius: 50%;
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(217, 217, 217);
+  }
+}
+
+.table-all-address {
+  margin-top: 10px;
+  overflow-y: auto;
 }
 
 .vtdllevl-btn-back {
@@ -16,25 +46,4 @@
   &:hover {
     background-color: rgb(212, 212, 212);
   }
-}
-
-.address-level-content {
-  width: 90%;
-  position: sticky;
-  top: 7.5rem;
-  left: 25%;
-  height: 100%;
-  padding-bottom: 200px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 15px;
-  padding-left: 40px;
-  border-radius: 30px;
-  /* border: 1px solid black; */
-  background-color: white;
-}
-
-.table-all-address {
-  overflow-y: auto;
-  margin-top: 10px;
 }

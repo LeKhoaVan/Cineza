@@ -97,53 +97,71 @@ const User = () => {
   }, []);
 
   return (
-    <div className="user-container">
-      <div className="user-content">
-        <img
-          src={iconBack}
-          className="vtdllevl-btn-back"
-          onClick={onClickHandleBack}
-        />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            paddingRight: "10px",
-            alignItems: "center",
-          }}
-        >
-          <h3>Người dùng</h3>
-          <img
-            src={iconAdd}
-            alt="btn-add"
-            className="user-btn-add"
-            onClick={onClickHandleBtnAdd}
-          />
-        </div>
-        <div
-          style={{
-            marginLeft: "-40px",
-            paddingRight: "8%",
-            width: "100%",
-            height: "10px",
-            borderBottom: "10px solid rgb(228, 228, 228)",
-          }}
-        ></div>
-        <div className="table-all-user">
-          <Table column={columns} data={context} onRowClick={onHandleSelect} />
-          {openModalDetail && (
-            <UserDetail
-              codeUserBy={codeUser}
-              onClickHandleClose={onClickHandleCloseP}
+    <div className="user-wrapper">
+      <div className="user-container">
+        <div className="user-content">
+          <div
+            style={{
+              width: "100%",
+              height: "15%",
+              display: "flex",
+              flexDirection: "row",
+              // paddingRight: "10px",
+              alignItems: "center",
+              boxShadow: "2px 5px 5px #575353",
+            }}
+          >
+            <img
+              src={iconBack}
+              className="vtdllevl-btn-back"
+              onClick={onClickHandleBack}
             />
-          )}
-          {openModelAdd && (
-            <UserDetail
-              addBtn={true}
-              codeUserBy={codeUser}
-              onClickHandleClose={onClickHandleCloseP}
+            <h3>Người dùng</h3>
+            <img
+              src={iconAdd}
+              alt="btn-add"
+              className="user-btn-add"
+              onClick={onClickHandleBtnAdd}
             />
-          )}
+          </div>
+          <div
+            style={{
+              marginLeft: "-20px",
+              paddingRight: "8%",
+              width: "100%",
+              height: 5,
+              borderBottom: "10px solid rgb(228, 228, 228)",
+            }}
+          ></div>
+          <div
+            style={{
+              width: "100%",
+              height: "82%",
+              boxShadow: "2px 5px 5px #575353",
+            }}
+          >
+            <div className="table-all-user">
+              <Table
+                column={columns}
+                data={context}
+                onRowClick={onHandleSelect}
+              />
+              {openModalDetail && (
+                <UserDetail
+                  codeUserBy={codeUser}
+                  onClickHandleClose={onClickHandleCloseP}
+                />
+              )}
+              {openModelAdd && (
+                <UserDetail
+                  levelU={levelUser}
+                  addBtn={true}
+                  codeUserBy={codeUser}
+                  onClickHandleClose={onClickHandleCloseP}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -100,49 +100,70 @@ const OtherProduct = () => {
   // }, []);
   return (
     <div className="other-product-container">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingRight: "10px",
-          alignItems: "center",
-        }}
-      >
-        <h3>Đồ đi kèm</h3>
-        <img
-          src={iconAdd}
-          alt="btn-add"
-          className="other-product-btn-add"
-          onClick={onClickHandleBtnAdd}
-        />
-      </div>
-      <div className="other-product-header"></div>
-      <div className="other-product-list-container">
-        <div className="other-product-list">
-          {data.map((otherProduct, index) => (
-            <div
-              className="other-product-card"
-              key={otherProduct.id}
-              onClick={() => handleOnClick(otherProduct)}
-            >
-              <img
-                src={otherProduct.image}
-                alt={otherProduct.title}
-                style={{ width: 120 }}
-              />
-              <div className="other-product-details">
-                <h2>{otherProduct.title}</h2>
-                <p>Giá: {otherProduct.price}</p>
-                <p>Mô tả: {otherProduct.description}</p>
-                <p>Trạng thái: {otherProduct.status}</p>
-              </div>
-            </div>
-          ))}
+      <div className="other-product-content">
+        <div
+          style={{
+            width: "100%",
+            height: "15%",
+            display: "flex",
+            flexDirection: "row",
+            // paddingRight: "10px",
+            alignItems: "center",
+            boxShadow: "2px 5px 5px #575353",
+          }}
+        >
+          <h3 style={{ paddingLeft: 10 }}>Đồ đi kèm</h3>
+          <img
+            src={iconAdd}
+            alt="btn-add"
+            className="other-product-btn-add"
+            onClick={onClickHandleBtnAdd}
+          />
         </div>
-        {openModalDetail && (
-          <OtherProductDetail codeOtherProduct={code} onClickHandleClose={onClickHandleCloseP} />
-        )}
-        {openModelAdd && <OtherProductDetail addBtn={true} onClickHandleClose={onClickHandleCloseP} />}
+        <div
+          style={{
+            marginLeft: "-20px",
+            paddingRight: "8%",
+            width: "100%",
+            height: 5,
+            borderBottom: "10px solid rgb(228, 228, 228)",
+          }}
+        ></div>
+        <div className="other-product-list-container">
+          <div className="other-product-list">
+            {data.map((otherProduct, index) => (
+              <div
+                className="other-product-card"
+                key={otherProduct.id}
+                onClick={() => handleOnClick(otherProduct)}
+              >
+                <img
+                  src={otherProduct.image}
+                  alt={otherProduct.title}
+                  style={{ width: 120 }}
+                />
+                <div className="other-product-details">
+                  <h2>{otherProduct.title}</h2>
+                  <p>Giá: {otherProduct.price}</p>
+                  <p>Mô tả: {otherProduct.description}</p>
+                  <p>Trạng thái: {otherProduct.status}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {openModalDetail && (
+            <OtherProductDetail
+              codeOtherProduct={code}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+          {openModelAdd && (
+            <OtherProductDetail
+              addBtn={true}
+              onClickHandleClose={onClickHandleCloseP}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
