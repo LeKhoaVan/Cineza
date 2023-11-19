@@ -92,7 +92,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setOpenModalDetail(!openModalDetail);
   };
 
-  const onClickHandleCloseP = async () => {
+  const onClickHandleCloseP = () => {
     // window.location.href = "/cineza/admin/rap";
     setOpenModalDetail(false);
     setOpenModelAdd(false);
@@ -270,22 +270,31 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   }, []);
 
   //get price by code price header
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeader}`
-        );
-        if (result.status == 200) {
-          setPrices(result.data);
-        }
-      } catch (error) {
-        console.log("error get api all price " + error);
+  const getData = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeader}`
+      );
+      if (result.status == 200) {
+        setPrices(result.data);
       }
-    };
-
+    } catch (error) {
+      console.log("error get api all price " + error);
+    }
+  };
+  useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModalDetail]);
+
+  useEffect(() => {
+    getData();
+  }, [openModelAdd]);
+
+
 
   return (
     <div className="price-header-detail-background">

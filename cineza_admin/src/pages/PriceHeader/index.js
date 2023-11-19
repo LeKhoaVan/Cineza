@@ -36,41 +36,52 @@ const PriceHeader = () => {
   const [codeHeader, setCodeHeader] = useState("");
   const onHandleSelect = (row) => {
     setCodeHeader(row);
+    setOpenModelAdd(false)
     setOpenModelDetail(true);
   };
 
   const onClickHandleBtnAdd = () => {
+    setOpenModelDetail(false)
     setOpenModelAdd(true);
   };
 
-  const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/price";
+  const onClickHandleCloseP = () => {
+    setOpenModelAdd(false)
     setOpenModelDetail(false);
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await axios.get(
-          "http://localhost:9000/cineza/api/v1/price-header/get-all"
-        );
-        if (result.status == 200) {
-          const dataResult = result.data.map((item) => {
-            return {
-              ...item,
-              startDay: formatDateHandle(item.startDay),
-              endDay: formatDateHandle(item.endDay),
-            };
-          });
-          setContext(dataResult);
-        }
-      } catch (error) {
-        console.log("error get api all price header " + error);
+  const getData = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:9000/cineza/api/v1/price-header/get-all"
+      );
+      if (result.status == 200) {
+        const dataResult = result.data.map((item) => {
+          return {
+            ...item,
+            startDay: formatDateHandle(item.startDay),
+            endDay: formatDateHandle(item.endDay),
+          };
+        });
+        setContext(dataResult);
       }
-    };
+    } catch (error) {
+      console.log("error get api all price header " + error);
+    }
+  };
 
+  useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModelAdd]);
+
+
+  useEffect(() => {
+    getData();
+  }, [openModelDetail]);
 
   return (
     <div className="price-header-container">
