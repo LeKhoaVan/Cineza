@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import "./sidebar.css";
 import ButtonSidebar from "../../ButtonSidebar/index.js";
 import iconRap from "../../../assets/imageButtons/iconRap.png";
@@ -30,16 +32,34 @@ const Sidebar = () => {
     { text: "Thống kê", image: iconThongKe, href: "#" },
 
   ];
+
+  // quản lý trạng thái button
+  const [selectedButtons, setSelectedButtons] = useState(null);
+  const handleButtonClick = (buttonId) => {
+    // Cập nhật trạng thái chọn
+    if (selectedButtons == buttonId) {
+      setSelectedButtons(null);
+    } else {
+      setSelectedButtons(buttonId);
+    }
+  };
+
+
   return (
     <div className="sidebar-container">
       {context.map((ct, index) => {
         return (
-          <ButtonSidebar
-            key={index}
-            text={ct.text}
-            image={ct.image}
-            href={ct.href}
-          />
+          <div
+            className={selectedButtons === ct.text ? 'selected' : 'none-selected'}
+            onClick={() => handleButtonClick(ct.text)}
+          >
+            <ButtonSidebar
+              key={index}
+              text={ct.text}
+              image={ct.image}
+              href={ct.href}
+            />
+          </div>
         );
       })}
     </div>
