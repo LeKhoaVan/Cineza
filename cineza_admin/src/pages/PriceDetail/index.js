@@ -252,13 +252,12 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
             </div>
             <div
               className="price-detail-header-close"
-              onClick={onClickHandleClose}
             >
-              <img className="iconClose" src={iconClose} alt="close" />
+              <img className="iconClose" src={iconClose} onClick={onClickHandleClose} alt="close" />
             </div>
           </div>
           <div className="price-detail-name">
-            <p>{code}--</p>
+            <p>{code}</p>
           </div>
         </div>
 
@@ -352,47 +351,11 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onChange={(text) => onChangeHandleCode(text)}
+                // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>
-
-            {/* <div className="price-detail-input">
-              <label>Mã bảng giá header</label>
-              <div className="price-detail-input-dem"></div>
-              <div className="input-price-detail-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                   <InputLabel id="demo-select-small-label">
-                    Mã bảng giá header
-                  </InputLabel> 
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={codeHeader}
-                    // label="Mã bảng giá header"
-                    onChange={handleChangeComboboxCodeHeader}
-                    onFocus={onHandleFocusCodeHeader}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataHeader.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.code}>
-                          {st.code}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidCodeHeader && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

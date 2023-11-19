@@ -339,22 +339,31 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   }, []);
 
   //get phòng by code rạp
-  useEffect(() => {
-    const getRooms = async () => {
-      try {
-        const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapBy}`
-        );
-        if (result.status === 200) {
-          setRooms(result.data);
-          // console.log(result.data);
-        }
-      } catch (error) {
-        console.error("error get all room by rap: " + error);
+  const getRooms = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapBy}`
+      );
+      if (result.status === 200) {
+        setRooms(result.data);
+        // console.log(result.data);
       }
-    };
+    } catch (error) {
+      console.error("error get all room by rap: " + error);
+    }
+  };
+
+  useEffect(() => {
     getRooms();
   }, []);
+
+  useEffect(() => {
+    getRooms();
+  }, [openModelAdd]);
+
+  useEffect(() => {
+    getRooms();
+  }, [openModalRoomDetail]);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -379,6 +388,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setCityId("");
     setDistrictId("");
     setWardId("");
+
+    setRooms([])
   };
 
   const onClickHandleSave = async () => {
@@ -416,6 +427,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
           if (response.status === 201) {
             setMessage("Lưu thành công");
             setShowAlert(true);
+
+            onClickHandleNew();
           } else {
             setMessage("Lưu thất bại");
             setShowAlert(true);

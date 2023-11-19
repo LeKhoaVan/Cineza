@@ -37,35 +37,48 @@ const Price = () => {
   const codePriceHeaderURI = new URLSearchParams(location.search).get("code");
   const onHandleSelect = (row) => {
     setCode(row);
+    setOpenModelAdd(false)
     setOpenModelDetail(true);
   };
 
   const onClickHandleBtnAdd = () => {
+    setOpenModelDetail(false)
     setOpenModelAdd(true);
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href =
-      "/cineza/admin/price/code?code=" + context[0].codeHeader;
+    // window.location.href =
+    //   "/cineza/admin/price/code?code=" + context[0].codeHeader;
     setOpenModelDetail(false);
+    setOpenModelAdd(false)
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await axios.get(
-          `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeaderURI}`
-        );
-        if (result.status == 200) {
-          setContext(result.data);
-        }
-      } catch (error) {
-        console.log("error get api all price " + error);
-      }
-    };
 
+  const getData = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeaderURI}`
+      );
+      if (result.status == 200) {
+        setContext(result.data);
+      }
+    } catch (error) {
+      console.log("error get api all price " + error);
+    }
+  };
+
+
+  useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModelAdd]);
+
+  useEffect(() => {
+    getData();
+  }, [openModelDetail]);
 
   return (
     <div className="price-header-container">

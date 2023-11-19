@@ -17,13 +17,16 @@ const Movie = () => {
   const handleOnClick = (movie) => {
     console.log(movie);
     setMovie(movie);
+    setOpenDetailAdd(false)
     setOpenDetail(true);
   };
   const handleOnClickCloseP = () => {
-    window.location.href = "/cineza/admin/movie";
+    // window.location.href = "/cineza/admin/movie";
+    setOpenDetailAdd(false);
     setOpenDetail(false);
   };
   const handleOnClickAdd = () => {
+    setOpenDetail(false)
     setOpenDetailAdd(true);
   };
 
@@ -46,19 +49,30 @@ const Movie = () => {
     findMovie();
   }, [search]);
 
+
+  // get all movie
+  const getAllMovie = async () => {
+    const allMovie = await axios.get(
+      `http://localhost:9000/cineza/api/v1/movie/get-all`
+    );
+    if (allMovie.status == 200) {
+      setMovieData(allMovie.data);
+    } else {
+      console.log("error get all movie");
+    }
+  };
+
   useEffect(() => {
-    const getAllMovie = async () => {
-      const allMovie = await axios.get(
-        `http://localhost:9000/cineza/api/v1/movie/get-all`
-      );
-      if (allMovie.status == 200) {
-        setMovieData(allMovie.data);
-      } else {
-        console.log("error get all movie");
-      }
-    };
     getAllMovie();
   }, []);
+
+  useEffect(() => {
+    getAllMovie();
+  }, [openDetail]);
+
+  useEffect(() => {
+    getAllMovie();
+  }, [openDetailAdd]);
 
   return (
     <div className="movie-container">
