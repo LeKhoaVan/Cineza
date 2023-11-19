@@ -80,26 +80,43 @@ function SeatBook({ route }) {
   useEffect(() => {
     const getAll = async () => {
       let dataSeat;
-      axios
-        .get(
-          `http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/` +
-          codeRoom,
-          {
-            timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-          },
-        )
-        .then(res => {
-          // setDataVipSeat(res.data);
-          const newData = res.data?.map(item => ({
-            ...item,
-            selectedUI: false,
-          }));
-          setDataVipSeatFormat(newData);
-          dataSeat = newData;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // axios
+      //   .get(
+      //     `http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/` +
+      //     codeRoom,
+      //     {
+      //       timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
+      //     },
+      //   )
+      //   .then(res => {
+      //     // setDataVipSeat(res.data);
+      //     const newData = res.data?.map(item => ({
+      //       ...item,
+      //       selectedUI: false,
+      //     }));
+      //     setDataVipSeatFormat(newData);
+      //     dataSeat = newData;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+
+      const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/` +
+        codeRoom,
+        {
+          timeout: 10000,
+        },
+      );
+      if (res.status == 200) {
+        const newData = res.data?.map(item => ({
+          ...item,
+          selectedUI: false,
+        }));
+        setDataVipSeatFormat(newData);
+        dataSeat = newData;
+      } else {
+        console.error("error get ticket thuong")
+      }
 
       const tickets = await axios.get(
         `http://${config.IPP4}:9000/cineza/api/v1/ticket/get-by-showing/${codeShow}`,
@@ -190,33 +207,6 @@ function SeatBook({ route }) {
     seatSelected.forEach(async seat => {
       tickets = [...tickets, { codeShowing: route.params.item.code, codeSeat: seat.code, codeUser: 'user01', status: 'Hoạt động' }]
     })
-    // seatSelected.forEach(async seat => {
-    //   let ticket = {
-    //     codeShowing: route.params.item.code,
-    //     codeSeat: seat.code,
-    //     codeUser: 'user01',
-    //     status: 'Hoạt động',
-    //   };
-
-    //   try {
-    //     const response = await axios.post(
-    //       `http://${config.IPP4}:9000/cineza/api/v1/ticket/create`,
-    //       ticket,
-    //     );
-    //     if (response.status === 201) {
-    //       console.log('Lưu thành công');
-    //       // setShowAlert(true);
-    //     } else {
-    //       console.log('Lưu thất bại');
-    //       // setShowAlert(true);
-    //       setCheckSave(false);
-    //     }
-    //   } catch (error) {
-    //     console.log('save fail: ' + error);
-    //     setCheckSave(false);
-    //     // setShowAlert(true);
-    //   }
-    // });
 
     if (seatSelected.length === 0) {
       Alert.alert('Xin hãy chọn ít nhất 1 ghế');

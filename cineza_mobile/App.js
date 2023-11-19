@@ -1,8 +1,9 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View} from 'react-native';
-import {Provider} from 'react-redux';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import iconHome from './src/assets/imageButton/iconHome.png';
 const Stack = createStackNavigator();
 
 import Home from './src/Components/Home/Home';
@@ -83,7 +84,15 @@ export default function App() {
           name={ticketDetail}
           component={TicketDetail}></Stack.Screen>
         <Stack.Screen name={item4dx} component={Item4dx}></Stack.Screen>
-        <Stack.Screen name={order} component={Order}></Stack.Screen>
+        <Stack.Screen name={order} component={Order}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Home')}>
+                <Image source={iconHome} style={{ marginLeft: 5, width: 35, height: 35, tintColor: "black" }} />
+              </TouchableOpacity>
+            ),
+          })} ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

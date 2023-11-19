@@ -1,4 +1,4 @@
-const { where, Model, Sequelize } = require("sequelize");
+const { where, Model, QueryTypes } = require("sequelize");
 const { db } = require("../models/index.js");
 
 const getValueStructureByCodeService = async (code) => {
@@ -167,30 +167,6 @@ const updateTicketStructerService = async (code, ticket) => {
   return updateTicket;
 };
 
-// const testLoadData = async () => {
-//     const query = "select * from ValueStructure as vs join HierachyStructure as hs on vs.type = hs.id where vs.code = 'user07' ";
-//     const [result, meta] = await db.sequelize.query(query);
-//     return result
-// }
-// const testLoadData2 = async () => {
-//     const ticket = await db.ValueStructure.findOne({
-//         where: {
-//             code: "user07"
-//         },
-
-//         include: [
-//             {
-//                 model: db.ValueStructure,
-//             },
-//             {
-//                 model: db.HierachyStructure,
-//             }
-//         ]
-//     });
-
-//     console.log(ticket);
-//     return ticket;
-// }
 
 // service other product
 const otherProductCreateService = async () => {
