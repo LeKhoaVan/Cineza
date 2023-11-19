@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { WebView } from 'react-native-webview';
 import config from '../../config';
-
+import { useNavigation } from "@react-navigation/native";
 
 import Header from '../Header/Header';
 import { formatDayHandle, formatTimeHandle } from '../../util';
@@ -14,6 +14,8 @@ function PayScreen({ route }) {
   const total = route.params.value;
   const posterMovie = route.params.poster;
   const tickets = route.params.tickets;
+
+  const navigation = useNavigation();
 
   const dataSeat = seat.map(data => {
     return data.position + ',';
@@ -85,7 +87,6 @@ function PayScreen({ route }) {
                   );
                   if (response.status === 201) {
                     codeTicket.push(response.data.code);
-                    console.log(response.data.code);
                     console.log('Lưu ticket thành công');
                   } else {
                     console.log('Lưu thất bại');
@@ -98,7 +99,8 @@ function PayScreen({ route }) {
               const dataOrder = {
                 codeTicket: codeTicket,
                 codeUser: "user01",
-                description: "test save",
+                description: "thanh toán vé xem phim: " + ticketData.movieName,
+                priceTotal: total,
                 status: "Hoạt động"
               }
               console.log("--------------------dataOrder_____________")
@@ -106,11 +108,14 @@ function PayScreen({ route }) {
               const responseOrder = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/order/save`, dataOrder);
               if (responseOrder.status === 201) {
                 console.log('Lưu order thành công');
+                navigation.navigate("Hóa đơn", { codeOrder: responseOrder.data.code })
+                clearInterval(intervalId);
               } else {
                 console.log('Lưu order thất bại');
               }
-              console.log("chuyển qua trang hóa đơn")
-              clearInterval(intervalId);
+              // navigation.navigate("Hóa đơn", { codeOrder: responseOrder.data.code })
+              // clearInterval(intervalId);
+
             }
           }
           counter++;
@@ -238,7 +243,8 @@ function PayScreen({ route }) {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <Text style={{ fontSize: 18, marginLeft: 5 }}>Còn lại</Text>
+            <Text style={{ fontSize: 18, marginLeft: 5 }}>Còn lại:</Text>
+            <Text style={{ fontSize: 18, marginRight: 5 }}>{total} đ</Text>
             {/* <Text style={{ fontSize: 18, marginRight: 5 }}>{data.final}</Text> */}
           </View>
         </View>
