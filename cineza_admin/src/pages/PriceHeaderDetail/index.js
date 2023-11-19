@@ -35,7 +35,6 @@ const dataStatus = [
   { id: "Hủy", value: "Hủy" },
 ];
 
-
 const columns = [
   {
     title: "Code",
@@ -294,8 +293,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     getData();
   }, [openModelAdd]);
 
-
-
   return (
     <div className="price-header-detail-background">
       <div className="price-header-detail-container">
@@ -315,27 +312,30 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-            <Link
+            {/* <Link
               className="price-header-detail-header-edit-detail"
               //to={"/promotion/code?code=" + code}
               to={"/price/code?code=" + code}
             >
               <img className="icon-detail" src={iconDetail} alt="update" />
               <p>Bảng giá</p>
-            </Link>
-            <div
+            </Link> */}
+            {/* <div
               className="price-header-detail-header-edit-new-delete"
               onClick={onClickHandleNew}
+            > */}
+            <div
+              className="price-header-detail-header-edit-update"
+              onClick={onClickHandleNew}
             >
-              <div className="price-header-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="price-header-detail-header-edit-delete">
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
+            </div>
+            {/* <div className="price-header-detail-header-edit-delete">
                 <img className="iconDelete" src={iconDelete} alt="delete" />
                 <p>Xóa</p>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
             <div
               className="price-header-detail-header-close"
               onClick={onClickHandleClose}

@@ -4,6 +4,7 @@ import OrderDetail from "../OrderDetail";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import axios from "axios";
 import "./order.css";
+import { formatDateHandle } from "../../components/util";
 
 const titleColumn = [
   {
@@ -11,8 +12,20 @@ const titleColumn = [
     data: "code",
   },
   {
+    title: "Ngày thanh toán",
+    data: "datePay",
+  },
+  {
+    title: "Tổng tiền",
+    data: "priceTotal",
+  },
+  {
     title: "Mô tả",
     data: "description",
+  },
+  {
+    title: "Mã Người dùng",
+    data: "codeUser",
   },
   {
     title: "Trạng thái",
@@ -40,26 +53,38 @@ const Order = () => {
     setOpenModalDetail(false);
   };
 
-  const onClickHandleBtnAdd = () => {
-    setOpenModelAdd(true);
-    console.log(openModelAdd);
+  // const onClickHandleBtnAdd = () => {
+  //   setOpenModelAdd(true);
+  //   console.log(openModelAdd);
+  // };
+
+  const getData = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:9000/cineza/api/v1/order/get-all"
+      );
+      if (result.status == 200) {
+        const dataResult = result.data.map((item) => {
+          return {
+            ...item,
+            datePay: formatDateHandle(item.datePay),
+          };
+        });
+        setContext(dataResult);
+      }
+    } catch (error) {
+      console.log("error get api all price header " + error);
+    }
   };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const result = await axios.get(
-  //         "http://localhost:9000/cineza/api/v1/rap/get-all"
-  //       );
-  //       if (result.status == 200) {
-  //         setContext(resutlData);
-  //       }
-  //     } catch (error) {
-  //       console.log("error get api all rap " + error);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModalDetail]);
+
   return (
     <div className="rap-container">
       <div className="rap-container-content">
@@ -102,7 +127,7 @@ const Order = () => {
           <div className="table-all-rap">
             <Table
               column={titleColumn}
-              data={data}
+              data={context}
               onRowClick={onHandleSelect}
             />
             {openModalDetail && (
