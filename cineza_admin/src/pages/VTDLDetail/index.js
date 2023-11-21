@@ -370,18 +370,12 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-            <div className="address-detail-header-edit-new-delete">
-              <div
-                className="address-detail-header-edit-new"
-                onClick={onClickHandleNew}
-              >
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="address-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+            <div
+              className="address-detail-header-edit-update"
+              onClick={onClickHandleNew}
+            >
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
             </div>
             <div className="address-detail-header-close">
               <img

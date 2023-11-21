@@ -65,7 +65,8 @@
   color: rgb(0, 0, 0);
 }
 
-.none-selected {}
+.none-selected {
+}
 
 .selected {
   border-left: #80a5bd 5px solid;

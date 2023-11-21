@@ -68,17 +68,11 @@ const OtherProductDetail = ({
               <p>Chỉnh sửa</p>
             </div>
             <div
-              className="other-product-detail-header-edit-new-delete"
+              className="other-product-detail-header-edit-update"
               //   onClick={onClickHandleNew}
             >
-              <div className="other-product-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="other-product-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
             </div>
             <div
               className="other-product-detail-header-close"

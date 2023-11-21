@@ -510,17 +510,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <p>Chỉnh sửa</p>
             </div>
             <div
-              className="user-detail-header-edit-new-delete"
+              className="user-detail-header-edit-update"
               onClick={onClickHandleNew}
             >
-              <div className="user-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="user-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
             </div>
             <div
               className="user-detail-header-close"

@@ -7,6 +7,8 @@ import iconPromotion from "../../../assets/imageButtons/iconPromotion.png";
 import { Link } from "react-router-dom";
 import "./sidebarHierarychStructure.css";
 
+import { useState } from "react";
+
 const SidebarHierarchyStructure = () => {
   const titleButton = [
     { text: "Vị trí địa lý", image: iconAddress, href: "/vtdl" },
@@ -14,6 +16,18 @@ const SidebarHierarchyStructure = () => {
     { text: "Sản phẩm", image: iconProduct, href: "#" },
     { text: "Khuyến mãi", image: iconPromotion, href: "/promotions" },
   ];
+
+  // quản lý trạng thái button
+  const [selectedButtons, setSelectedButtons] = useState(null);
+  const handleButtonClick = (buttonId) => {
+    // Cập nhật trạng thái chọn
+    if (selectedButtons == buttonId) {
+      setSelectedButtons(null);
+    } else {
+      setSelectedButtons(buttonId);
+    }
+  };
+
   return (
     <div className="sidebar-hierarych-structure">
       <div className="sidebar-btn-back">
@@ -23,12 +37,19 @@ const SidebarHierarchyStructure = () => {
       </div>
       {titleButton.map((ct, index) => {
         return (
-          <ButtonSidebar
-            key={index}
-            text={ct.text}
-            image={ct.image}
-            href={ct.href}
-          />
+          <div
+            className={
+              selectedButtons === ct.text ? "selected" : "none-selected"
+            }
+            onClick={() => handleButtonClick(ct.text)}
+          >
+            <ButtonSidebar
+              key={index}
+              text={ct.text}
+              image={ct.image}
+              href={ct.href}
+            />
+          </div>
         );
       })}
     </div>

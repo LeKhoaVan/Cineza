@@ -145,7 +145,7 @@ const Ticket = () => {
               let newSeat = { ...seat, booked: false };
               if (seat.typeSeat == "VIP") {
                 resultVip = [...resultVip, newSeat];
-              } else if (seat.typeSeat == "THUONG") {
+              } else if (seat.typeSeat == "Thường") {
                 resultThuong = [...resultThuong, newSeat];
               }
             });
@@ -290,6 +290,25 @@ const Ticket = () => {
                   alt="icon-back"
                 />
                 <h3>Sơ đồ ghế</h3>
+                <div
+                  style={{
+                    marginLeft: "-5px",
+                    paddingRight: "-20px",
+                    width: "97%",
+                    height: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderBottom: "20px solid black",
+                  }}
+                >
+                  <h4
+                    style={{
+                      paddingLeft: "45%",
+                    }}
+                  >
+                    Màn hình chiếu
+                  </h4>
+                </div>
                 <div className="seat-show-container">
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div

@@ -41,27 +41,31 @@ const dataStatus = [
 const titleColumn = [
   {
     title: "Mã hóa đơn",
-    data: "codeOrder",
+    data: "codeOder",
   },
   {
-    title: "Loại ",
-    data: "type",
+    title: "Tên phim",
+    data: "movieName",
   },
   {
-    title: "Mã sản phẩm",
-    data: "codeProduct",
+    title: "Tên rạp",
+    data: "rapName",
   },
   {
-    title: "Giá",
-    data: "quality",
+    title: "Phòng",
+    data: "roomName",
   },
-];
-const dataOrder = [
   {
-    codeOrder: "order01",
-    type: "Vé",
-    codeProduct: "ticket01",
-    quality: "80000",
+    title: "Vị trí ghế",
+    data: "position",
+  },
+  {
+    title: "Giá vé",
+    data: "value",
+  },
+  {
+    title: "Ngày thanh toán",
+    data: "datePay",
   },
 ];
 
@@ -69,7 +73,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("");
 
-  const [rooms, setRooms] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [codeRoom, setCodeRoom] = useState("");
   const [openModalOrder, setOpenModalOrder] = useState(true);
   const [openModalDetail, setOpenModalDetail] = useState(false);
@@ -92,9 +96,9 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
   //handle order detail
   const handleRowClick = (row) => {
     console.log(row);
-    setCodeRoom(row);
-    setOpenModalDetail(!openModalDetail);
-    setOpenModalOrder(!openModalOrder);
+    // setCodeRoom(row);
+    // setOpenModalDetail(!openModalDetail);
+    // setOpenModalOrder(!openModalOrder);
   };
 
   const onClickHandleCloseP = async () => {
@@ -145,110 +149,36 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
     }
   };
 
-  // get order by code
-  // useEffect(() => {
-  //   const getRap = async () => {
-  //     const result = await axios.get(
-  //       `http://localhost:9000/cineza/api/v1/rap/get-by-code/${codeRapBy}`
-  //     );
-  //     if (result.status === 200) {
-  //       setCode(result.data.code);
-  //       setStatus(result.data.status);
-
-  //     }
-  //   };
-  //   getRap();
-  // }, []);
-
   //get order detail by code order
-  // useEffect(() => {
-  //   const getRooms = async () => {
-  //     try {
-  //       const result = await axios.get(
-  //         `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapBy}`
-  //       );
-  //       if (result.status === 200) {
-  //         setRooms(result.data);
-  //         // console.log(result.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("error get all room by rap: " + error);
-  //     }
-  //   };
-  //   getRooms();
-  // }, []);
-
-  const onClickHandleEdit = () => {
-    setUpdate(true);
-    setCreateNew(false);
-    setEdit(true);
-    setEditCode(false);
-  };
-
-  const onClickHandleNew = () => {
-    setUpdate(false);
-    setCreateNew(true);
-    setEditCode(true);
-    setEdit(true);
-
-    setCode("");
-    setStatus("");
-  };
-
-  const onClickHandleSave = async () => {
-    const rap = {
-      code: code,
-      status: status,
-    };
-    onHandleFocusCode();
-    onHandleFocusStatus();
-    if (!isValidCode & !isValidStatus) {
+  useEffect(() => {
+    const getRooms = async () => {
       try {
-        console.log(rap);
-        if (editCode) {
-          const response = await axios.post(
-            `http://localhost:9000/cineza/api/v1/rap/create`,
-            rap
-          );
-          if (response.status === 201) {
-            setMessage("Lưu thành công");
-            setShowAlert(true);
-          } else {
-            setMessage("Lưu thất bại");
-            setShowAlert(true);
-          }
-        } else if (update) {
-          const response = await axios.put(
-            `http://localhost:9000/cineza/api/v1/rap/put/` + code,
-            rap
-          );
-          if (response.status === 200) {
-            console.log("save success");
-            setMessage("Cập nhật thành công");
-            setShowAlert(true);
-          } else {
-            setMessage("Cập thất bại");
-            setShowAlert(true);
-          }
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/order/get-by-code/${codeOrder}`
+        );
+        if (result.status === 200) {
+          const dataResult = result.data.map((item) => {
+            return {
+              ...item,
+              datePay: formatDateHandle(item.datePay),
+            };
+          });
+          setOrders(dataResult);
+          // console.log(result.data);
         }
       } catch (error) {
-        console.log("save address fail: " + error);
-        setMessage("Lưu thất bại");
-        setShowAlert(true);
+        console.error("error get all room by rap: " + error);
       }
-    } else {
-      console.log("lưu sai");
-      setMessage("Vui lòng nhập đầy đủ");
-      setShowAlert(true);
-    }
-  };
+    };
+    getRooms();
+  }, []);
 
   return (
     <div className="order-detail-background">
       <div className="order-detail-container">
         <div className="order-detail-header">
           <div className="order-detail-header-edit">
-            <div
+            {/* <div
               className="order-detail-header-edit-save"
               onClick={onClickHandleSave}
             >
@@ -263,17 +193,14 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
               <p>Chỉnh sửa</p>
             </div>
             <div
-              className="order-detail-header-edit-new-delete"
+              className="order-detail-header-edit-update"
               onClick={onClickHandleNew}
             >
-              <div className="order-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="order-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
+            </div>*/}
+            <div className="order-detail-header-name">
+              <span>-- {codeOrder} -- </span>
             </div>
             <div
               className="order-detail-header-close"
@@ -282,12 +209,9 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
               <img className="iconClose" src={iconClose} alt="close" />
             </div>
           </div>
-          <div className="order-detail-header-name">
-            <span>{code} - </span>
-          </div>
         </div>
 
-        <div className="order-detail-content">
+        {/* <div className="order-detail-content">
           <div className="order-detail-content-left">
             {showAlert && (
               <Alert message={message} onClose={handleCloseAlert} />
@@ -305,9 +229,6 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                   // onChange={(text) => onChangeHandleCode(text)}
                   // onFocus={onHandleFocusCode}
                 />
-                {/* {isValidCode && (
-                  <p style={{ color: "red" }}>Mã không được bỏ trống</p>
-                )} */}
               </div>
             </div>
             <div className="order-detail-input">
@@ -322,9 +243,6 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                   // onChange={(text) => onChangeHandleName(text)}
                   // onFocus={onHandleFocusName}
                 />
-                {/* {isValidName && (
-                  <p style={{ color: "red" }}>"Không để trống"</p>
-                )} */}
               </div>
             </div>
 
@@ -362,8 +280,8 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
           </div>
 
           <div className="order-detail-content-right"></div>
-        </div>
-        <div
+        </div> */}
+        {/* <div
           style={{
             marginLeft: -20,
             paddingRight: 40,
@@ -372,7 +290,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
             marginTop: 20,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
-        ></div>
+        ></div> */}
         <div className="order-detail-container-page">
           <div
             style={{
@@ -383,22 +301,16 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
             }}
           >
             <h2>Danh sách hóa đơn chi tiết</h2>
-            <img
-              src={iconAdd}
-              alt="btn-add"
-              className="room-btn-add"
-              onClick={onClickHandleBtnAdd}
-            />
           </div>
           <div className="order-detail-table-page">
             <Table
               column={titleColumn}
-              data={dataOrder}
+              data={orders}
               onRowClick={handleRowClick}
             />
             {/*  */}
           </div>
-          {openModalDetail && (
+          {/* {openModalDetail && (
             <div className="order-detail-background">
               <div className="order-detail-container">
                 <div className="order-detail-header">
@@ -446,15 +358,11 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                     </div>
                   </div>
                   <div className="order-detail-header-name">
-                    {/* <span>{codeUser} - </span> <span>-{nameUser} </span> */}
                   </div>
                 </div>
 
                 <div className="order-detail-content">
                   <div className="order-detail-content-left">
-                    {/* {showAlert && (
-                    <Alert message={message} onClose={handleCloseAlert} />
-                  )} */}
                     <div className="order-detail-input">
                       <label>Mã hóa đơn</label>
                       <div className="order-detail-input-dem"></div>
@@ -468,9 +376,6 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                           //   onChange={(text) => onChangeHandleCode(text)}
                           //   onFocus={onHandleFocusCode}
                         />
-                        {/* {isValidCode && (
-                        <p style={{ color: "red" }}>Mã không được bỏ trống</p>
-                      )} */}
                       </div>
                     </div>
 
@@ -486,9 +391,6 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                           //   onChange={(text) => onChangeHandleName(text)}
                           //   onFocus={onHandleFocusName}
                         />
-                        {/* {isValidName && (
-                        <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>
-                      )} */}
                       </div>
                     </div>
 
@@ -504,9 +406,6 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                           //   onChange={(text) => onChangeHandleName(text)}
                           //   onFocus={onHandleFocusName}
                         />
-                        {/* {isValidName && (
-                        <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>
-                      )} */}
                       </div>
                     </div>
 
@@ -522,9 +421,6 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                           //   onChange={(text) => onChangeHandlePhone(text)}
                           //   onFocus={onHandleFocusPhone}
                         />
-                        {/* {isValidPhone && (
-                        <p style={{ color: "red" }}>Số điện thoại không đúng</p>
-                      )} */}
                       </div>
                     </div>
                   </div>
@@ -532,7 +428,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

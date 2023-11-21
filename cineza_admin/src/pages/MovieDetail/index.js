@@ -302,17 +302,11 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
               <p>Chỉnh sửa</p>
             </div>
             <div
-              className="movie-detail-header-edit-new-delete"
+              className="movie-detail-header-edit-update"
               onClick={onClickHandleNew}
             >
-              <div className="movie-detail-header-edit-new">
-                <img className="iconNew" src={iconCreateNew} alt="create new" />
-                <p>Tạo mới</p>
-              </div>
-              <div className="movie-detail-header-edit-delete">
-                <img className="iconDelete" src={iconDelete} alt="delete" />
-                <p>Xóa</p>
-              </div>
+              <img className="iconNew" src={iconCreateNew} alt="create new" />
+              <p>Tạo mới</p>
             </div>
             <div
               className="movie-detail-header-close"

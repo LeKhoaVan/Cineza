@@ -389,7 +389,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setDistrictId("");
     setWardId("");
 
-    setRooms([])
+    setRooms([]);
   };
 
   const onClickHandleSave = async () => {
@@ -479,29 +479,12 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                 <img className="icon-update" src={iconPen} alt="update" />
                 <p>Chỉnh sửa</p>
               </div>
-              {/* <Link
-              className="rap-detail-header-edit-detail"
-              to={"/rap/code?code=" + code}
-            >
-              <img className="icon-detail" src={iconDetail} alt="update" />
-              <p>Danh sách phòng</p>
-            </Link> */}
               <div
-                className="rap-detail-header-edit-new-delete"
+                className="rap-detail-header-edit-update"
                 onClick={onClickHandleNew}
               >
-                <div className="rap-detail-header-edit-new">
-                  <img
-                    className="iconNew"
-                    src={iconCreateNew}
-                    alt="create new"
-                  />
-                  <p>Tạo mới</p>
-                </div>
-                <div className="rap-detail-header-edit-delete">
-                  <img className="iconDelete" src={iconDelete} alt="delete" />
-                  <p>Xóa</p>
-                </div>
+                <img className="iconNew" src={iconCreateNew} alt="create new" />
+                <p>Tạo mới</p>
               </div>
               <div
                 className="rap-detail-header-close"

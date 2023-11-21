@@ -24,7 +24,7 @@
 
 .order-detail-header {
   width: 100%;
-  height: 25%;
+  height: 10%;
 }
 
 .order-detail-header-edit {
@@ -36,120 +36,6 @@
   align-content: center;
   padding: 5px;
   border-bottom: 1px solid black;
-}
-
-/* save */
-.order-detail-header-edit-save {
-  width: 6%;
-  height: 100%;
-  padding-left: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-right: 1px solid black;
-
-  &:hover {
-    background-color: rgb(201, 201, 201);
-    cursor: pointer;
-  }
-}
-
-.icon-save {
-  width: 30px;
-  height: 30px;
-}
-
-/* update */
-.order-detail-header-edit-update {
-  width: 5%;
-  height: 100%;
-  padding-left: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-right: 1px solid black;
-
-  &:hover {
-    background-color: rgb(201, 201, 201);
-    cursor: pointer;
-  }
-}
-
-.icon-update {
-  width: 40px;
-  height: 40px;
-}
-
-.order-detail-header-edit-detail {
-  width: 5%;
-  height: 100%;
-  padding-left: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-right: 1px solid black;
-  text-decoration: none;
-  color: black;
-
-  &:hover {
-    background-color: rgb(201, 201, 201);
-    cursor: pointer;
-  }
-}
-
-.icon-detail {
-  width: 30px;
-  height: 30px;
-}
-
-/* Khoi new delete */
-.order-detail-header-edit-new-delete {
-  width: 10%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-}
-
-.order-detail-header-edit-new {
-  width: 100%;
-  height: 50%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: rgb(201, 201, 201);
-    cursor: pointer;
-  }
-}
-
-.iconNew {
-  width: 30px;
-  height: 30px;
-}
-
-.order-detail-header-edit-delete {
-  width: 100%;
-  height: 50%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: rgb(201, 201, 201);
-    cursor: pointer;
-  }
-}
-
-.iconDelete {
-  width: 30px;
-  height: 30px;
 }
 
 /* close */
@@ -180,67 +66,7 @@
   justify-content: start;
   align-items: center;
   font-size: 1.5rem;
-  border-bottom: 1px solid black;
-}
-
-.order-detail-content {
-  width: 100%;
-  height: 75%;
-  display: flex;
-  flex-direction: row;
-}
-
-.order-detail-content-left {
-  width: 50%;
-  height: 100%;
-  padding-top: 50px;
-}
-
-.order-detail-input {
-  width: 98%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-}
-
-.input-order-container {
-  width: 50%;
-  flex-direction: column;
-  margin-right: 95px;
-}
-
-.order-detail-input-dem {
-  flex: 1;
-}
-
-.input-order {
-  width: 100%;
-  padding: 5px;
-}
-
-.input-address-order {
-  width: 100%;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-}
-
-.input-address-order-combobox {
-  margin-right: 11px;
-  margin-top: 10px;
-}
-
-.order-detail-content-right {
-  width: 50%;
-  height: 100%;
-  padding-top: 50px;
-}
-
-.date-picker {
-  height: 29px;
-  padding-left: 17px;
-  margin-right: 230px;
+  /* border-bottom: 1px solid black; */
 }
 
 .order-detail-container-page {
@@ -249,7 +75,7 @@
 
 .order-detail-table-page {
   width: 100%;
-  height: 350px;
+  height: 80%;
   margin-top: 10px;
   /* background-color: black; */
   overflow-y: auto;
