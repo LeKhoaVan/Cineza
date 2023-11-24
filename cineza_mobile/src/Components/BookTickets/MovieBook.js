@@ -50,7 +50,7 @@ function BookByMovie() {
           const originalImagePath = item.moviePoster;
           const correctedImagePath = originalImagePath
             .replace(/\\/g, "/")
-            .replace("localhost", "192.168.1.8");
+            .replace("localhost", config.IPP4);
           item.moviePoster = correctedImagePath;
           return item;
         });
