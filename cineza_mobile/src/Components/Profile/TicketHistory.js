@@ -37,6 +37,7 @@ function TicketHistory() {
   const navigation = useNavigation();
 
   const [user, setUser] = useState("");
+
   useEffect(() => {
     const getUser = async () => {
       const userInfoString = await AsyncStorage.getItem('userInfo');
@@ -64,18 +65,21 @@ function TicketHistory() {
     //   .catch(err => {
     //     console.log(err);
     //   });
-    const getOrderHistory = async () => {
-      const orders = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/order/get-by-user/${user.codeUser}`);
-      if (orders.status == 200) {
+    if (user != null) {
+      const getOrderHistory = async () => {
+        console.log(user.codeUser)
+        const orders = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/order/get-by-user/${user.codeUser}`);
+        if (orders.status == 200) {
 
-        setDataTicket(orders.data);
+          setDataTicket(orders.data);
 
-      } else {
-        console.log("error get order history")
+        } else {
+          console.log("error get order history")
+        }
       }
+      getOrderHistory();
     }
-    getOrderHistory();
-  }, []);
+  }, [user.codeUser]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingVertical: 10, backgroundColor: '#d1d1cf' }} />

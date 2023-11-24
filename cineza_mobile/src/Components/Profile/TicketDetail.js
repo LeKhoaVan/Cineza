@@ -58,8 +58,8 @@ function TicketDetail({ route }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={{ paddingVertical: 10, backgroundColor: 'white' }}>
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            <View style={{ display: "flex", flexDirection: "column" }}>
+          <View style={{ display: "flex", flexDirection: "row", width: '100%' }}>
+            <View style={{ display: "flex", flexDirection: "column", width: '66%' }}>
               <View style={styles.viewTicket}>
                 <Text style={{ fontSize: 20, paddingLeft: 15, fontWeight: 600 }}>
                   Tên phim: {data.movieName}
