@@ -222,8 +222,10 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     try {
       console.log(priceHeader);
       if (editCode) {
-        const dateCheck = moment(startDayShow).format('YYYY-MM-DD')
-        const checkTime = await axios.get(`http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`)
+        const dateCheck = moment(startDayShow).format("YYYY-MM-DD");
+        const checkTime = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`
+        );
         if (checkTime.data.length === 0) {
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price-header/create`,
@@ -232,19 +234,22 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           if (response.status === 201) {
             setMessage("Lưu thành công");
             setShowAlert(true);
+            onClickHandleNew();
           } else {
             setMessage("Lưu thất bại");
             setShowAlert(true);
           }
         } else {
           // console.log("co bang gia header trung thoi gian")
-          setMessage("có bảng giá trùng thời gian. Bạn có muốn ghi đè")
-          setDataPriceTam(priceHeader)
+          setMessage("có bảng giá trùng thời gian. Bạn có muốn ghi đè");
+          setDataPriceTam(priceHeader);
           setIsOpenDialog(true);
         }
       } else if (update) {
-        const dateCheck = moment(startDayShow).format('YYYY-MM-DD')
-        const checkTime = await axios.get(`http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`)
+        const dateCheck = moment(startDayShow).format("YYYY-MM-DD");
+        const checkTime = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`
+        );
         if (checkTime.data.length === 0) {
           const response = await axios.put(
             `http://localhost:9000/cineza/api/v1/price-header/put/` + code,
@@ -259,8 +264,8 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             setShowAlert(true);
           }
         } else {
-          setMessage("có bảng giá trùng thời gian. Bạn có muốn ghi đè")
-          setDataPriceTam(priceHeader)
+          setMessage("có bảng giá trùng thời gian. Bạn có muốn ghi đè");
+          setDataPriceTam(priceHeader);
           setIsOpenDialog(true);
         }
       }
@@ -275,8 +280,10 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     if (editCode) {
       try {
         if (dataPriceTam != null) {
-          const dateCheck = moment(dataPriceTam.startDay).format('YYYY-MM-DD')
-          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`);
+          const dateCheck = moment(dataPriceTam.startDay).format("YYYY-MM-DD");
+          const dataUpdate = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`
+          );
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price-header/create`,
             dataPriceTam
@@ -284,6 +291,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           if (response.status === 201) {
             setMessage("Lưu thành công");
             setShowAlert(true);
+            onClickHandleNew();
           } else {
             setMessage("Lưu thất bại");
             setShowAlert(true);
@@ -291,13 +299,15 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           setIsOpenDialog(false);
         }
       } catch (error) {
-        console.log("error save price header check: " + error)
+        console.log("error save price header check: " + error);
       }
     } else if (update) {
       try {
         if (dataPriceTam != null) {
-          const dateCheck = moment(dataPriceTam.startDay).format('YYYY-MM-DD')
-          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`);
+          const dateCheck = moment(dataPriceTam.startDay).format("YYYY-MM-DD");
+          const dataUpdate = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`
+          );
           const response = await axios.put(
             `http://localhost:9000/cineza/api/v1/price-header/put/` + code,
             dataPriceTam
@@ -313,15 +323,14 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           setIsOpenDialog(false);
         }
       } catch (error) {
-        console.log("error save price header check: " + error)
+        console.log("error save price header check: " + error);
       }
     }
-
-  }
+  };
 
   const handleCancel = () => {
     setIsOpenDialog(false);
-  }
+  };
 
   useEffect(() => {
     if (addBtn) {
@@ -390,7 +399,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
 
   return (
     <div className="price-header-detail-background">
-
       {isOpenDialog && (
         <div className="dialog-overlay">
           <div className="dialog-content">

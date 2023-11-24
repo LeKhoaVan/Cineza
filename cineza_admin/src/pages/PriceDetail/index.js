@@ -21,7 +21,7 @@ const dataStatus = [
   { id: "Hoạt động", value: "Hoạt động" },
   { id: "Khóa tạm thời", value: "Khóa tạm thời" },
   { id: "Hủy", value: "Hủy" },
-]
+];
 // const dataType = [
 //   { id: "COMUNITY", value: "COMUNITY" },
 //   { id: "VIP", value: "VIP" },
@@ -33,7 +33,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   const [codeTypeSeat, setCodeTypeSeat] = useState("");
   const [codeHeader, setCodeHeader] = useState("");
   const [status, setStatus] = useState("");
-  const [priceTam, setPriceTam] = useState(null)
+  const [priceTam, setPriceTam] = useState(null);
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -230,7 +230,9 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     try {
       console.log(price);
       if (editCode) {
-        const check = await axios.get(`http://localhost:9000/cineza/api/v1/price/check-time/${codeHeader}/${codeTypeSeat}`)
+        const check = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price/check-time/${codeHeader}/${codeTypeSeat}`
+        );
         if (check.data.length == 0) {
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price/create`,
@@ -239,17 +241,20 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           if (response.status === 201) {
             setMessage("Lưu thành công");
             setShowAlert(true);
+            onClickHandleNew();
           } else {
             setMessage("Lưu thất bại");
             setShowAlert(true);
           }
         } else {
-          setMessage("có bảng giá đã tồn tại. Bạn có muốn ghi đè")
-          setPriceTam(price)
+          setMessage("có bảng giá đã tồn tại. Bạn có muốn ghi đè");
+          setPriceTam(price);
           setIsOpenDialog(true);
         }
       } else if (update) {
-        const check = await axios.get(`http://localhost:9000/cineza/api/v1/price/check-time/${codeHeader}/${codeTypeSeat}`)
+        const check = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price/check-time/${codeHeader}/${codeTypeSeat}`
+        );
         if (check.data.length == 0) {
           const response = await axios.put(
             `http://localhost:9000/cineza/api/v1/price/put/` + code,
@@ -264,8 +269,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
             setShowAlert(true);
           }
         } else {
-          setMessage("có bảng giá đã tồn tại. Bạn có muốn ghi đè")
-          setPriceTam(price)
+          setMessage("có bảng giá đã tồn tại. Bạn có muốn ghi đè");
+          setPriceTam(price);
           setIsOpenDialog(true);
         }
       }
@@ -280,7 +285,9 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     if (editCode) {
       try {
         if (priceTam != null) {
-          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price/update-status-all/${priceTam.codeHeader}/${priceTam.codeTypeSeat}`);
+          const dataUpdate = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price/update-status-all/${priceTam.codeHeader}/${priceTam.codeTypeSeat}`
+          );
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price/create`,
             priceTam
@@ -295,12 +302,14 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           setIsOpenDialog(false);
         }
       } catch (error) {
-        console.log("error save price header check: " + error)
+        console.log("error save price header check: " + error);
       }
     } else if (update) {
       try {
         if (priceTam != null) {
-          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price/update-status-all/${priceTam.codeHeader}/${priceTam.codeTypeSeat}`);
+          const dataUpdate = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price/update-status-all/${priceTam.codeHeader}/${priceTam.codeTypeSeat}`
+          );
           const response = await axios.put(
             `http://localhost:9000/cineza/api/v1/price/put/` + code,
             priceTam
@@ -316,15 +325,14 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           setIsOpenDialog(false);
         }
       } catch (error) {
-        console.log("error save price header check: " + error)
+        console.log("error save price header check: " + error);
       }
     }
-
-  }
+  };
 
   const handleCancel = () => {
     setIsOpenDialog(false);
-  }
+  };
 
   return (
     <div className="price-detail-background">
@@ -474,12 +482,11 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                // onChange={(text) => onChangeHandleCode(text)}
-                // onFocus={onHandleFocusCode}
+                  // onChange={(text) => onChangeHandleCode(text)}
+                  // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>
-
 
             <div className="price-detail-input">
               <label>Trạng thái</label>
@@ -515,8 +522,6 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
