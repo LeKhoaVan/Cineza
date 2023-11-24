@@ -27,6 +27,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import { parse, format } from "date-fns";
 import vi from "date-fns/locale/vi";
+import moment from "moment/moment";
 registerLocale("vi", vi);
 
 const dataStatus = [
@@ -52,6 +53,10 @@ const columns = [
     title: "Loại ghế",
     data: "typeSeat",
   },
+  {
+    title: "Trạng thái",
+    data: "status",
+  },
 ];
 
 const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
@@ -68,6 +73,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
+  const [dataPriceTam, setDataPriceTam] = useState(null);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
@@ -77,6 +83,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [codePrice, setCodePrice] = useState("");
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModelAdd, setOpenModelAdd] = useState(false);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -198,29 +205,46 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     try {
       console.log(priceHeader);
       if (editCode) {
-        const response = await axios.post(
-          `http://localhost:9000/cineza/api/v1/price-header/create`,
-          priceHeader
-        );
-        if (response.status === 201) {
-          setMessage("Lưu thành công");
-          setShowAlert(true);
+        const dateCheck = moment(startDayShow).format('YYYY-MM-DD')
+        const checkTime = await axios.get(`http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`)
+        if (checkTime.data.length === 0) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/price-header/create`,
+            priceHeader
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
         } else {
-          setMessage("Lưu thất bại");
-          setShowAlert(true);
+          // console.log("co bang gia header trung thoi gian")
+          setMessage("có bảng giá trùng thời gian. Bạn có muốn ghi đè")
+          setDataPriceTam(priceHeader)
+          setIsOpenDialog(true);
         }
       } else if (update) {
-        const response = await axios.put(
-          `http://localhost:9000/cineza/api/v1/price-header/put/` + code,
-          priceHeader
-        );
-        if (response.status === 200) {
-          console.log("save success");
-          setMessage("Cập nhật thành công");
-          setShowAlert(true);
+        const dateCheck = moment(startDayShow).format('YYYY-MM-DD')
+        const checkTime = await axios.get(`http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`)
+        if (checkTime.data.length === 0) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price-header/put/` + code,
+            priceHeader
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
         } else {
-          setMessage("Cập thất bại");
-          setShowAlert(true);
+          setMessage("có bảng giá trùng thời gian. Bạn có muốn ghi đè")
+          setDataPriceTam(priceHeader)
+          setIsOpenDialog(true);
         }
       }
     } catch (error) {
@@ -229,6 +253,58 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
       setShowAlert(true);
     }
   };
+
+  const handleConfirm = async () => {
+    if (editCode) {
+      try {
+        if (dataPriceTam != null) {
+          const dateCheck = moment(dataPriceTam.startDay).format('YYYY-MM-DD')
+          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`);
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/price-header/create`,
+            dataPriceTam
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+          setIsOpenDialog(false);
+        }
+      } catch (error) {
+        console.log("error save price header check: " + error)
+      }
+    } else if (update) {
+      try {
+        if (dataPriceTam != null) {
+          const dateCheck = moment(dataPriceTam.startDay).format('YYYY-MM-DD')
+          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`);
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price-header/put/` + code,
+            dataPriceTam
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
+          setIsOpenDialog(false);
+        }
+      } catch (error) {
+        console.log("error save price header check: " + error)
+      }
+    }
+
+  }
+
+  const handleCancel = () => {
+    setIsOpenDialog(false);
+  }
 
   useEffect(() => {
     if (addBtn) {
@@ -271,11 +347,13 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   //get price by code price header
   const getData = async () => {
     try {
-      const result = await axios.get(
-        `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeader}`
-      );
-      if (result.status == 200) {
-        setPrices(result.data);
+      if (codePriceHeader != "") {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeader}`
+        );
+        if (result.status == 200) {
+          setPrices(result.data);
+        }
       }
     } catch (error) {
       console.log("error get api all price " + error);
@@ -295,6 +373,19 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
 
   return (
     <div className="price-header-detail-background">
+
+      {isOpenDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog-content">
+            <p>{message}</p>
+            <div className="dialog-buttons">
+              <button onClick={handleCancel}>Hủy bỏ</button>
+              <button onClick={handleConfirm}>Xác nhận</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="price-header-detail-container">
         <div className="price-header-detail-header">
           <div className="price-header-detail-header-edit">

@@ -8,8 +8,16 @@ import { formatDateHandle } from "../../components/util";
 
 const titleColumn = [
   {
-    title: "Code",
-    data: "code",
+    title: "Mã khách hàng",
+    data: "codeUser",
+  },
+  {
+    title: "Tên khách hàng",
+    data: "fullName",
+  },
+  {
+    title: "Số điện thoại",
+    data: "numberPhone",
   },
   {
     title: "Ngày thanh toán",
@@ -22,10 +30,6 @@ const titleColumn = [
   {
     title: "Mô tả",
     data: "description",
-  },
-  {
-    title: "Mã Người dùng",
-    data: "codeUser",
   },
   {
     title: "Trạng thái",
@@ -67,7 +71,7 @@ const Order = () => {
         const dataResult = result.data.map((item) => {
           return {
             ...item,
-            datePay: formatDateHandle(item.datePay),
+            datePay: `${formatDateHandle(item.datePay)} ${new Date(item.datePay).getHours()}:${new Date(item.datePay).getMinutes()}`,
           };
         });
         setContext(dataResult);

@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             references: {
-                model: "ValueStructure",
+                model: "Address",
                 key: "code"
             }
         },
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             references: {
-                model: "ValueStructure",
+                model: "Address",
                 key: "code"
             }
         },
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             references: {
-                model: "ValueStructure",
+                model: "Address",
                 key: "code"
             }
         },
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             references: {
-                model: "ValueStructure",
+                model: "Address",
                 key: "code"
             }
         },
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: "Hoạt động",
             validate: {
-              isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
+                isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
             },
         },
 

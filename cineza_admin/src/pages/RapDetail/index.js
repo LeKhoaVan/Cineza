@@ -86,6 +86,9 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
+  const [editCity, setEditCity] = useState(false)
+  const [editDistrict, setEditDistrict] = useState(false)
+  const [editWard, setEditWard] = useState(false)
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
@@ -119,18 +122,24 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setOpenModelAdd(true);
     setOpenModalRapDetail(false);
   };
-  ////////////////////////////////////////////////////
+
 
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
   };
   const handleChangeComboboxCountry = (event) => {
+    setCityId("")
+    setDistrictId("")
+    setWardId("")
+    setEditCity(true)
     setCountryId(event.target.value);
   };
   const handleChangeComboboxCity = (event) => {
+    setEditDistrict(true)
     setCityId(event.target.value);
   };
   const handleChangeComboboxDistrict = (event) => {
+    setEditWard(true)
     setDistrictId(event.target.value);
   };
   const handleChangeComboboxWard = (event) => {
@@ -267,7 +276,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allCountry = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=QUOCGIA`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=QUOCGIA`
         );
         if (allCountry.status === 200) {
           setCountry(allCountry.data);
@@ -286,7 +295,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allCity = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=TINH/TP`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=TINH/TP`
         );
         if (allCity.status === 200) {
           setCity(allCity.data);
@@ -305,7 +314,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allDistrict = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=HUYEN/QUAN`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=HUYEN/QUAN`
         );
         if (allDistrict.status === 200) {
           setDistrict(allDistrict.data);
@@ -324,7 +333,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allWard = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=XA/PHUONG`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=XA/PHUONG`
         );
         if (allWard.status === 200) {
           setWard(allWard.data);
@@ -338,18 +347,62 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     getAllCountry();
   }, []);
 
+  useEffect(() => {
+    if (countryId != "") {
+      const getCity = async () => {
+        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${countryId}`)
+        if (response.status == 200) {
+          setCity(response.data);
+        } else {
+          console.log("error combobox city")
+        }
+      }
+      getCity();
+    }
+  }, [countryId])
+
+  useEffect(() => {
+    if (cityId != "") {
+      const getDistrict = async () => {
+        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${cityId}`)
+        if (response.status == 200) {
+          setDistrict(response.data);
+        } else {
+          console.log("error combobox city")
+        }
+      }
+      getDistrict();
+    }
+  }, [cityId])
+
+  useEffect(() => {
+    if (districtId != "") {
+      const getDistrict = async () => {
+        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${districtId}`)
+        if (response.status == 200) {
+          setWard(response.data);
+        } else {
+          console.log("error combobox city")
+        }
+      }
+      getDistrict();
+    }
+  }, [districtId])
+
   //get phòng by code rạp
   const getRooms = async () => {
-    try {
-      const result = await axios.get(
-        `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapBy}`
-      );
-      if (result.status === 200) {
-        setRooms(result.data);
-        // console.log(result.data);
+    if (codeRapBy != null) {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRapBy}`
+        );
+        if (result.status === 200) {
+          setRooms(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
       }
-    } catch (error) {
-      console.error("error get all room by rap: " + error);
     }
   };
 
@@ -689,10 +742,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                           // label="Tinh/TP"
                           onChange={handleChangeComboboxCity}
                           onFocus={onHandleFocusAddress}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
+                          readOnly={!edit || !editCity}
+                          style={(edit == false || editCity == false) ? { background: "rgb(196, 196, 196)" } : {}}
                         >
                           {city?.map((st, index) => {
                             return (
@@ -729,10 +780,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                           // label="Quân./Huyện"
                           onChange={handleChangeComboboxDistrict}
                           onFocus={onHandleFocusAddress}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
+                          readOnly={!edit || !editDistrict}
+                          style={(edit == false || editDistrict == false) ? { background: "rgb(196, 196, 196)" } : {}}
                         >
                           {district?.map((st, index) => {
                             return (
@@ -768,10 +817,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                           // label="Phường/Xã"
                           onChange={handleChangeComboboxWard}
                           onFocus={onHandleFocusAddress}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
+                          readOnly={!edit || !editWard}
+                          style={(edit == false || editWard == false) ? { background: "rgb(196, 196, 196)" } : {}}
                         >
                           {ward?.map((st, index) => {
                             return (

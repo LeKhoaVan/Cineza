@@ -6,7 +6,6 @@ const moment = require("moment"); // npm install moment
 const qs = require("qs");
 
 const hierarchyStructureRouter = require("./hierarchyStuctureRouter");
-const valueStructerRouter = require("./valueStructerRouter");
 const promotionHeaderRouter = require("./promotionHeaderRouter");
 const promotionLineRouter = require("./promotionLineRouter");
 const rapRouter = require("./rapRouter");
@@ -22,11 +21,12 @@ const typeSeatRouter = require("./typeSeatRouter");
 const showingRouter = require("./showingRouter");
 const ticketRouter = require("./ticketRouter")
 const orderRouter = require("./orderRouter");
+const userRouter = require("./userRouter");
+const addressRouter = require("./addressRouter")
 
 const rootRouter = express.Router();
 
 rootRouter.use("/hierarchy-stucture", hierarchyStructureRouter);
-rootRouter.use("/value", valueStructerRouter);
 rootRouter.use("/promotion-header", promotionHeaderRouter);
 rootRouter.use("/promotion-line", promotionLineRouter);
 rootRouter.use("/rap", rapRouter);
@@ -42,6 +42,8 @@ rootRouter.use("/type-seat", typeSeatRouter);
 rootRouter.use("/show", showingRouter);
 rootRouter.use("/ticket", ticketRouter);
 rootRouter.use("/order", orderRouter);
+rootRouter.use("/address", addressRouter);
+rootRouter.use("/user", userRouter);
 
 
 let dataAppTransId = "";
@@ -80,19 +82,7 @@ rootRouter.post("/test-bank", async (req, res) => {
   };
 
   const data =
-    config.appid +
-    "|" +
-    order.apptransid +
-    "|" +
-    order.appuser +
-    "|" +
-    order.amount +
-    "|" +
-    order.apptime +
-    "|" +
-    order.embeddata +
-    "|" +
-    order.item;
+    config.appid + "|" + order.apptransid + "|" + order.appuser + "|" + order.amount + "|" + order.apptime + "|" + order.embeddata + "|" + order.item;
 
   order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
 

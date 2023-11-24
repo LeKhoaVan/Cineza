@@ -26,11 +26,9 @@ const dataStatus = [
   { id: "Hủy", value: "Hủy" },
 ];
 
-const dataLevel = [
-  { id: "ADMIN", value: "ADMIN" },
-  { id: "USER", value: "USER" },
-  { id: "COMUNITY", value: "COMUNITY" },
-  { id: "VIP", value: "VIP" },
+const userType = [
+  { id: "ADMIN", value: "Quản lý" },
+  { id: "USER", value: "Khách hàng" },
 ];
 
 const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
@@ -40,7 +38,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [dateOfBirthShow, setDateOfBirthShow] = useState(new Date());
   const [typeUser, setTypeUser] = useState("");
-  const [idTypeUser, setIdTypeUser] = useState("");
   const [levelUser, setLevelUser] = useState("");
   const [status, setStatus] = useState("");
   const [addressId, setAddressId] = useState("");
@@ -70,6 +67,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidBirth, setIsValidBirth] = useState(false);
+  const [editCity, setEditCity] = useState(false)
+  const [editDistrict, setEditDistrict] = useState(false)
+  const [editWard, setEditWard] = useState(false)
 
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
@@ -84,12 +84,18 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setStatus(event.target.value);
   };
   const handleChangeComboboxCountry = (event) => {
+    setCityId("")
+    setDistrictId("")
+    setWardId("")
+    setEditCity(true)
     setCountryId(event.target.value);
   };
   const handleChangeComboboxCity = (event) => {
+    setEditDistrict(true)
     setCityId(event.target.value);
   };
   const handleChangeComboboxDistrict = (event) => {
+    setEditWard(true)
     setDistrictId(event.target.value);
   };
   const handleChangeComboboxWard = (event) => {
@@ -100,7 +106,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   };
 
   const handleChangeComboboxLevel = (event) => {
-    setLevelUser(event.target.value);
+    setTypeUser(event.target.value);
   };
 
   const onChangeHandleCode = (text) => {
@@ -152,11 +158,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
   useEffect(() => {
     onHandleFocusLevel();
-  }, [levelUser]);
+  }, [typeUser]);
 
   const onHandleFocusLevel = () => {
     if (editCode || edit) {
-      if (levelUser.length == 0) {
+      if (typeUser == "" || typeUser.trim().length == 0) {
         setIsValidLevel(true);
       } else {
         setIsValidLevel(false);
@@ -232,6 +238,20 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     }
   };
 
+  useEffect(() => {
+    onHandleForcusDate();
+  }, [dateOfBirthShow]);
+
+  const onHandleForcusDate = () => {
+    if (editCode || edit) {
+      if (dateOfBirthShow.length == 0) {
+        setIsValidBirth(true);
+      } else {
+        setIsValidBirth(false);
+      }
+    }
+  }
+
   const onChangeHandleName = (text) => {
     setNameUser(text.target.value);
   };
@@ -245,9 +265,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     console.log(text);
   };
 
-  const onChangeHandleType = (text) => {
-    setTypeUser(text.target.value);
-  };
   const onChangeHandlePassword = (text) => {
     setPassword(text.target.value);
   };
@@ -255,46 +272,63 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     const getUser = async () => {
       if (addBtn) {
+        setUpdate(false);
+        setCreateNew(true);
         setEditCode(true);
         setEdit(true);
-        setCreateNew(true);
-        setTypeUser("Người sử dụng");
-      }
-      try {
-        const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/user/get-code/` +
-            codeUserBy
-        );
-        if (response.status === 200) {
-          setCodeUser(response.data.code);
-          setNameUser(response.data.fullName);
-          setPhoneUser(response.data.numberPhone);
-          setDateOfBirthShow(new Date(Date.parse(response.data.dateOfBirth)));
-          setDateOfBirth(response.data.dateOfBirth);
-          setTypeUser("Người sử dụng");
-          setIdTypeUser(response.data.type);
-          setLevelUser(response.data.level);
-          setStatus(response.data.status);
+        setEditCity(false);
+        setEditDistrict(false)
+        setEditWard(false)
 
-          // const country = { id: response.data.countryId, fullName: response.data.countryName }
-          setCountryId(response.data.countryId);
+        setCodeUser("");
+        setNameUser("");
+        setPhoneUser("");
+        setAddressId("");
+        setDateOfBirth("");
+        setLevelUser("");
+        setStatus("");
+        setCountryId("");
+        setCityId("");
+        setDistrictId("");
+        setWardId("");
+        setNumberHome("");
+        setDateOfBirthShow("")
+      } else {
+        try {
+          const response = await axios.get(
+            `http://localhost:9000/cineza/api/v1/user/get-by-code/${codeUserBy}`
+          );
+          if (response.status === 200) {
+            setCodeUser(response.data.code);
+            setNameUser(response.data.fullName);
+            setPassword(response.data.password)
+            setPhoneUser(response.data.numberPhone);
+            setDateOfBirthShow(new Date(Date.parse(response.data.dateOfBirth)));
+            setDateOfBirth(response.data.dateOfBirth);
+            setTypeUser(response.data.type);
+            setStatus(response.data.status);
 
-          // const city = { id: response.data.cityId, fullName: response.data.cityName }
-          setCityId(response.data.cityId);
+            // const country = { id: response.data.countryId, fullName: response.data.countryName }
+            setCountryId(response.data.countryAddress);
 
-          // const district = { id: response.data.districtId, fullName: response.data.districtName }
-          setDistrictId(response.data.districtId);
+            // const city = { id: response.data.cityId, fullName: response.data.cityName }
+            setCityId(response.data.cityAddress);
 
-          // const ward = { id: response.data.wardId, fullName: response.data.wardName }
-          setWardId(response.data.wardId);
+            // const district = { id: response.data.districtId, fullName: response.data.districtName }
+            setDistrictId(response.data.districtAddress);
 
-          setNumberHome(response.data.numberHome);
-        } else {
-          console.log("get user fail");
+            // const ward = { id: response.data.wardId, fullName: response.data.wardName }
+            setWardId(response.data.wardAddress);
+
+            setNumberHome(response.data.numberHome);
+          } else {
+            console.log("get user fail");
+          }
+        } catch (error) {
+          console.log("error get user: " + error);
         }
-      } catch (error) {
-        console.log("error get user: " + error);
       }
+
     };
 
     getUser();
@@ -305,7 +339,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allCountry = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=QUOCGIA`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=QUOCGIA`
         );
         if (allCountry.status === 200) {
           setCountry(allCountry.data);
@@ -324,7 +358,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allCity = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=TINH/TP`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=TINH/TP`
         );
         if (allCity.status === 200) {
           setCity(allCity.data);
@@ -343,7 +377,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allDistrict = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=HUYEN/QUAN`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=HUYEN/QUAN`
         );
         if (allDistrict.status === 200) {
           setDistrict(allDistrict.data);
@@ -362,7 +396,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     const getAllCountry = async () => {
       try {
         const allWard = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=XA/PHUONG`
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=XA/PHUONG`
         );
         if (allWard.status === 200) {
           setWard(allWard.data);
@@ -376,6 +410,48 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     getAllCountry();
   }, []);
 
+  useEffect(() => {
+    if (countryId != "") {
+      const getCity = async () => {
+        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${countryId}`)
+        if (response.status == 200) {
+          setCity(response.data);
+        } else {
+          console.log("error combobox city")
+        }
+      }
+      getCity();
+    }
+  }, [countryId])
+
+  useEffect(() => {
+    if (cityId != "") {
+      const getDistrict = async () => {
+        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${cityId}`)
+        if (response.status == 200) {
+          setDistrict(response.data);
+        } else {
+          console.log("error combobox city")
+        }
+      }
+      getDistrict();
+    }
+  }, [cityId])
+
+  useEffect(() => {
+    if (districtId != "") {
+      const getDistrict = async () => {
+        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${districtId}`)
+        if (response.status == 200) {
+          setWard(response.data);
+        } else {
+          console.log("error combobox city")
+        }
+      }
+      getDistrict();
+    }
+  }, [districtId])
+
   const onClickHandleEdit = () => {
     setUpdate(true);
     setCreateNew(false);
@@ -388,6 +464,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setCreateNew(true);
     setEditCode(true);
     setEdit(true);
+    setEditCity(false);
+    setEditDistrict(false)
+    setEditWard(false)
 
     setCodeUser("");
     setNameUser("");
@@ -401,13 +480,13 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setDistrictId("");
     setWardId("");
     setNumberHome("");
-    setTypeUser("Người sử dụng");
+    setDateOfBirthShow("")
   };
 
   const onClickHandleSave = async () => {
     const user = {
       code: codeUser,
-      type: "user",
+      type: typeUser,
       numberPhone: phoneUser,
       password: password,
       dateOfBirth: dateOfBirth,
@@ -416,10 +495,10 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       districtAddress: districtId,
       wardAddress: wardId,
       numberHome: numberHome,
-      level: levelUser,
       fullName: nameUser,
       status: status,
     };
+
     onHandleFocusCode();
     onHandleFocusName();
     onHandleFocusPass();
@@ -428,21 +507,14 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     onHandleFocusHome();
     onHandleFocusStatus();
     onHandleFocusAddress();
-    if (
-      !isValidCode &
-      !isValidName &
-      !isValidPass &
-      !isValidLevel &
-      !isValidHome &
-      !isValidPhone &
-      !isValidStatus &
-      !isValidAddress
+    if (!isValidCode & !isValidName & !isValidPass & !isValidLevel & !isValidHome & !isValidPhone &
+      !isValidStatus & !isValidAddress
     ) {
       try {
         console.log(user);
         if (editCode) {
           const response = await axios.post(
-            `http://localhost:9000/cineza/api/v1/value/user/create`,
+            `http://localhost:9000/cineza/api/v1/user/create`,
             user
           );
           if (response.status === 201) {
@@ -454,7 +526,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           }
         } else if (update) {
           const response = await axios.put(
-            `http://localhost:9000/cineza/api/v1/value/user/put/` + codeUser,
+            `http://localhost:9000/cineza/api/v1/user/update/${codeUser}`,
             user
           );
           if (response.status === 200) {
@@ -518,9 +590,8 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             </div>
             <div
               className="user-detail-header-close"
-              onClick={onClickHandleClose}
             >
-              <img className="iconClose" src={iconClose} alt="close" />
+              <img className="iconClose" onClick={onClickHandleClose} src={iconClose} alt="close" />
             </div>
           </div>
           <div className="user-detail-header-name">
@@ -572,28 +643,27 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
-            {editCode && (
-              <div className="user-detail-input">
-                <label>Mật khẩu</label>
-                <div className="user-detail-input-dem"></div>
-                <div className="input-user-container">
-                  <input
-                    className="input-user"
-                    value={password}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                    onChange={(text) => onChangeHandlePassword(text)}
-                    onFocus={onHandleFocusPass}
-                  />
-                  {isValidPass && (
-                    <p style={{ color: "red" }}>"Mật khẩu tối thiểu 6 ký tự"</p>
-                  )}
-                </div>
+            <div className="user-detail-input">
+              <label>Mật khẩu</label>
+              <div className="user-detail-input-dem"></div>
+              <div className="input-user-container">
+                <input
+                  className="input-user"
+                  type={editCode ? "text" : "password"}
+                  value={password}
+                  readOnly={!edit}
+                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  onChange={(text) => onChangeHandlePassword(text)}
+                  onFocus={onHandleFocusPass}
+                />
+                {isValidPass && (
+                  <p style={{ color: "red" }}>"Mật khẩu tối thiểu 6 ký tự"</p>
+                )}
               </div>
-            )}
+            </div>
 
             <div className="user-detail-input">
-              <label>Level</label>
+              <label>Loại tài khoản</label>
               <div className="user-detail-input-dem"></div>
               <div className="input-user-container">
                 <FormControl
@@ -604,14 +674,14 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    value={levelUser}
+                    value={typeUser}
                     // label="Level"
                     onChange={handleChangeComboboxLevel}
                     onFocus={onHandleFocusLevel}
                     readOnly={!edit}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
-                    {dataLevel.map((st, index) => {
+                    {userType.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.id}>
                           {st.value}
@@ -621,7 +691,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   </Select>
                 </FormControl>
                 {isValidLevel && (
-                  <p style={{ color: "red" }}>Level không bỏ trống</p>
+                  <p style={{ color: "red" }}>Loại tài khoản không bỏ trống</p>
                 )}
               </div>
             </div>
@@ -650,7 +720,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <div className="input-user-container">
                 <input
                   className="input-user"
-                  placeholder="0987654321"
                   value={phoneUser}
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
@@ -662,22 +731,28 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                 )}
               </div>
             </div>
+
             <div className="user-detail-input">
               <label>Ngày sinh</label>
               <div className="user-detail-input-dem"></div>
-              {/* <input className="input-user" value={dateOfBirth} readOnly={!edit} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                onChange={(text) => onChangeHandleDate(text)} /> */}
-              <DatePicker
-                locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={dateOfBirthShow}
-                readOnly={!edit}
-                onChange={(date) => onChangeHandleDate(date)}
-                fixedHeight="60px"
-                portalId="root-portal"
-                className="date-picker"
-              />
+              <div className="input-user-container">
+                <DatePicker
+                  locale="vi"
+                  dateFormat="dd-MM-yyyy"
+                  selected={dateOfBirthShow}
+                  readOnly={!edit}
+                  onFocus={onHandleForcusDate}
+                  onChange={(date) => onChangeHandleDate(date)}
+                  fixedHeight="60px"
+                  portalId="root-portal"
+                  className="date-picker"
+                />
+                {isValidBirth && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
             </div>
+
             <div className="user-detail-input">
               <label>Trạng thái</label>
               <div className="user-detail-input-dem"></div>
@@ -711,19 +786,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                 {isValidStatus && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
                 )}
-              </div>
-            </div>
-            <div className="user-detail-input">
-              <label>Loại</label>
-              <div className="user-detail-input-dem"></div>
-              <div className="input-user-container">
-                <input
-                  className="input-user"
-                  value={typeUser}
-                  readOnly={true}
-                  style={{ background: "rgb(196, 196, 196)" }}
-                  onChange={(text) => onChangeHandleType(text)}
-                />
               </div>
             </div>
 
@@ -764,7 +826,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                       >
                         {country?.map((st, index) => {
                           return (
-                            <MenuItem key={index} value={st.id}>
+                            <MenuItem key={index} value={st.code}>
                               {st.fullName}
                             </MenuItem>
                           );
@@ -795,12 +857,12 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                         // label="Tinh/TP"
                         onChange={handleChangeComboboxCity}
                         onFocus={onHandleFocusAddress}
-                        readOnly={!edit}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                        readOnly={!edit || !editCity}
+                        style={(edit == false || editCity == false) ? { background: "rgb(196, 196, 196)" } : {}}
                       >
                         {city?.map((st, index) => {
                           return (
-                            <MenuItem key={index} value={st.id}>
+                            <MenuItem key={index} value={st.code}>
                               {st.fullName}
                             </MenuItem>
                           );
@@ -833,12 +895,12 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                         // label="Quân./Huyện"
                         onChange={handleChangeComboboxDistrict}
                         onFocus={onHandleFocusAddress}
-                        readOnly={!edit}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                        readOnly={!edit || !editDistrict}
+                        style={(edit == false || editDistrict == false) ? { background: "rgb(196, 196, 196)" } : {}}
                       >
                         {district?.map((st, index) => {
                           return (
-                            <MenuItem key={index} value={st.id}>
+                            <MenuItem key={index} value={st.code}>
                               {st.fullName}
                             </MenuItem>
                           );
@@ -870,12 +932,12 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                         // label="Phường/Xã"
                         onChange={handleChangeComboboxWard}
                         onFocus={onHandleFocusAddress}
-                        readOnly={!edit}
-                        style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                        readOnly={!edit || !editWard}
+                        style={(edit == false || editWard == false) ? { background: "rgb(196, 196, 196)" } : {}}
                       >
                         {ward?.map((st, index) => {
                           return (
-                            <MenuItem key={index} value={st.id}>
+                            <MenuItem key={index} value={st.code}>
                               {st.fullName}
                             </MenuItem>
                           );
@@ -893,7 +955,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

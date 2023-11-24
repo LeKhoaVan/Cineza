@@ -84,35 +84,32 @@ const createShowController = async (req, res) => {
   newShowEnd.setHours(timeShowStart[0], timeShowStart[1], 0, 0);
   try {
     const movie = await getByCodeService(codeMovie);
-    const check = await checkShow(
-      codeMovie,
-      codeRap,
-      codeRoom,
-      newShowDate.toISOString(),
-      newShowStart.toISOString()
-    );
+    // const check = await checkShow(
+    //   codeMovie,
+    //   codeRap,
+    //   codeRoom,
+    //   newShowDate.toISOString(),
+    //   newShowStart.toISOString()
+    // );
 
     const hours = Math.floor(parseInt(movie.movieTime) / 60)
     const minues = parseInt(movie.movieTime) % 60;
-    if (check == null) {
-      // set thoi gian ket thuc showingdsadsa
-      newShowEnd.setHours(newShowEnd.getHours() + hours);
-      newShowEnd.setMinutes(newShowEnd.getMinutes() + minues);
-      newShowEnd.setMinutes(newShowEnd.getMinutes() + 15);
-      const newShow = await createShowService({
-        code,
-        codeMovie,
-        codeRap,
-        codeRoom,
-        showDate: newShowDate,
-        showStart: newShowStart,
-        showEnd: newShowEnd,
-        status,
-      });
-      res.status(201).send(newShow);
-    } else {
-      res.status(400).send("Suất chiếu đã tồn tại");
-    }
+
+    // set thoi gian ket thuc showingdsadsa
+    newShowEnd.setHours(newShowEnd.getHours() + hours);
+    newShowEnd.setMinutes(newShowEnd.getMinutes() + minues);
+    newShowEnd.setMinutes(newShowEnd.getMinutes() + 15);
+    const newShow = await createShowService({
+      code,
+      codeMovie,
+      codeRap,
+      codeRoom,
+      showDate: newShowDate,
+      showStart: newShowStart,
+      showEnd: newShowEnd,
+      status,
+    });
+    res.status(201).send(newShow);
   } catch (error) {
     res.status(500).send("error create new show: " + error);
   }

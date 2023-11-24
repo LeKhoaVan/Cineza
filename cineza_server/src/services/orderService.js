@@ -18,9 +18,10 @@ const createOrderService = async (order, codeTicket) => {
 };
 
 const getOrderServiceByCode = async (codeOrder) => {
-  const query = `select ord.codeOder, sh.showDate, sh.showStart, sh.showEnd, s.code, s.position, p.value, m.movieName, r.name as rapName, ro.name as roomName, o.datePay
+  const query = `select ord.codeOder, sh.showDate, sh.showStart, sh.showEnd, s.code, s.position, p.value, m.movieName, r.name as rapName, ro.name as roomName, o.datePay, o.description, us.code as codeUser, us.fullName
 from orderdetail as ord
 join cineza.order as o on o.code = ord.codeOder
+join user as us on us.code = o.codeUser
 join ticket as t on t.code = ord.codeTicket
 join showing as sh on t.codeShowing = sh.code
 join seat as s on s.code = t.codeSeat
@@ -70,8 +71,9 @@ const getOrderByUserService = async (codeUser) => {
 };
 
 const getAllOrderService = async () => {
-  const query = `select *
-  from cineza.order as o 
+  const query = `select o.code, o.datePay, o.description, o.codeUser, o.priceTotal, o.status, us.fullName, us.numberPhone
+  from cineza.order as o
+  join user as us on us.code = o.codeUser
   order by datePay desc;`;
 
   const dataOrders = await db.sequelize.query(query, {

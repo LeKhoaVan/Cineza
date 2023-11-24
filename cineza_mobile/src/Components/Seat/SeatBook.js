@@ -40,7 +40,7 @@ function SeatBook({ route }) {
     const getAll = async () => {
       let dataSeat;
 
-      const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/THUONG/${codeRoom}`)
+      const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`)
       if (res.status == 200) {
         const newData = res.data?.map(item => ({
           ...item,
@@ -101,7 +101,7 @@ function SeatBook({ route }) {
       //     console.log(err);
       //   });
 
-      const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/` +
+      const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/` +
         codeRoom,
         {
           timeout: 10000,

@@ -16,11 +16,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-// const dataStatus = [
-//   { id: "ACTIVE", value: "ACTIVE" },
-//   { id: "TEMPORARY_LOCKED", value: "TEMPORARY LOCKED" },
-//   { id: "DESTROY", value: "DESTROY" },
-// ];
+const dataStatus = [
+  { id: "Hoạt động", value: "Hoạt động" },
+  { id: "Khóa tạm thời", value: "Khóa tạm thời" },
+  { id: "Hủy", value: "Hủy" },
+]
 // const dataType = [
 //   { id: "COMUNITY", value: "COMUNITY" },
 //   { id: "VIP", value: "VIP" },
@@ -31,6 +31,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   const [value, setValue] = useState("");
   const [codeTypeSeat, setCodeTypeSeat] = useState("");
   const [codeHeader, setCodeHeader] = useState("");
+  const [status, setStatus] = useState("");
+  const [priceTam, setPriceTam] = useState(null)
 
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
@@ -44,10 +46,13 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidValue, setIsValidValue] = useState(false);
   const [isValidCodeTypeSeat, setIsValidCodeTypeSeat] = useState(false);
+  const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidCodeHeader, setIsValidCodeHeader] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
@@ -60,6 +65,10 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   };
   const handleChangeComboboxCodeTypeSeat = (text) => {
     setCodeTypeSeat(text.target.value);
+  };
+
+  const handleChangeComboboxStatus = (text) => {
+    setStatus(text.target.value);
   };
   // const handleChangeComboboxCodeHeader = (text) => {
   //   setCodeHeader(text.target.value);
@@ -108,11 +117,26 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
+    onHandleFocusStatus();
+  }, [status]);
+
+  const onHandleFocusStatus = () => {
+    if (editCode || edit) {
+      if (status.trim().length <= 0) {
+        setIsValidStatus(true);
+      } else {
+        setIsValidStatus(false);
+      }
+    }
+  };
+
+  useEffect(() => {
     if (addBtn) {
       setEditCode(true);
       setEdit(true);
       setCreateNew(true);
       setCodeHeader(headerCode);
+      setStatus("");
     } else {
       const getPrice = async () => {
         try {
@@ -124,6 +148,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
             setValue(response.data.value);
             setCodeHeader(response.data.codeHeader);
             setCodeTypeSeat(response.data.codeTypeSeat);
+            setStatus(response.data.status);
             console.log(response.data);
           } else {
             console.log("get price fail");
@@ -172,6 +197,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     setCode("");
     setValue("");
     setCodeTypeSeat("");
+    setStatus("");
     setCodeHeader(codeHeader);
     console.log(codeHeader);
   };
@@ -182,33 +208,48 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
       value: value,
       codeHeader: codeHeader,
       codeTypeSeat: codeTypeSeat,
+      status: status,
     };
     try {
       console.log(price);
       if (editCode) {
-        const response = await axios.post(
-          `http://localhost:9000/cineza/api/v1/price/create`,
-          price
-        );
-        if (response.status === 201) {
-          setMessage("Lưu thành công");
-          setShowAlert(true);
+        const check = await axios.get(`http://localhost:9000/cineza/api/v1/price/check-time/${codeHeader}/${codeTypeSeat}`)
+        if (check.data.length == 0) {
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/price/create`,
+            price
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
         } else {
-          setMessage("Lưu thất bại");
-          setShowAlert(true);
+          setMessage("có bảng giá đã tồn tại. Bạn có muốn ghi đè")
+          setPriceTam(price)
+          setIsOpenDialog(true);
         }
       } else if (update) {
-        const response = await axios.put(
-          `http://localhost:9000/cineza/api/v1/price/put/` + code,
-          price
-        );
-        if (response.status === 200) {
-          console.log("save success");
-          setMessage("Cập nhật thành công");
-          setShowAlert(true);
+        const check = await axios.get(`http://localhost:9000/cineza/api/v1/price/check-time/${codeHeader}/${codeTypeSeat}`)
+        if (check.data.length == 0) {
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price/put/` + code,
+            price
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập nhật thất bại");
+            setShowAlert(true);
+          }
         } else {
-          setMessage("Cập nhật thất bại");
-          setShowAlert(true);
+          setMessage("có bảng giá đã tồn tại. Bạn có muốn ghi đè")
+          setPriceTam(price)
+          setIsOpenDialog(true);
         }
       }
     } catch (error) {
@@ -218,9 +259,70 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     }
   };
 
+  const handleConfirm = async () => {
+    if (editCode) {
+      try {
+        if (priceTam != null) {
+          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price/update-status-all/${priceTam.codeHeader}/${priceTam.codeTypeSeat}`);
+          const response = await axios.post(
+            `http://localhost:9000/cineza/api/v1/price/create`,
+            priceTam
+          );
+          if (response.status === 201) {
+            setMessage("Lưu thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Lưu thất bại");
+            setShowAlert(true);
+          }
+          setIsOpenDialog(false);
+        }
+      } catch (error) {
+        console.log("error save price header check: " + error)
+      }
+    } else if (update) {
+      try {
+        if (priceTam != null) {
+          const dataUpdate = await axios.put(`http://localhost:9000/cineza/api/v1/price/update-status-all/${priceTam.codeHeader}/${priceTam.codeTypeSeat}`);
+          const response = await axios.put(
+            `http://localhost:9000/cineza/api/v1/price/put/` + code,
+            priceTam
+          );
+          if (response.status === 200) {
+            console.log("save success");
+            setMessage("Cập nhật thành công");
+            setShowAlert(true);
+          } else {
+            setMessage("Cập thất bại");
+            setShowAlert(true);
+          }
+          setIsOpenDialog(false);
+        }
+      } catch (error) {
+        console.log("error save price header check: " + error)
+      }
+    }
+
+  }
+
+  const handleCancel = () => {
+    setIsOpenDialog(false);
+  }
+
   return (
     <div className="price-detail-background">
       <div className="price-detail-container">
+        {isOpenDialog && (
+          <div className="dialog-overlay">
+            <div className="dialog-content">
+              <p>{message}</p>
+              <div className="dialog-buttons">
+                <button onClick={handleCancel}>Hủy bỏ</button>
+                <button onClick={handleConfirm}>Xác nhận</button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="price-detail-header">
           <div className="price-detail-header-edit">
             <div
@@ -348,11 +450,49 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onChange={(text) => onChangeHandleCode(text)}
+                // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>
+
+
+            <div className="price-detail-input">
+              <label>Trạng thái</label>
+              <div className="price-detail-input-dem"></div>
+
+              <div className="input-price-detail-container">
+                <FormControl
+                  sx={{ width: "100%", marginRight: "80px" }}
+                  size="small"
+                >
+                  {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={status}
+                    // label="Status"
+                    onChange={handleChangeComboboxStatus}
+                    onFocus={onHandleFocusStatus}
+                    readOnly={!edit}
+                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataStatus.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.id}>
+                          {st.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                {isValidStatus && (
+                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                )}
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>

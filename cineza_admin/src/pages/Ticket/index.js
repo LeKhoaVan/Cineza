@@ -114,7 +114,7 @@ const Ticket = () => {
               item.showStart
             ).getMinutes()}`,
             showDate: formatDateHandle(item.showDate),
-            bookAt: formatDateHandle(item.bookAt),
+            bookAt: `${formatDateHandle(item.bookAt)} ${new Date(item.bookAt).getHours()}:${new Date(item.bookAt).getMinutes()}`,
           };
         });
         setContext(dataResult);
@@ -207,7 +207,7 @@ const Ticket = () => {
                   id="find"
                   className="ticket-input-find"
                   placeholder="tên phim"
-                  // onChange={onChangeHandleFind}
+                // onChange={onChangeHandleFind}
                 />
                 <img
                   className="ticket-button-img"
@@ -237,10 +237,10 @@ const Ticket = () => {
                   id="demo-select-small"
                   // value={codeMovie}
                   label="Tên phim"
-                  // onChange={handleChangeComboboxCodeMovie}
-                  // onFocus={onHandleFocusCodeMovie}
-                  // readOnly={!edit}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                // onChange={handleChangeComboboxCodeMovie}
+                // onFocus={onHandleFocusCodeMovie}
+                // readOnly={!edit}
+                // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                 >
                   {[].map((st, index) => {
                     return (
@@ -298,7 +298,7 @@ const Ticket = () => {
                     height: 20,
                     alignItems: "center",
                     justifyContent: "center",
-                    borderBottom: "20px solid black",
+                    borderBottom: "10px solid black",
                   }}
                 >
                   <h4
@@ -313,10 +313,9 @@ const Ticket = () => {
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-thuong"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -325,10 +324,9 @@ const Ticket = () => {
                   {dataSeatTicketVip?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-vip"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>

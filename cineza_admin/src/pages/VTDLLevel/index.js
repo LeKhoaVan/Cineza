@@ -7,8 +7,7 @@ import iconAdd from "../../assets/imageButtons/iconAdd.png";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const titleColumn = [
   {
@@ -46,40 +45,62 @@ const VTDLLevel = () => {
   const location = useLocation();
   const levelAddress = new URLSearchParams(location.search).get("level");
 
+  const navigate = useNavigate();
   const onClickHandleBack = () => {
-    window.location.href = "http://localhost:3000/cineza/admin/vtdl";
+    navigate('/vtdl');
   };
 
   const handleRowClick = (row) => {
     console.log(row);
     setCodeAddress(row);
-    setOpenModalDetail(!openModalDetail);
+    setBtnAdd(false)
+    setOpenModalDetail(true);
   };
 
   const onClickHandleBtnAdd = () => {
+    setOpenModalDetail(false)
     setBtnAdd(true);
   };
 
   const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/vtdl/level?level=" + address[0].level;
+    // window.location.href = "/cineza/admin/vtdl/level?level=" + address[0].level;
     setOpenModalDetail(false);
     setBtnAdd(false);
   };
 
-  useEffect(() => {
-    const getAddressByType = async () => {
+  const getAddressByType = async () => {
+    if (levelAddress != undefined) {
       try {
         const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=` +
-            levelAddress
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=${levelAddress}`
         );
         setAddress(response.data);
       } catch (error) {
         console.error("error get address by type in VTDLLevel: " + error);
       }
-    };
+    } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=${address[0].level}`
+        );
+        setAddress(response.data);
+      } catch (error) {
+        console.error("error get address by type in VTDLLevel: " + error);
+      }
+    }
+  };
+
+  useEffect(() => {
     getAddressByType();
   }, []);
+
+  useEffect(() => {
+    getAddressByType();
+  }, [openModalDetail]);
+
+  useEffect(() => {
+    getAddressByType();
+  }, [btnAdd]);
 
   return (
     <div className="address-level-wrapper">

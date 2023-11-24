@@ -40,10 +40,6 @@ const dataStatus = [
 
 const titleColumn = [
   {
-    title: "Mã hóa đơn",
-    data: "codeOder",
-  },
-  {
     title: "Tên phim",
     data: "movieName",
   },
@@ -112,7 +108,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
     setOpenModelAdd(true);
     setOpenModalOrder(!openModalOrder);
   };
-  ////////////////////////////////////////////////////
+
 
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
@@ -160,7 +156,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
           const dataResult = result.data.map((item) => {
             return {
               ...item,
-              datePay: formatDateHandle(item.datePay),
+              datePay: `${formatDateHandle(item.datePay)} ${new Date(item.datePay).getHours()}:${new Date(item.datePay).getMinutes()}`,
             };
           });
           setOrders(dataResult);
@@ -178,29 +174,8 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
       <div className="order-detail-container">
         <div className="order-detail-header">
           <div className="order-detail-header-edit">
-            {/* <div
-              className="order-detail-header-edit-save"
-              onClick={onClickHandleSave}
-            >
-              <img className="icon-save" src={iconSave} alt="update" />
-              <p>Lưu</p>
-            </div>
-            <div
-              className="order-detail-header-edit-update"
-              onClick={onClickHandleEdit}
-            >
-              <img className="icon-update" src={iconPen} alt="update" />
-              <p>Chỉnh sửa</p>
-            </div>
-            <div
-              className="order-detail-header-edit-update"
-              onClick={onClickHandleNew}
-            >
-              <img className="iconNew" src={iconCreateNew} alt="create new" />
-              <p>Tạo mới</p>
-            </div>*/}
             <div className="order-detail-header-name">
-              <span>-- {codeOrder} -- </span>
+              <span>{orders[0]?.fullName} -- {orders[0]?.description}</span>
             </div>
             <div
               className="order-detail-header-close"
@@ -211,86 +186,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
           </div>
         </div>
 
-        {/* <div className="order-detail-content">
-          <div className="order-detail-content-left">
-            {showAlert && (
-              <Alert message={message} onClose={handleCloseAlert} />
-            )}
-            <div className="order-detail-input">
-              <label>Code</label>
-              <div className="order-detail-input-dem"></div>
 
-              <div className="input-order-container">
-                <input
-                  className="input-order"
-                  // value={code}
-                  readOnly={!editCode}
-                  style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
-                />
-              </div>
-            </div>
-            <div className="order-detail-input">
-              <label>Mô tả</label>
-              <div className="order-detail-input-dem"></div>
-              <div className="input-order-container">
-                <input
-                  className="input-order"
-                  // value={name}
-                  readOnly={!edit}
-                  style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleName(text)}
-                  // onFocus={onHandleFocusName}
-                />
-              </div>
-            </div>
-
-            <div className="order-detail-input">
-              <label>Trạng thái</label>
-              <div className="order-detail-input-dem"></div>
-              <div className="input-order-container">
-                <FormControl
-                  sx={{ width: "52%", marginRight: "80px" }}
-                  size="small"
-                >
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    value={status}
-                    onChange={handleChangeComboboxStatus}
-                    onFocus={onHandleFocusStatus}
-                    readOnly={!edit}
-                    style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataStatus.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.id}>
-                          {st.value}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                {isValidStatus && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="order-detail-content-right"></div>
-        </div> */}
-        {/* <div
-          style={{
-            marginLeft: -20,
-            paddingRight: 40,
-            width: "100%",
-            height: "10px",
-            marginTop: 20,
-            borderBottom: "10px solid rgb(228, 228, 228)",
-          }}
-        ></div> */}
         <div className="order-detail-container-page">
           <div
             style={{
@@ -308,127 +204,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
               data={orders}
               onRowClick={handleRowClick}
             />
-            {/*  */}
           </div>
-          {/* {openModalDetail && (
-            <div className="order-detail-background">
-              <div className="order-detail-container">
-                <div className="order-detail-header">
-                  <div className="order-detail-header-edit">
-                    <div
-                      className="order-detail-header-edit-save"
-                      //   onClick={onClickHandleSave}
-                    >
-                      <img className="icon-save" src={iconSave} alt="update" />
-                      <p>Lưu</p>
-                    </div>
-                    <div
-                      className="order-detail-header-edit-update"
-                      //   onClick={onClickHandleEdit}
-                    >
-                      <img className="icon-update" src={iconPen} alt="update" />
-                      <p>Chỉnh sửa</p>
-                    </div>
-                    <div
-                      className="order-detail-header-edit-new-delete"
-                      //   onClick={onClickHandleNew}
-                    >
-                      <div className="order-detail-header-edit-new">
-                        <img
-                          className="iconNew"
-                          src={iconCreateNew}
-                          alt="create new"
-                        />
-                        <p>Tạo mới</p>
-                      </div>
-                      <div className="order-detail-header-edit-delete">
-                        <img
-                          className="iconDelete"
-                          src={iconDelete}
-                          alt="delete"
-                        />
-                        <p>Xóa</p>
-                      </div>
-                    </div>
-                    <div
-                      className="order-detail-header-close"
-                      onClick={onClickHandleCloseP}
-                    >
-                      <img className="iconClose" src={iconClose} alt="close" />
-                    </div>
-                  </div>
-                  <div className="order-detail-header-name">
-                  </div>
-                </div>
-
-                <div className="order-detail-content">
-                  <div className="order-detail-content-left">
-                    <div className="order-detail-input">
-                      <label>Mã hóa đơn</label>
-                      <div className="order-detail-input-dem"></div>
-
-                      <div className="input-order-container">
-                        <input
-                          className="input-order"
-                          //   value={codeUser}
-                          //   readOnly={!editCode}
-                          //   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                          //   onChange={(text) => onChangeHandleCode(text)}
-                          //   onFocus={onHandleFocusCode}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="order-detail-input">
-                      <label>Loại</label>
-                      <div className="order-detail-input-dem"></div>
-                      <div className="input-order-container">
-                        <input
-                          className="input-order"
-                          //   value={nameUser}
-                          //   readOnly={!edit}
-                          //   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                          //   onChange={(text) => onChangeHandleName(text)}
-                          //   onFocus={onHandleFocusName}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="order-detail-input">
-                      <label>Mã sản phẩm</label>
-                      <div className="order-detail-input-dem"></div>
-                      <div className="input-order-container">
-                        <input
-                          className="input-order"
-                          //   value={nameUser}
-                          //   readOnly={!edit}
-                          //   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                          //   onChange={(text) => onChangeHandleName(text)}
-                          //   onFocus={onHandleFocusName}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="order-detail-input">
-                      <label>Giá</label>
-                      <div className="order-detail-input-dem"></div>
-                      <div className="input-order-container">
-                        <input
-                          className="input-order"
-                          //   value={phoneUser}
-                          //   readOnly={!edit}
-                          //   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                          //   onChange={(text) => onChangeHandlePhone(text)}
-                          //   onFocus={onHandleFocusPhone}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="order-detail-content-right"></div>
-                </div>
-              </div>
-            </div>
-          )} */}
         </div>
       </div>
     </div>

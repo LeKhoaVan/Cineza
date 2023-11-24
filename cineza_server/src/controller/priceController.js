@@ -4,6 +4,8 @@ const {
   createPriceService,
   getValuePriceByCodeService,
   updatePriceService,
+  checkTimePriceService,
+  updateStatusAllByHeaderAndTypeService,
 } = require("../services/priceService");
 
 const getAllPriceByHeaderController = async (req, res) => {
@@ -27,7 +29,7 @@ const getPriceByCodeController = async (req, res) => {
 };
 
 const createPriceController = async (req, res) => {
-  const { code, value, codeHeader, codeTypeSeat } = req.body;
+  const { code, value, codeHeader, codeTypeSeat, status } = req.body;
   try {
     const checkCode = await getPriceByCodeService(code);
     if (checkCode == null) {
@@ -36,6 +38,7 @@ const createPriceController = async (req, res) => {
         value,
         codeHeader,
         codeTypeSeat,
+        status,
       });
       res.status(201).send(newPrice);
     } else {
@@ -49,12 +52,12 @@ const createPriceController = async (req, res) => {
 const updatePriceController = async (req, res) => {
   try {
     const { code } = req.params;
-    const { value, codeHeader, codeTypeSeat } = req.body;
+    const { value, codeHeader, codeTypeSeat, status } = req.body;
 
     const checkPrice = await getValuePriceByCodeService(code);
     if (checkPrice != null) {
       const updatePrice = await updatePriceService(code, {
-        value, codeHeader, codeTypeSeat
+        value, codeHeader, codeTypeSeat, status
       });
       if (updatePrice != 0) {
         res.status(200).send("update success");
@@ -69,9 +72,32 @@ const updatePriceController = async (req, res) => {
   }
 };
 
+const checkTimePriceController = async (req, res) => {
+  const { codeHeader, codeTypeSeat } = req.params;
+  try {
+    const dataCheck = await checkTimePriceService(codeHeader, codeTypeSeat);
+    res.status(200).send(dataCheck);
+  } catch (error) {
+    res.status(200).send("error check time price: " + error);
+  }
+}
+
+const updateStatusAllByHeaderAndTypeController = async (req, res) => {
+  const { codeHeader, codeTypeSeat } = req.params;
+  try {
+    const dataUpdate = await updateStatusAllByHeaderAndTypeService(codeHeader, codeTypeSeat);
+    res.status(200).send(dataUpdate);
+  } catch (error) {
+    res.status(200).send("error update all status price: " + error);
+  }
+}
+
 module.exports = {
   getAllPriceByHeaderController,
   getPriceByCodeController,
   createPriceController,
-  updatePriceController
+  updatePriceController,
+  checkTimePriceController,
+  updateStatusAllByHeaderAndTypeController,
+
 };
