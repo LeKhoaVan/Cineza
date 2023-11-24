@@ -24,7 +24,6 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
   const [dataShow, setDataShow] = useState([]);
   const navigation = useNavigation();
-
   useEffect(() => {
     if (newItem.isExpanded) {
       setLayoutHeight(null);
@@ -35,10 +34,14 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
 
   useEffect(() => {
     const getDataShow = async () => {
+      console.log(newItem)
+      const date = `${new Date(newItem.showStart).getFullYear()}-${new Date(newItem.showStart).getMonth() + 1}-${new Date(newItem.showStart).getDate()}`
+      console.log(date)
       const response = await axios.get(
         `http://${config.IPP4}:9000/cineza/api/v1/show/get-by-rap-movie-data/${newItem.codeRap
-        }/${newItem.codeMovie}/${formatDateHandle(newItem.showStart)}`
+        }/${newItem.codeMovie}/${date}`
       );
+      console.log("te", response.data)
       if (response.status === 200) {
         setDataShow(response.data);
       } else {

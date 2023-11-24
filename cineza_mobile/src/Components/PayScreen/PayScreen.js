@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TextInput, Linking, TouchableOpacity, View } f
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { WebView } from 'react-native-webview';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import config from '../../config';
 import { useNavigation } from "@react-navigation/native";
 
@@ -20,6 +21,18 @@ function PayScreen({ route }) {
   const dataSeat = seat.map(data => {
     return data.position + ',';
   });
+
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const getUser = async () => {
+      const userInfoString = await AsyncStorage.getItem('userInfo');
+
+      if (userInfoString !== null) {
+        setUser(JSON.parse(userInfoString))
+      }
+    }
+    getUser();
+  }, [])
 
   const [dataPay, setDataPay] = useState("")
 
@@ -98,7 +111,7 @@ function PayScreen({ route }) {
 
               const dataOrder = {
                 codeTicket: codeTicket,
-                codeUser: "user01",
+                codeUser: user.codeUser,
                 description: "thanh toán vé xem phim: " + ticketData.movieName,
                 priceTotal: total,
                 status: "Hoạt động"

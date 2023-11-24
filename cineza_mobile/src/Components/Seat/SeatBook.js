@@ -9,6 +9,7 @@ import {
   Alert,
   Image
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Header/Header';
 // import { FontAwesome } from "@expo/vector-icons";
 import iconSquare from '../../assets/imageButton/iconSquare.png';
@@ -34,6 +35,18 @@ function SeatBook({ route }) {
   const [checkSave, setCheckSave] = useState(true);
 
   const navigation = useNavigation();
+
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const getUser = async () => {
+      const userInfoString = await AsyncStorage.getItem('userInfo');
+
+      if (userInfoString !== null) {
+        setUser(JSON.parse(userInfoString))
+      }
+    }
+    getUser();
+  }, [])
 
   //get ghế thường
   useEffect(() => {
@@ -202,10 +215,11 @@ function SeatBook({ route }) {
     }
   };
 
-  const onClickHandleSave = () => {
+  const onClickHandleSave = async () => {
     let tickets = [];
+
     seatSelected.forEach(async seat => {
-      tickets = [...tickets, { codeShowing: route.params.item.code, codeSeat: seat.code, codeUser: 'user01', status: 'Hoạt động' }]
+      tickets = [...tickets, { codeShowing: route.params.item.code, codeSeat: seat.code, codeUser: user.codeUser, status: 'Hoạt động' }]
     })
 
     if (seatSelected.length === 0) {

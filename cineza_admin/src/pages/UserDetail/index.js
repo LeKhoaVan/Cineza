@@ -736,7 +736,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           </div>
           <div className="user-detail-content-right">
             <div className="user-detail-input">
-              <label>Số điện thoại</label>
+              <label>Địa chỉ mail</label>
               <div className="user-detail-input-dem"></div>
               <div className="input-user-container">
                 <input
@@ -745,11 +745,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandlePhone(text)}
-                  onFocus={onHandleFocusPhone}
+                // onFocus={onHandleFocusPhone}
                 />
-                {isValidPhone && (
+                {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
-                )}
+                )} */}
               </div>
             </div>
 

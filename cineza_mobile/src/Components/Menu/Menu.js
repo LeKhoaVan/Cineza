@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './Style_Menu';
 
 import iconHome from '../../assets/imageButton/iconHome.png';
@@ -18,8 +19,22 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 // import { Octicons } from "@expo/vector-icons";
 // import { FontAwesome5 } from "@expo/vector-icons";
 
+
 function Menu() {
   const navigation = useNavigation();
+
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const getUser = async () => {
+      const userInfoString = await AsyncStorage.getItem('userInfo');
+
+      if (userInfoString !== null) {
+        setUser(JSON.parse(userInfoString))
+      }
+    }
+    getUser();
+  }, [])
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate('Danh sách phim')}>
@@ -107,16 +122,31 @@ function Menu() {
           <Text style={{color: 'white'}}>Đổi ưu đãi</Text>
         </TouchableOpacity> */}
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Đăng nhập')}>
-        <Text style={styles.bookTicket}>Đăng nhập</Text>
-        <View style={styles.separator}></View>
-      </TouchableOpacity>
+      {user != "" ?
+        (
+          <View>
+            <TouchableOpacity onPress={async () => { navigation.navigate('Đăng nhập'), await AsyncStorage.removeItem('userInfo'); }}>
+              <Text style={styles.bookTicket}>Đăng xuất</Text>
+              <View style={styles.separator}></View>
+            </TouchableOpacity>
+          </View>
+        )
+        :
+        (
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate('Đăng nhập')}>
+              <Text style={styles.bookTicket}>Đăng nhập</Text>
+              <View style={styles.separator}></View>
+            </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Đăng ký')}>
-        <Text style={styles.bookTicket}>Đăng ký</Text>
-        <View style={styles.separator}></View>
-      </TouchableOpacity>
-    </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Đăng ký')}>
+              <Text style={styles.bookTicket}>Đăng ký</Text>
+              <View style={styles.separator}></View>
+            </TouchableOpacity>
+          </View>
+        )
+      }
+    </View >
   );
 }
 

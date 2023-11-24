@@ -4,6 +4,8 @@ import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./Style_Register";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import config from "../../config";
 
 function Register() {
   const navigation = useNavigation();
@@ -38,11 +40,11 @@ function Register() {
     }
 
     // Validate số điện thoại
-    if (!phone) {
-      errors.phone = "Số điện thoại không được để trống";
-    } else if (phone.length < 10) {
-      errors.phone = "Số điện thoại không đúng";
-    }
+    // if (!phone) {
+    //   errors.phone = "Số điện thoại không được để trống";
+    // } else if (phone.length < 10) {
+    //   errors.phone = "Số điện thoại không đúng";
+    // }
 
     // Validate mật khẩu
     if (!password) {
@@ -63,10 +65,19 @@ function Register() {
     setIsFormValid(Object.keys(errors).length === 0);
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (isFormValid) {
       // Form is valid, perform the submission logic
-      console.log("Form submitted successfully!");
+      try {
+        const resutl = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/user/send-email-otp`, { email });
+        console.log(resutl.data)
+        if (resutl.data == true) {
+          navigation.navigate("Xác thực", { email, name, password })
+        }
+      } catch (error) {
+        console.log("error send email otp: " + error)
+      }
+
     } else {
       // Form is invalid, display error messages
       console.log("Form has errors. Please correct them.");
@@ -95,13 +106,6 @@ function Register() {
             />
           </View>
           <Text style={styles.error}>{errors.name}</Text>
-          <View style={styles.item}>
-            <TextInput
-              placeholder="Vui lòng nhập số điện thoại"
-              style={styles.textInput}
-            />
-          </View>
-          <Text style={styles.error}>{errors.phone}</Text>
           <View style={styles.item}>
             <TextInput
               placeholder="Vui lòng nhập Email"
