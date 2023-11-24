@@ -124,11 +124,18 @@ const Ticket = () => {
       );
       if (tickets.status == 200) {
         const dataResult = tickets.data.map((item) => {
+          const inputTime = new Date(item.showStart);
+          const hour = inputTime.getHours();
+          const minute = inputTime.getMinutes();
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
+            minute < 10 ? "0" : ""
+          }${minute}`;
           return {
             ...item,
-            showStart: `${new Date(item.showStart).getHours()}:${new Date(
-              item.showStart
-            ).getMinutes()}`,
+            showStart: minuteResult,
+            // `${new Date(item.showStart).getHours()}:${new Date(
+            //   item.showStart
+            // ).getMinutes()}`,
             showDate: formatDateHandle(item.showDate),
             bookAt: formatDateHandle(item.bookAt),
           };
@@ -149,11 +156,15 @@ const Ticket = () => {
       );
       if (result.status == 200) {
         const dataResult = result.data.map((item) => {
+          const inputTime = new Date(item.showStart);
+          const hour = inputTime.getHours();
+          const minute = inputTime.getMinutes();
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
+            minute < 10 ? "0" : ""
+          }${minute}`;
           return {
             ...item,
-            showStart: `${new Date(item.showStart).getHours()}:${new Date(
-              item.showStart
-            ).getMinutes()}`,
+            showStart: minuteResult,
             showDate: formatDateHandle(item.showDate),
             bookAt: formatDateHandle(item.bookAt),
           };
