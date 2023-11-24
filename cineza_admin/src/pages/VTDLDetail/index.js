@@ -250,6 +250,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
           console.log("save success");
           setMessage("Lưu thành công");
           setShowAlert(true);
+          onClickHandleNew();
         } else {
           setMessage("Lưu thất bại");
           setShowAlert(true);

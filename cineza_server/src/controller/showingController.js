@@ -146,6 +146,16 @@ const updateShowController = async (req, res) => {
   }
 };
 
+const checkShowController = async (req, res) => {
+  const { codeRap, codeRoom, showDate, showStart } = req.params;
+  try {
+    const dataCheck = await checkShow(codeRap, codeRoom, showDate, showStart);
+    res.status(200).send(dataCheck);
+  } catch (error) {
+    res.status(200).send("error check show: " + error);
+  }
+};
+
 const getAllShowByMovieController = async (req, res) => {
   const { codeMovie } = req.params;
   try {
@@ -181,6 +191,7 @@ module.exports = {
   getShowByCodeController,
   createShowController,
   updateShowController,
+  checkShowController,
   getAllShowByMovieController,
   getAllShowByRapController,
   getAllShowByMovieAndRap,

@@ -166,7 +166,9 @@ const Ticket = () => {
             ...item,
             showStart: minuteResult,
             showDate: formatDateHandle(item.showDate),
-            bookAt: `${formatDateHandle(item.bookAt)} ${new Date(item.bookAt).getHours()}:${new Date(item.bookAt).getMinutes()}`,
+            bookAt: `${formatDateHandle(item.bookAt)} ${new Date(
+              item.bookAt
+            ).getHours()}:${new Date(item.bookAt).getMinutes()}`,
           };
         });
         setContext(dataResult);
@@ -276,7 +278,7 @@ const Ticket = () => {
                   onChange={(date) => onChangeHandleDate(date)}
                   fixedHeight="100%"
                   portalId="root-portal"
-                  className="ticket-find-date"
+                  className="ticket-find-date" />*/}
                 <FormControl
                   sx={{ width: "30%", marginLeft: "5%" }}
                   size="small"
@@ -387,9 +389,10 @@ const Ticket = () => {
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
-                        }`}
-                    // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${
+                        seat?.booked ? "occupied-show" : "seat-thuong"
+                      }`}
+                      // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -398,9 +401,10 @@ const Ticket = () => {
                   {dataSeatTicketVip?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
-                        }`}
-                    // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${
+                        seat?.booked ? "occupied-show" : "seat-vip"
+                      }`}
+                      // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>

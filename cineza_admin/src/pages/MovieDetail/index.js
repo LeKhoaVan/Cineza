@@ -252,6 +252,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
           console.log("save movie success");
           setShowAlert(true);
           setMessage("Lưu phim thành công");
+          onClickHandleNew();
         } else {
           console.log("save movie error");
           setShowAlert(true);
