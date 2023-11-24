@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "693815888750",
+    "project_id": "auth-app-b1983",
+    "storage_bucket": "auth-app-b1983.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693815888750:android:25f99bb77b26c7596a0f7f",
+        "android_client_info": {
+          "package_name": "com.cineza_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC93tMkylJa9DP0oCG4Y_662fz8zVxVVn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

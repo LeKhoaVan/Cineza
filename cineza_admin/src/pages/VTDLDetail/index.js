@@ -55,16 +55,8 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
   const [update, setUpdate] = useState(false);
+  const [editParent, setEditParent] = useState(false);
   const [createNew, setCreateNew] = useState(false);
-
-  const [country, setCountry] = useState([]);
-  const [countryId, setCountryId] = useState("");
-  const [city, setCity] = useState([]);
-  const [cityId, setCityId] = useState("");
-  const [district, setDistrict] = useState([]);
-  const [districtId, setDistrictId] = useState("");
-  const [ward, setWard] = useState([]);
-  const [wardId, setWardId] = useState("");
 
   const [dataComboboxTrucThuoc, setDataComboboxTrucThuoc] = useState([]);
 
@@ -92,6 +84,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
     setIdParentAddress(event.target.value);
   };
   const onChangeCodeAddress = (event) => {
+    console.log(event.target.value)
     setCodeAddress(event.target.value);
   };
   const onChangeNameAddress = (event) => {
@@ -100,20 +93,6 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
   const onChangeLevelAddress = (event) => {
     setLevelAddress(event.target.value);
   };
-
-  // useEffect(() => {
-  //   const getParentByLevel = async () => {
-  //     const result = await axios.get(
-  //       `http://localhost:9000/cineza/api/v1/value/get-level?evel=${levelAddress}`
-  //     );
-  //     if (result.status === 200) {
-  //       setIdParentAddress(result.data.parentId);
-  //     } else {
-  //       console.error("error get parent address by level");
-  //     }
-  //   };
-  //   getParentByLevel();
-  // }, [levelAddress]);
 
   const onChangeTypeAddress = (event) => {
     setTypeAddress(event.target.value);
@@ -125,7 +104,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusCodeAddress = () => {
     if (editCode || edit) {
-      if (codeAddress.trim().length <= 0) {
+      if (codeAddress == undefined || codeAddress.trim().length <= 0) {
         setIsValidCodeAddress(true);
       } else {
         setIsValidCodeAddress(false);
@@ -139,7 +118,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusNameAddress = () => {
     if (editCode || edit) {
-      if (nameAddress.trim().length <= 0) {
+      if (nameAddress == undefined || nameAddress.trim().length <= 0) {
         setIsValidNameAddress(true);
       } else {
         setIsValidNameAddress(false);
@@ -174,7 +153,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusStatusAddress = () => {
     if (editCode || edit) {
-      if (statusAddress.trim().length <= 0) {
+      if (statusAddress == undefined || statusAddress.trim().length <= 0) {
         setIsValidStatusAddress(true);
       } else {
         setIsValidStatusAddress(false);
@@ -190,32 +169,32 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
       setLevelAddress(levelAr);
       setTypeAddress("Vị trí địa lý");
       setIdtypeAddress("vtdl");
-    }
-    const getAddressByCode = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/address/get-code/` +
-            codeAddressBy
-        );
-        if (response.status === 200) {
-          console.log(response.data);
-          setCodeAddress(response.data.code);
-          setNameAddress(response.data.fullName);
-          setLevelAddress(response.data.level);
-          setIdParentAddress(response.data.parentId);
-          setParentAddress(response.data.fullNameParent);
-          setStatusAddress(response.data.status);
-          setIdtypeAddress(response.data.type);
-          setTypeAddress("Vị trí địa lý");
-        } else {
-          console.error("error get API: " + response.status);
-        }
-      } catch (error) {
-        console.error("error get address by code in vtdl: " + error);
-      }
-    };
+    } else {
+      const getAddressByCode = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:9000/cineza/api/v1/address/get-by-code/${codeAddressBy}`
+          );
 
-    getAddressByCode();
+          if (response.status === 200) {
+            console.log(response.data);
+            setCodeAddress(response.data.code);
+            setNameAddress(response.data.fullName);
+            setLevelAddress(response.data.level);
+            setIdParentAddress(response.data.parentId);
+            setParentAddress(response.data.fullNameParent);
+            setStatusAddress(response.data.status);
+            setIdtypeAddress(response.data.type);
+            setTypeAddress("Vị trí địa lý");
+          } else {
+            console.error("error get API: " + response.status);
+          }
+        } catch (error) {
+          console.error("error get address by code in vtdl: " + error);
+        }
+      };
+      getAddressByCode();
+    }
   }, []);
 
   const onClickHandleEdit = () => {
@@ -229,6 +208,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
     setCreateNew(true);
     setEditCode(true);
     setEdit(true);
+    setEditParent(true)
 
     setCodeAddress("");
     setNameAddress("");
@@ -263,7 +243,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
     try {
       if (editCode) {
         const response = await axios.post(
-          `http://localhost:9000/cineza/api/v1/value/address/create`,
+          `http://localhost:9000/cineza/api/v1/address/create`,
           address
         );
         if (response.status === 201) {
@@ -276,8 +256,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
         }
       } else if (update) {
         const response = await axios.put(
-          `http://localhost:9000/cineza/api/v1/value/address/put/` +
-            codeAddress,
+          `http://localhost:9000/cineza/api/v1/address/update/${codeAddress}`,
           address
         );
         if (response.status === 200) {
@@ -296,75 +275,57 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
     }
   };
 
-  //combobox country
-  useEffect(() => {
-    const getAllCountry = async () => {
-      try {
-        const allCountry = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=QUOCGIA`
-        );
-        if (allCountry.status === 200) {
-          setCountry(allCountry.data);
-        } else {
-          console.error("get all country error");
-        }
-      } catch (error) {
-        console.error("get all country error: " + error);
-      }
-    };
-    getAllCountry();
-  }, []);
-
-  //combobox city
-  useEffect(() => {
-    const getAllCountry = async () => {
-      try {
-        const allCity = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=TINH/TP`
-        );
-        if (allCity.status === 200) {
-          setCity(allCity.data);
-        } else {
-          console.error("get all city error");
-        }
-      } catch (error) {
-        console.error("get all country error: " + error);
-      }
-    };
-    getAllCountry();
-  }, []);
-
-  //combobox district
-  useEffect(() => {
-    const getAllCountry = async () => {
-      try {
-        const allDistrict = await axios.get(
-          `http://localhost:9000/cineza/api/v1/value/get-level?level=HUYEN/QUAN`
-        );
-        if (allDistrict.status === 200) {
-          setDistrict(allDistrict.data);
-        } else {
-          console.error("get all country error");
-        }
-      } catch (error) {
-        console.error("get all country error: " + error);
-      }
-    };
-    getAllCountry();
-  }, []);
 
   useEffect(() => {
-    if (levelAddress === "QUOCGIA") {
-      setIdParentAddress(null);
-      setDataComboboxTrucThuoc([]);
-    } else if (levelAddress === "TINH/TP") {
-      setDataComboboxTrucThuoc(country);
-    } else if (levelAddress === "HUYEN/QUAN") {
-      setDataComboboxTrucThuoc(city);
-    } else if (levelAddress === "XA/PHUONG") {
-      setDataComboboxTrucThuoc(district);
+    const getDataCompoboxTrucThuoc = async () => {
+      try {
+        // xu ly
+        if (levelAddress != "") {
+          if (levelAddress === "QUOCGIA") {
+            setIdParentAddress(null);
+            setDataComboboxTrucThuoc([]);
+          } else if (levelAddress === "TINH/TP") {
+            //get country
+            const allCountry = await axios.get(
+              `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=QUOCGIA`
+            );
+            if (allCountry.status === 200) {
+              setDataComboboxTrucThuoc(allCountry.data);
+            } else {
+              console.error("get all country error");
+            }
+
+          } else if (levelAddress === "HUYEN/QUAN") {
+            // get city
+            const allCity = await axios.get(
+              `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=TINH/TP`
+            );
+            if (allCity.status === 200) {
+              setDataComboboxTrucThuoc(allCity.data);
+            } else {
+              console.error("get all city error");
+            }
+
+          } else if (levelAddress === "XA/PHUONG") {
+            // get district
+            const allDistrict = await axios.get(
+              `http://localhost:9000/cineza/api/v1/address/get-by-level?levelAddress=HUYEN/QUAN`
+            );
+            if (allDistrict.status === 200) {
+              setDataComboboxTrucThuoc(allDistrict.data);
+            } else {
+              console.error("get all country error");
+            }
+
+          }
+
+        }
+      } catch (error) {
+        console.log(" get combobox :" + error)
+      }
     }
-  });
+    getDataCompoboxTrucThuoc();
+  }, [levelAddress]);
 
   return (
     <div className="address-detail-background">
@@ -453,7 +414,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
             </div>
 
             <div className="address-detail-input">
-              <label>Cáp hành chính</label>
+              <label>Cấp hành chính</label>
               <div className="address-detail-input-dem"></div>
               <div className="input-address-container">
                 <input
@@ -461,8 +422,8 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
                   readOnly={true}
                   value={levelAddress}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(code) => onChangeNameAddress(code)}
-                  // onFocus={onHandleFocusNameAddress}
+                // onChange={(code) => onChangeNameAddress(code)}
+                // onFocus={onHandleFocusNameAddress}
                 />
               </div>
             </div>
@@ -501,16 +462,11 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
             <div className="address-detail-input">
               <label>Trực thuộc</label>
               <div className="address-detail-input-dem"></div>
-              {/* <input className="input-address" readOnly={!edit} value={parentAddress} style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                                onChange={(code) => onChangeParentAddress(code)} /> */}
               <div className="input-address-container">
                 <FormControl
                   sx={{ width: "52%", marginRight: "80px" }}
                   size="small"
                 >
-                  {/* <InputLabel id="demo-select-small-label">
-                    Trực thuộc
-                  </InputLabel> */}
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
@@ -518,7 +474,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
                     // label="Trực thuộc"
                     onChange={handleChangeComboboxAddress}
                     onFocus={onHandleFocusParentAddress}
-                    readOnly={!edit}
+                    readOnly={!edit || editParent}
                     style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {dataComboboxTrucThuoc?.map((st, index) => {

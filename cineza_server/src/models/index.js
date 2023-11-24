@@ -31,7 +31,8 @@ const sequelize = new Sequelize(
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.HierachyStructure = require("./hierarchyStructure")(sequelize, DataTypes);
-db.ValueStructure = require("./valueStructure")(sequelize, DataTypes);
+db.Address = require("./address")(sequelize, DataTypes);
+db.User = require("./user")(sequelize, DataTypes);
 db.PromotionHeader = require("./promotionHeader")(sequelize, DataTypes);
 db.PromotionLine = require("./promotionLine")(sequelize, DataTypes);
 db.PromotionDetail = require("./promotionDetail")(sequelize, DataTypes);
@@ -49,23 +50,23 @@ db.Ticket = require("./ticket")(sequelize, DataTypes);
 db.Order = require("./order")(sequelize, DataTypes);
 db.OrderDetail = require("./orderDetail")(sequelize, DataTypes);
 
-db.HierachyStructure.hasMany(db.ValueStructure, { foreignKey: "type" });
-db.ValueStructure.belongsTo(db.HierachyStructure, { foreignKey: "type" });
+db.HierachyStructure.hasMany(db.Address, { foreignKey: "type" });
+db.Address.belongsTo(db.HierachyStructure, { foreignKey: "type" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "parentId" });
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "parentId" });
+db.Address.hasMany(db.Address, { foreignKey: "parentId" });
+db.Address.belongsTo(db.Address, { foreignKey: "parentId" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "countryAddress" });
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "countryAddress" });
+db.Address.hasMany(db.User, { foreignKey: "countryAddress" });
+db.User.belongsTo(db.Address, { foreignKey: "countryAddress" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "cityAddress" });
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "cityAddress" });
+db.Address.hasMany(db.User, { foreignKey: "cityAddress" });
+db.User.belongsTo(db.Address, { foreignKey: "cityAddress" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "districtAddress" });
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "districtAddress" });
+db.Address.hasMany(db.User, { foreignKey: "districtAddress" });
+db.User.belongsTo(db.Address, { foreignKey: "districtAddress" });
 
-db.ValueStructure.hasMany(db.ValueStructure, { foreignKey: "wardAddress" });
-db.ValueStructure.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
+db.Address.hasMany(db.User, { foreignKey: "wardAddress" });
+db.User.belongsTo(db.Address, { foreignKey: "wardAddress" });
 
 
 db.PromotionHeader.hasMany(db.PromotionLine, { foreignKey: "promotionHeaderCode" });
@@ -80,17 +81,17 @@ db.PromotionDetail.belongsTo(db.Movie, { foreignKey: "movieCode" });
 db.MovieType.hasMany(db.Movie, { foreignKey: "movieType" });
 db.Movie.belongsTo(db.MovieType, { foreignKey: "movieType" });
 
-db.ValueStructure.hasMany(db.Rap, { foreignKey: "countryAddress" });
-db.Rap.belongsTo(db.ValueStructure, { foreignKey: "countryAddress" });
+db.Address.hasMany(db.Rap, { foreignKey: "countryAddress" });
+db.Rap.belongsTo(db.Address, { foreignKey: "countryAddress" });
 
-db.ValueStructure.hasMany(db.Rap, { foreignKey: "cityAddress" });
-db.Rap.belongsTo(db.ValueStructure, { foreignKey: "cityAddress" });
+db.Address.hasMany(db.Rap, { foreignKey: "cityAddress" });
+db.Rap.belongsTo(db.Address, { foreignKey: "cityAddress" });
 
-db.ValueStructure.hasMany(db.Rap, { foreignKey: "districtAddress" });
-db.Rap.belongsTo(db.ValueStructure, { foreignKey: "districtAddress" });
+db.Address.hasMany(db.Rap, { foreignKey: "districtAddress" });
+db.Rap.belongsTo(db.Address, { foreignKey: "districtAddress" });
 
-db.ValueStructure.hasMany(db.Rap, { foreignKey: "wardAddress" });
-db.Rap.belongsTo(db.ValueStructure, { foreignKey: "wardAddress" });
+db.Address.hasMany(db.Rap, { foreignKey: "wardAddress" });
+db.Rap.belongsTo(db.Address, { foreignKey: "wardAddress" });
 
 db.Rap.hasMany(db.Room, { foreignKey: "codeRap" });
 db.Room.belongsTo(db.Rap, { foreignKey: "codeRap" });
@@ -119,11 +120,11 @@ db.Ticket.belongsTo(db.Showing, { foreignKey: "codeShowing" });
 db.Seat.hasMany(db.Ticket, { foreignKey: "codeSeat" });
 db.Ticket.belongsTo(db.Seat, { foreignKey: "codeSeat" });
 
-db.ValueStructure.hasMany(db.Ticket, { foreignKey: "codeUser" })
-db.Ticket.belongsTo(db.ValueStructure, { foreignKey: "codeUser" })
+db.User.hasMany(db.Ticket, { foreignKey: "codeUser" })
+db.Ticket.belongsTo(db.User, { foreignKey: "codeUser" })
 
-db.ValueStructure.hasMany(db.Order, { foreignKey: "codeUser" })
-db.Order.belongsTo(db.ValueStructure, { foreignKey: "codeUser" });
+db.User.hasMany(db.Order, { foreignKey: "codeUser" })
+db.Order.belongsTo(db.User, { foreignKey: "codeUser" });
 
 db.Order.hasMany(db.OrderDetail, { foreignKey: "codeOder" })
 db.OrderDetail.belongsTo(db.Order, { foreignKey: "codeOder" });

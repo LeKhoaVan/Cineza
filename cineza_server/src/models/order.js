@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 references: {
-                    model: "ValueStructure",
+                    model: "User",
                     key: "code"
                 }
             },

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { publicRouter } from "./routes";
 import { Fragment } from "react";
 import ButtonSidebar from "./components/ButtonSidebar";
@@ -10,6 +10,7 @@ import Register from "./pages/Login&Register/Register";
 import ChangePassword from "./pages/Login&Register/ChangePassword";
 
 function App() {
+  const userAdmin = localStorage.getItem("userAdmin");
   return (
     <Router basename="/cineza/admin">
       <div className="App">
@@ -23,10 +24,13 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
-                  <Layout>
-                    <SidebarAS />
-                    <Page />
-                  </Layout>
+                  userAdmin ?
+                    (<Layout>
+                      <SidebarAS />
+                      <Page />
+                    </Layout>)
+                    :
+                    (<Navigate to="/login" />)
                 }
               />
             );

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Price = sequelize.define(
-    "Price",
+  const Address = sequelize.define(
+    "Address",
     {
       id: {
         type: DataTypes.UUID,
@@ -12,30 +12,44 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      value: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      codeHeader: {
+      type: {
         type: DataTypes.STRING,
         allowNull: false,
         references: {
-          model: "PriceHeader",
+          model: "HierachyStructure",
           key: "code",
         },
       },
-      codeTypeSeat: {
+      parentId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        references: {
+          model: "Address",
+          key: "code",
+        },
+      },
+      level: {
         type: DataTypes.STRING,
         allowNull: false,
-        references: {
-          model: "TypeSeat",
-          key: "code"
-        }
+        validate: {
+          isIn: [
+            [
+              "QUOCGIA",
+              "TINH/TP",
+              "HUYEN/QUAN",
+              "XA/PHUONG",
+            ],
+          ],
+        },
       },
-
+      fullName: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       status: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: "Hoạt động",
         validate: {
           isIn: [["Hoạt động", "Khóa tạm thời", "Hủy"]],
         },
@@ -43,10 +57,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Price",
-      tableName: "Price",
+      modelName: "Address",
+      tableName: "Address",
       timestamps: true,
     }
   );
-  return Price;
+  return Address;
 };

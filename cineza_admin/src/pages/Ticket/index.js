@@ -166,7 +166,7 @@ const Ticket = () => {
             ...item,
             showStart: minuteResult,
             showDate: formatDateHandle(item.showDate),
-            bookAt: formatDateHandle(item.bookAt),
+            bookAt: `${formatDateHandle(item.bookAt)} ${new Date(item.bookAt).getHours()}:${new Date(item.bookAt).getMinutes()}`,
           };
         });
         setContext(dataResult);
@@ -277,7 +277,6 @@ const Ticket = () => {
                   fixedHeight="100%"
                   portalId="root-portal"
                   className="ticket-find-date"
-                /> */}
                 <FormControl
                   sx={{ width: "30%", marginLeft: "5%" }}
                   size="small"
@@ -373,7 +372,7 @@ const Ticket = () => {
                     height: 20,
                     alignItems: "center",
                     justifyContent: "center",
-                    borderBottom: "20px solid black",
+                    borderBottom: "10px solid black",
                   }}
                 >
                   <h4
@@ -388,10 +387,9 @@ const Ticket = () => {
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-thuong"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -400,10 +398,9 @@ const Ticket = () => {
                   {dataSeatTicketVip?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-vip"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
