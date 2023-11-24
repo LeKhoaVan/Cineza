@@ -10,10 +10,6 @@ import DatePicker from "react-datepicker";
 
 const titleColumn = [
   {
-    title: "Mã khách hàng",
-    data: "codeUser",
-  },
-  {
     title: "Tên khách hàng",
     data: "fullName",
   },

@@ -87,7 +87,7 @@ const sendEmailOTP = async (req, res) => {
     const mailOptions = {
         from: 'cineza_email@gmail.com',
         to: email,
-        subject: 'Xác thực OTP',
+        subject: 'CINEZA gửi xác thực OTP',
         text: `Mã OTP của bạn là: ${otp}`,
     };
 
