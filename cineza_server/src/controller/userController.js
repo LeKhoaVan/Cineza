@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 
 const { getAllUserService, getUserByCodeService, getUserByTypeService, createNewUserService,
-    updateUserService } = require("../services/userService");
+    updateUserService, login } = require("../services/userService");
 
 const getAllUserController = async (req, res) => {
     try {
@@ -85,7 +85,7 @@ const sendEmailOTP = async (req, res) => {
 
     // Cấu hình nội dung email
     const mailOptions = {
-        from: 'your_email@gmail.com',
+        from: 'cineza_email@gmail.com',
         to: email,
         subject: 'Xác thực OTP',
         text: `Mã OTP của bạn là: ${otp}`,
@@ -95,10 +95,10 @@ const sendEmailOTP = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.log(error)
-            return res.status(500).json({ message: 'Gửi OTP thất bại' });
+            return res.status(200).send(false);
         }
 
-        res.json({ message: 'Gửi OTP thành công' });
+        res.status(200).send(true);
     });
 };
 
@@ -109,11 +109,21 @@ const verifyEmail = async (req, res) => {
     if (otpData[email] && otpData[email] === otp) {
         // Xác thực thành công, xóa thông tin OTP
         delete otpData[email];
-        res.json({ message: 'Xác thực thành công' });
+        res.status(200).send(true);
     } else {
-        res.status(401).json({ message: 'Xác thực thất bại' });
+        res.status(200).send(false);
     }
 };
+
+const loginController = async (req, res) => {
+    const { numberPhone, password } = req.params
+    try {
+        const user = await login(numberPhone, password);
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(200).send("error login: " + error);
+    }
+}
 
 
 module.exports = {
@@ -124,4 +134,5 @@ module.exports = {
     updateUserController,
     sendEmailOTP,
     verifyEmail,
+    loginController
 }

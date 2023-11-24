@@ -1,7 +1,7 @@
 const express = require("express");
 
 const { getAllUserController, getUserByCodeController, createNewUserController, getUserByTypeController,
-    updateUserController, sendEmailOTP, verifyEmail, } = require("../controller/userController");
+    updateUserController, sendEmailOTP, verifyEmail, loginController } = require("../controller/userController");
 
 const userRouter = express.Router();
 
@@ -12,5 +12,6 @@ userRouter.put("/update/:codeUser", updateUserController);
 userRouter.get("/get-by-type/:typeUser", getUserByTypeController)
 userRouter.post("/send-email-otp", sendEmailOTP);
 userRouter.post("/verify-otp", verifyEmail);
+userRouter.get("/login/:numberPhone/:password", loginController);
 
 module.exports = userRouter;
