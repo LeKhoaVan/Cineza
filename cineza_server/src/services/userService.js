@@ -7,10 +7,10 @@ const getAllUserService = async () => {
     u.wardAddress, u.numberHome, u.status, ct.code as codeCountry, ct.fullName as nameCountry, cit.code as codeCity, cit.fullName as nameCity,
     dt.code as codeDistrict, dt.fullName as nameDistrict, wd.code as codeWard, wd.fullName as nameWard
     from user as u
-    join address as ct on u.countryAddress = ct.code
-    join address as cit on u.cityAddress = cit.code
-    join address as dt on u.districtAddress = dt.code
-    join address as wd on u.wardAddress = wd.code;`
+    left join address as ct on u.countryAddress = ct.code
+    left join address as cit on u.cityAddress = cit.code
+    left join address as dt on u.districtAddress = dt.code
+    left join address as wd on u.wardAddress = wd.code`
     const dataUser = await db.sequelize.query(query, { type: QueryTypes.SELECT });
     return dataUser;
 }
@@ -20,10 +20,10 @@ const getUserByCodeService = async (codeUser) => {
     u.wardAddress, u.numberHome, u.status, ct.code as codeCountry, ct.fullName as nameCountry, cit.code as codeCity, cit.fullName as nameCity,
     dt.code as codeDistrict, dt.fullName as nameDistrict, wd.code as codeWard, wd.fullName as nameWard
     from user as u
-    join address as ct on u.countryAddress = ct.code
-    join address as cit on u.cityAddress = cit.code
-    join address as dt on u.districtAddress = dt.code
-    join address as wd on u.wardAddress = wd.code
+    left join address as ct on u.countryAddress = ct.code
+    left join address as cit on u.cityAddress = cit.code
+    left join address as dt on u.districtAddress = dt.code
+    left join address as wd on u.wardAddress = wd.code
     where u.code = '${codeUser}';`
     const [dataUser, metadata] = await db.sequelize.query(query, { type: QueryTypes.SELECT });
     return dataUser;
@@ -34,10 +34,10 @@ const getUserByTypeService = async (typeUser) => {
     u.wardAddress, u.numberHome, u.status, ct.code as codeCountry, ct.fullName as nameCountry, cit.code as codeCity, cit.fullName as nameCity,
     dt.code as codeDistrict, dt.fullName as nameDistrict, wd.code as codeWard, wd.fullName as nameWard
     from user as u
-    join address as ct on u.countryAddress = ct.code
-    join address as cit on u.cityAddress = cit.code
-    join address as dt on u.districtAddress = dt.code
-    join address as wd on u.wardAddress = wd.code
+    left join address as ct on u.countryAddress = ct.code
+    left join address as cit on u.cityAddress = cit.code
+    left join address as dt on u.districtAddress = dt.code
+    left join address as wd on u.wardAddress = wd.code
     where u.type = '${typeUser}';`
     const dataUser = await db.sequelize.query(query, { type: QueryTypes.SELECT });
     return dataUser;
@@ -57,10 +57,25 @@ const updateUserService = async (codeUser, user) => {
     return updateUser;
 };
 
+const login = async (numberPhone, password) => {
+    const query = `select u.code, u.type, u.fullName, u.numberPhone, u.dateOfBirth, u.password, u.countryAddress, u.cityAddress, u.districtAddress,
+    u.wardAddress, u.numberHome, u.status, ct.code as codeCountry, ct.fullName as nameCountry, cit.code as codeCity, cit.fullName as nameCity,
+    dt.code as codeDistrict, dt.fullName as nameDistrict, wd.code as codeWard, wd.fullName as nameWard
+    from user as u
+    left join address as ct on u.countryAddress = ct.code
+    left join address as cit on u.cityAddress = cit.code
+    left join address as dt on u.districtAddress = dt.code
+    left join address as wd on u.wardAddress = wd.code
+    where u.numberPhone = '${numberPhone}' and u.password = "${password}";`
+    const [dataUser, metadata] = await db.sequelize.query(query, { type: QueryTypes.SELECT });
+    return dataUser;
+}
+
 module.exports = {
     getAllUserService,
     getUserByCodeService,
     getUserByTypeService,
     createNewUserService,
     updateUserService,
+    login
 }

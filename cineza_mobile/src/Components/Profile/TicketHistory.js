@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -35,6 +36,18 @@ function TicketHistory() {
   const [dataTicket, setDataTicket] = useState([]);
   const navigation = useNavigation();
 
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const getUser = async () => {
+      const userInfoString = await AsyncStorage.getItem('userInfo');
+
+      if (userInfoString !== null) {
+        setUser(JSON.parse(userInfoString))
+      }
+    }
+    getUser();
+  }, [])
+
   const handleClick = item => {
     navigation.navigate('Chi tiết vé', { codeOrder: item });
   };
@@ -52,7 +65,7 @@ function TicketHistory() {
     //     console.log(err);
     //   });
     const getOrderHistory = async () => {
-      const orders = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/order/get-by-user/user01`);
+      const orders = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/order/get-by-user/${user.codeUser}`);
       if (orders.status == 200) {
 
         setDataTicket(orders.data);

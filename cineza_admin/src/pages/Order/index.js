@@ -18,7 +18,7 @@ const titleColumn = [
     data: "fullName",
   },
   {
-    title: "Số điện thoại",
+    title: "Địa chỉ mail",
     data: "numberPhone",
   },
   {

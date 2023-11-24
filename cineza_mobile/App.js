@@ -27,6 +27,7 @@ import TicketHistory from './src/Components/Profile/TicketHistory';
 import TicketDetail from './src/Components/Profile/TicketDetail';
 import Order from './src/Components/Order/Order';
 import Item4dx from './src/Components/Home/Item4dx';
+import OTPAuthScreen from "./src/Components/Login&Register/OTPAuthScreen"
 export default function App() {
   const home = 'Home';
   const menu = 'Menu';
@@ -49,6 +50,7 @@ export default function App() {
   const ticketDetail = 'Chi tiết vé';
   const item4dx = '4DX';
   const order = 'Hóa đơn';
+  const conform = "Xác thực";
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -64,6 +66,7 @@ export default function App() {
         <Stack.Screen name={movieDetail} component={MovieDetail}></Stack.Screen>
         <Stack.Screen name={login} component={Login}></Stack.Screen>
         <Stack.Screen name={register} component={Register}></Stack.Screen>
+        <Stack.Screen name={conform} component={OTPAuthScreen}></Stack.Screen>
         <Stack.Screen name={forget} component={ForgetPassword}></Stack.Screen>
         <Stack.Screen name={modify} component={ModifyPassword}></Stack.Screen>
         <Stack.Screen name={seatBook} component={SeatBook}></Stack.Screen>

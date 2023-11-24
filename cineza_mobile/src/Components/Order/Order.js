@@ -27,7 +27,8 @@ function Order({ route }) {
     if (codeOrder != "") {
       const getDataOrder = async () => {
         const resultOrder = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/order/get-by-code/${codeOrder}`);
-        if (resultOrder.status == 200) {
+        if (resultOrder.status == 200 && resultOrder.data != null) {
+          console.log(resultOrder.data)
           let resultData = {
             codeOrder: resultOrder.data[0].codeOder,
             movieName: resultOrder.data[0].movieName,
@@ -56,8 +57,8 @@ function Order({ route }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={{ paddingVertical: 10, backgroundColor: 'white' }}>
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            <View style={{ display: "flex", flexDirection: "column" }}>
+          <View style={{ display: "flex", flexDirection: "row", width: '100%' }}>
+            <View style={{ display: "flex", flexDirection: "column", width: '66%' }}>
               <View style={styles.viewTicket}>
                 <Text style={{ fontSize: 20, paddingLeft: 15, fontWeight: 600 }}>
                   Tên phim: {data.movieName}
@@ -71,8 +72,8 @@ function Order({ route }) {
               </View>
             </View>
 
-            <View style={{ height: 120, width: 120, marginStart: 30 }}>
-              <QRCode value={data.codeOder} />
+            <View style={{ height: 120, width: 120, marginStart: 30, marginEnd: 10 }}>
+              <QRCode value={data.codeOrder} />
             </View>
           </View>
 
