@@ -122,9 +122,9 @@ const OtherProduct = () => {
         </div>
         <div
           style={{
-            marginLeft: "-20px",
+            // marginLeft: "-20px"
             paddingRight: "8%",
-            width: "100%",
+            width: "95%",
             height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}

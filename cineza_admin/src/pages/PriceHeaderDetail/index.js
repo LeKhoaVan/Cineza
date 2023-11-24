@@ -6,6 +6,7 @@ import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import Table from "../../components/Table";
 import TableInPage from "../../components/TableInPage";
 import "./priceHeaderDetail.css";
@@ -89,6 +90,11 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   //handle rooms
@@ -194,7 +200,18 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setEndDay(new Date());
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa bảng giá header");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm bảng giá header");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const priceHeader = {
       code: code,
       startDay: startDayShow,
@@ -391,7 +408,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           <div className="price-header-detail-header-edit">
             <div
               className="price-header-detail-header-edit-save"
-              onClick={onClickHandleSave}
+              onClick={onClickSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -403,18 +420,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               <img className="icon-update" src={iconPen} alt="update" />
               <p>Chỉnh sửa</p>
             </div>
-            {/* <Link
-              className="price-header-detail-header-edit-detail"
-              //to={"/promotion/code?code=" + code}
-              to={"/price/code?code=" + code}
-            >
-              <img className="icon-detail" src={iconDetail} alt="update" />
-              <p>Bảng giá</p>
-            </Link> */}
-            {/* <div
-              className="price-header-detail-header-edit-new-delete"
-              onClick={onClickHandleNew}
-            > */}
             <div
               className="price-header-detail-header-edit-update"
               onClick={onClickHandleNew}
@@ -446,6 +451,13 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           <div className="price-header-detail-content-left">
             {showAlert && (
               <Alert message={message} onClose={handleCloseAlert} />
+            )}
+            {showConfirmAlert && (
+              <ConfirmAlert
+                message={message}
+                onClose={handleCloseConfirmAlert}
+                onHandle={onClickHandleSave}
+              />
             )}
             <div className="price-header-detail-input">
               <label>Code</label>

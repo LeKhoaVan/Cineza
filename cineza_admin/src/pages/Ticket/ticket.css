@@ -36,7 +36,7 @@
 .ticket-find-container {
   position: relative;
   display: flex;
-  justify-content: end;
+  /* justify-content: end; */
   align-items: center;
   width: 45%;
   left: 10%;
@@ -44,10 +44,10 @@
 }
 
 .ticket-input-find {
-  width: 50%;
+  width: 34%;
   height: 20px;
   padding: 10px;
-  padding-right: 50px;
+  /* padding-right: 50px; */
   border-radius: 20px 0px 20px 0px;
 }
 
@@ -56,7 +56,7 @@
   width: 30px;
   height: 30px;
   top: 15%;
-  right: 40%;
+  right: 65%;
 }
 
 .ticket-find-date {

@@ -9,6 +9,7 @@ import iconDetail from "../../assets/imageButtons/iconDetail.png";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import Table from "../../components/Table";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import "./rapDetail.css";
 import RoomDetail from "../RoomDetail";
 
@@ -101,6 +102,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   //handle rooms
@@ -445,7 +451,18 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setRooms([]);
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa rạp");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm rạp");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const rap = {
       code: code,
       name: name,
@@ -520,7 +537,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
             <div className="rap-detail-header-edit">
               <div
                 className="rap-detail-header-edit-save"
-                onClick={onClickHandleSave}
+                onClick={onClickSave}
               >
                 <img className="icon-save" src={iconSave} alt="update" />
                 <p>Lưu</p>
@@ -556,6 +573,14 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
               {showAlert && (
                 <Alert message={message} onClose={handleCloseAlert} />
               )}
+              {showConfirmAlert && (
+                <ConfirmAlert
+                  message={message}
+                  onClose={handleCloseConfirmAlert}
+                  onHandle={onClickHandleSave}
+                />
+              )}
+
               <div className="rap-detail-input">
                 <label>Mã rạp</label>
                 <div className="rap-detail-input-dem"></div>

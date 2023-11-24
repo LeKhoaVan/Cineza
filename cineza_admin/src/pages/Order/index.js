@@ -6,6 +6,8 @@ import axios from "axios";
 import "./order.css";
 import { formatDateHandle } from "../../components/util";
 
+import DatePicker from "react-datepicker";
+
 const titleColumn = [
   {
     title: "Mã khách hàng",
@@ -46,6 +48,11 @@ const Order = () => {
   const [openModelAdd, setOpenModelAdd] = useState(false);
   const [code, setCode] = useState("");
 
+  const [datePay, setDatePay] = useState("");
+  const onChangeHandleDate = (text) => {
+    setDatePay(text.target.value);
+  };
+
   const onHandleSelect = (row) => {
     // console.log(row);
     setCode(row);
@@ -61,6 +68,28 @@ const Order = () => {
   //   setOpenModelAdd(true);
   //   console.log(openModelAdd);
   // };
+
+  //lọc theo ngày
+  useEffect(() => {
+    const findOrder = async () => {
+      const orders = await axios.get(
+        `http://localhost:9000/cineza/api/v1/order/get-all?datePay=${datePay}`
+      );
+      if (orders.status == 200) {
+        const dataResult = orders.data.map((item) => {
+          return {
+            ...item,
+            datePay: formatDateHandle(item.datePay),
+          };
+        });
+        setContext(dataResult);
+        console.error(" get order :");
+      } else {
+        console.error("error get order :");
+      }
+    };
+    findOrder();
+  }, [datePay]);
 
   const getData = async () => {
     try {
@@ -104,6 +133,23 @@ const Order = () => {
           }}
         >
           <h3 style={{ paddingLeft: 10 }}>Danh sách hóa đơn</h3>
+          <input
+            id="find"
+            className="order-input-find"
+            placeholder="ngày thanh toán"
+            onChange={(date) => onChangeHandleDate(date)}
+          />
+          {/* <DatePicker
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Lọc ngày"
+            selected={datePay}
+            // selected={dateOfBirthShow}
+            // readOnly={!edit}
+            onChange={(date) => onChangeHandleDate(date)}
+            fixedHeight="100%"
+            portalId="root-portal"
+            className="ticket-find-date"
+          /> */}
           {/* <img
             src={iconAdd}
             alt="btn-add"
@@ -111,7 +157,7 @@ const Order = () => {
             onClick={onClickHandleBtnAdd}
           /> */}
         </div>
-        <div
+        {/* <div
           style={{
             marginLeft: "-20px",
             paddingRight: "8%",
@@ -119,13 +165,14 @@ const Order = () => {
             height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
-        ></div>
+        ></div> */}
 
         <div
           style={{
             width: "100%",
-            height: "82%",
+            height: "85%",
             boxShadow: "2px 5px 5px #575353",
+            overflowY: "auto",
           }}
         >
           <div className="table-all-rap">

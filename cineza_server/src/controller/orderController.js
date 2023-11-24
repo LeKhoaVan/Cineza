@@ -52,8 +52,9 @@ const getTotalOrderController = async (req, res) => {
 };
 
 const getAllOrderController = async (req, res) => {
+  const { datePay } = req.query;
   try {
-    const Order = await getAllOrderService();
+    const Order = await getAllOrderService(datePay);
     res.status(200).send(Order);
   } catch (error) {
     res.status(500).send("Error get all Order: " + error);

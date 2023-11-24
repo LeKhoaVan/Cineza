@@ -9,6 +9,7 @@ import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconRoom from "../../assets/imageButtons/iconRoom.png";
 import iconBack from "../../assets/imageButtons/iconBack.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import TableInPage from "../../components/TableInPage";
 import "./showDetail.css";
 
@@ -88,10 +89,16 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [showDetail, setShowDetail] = useState(true);
   const [showRoom, setShowRoom] = useState(false);
   const [showTicket, setShowTicket] = useState(false);
+
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   const handleOnClickBack = () => {
@@ -467,7 +474,18 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setDataTicket([]);
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa suát chiếu");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm suất chiếu");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const show = {
       code: code,
       showStart: showStart,
@@ -770,23 +788,23 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       {showDetail == undefined
         ? true
         : showDetail && (
-          <div className="show-detail-container">
-            <div className="show-detail-header">
-              <div className="show-detail-header-edit">
-                <div
-                  className="show-detail-header-edit-save"
-                  onClick={onClickHandleSave}
-                >
-                  <img className="icon-save" src={iconSave} alt="update" />
-                  <p>Lưu</p>
-                </div>
-                <div
-                  className="show-detail-header-edit-update"
-                  onClick={onClickHandleEdit}
-                >
-                  <img className="icon-update" src={iconPen} alt="update" />
-                  <p>Chỉnh sửa</p>
-                </div>
+            <div className="show-detail-container">
+              <div className="show-detail-header">
+                <div className="show-detail-header-edit">
+                  <div
+                    className="show-detail-header-edit-save"
+                    onClick={onClickSave}
+                  >
+                    <img className="icon-save" src={iconSave} alt="update" />
+                    <p>Lưu</p>
+                  </div>
+                  <div
+                    className="show-detail-header-edit-update"
+                    onClick={onClickHandleEdit}
+                  >
+                    <img className="icon-update" src={iconPen} alt="update" />
+                    <p>Chỉnh sửa</p>
+                  </div>
 
                 <div
                   className="show-detail-header-edit-update"
@@ -816,33 +834,37 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                   />
                 </div>
               </div>
-              <div className="show-detail-header-name">
-                <span>{code} </span>
-              </div>
-            </div>
-            <div className="show-detail-content">
-              <div className="show-detail-content-left">
-                {showAlert && (
-                  <Alert message={message} onClose={handleCloseAlert} />
-                )}
-                <div className="show-detail-input">
-                  <label>Mã xuất chiếu</label>
-                  <div className="show-detail-input-dem"></div>
-
-                  <div className="input-show-detail-container">
-                    <input
-                      className="input-show-detail"
-                      value={code}
-                      readOnly={!editCode}
-                      style={
-                        editCode ? {} : { background: "rgb(196, 196, 196)" }
-                      }
-                      onChange={(text) => onChangeHandleCode(text)}
-                      onFocus={onHandleFocusCode}
+              <div className="show-detail-content">
+                <div className="show-detail-content-left">
+                  {showAlert && (
+                    <Alert message={message} onClose={handleCloseAlert} />
+                  )}
+                  {showConfirmAlert && (
+                    <ConfirmAlert
+                      message={message}
+                      onClose={handleCloseConfirmAlert}
+                      onHandle={onClickHandleSave}
                     />
-                    {isValidCode && (
-                      <p style={{ color: "red" }}>Mã không được bỏ trống</p>
-                    )}
+                  )}
+                  <div className="show-detail-input">
+                    <label>Mã xuất chiếu</label>
+                    <div className="show-detail-input-dem"></div>
+
+                    <div className="input-show-detail-container">
+                      <input
+                        className="input-show-detail"
+                        value={code}
+                        readOnly={!editCode}
+                        style={
+                          editCode ? {} : { background: "rgb(196, 196, 196)" }
+                        }
+                        onChange={(text) => onChangeHandleCode(text)}
+                        onFocus={onHandleFocusCode}
+                      />
+                      {isValidCode && (
+                        <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                      )}
+                    </div>
                   </div>
                 </div>
 
