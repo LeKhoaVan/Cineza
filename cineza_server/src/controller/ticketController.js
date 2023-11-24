@@ -9,8 +9,10 @@ const {
 } = require("../services/ticketService");
 
 const getAllTicketController = async (req, res) => {
+  const { movieName } = req.query;
+  const { showDate } = req.query;
   try {
-    const allTicket = await getAllTicketService();
+    const allTicket = await getAllTicketService(movieName, showDate);
     res.status(200).send(allTicket);
   } catch (error) {
     res.status(500).send("error get all ticket: " + error);

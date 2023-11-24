@@ -5,6 +5,7 @@ import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -76,6 +77,11 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   const handleChangeComboboxStatus = (event) => {
@@ -230,7 +236,18 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
     setLevelAddress(levelAddress);
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa vị trí địa lý");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm vị trí địa lý");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     if (levelAddress == "QUOCGIA") {
       setIdParentAddress(null);
     }
@@ -353,11 +370,18 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
     <div className="address-detail-background">
       <div className="address-detail-container">
         {showAlert && <Alert message={message} onClose={handleCloseAlert} />}
+        {showConfirmAlert && (
+          <ConfirmAlert
+            message={message}
+            onClose={handleCloseConfirmAlert}
+            onHandle={onClickHandleSave}
+          />
+        )}
         <div className="address-detail-header">
           <div className="address-detail-header-edit">
             <div
               className="address-detail-header-edit-save"
-              onClick={onClickHandleSave}
+              onClick={onClickSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>

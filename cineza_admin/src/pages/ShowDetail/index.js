@@ -9,6 +9,7 @@ import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconRoom from "../../assets/imageButtons/iconRoom.png";
 import iconBack from "../../assets/imageButtons/iconBack.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import TableInPage from "../../components/TableInPage";
 import "./showDetail.css";
 
@@ -88,10 +89,16 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   const [showDetail, setShowDetail] = useState(true);
   const [showRoom, setShowRoom] = useState(false);
   const [showTicket, setShowTicket] = useState(false);
+
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   const handleOnClickBack = () => {
@@ -468,7 +475,18 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
     setDataTicket([]);
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa suát chiếu");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm suất chiếu");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const show = {
       code: code,
       showStart: showStart,
@@ -780,7 +798,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 <div className="show-detail-header-edit">
                   <div
                     className="show-detail-header-edit-save"
-                    onClick={onClickHandleSave}
+                    onClick={onClickSave}
                   >
                     <img className="icon-save" src={iconSave} alt="update" />
                     <p>Lưu</p>
@@ -829,6 +847,13 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 <div className="show-detail-content-left">
                   {showAlert && (
                     <Alert message={message} onClose={handleCloseAlert} />
+                  )}
+                  {showConfirmAlert && (
+                    <ConfirmAlert
+                      message={message}
+                      onClose={handleCloseConfirmAlert}
+                      onHandle={onClickHandleSave}
+                    />
                   )}
                   <div className="show-detail-input">
                     <label>Mã xuất chiếu</label>

@@ -47,17 +47,17 @@ const Rap = () => {
   const onHandleSelect = (row) => {
     // console.log(row);
     setCode(row);
-    setOpenModelAdd(false)
+    setOpenModelAdd(false);
     setOpenModalDetail(true);
   };
 
   const onClickHandleCloseP = async () => {
-    setOpenModelAdd(false)
+    setOpenModelAdd(false);
     setOpenModalDetail(false);
   };
 
   const onClickHandleBtnAdd = () => {
-    setOpenModalDetail(false)
+    setOpenModalDetail(false);
     setOpenModelAdd(true);
   };
 
@@ -97,7 +97,6 @@ const Rap = () => {
     getData();
   }, [openModelAdd]);
 
-
   return (
     <div className="rap-container">
       <div className="rap-container-content">
@@ -120,20 +119,20 @@ const Rap = () => {
             onClick={onClickHandleBtnAdd}
           />
         </div>
-        <div
+        {/* <div
           style={{
             marginLeft: "-20px",
             paddingRight: "8%",
-            width: "100%",
+            width: "98%",
             height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
-        ></div>
+        ></div> */}
 
         <div
           style={{
             width: "100%",
-            height: "82%",
+            height: "85%",
             boxShadow: "2px 5px 5px #575353",
           }}
         >

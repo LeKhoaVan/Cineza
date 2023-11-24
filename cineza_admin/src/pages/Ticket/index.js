@@ -63,6 +63,21 @@ const Ticket = () => {
   const [dataSeatTicketThuong, setDataSeatTicketThuong] = useState([]);
   const [selectTicket, setSelectTicket] = useState("");
 
+  const [showDate, setShowDate] = useState("");
+  const [dataShowDate, setDataShowDate] = useState([]);
+  const [movieName, setMovieName] = useState("");
+
+  const [dataRap, setDataRap] = useState([]);
+  const [valueRap, setValueRap] = useState("");
+
+  const onChangeHandleDate = (text) => {
+    setShowDate(text.target.value);
+  };
+
+  const onChangeHandleMovieName = (text) => {
+    setMovieName(text.target.value);
+  };
+
   const onHandleSelect = (row) => {
     setCode(row);
     setOpenAllTicket(false);
@@ -100,6 +115,32 @@ const Ticket = () => {
   useEffect(() => {
     getData();
   }, [openModelAdd]);
+
+  //lọc theo tên phim
+  useEffect(() => {
+    const findTicket = async () => {
+      const tickets = await axios.get(
+        `http://localhost:9000/cineza/api/v1/ticket/get-all?movieName=${movieName}&showDate=`
+      );
+      if (tickets.status == 200) {
+        const dataResult = tickets.data.map((item) => {
+          return {
+            ...item,
+            showStart: `${new Date(item.showStart).getHours()}:${new Date(
+              item.showStart
+            ).getMinutes()}`,
+            showDate: formatDateHandle(item.showDate),
+            bookAt: formatDateHandle(item.bookAt),
+          };
+        });
+        setContext(dataResult);
+        console.error(" get ticket :");
+      } else {
+        console.error("error get ticket :");
+      }
+    };
+    findTicket();
+  }, [movieName]);
 
   const getData = async () => {
     try {
@@ -195,19 +236,19 @@ const Ticket = () => {
               }}
             >
               <h3 style={{ paddingLeft: 10 }}>Danh sách vé</h3>
-              <img
+              {/* <img
                 src={iconAdd}
                 alt="btn-add"
                 className="ticket-btn-add"
                 onClick={onClickHandleBtnAdd}
-              />
+              /> */}
 
               <div className="ticket-find-container">
                 <input
                   id="find"
                   className="ticket-input-find"
                   placeholder="tên phim"
-                  // onChange={onChangeHandleFind}
+                  onChange={onChangeHandleMovieName}
                 />
                 <img
                   className="ticket-button-img"
@@ -215,44 +256,66 @@ const Ticket = () => {
                   alt="tìm kiếm"
                   htmlFor="find"
                 />
-                <DatePicker
-                  locale="vi"
-                  dateFormat="dd-MM-yyyy"
+                {/* <DatePicker
+                  dateFormat="yyyy-MM-dd"
                   placeholderText="Lọc ngày"
+                  selected={datePay}
                   // selected={dateOfBirthShow}
                   // readOnly={!edit}
-                  // onChange={(date) => onChangeHandleDate(date)}
+                  onChange={(date) => onChangeHandleDate(date)}
                   fixedHeight="100%"
                   portalId="root-portal"
                   className="ticket-find-date"
-                />
-              </div>
-              <FormControl
-                sx={{ width: "15%", marginLeft: "15%" }}
-                size="small"
-              >
-                <InputLabel id="demo-select-small-label">Tên Rạp</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  // value={codeMovie}
-                  label="Tên phim"
-                  // onChange={handleChangeComboboxCodeMovie}
-                  // onFocus={onHandleFocusCodeMovie}
-                  // readOnly={!edit}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                /> */}
+                <FormControl
+                  sx={{ width: "30%", marginLeft: "5%" }}
+                  size="small"
                 >
-                  {[].map((st, index) => {
-                    return (
-                      <MenuItem key={index} value={st.code}>
-                        {st.movieName}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    // value={codeMovie}
+                    // label="Tên phim"
+                    // onChange={handleChangeComboboxCodeMovie}
+                    // onFocus={onHandleFocusCodeMovie}
+                    // readOnly={!edit}
+                    // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataRap?.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.rapName}>
+                          {st.rapName}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                <FormControl
+                  sx={{ width: "30%", marginLeft: "5%" }}
+                  size="small"
+                >
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    // value={showDate}
+                    // label="Ngày chiếu"
+                    // onChange={handleChangeComboboxShowDate}
+                    // onFocus={onHandleFocusShowDate}
+                    readOnly={false}
+                    // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  >
+                    {dataShowDate.map((st, index) => {
+                      return (
+                        <MenuItem key={index} value={st.showDate}>
+                          {st.showDate}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </div>
             </div>
-            <div
+            {/* <div
               style={{
                 marginLeft: "-20px",
                 paddingRight: "8%",
@@ -260,12 +323,13 @@ const Ticket = () => {
                 height: 5,
                 borderBottom: "10px solid rgb(228, 228, 228)",
               }}
-            ></div>
+            ></div> */}
             <div
               style={{
                 width: "100%",
-                height: "82%",
+                height: "85%",
                 boxShadow: "2px 5px 5px #575353",
+                overflowY: "auto",
               }}
             >
               <div className="table-all-ticket">

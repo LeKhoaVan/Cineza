@@ -5,6 +5,7 @@ import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import "./priceDetail.css";
 import { formatDateHandle } from "../../components/util/index";
 
@@ -50,6 +51,11 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   const onChangeHandleCode = (text) => {
@@ -176,7 +182,18 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     console.log(codeHeader);
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa bảng giá");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm bảng giá");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const price = {
       code: code,
       value: value,
@@ -225,7 +242,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           <div className="price-detail-header-edit">
             <div
               className="price-detail-header-edit-save"
-              onClick={onClickHandleSave}
+              onClick={onClickSave}
             >
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
@@ -262,6 +279,13 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
           <div className="price-detail-content-left">
             {showAlert && (
               <Alert message={message} onClose={handleCloseAlert} />
+            )}
+            {showConfirmAlert && (
+              <ConfirmAlert
+                message={message}
+                onClose={handleCloseConfirmAlert}
+                onHandle={onClickHandleSave}
+              />
             )}
             <div className="price-detail-input">
               <label>Code</label>
