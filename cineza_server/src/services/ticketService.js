@@ -11,7 +11,7 @@ const getAllTicketService = async (movieName, showDate) => {
           join cineza.movie as m on s.codeMovie = m.code 
           join cineza.rap as r on s.codeRap = r.code
           join cineza.room as ro on s.codeRoom = ro.code
-          join cineza.valuestructure as v on v.code = t.codeUser;`;
+          join cineza.user as v on v.code = t.codeUser;`;
   const queryFind = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, t.codeUser,
          r.name as rapName, ro.name as roomName, m.code as movieCode, m.movieName, s.showDate, s.showStart, s.showEnd,  se.position, v.fullName
          from cineza.ticket as t
@@ -20,7 +20,7 @@ const getAllTicketService = async (movieName, showDate) => {
          join cineza.movie as m on s.codeMovie = m.code 
          join cineza.rap as r on s.codeRap = r.code
        join cineza.room as ro on s.codeRoom = ro.code
-         join cineza.valuestructure as v on v.code = t.codeUser
+         join cineza.user as v on v.code = t.codeUser
     where movieName LIKE '%${movieName}%';`;
   const queryFindbyDate = `select t.code, t.bookAt, t.ticketEffecticeAt, t.ticketExpiryAt, t.status, t.codeShowing, t.codeSeat, t.codeUser,
           r.name as rapName, ro.name as roomName, m.code as movieCode, m.movieName, s.showDate, s.showStart, s.showEnd,  se.position, v.fullName
@@ -30,7 +30,7 @@ const getAllTicketService = async (movieName, showDate) => {
           join cineza.movie as m on s.codeMovie = m.code 
           join cineza.rap as r on s.codeRap = r.code
           join cineza.room as ro on s.codeRoom = ro.code
-          join cineza.valuestructure as v on v.code = t.codeUser
+          join cineza.user as v on v.code = t.codeUser
           where m.movieName LIKE '%${movieName}%' and s.showDate LIKE '%${showDate}%';`;
   if (movieName) {
     const [allTicket, metadata] = await db.sequelize.query(queryFind);

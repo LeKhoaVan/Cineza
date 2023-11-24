@@ -788,23 +788,23 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
       {showDetail == undefined
         ? true
         : showDetail && (
-            <div className="show-detail-container">
-              <div className="show-detail-header">
-                <div className="show-detail-header-edit">
-                  <div
-                    className="show-detail-header-edit-save"
-                    onClick={onClickSave}
-                  >
-                    <img className="icon-save" src={iconSave} alt="update" />
-                    <p>Lưu</p>
-                  </div>
-                  <div
-                    className="show-detail-header-edit-update"
-                    onClick={onClickHandleEdit}
-                  >
-                    <img className="icon-update" src={iconPen} alt="update" />
-                    <p>Chỉnh sửa</p>
-                  </div>
+          <div className="show-detail-container">
+            <div className="show-detail-header">
+              <div className="show-detail-header-edit">
+                <div
+                  className="show-detail-header-edit-save"
+                  onClick={onClickSave}
+                >
+                  <img className="icon-save" src={iconSave} alt="update" />
+                  <p>Lưu</p>
+                </div>
+                <div
+                  className="show-detail-header-edit-update"
+                  onClick={onClickHandleEdit}
+                >
+                  <img className="icon-update" src={iconPen} alt="update" />
+                  <p>Chỉnh sửa</p>
+                </div>
 
                 <div
                   className="show-detail-header-edit-update"
@@ -834,40 +834,42 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                   />
                 </div>
               </div>
-              <div className="show-detail-content">
-                <div className="show-detail-content-left">
-                  {showAlert && (
-                    <Alert message={message} onClose={handleCloseAlert} />
-                  )}
-                  {showConfirmAlert && (
-                    <ConfirmAlert
-                      message={message}
-                      onClose={handleCloseConfirmAlert}
-                      onHandle={onClickHandleSave}
-                    />
-                  )}
-                  <div className="show-detail-input">
-                    <label>Mã xuất chiếu</label>
-                    <div className="show-detail-input-dem"></div>
 
-                    <div className="input-show-detail-container">
-                      <input
-                        className="input-show-detail"
-                        value={code}
-                        readOnly={!editCode}
-                        style={
-                          editCode ? {} : { background: "rgb(196, 196, 196)" }
-                        }
-                        onChange={(text) => onChangeHandleCode(text)}
-                        onFocus={onHandleFocusCode}
-                      />
-                      {isValidCode && (
-                        <p style={{ color: "red" }}>Mã không được bỏ trống</p>
-                      )}
-                    </div>
+
+
+            </div>
+            <div className="show-detail-content">
+              <div className="show-detail-content-left">
+                {showAlert && (
+                  <Alert message={message} onClose={handleCloseAlert} />
+                )}
+                {showConfirmAlert && (
+                  <ConfirmAlert
+                    message={message}
+                    onClose={handleCloseConfirmAlert}
+                    onHandle={onClickHandleSave}
+                  />
+                )}
+                <div className="show-detail-input">
+                  <label>Mã xuất chiếu</label>
+                  <div className="show-detail-input-dem"></div>
+
+                  <div className="input-show-detail-container">
+                    <input
+                      className="input-show-detail"
+                      value={code}
+                      readOnly={!editCode}
+                      style={
+                        editCode ? {} : { background: "rgb(196, 196, 196)" }
+                      }
+                      onChange={(text) => onChangeHandleCode(text)}
+                      onFocus={onHandleFocusCode}
+                    />
+                    {isValidCode && (
+                      <p style={{ color: "red" }}>Mã không được bỏ trống</p>
+                    )}
                   </div>
                 </div>
-
                 <div className="show-detail-input">
                   <label>Thời gian chiếu</label>
                   <div className="show-detail-input-dem"></div>
@@ -917,7 +919,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                   </div>
                 </div>
               </div>
-
               <div className="show-detail-content-right">
                 <div className="show-detail-input">
                   <label>Tên phim</label>
@@ -1067,6 +1068,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                   </div>
                 </div>
               </div>
+
             </div>
             <h3>Danh sách vé</h3>
             <div className="show-detail-table-content">
