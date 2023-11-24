@@ -31,7 +31,7 @@ join priceheader as ph on ph.code = p.codeHeader
 join movie as m on m.code = sh.codeMovie
 join rap as r on r.code = sh.codeRap
 join room as ro on ro.code = sh.codeRoom
-where ord.codeOder = "${codeOrder}" and ph.status = "Hoạt động";`;
+where ord.codeOder = "${codeOrder}" and ph.status = "Hoạt động"  and p.status = "Hoạt động";`;
 
   const dataOrder = await db.sequelize.query(query, {
     type: QueryTypes.SELECT,
@@ -49,7 +49,7 @@ const getTotalPriceByService = async (codeOrder) => {
     join typeseat as ts on ts.code = s.codeTypeSeat
     join price as p on p.codeTypeSeat = ts.code
     join priceheader as ph on ph.code = p.codeHeader
-    where ord.codeOder = "${codeOrder}" and ph.status = "Hoạt động";`;
+    where ord.codeOder = "${codeOrder}" and ph.status = "Hoạt động"  and p.status = "Hoạt động";`;
 
   const [total, metadata] = await db.sequelize.query(query, {
     type: QueryTypes.SELECT,

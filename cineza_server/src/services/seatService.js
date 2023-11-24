@@ -36,7 +36,7 @@ const getAllSeatByCodeRoomAndCodeTypeService = async (codeRoom, codeType) => {
 const getPriceSeatService = async (codeTypeSeat) => {
   const query = `select p.value, p.codeTypeSeat, ph.status from price as p
   join priceheader as ph on ph.code = p.codeHeader
-  where p.codeTypeSeat = '${codeTypeSeat}' and ph.status = 'ACTIVE'`;
+  where p.codeTypeSeat = '${codeTypeSeat}' and ph.status = 'Hoạt động'  and p.status = "Hoạt động"`;
   const [price, metadata] = await db.sequelize.query(query);
   return price[0];
 };
