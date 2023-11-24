@@ -175,6 +175,7 @@ const TicketDetail = ({ codeTicket, onClickHandleClose, addBtn }) => {
         if (response.status === 201) {
           setMessage("Lưu thành công");
           setShowAlert(true);
+          onClickHandleNew();
         } else {
           setMessage("Lưu thất bại");
           setShowAlert(true);

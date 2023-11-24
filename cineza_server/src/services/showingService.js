@@ -84,19 +84,18 @@ const updateShowService = async (code, show) => {
   return updateShow;
 };
 
-const checkShow = async (codeMovie, codeRap, codeRoom, showDate, showStart) => {
-  const date = moment(showDate).format("YYYY-MM-DD HH:mm:ss");
+const checkShow = async (codeRap, codeRoom, showDate, showStart) => {
+  // const date = moment(showDate).format("YYYY-MM-DD HH:mm:ss");
   const start = moment(showStart).format("YYYY-MM-DD HH:mm:ss");
-
-  const query = `select s.code from showing as s
-  where s.codeMovie = '${codeMovie}' 
-  and s.codeRap = '${codeRap}' 
+  const query = `select s.code from cineza.showing as s
+  where s.codeRap = '${codeRap}' 
   and s.codeRoom = '${codeRoom}' 
-  and s.showDate = '${date}'
-  and '${start}' >= s.showStart 
-  AND '${start}' <= s.showEnd`;
-  const [check, metadata] = await db.sequelize.query(query);
-  return check[0];
+  and s.showDate like '%${showDate}%'
+  and '${start}' < s.showEnd
+  and '${start}' > s.showStart;`;
+
+  const [shows, metadata] = await db.sequelize.query(query);
+  return shows;
 };
 
 const getAllShowByMovieService = async (codeMovie) => {
