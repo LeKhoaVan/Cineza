@@ -7,6 +7,7 @@ import iconSave from "../../assets/imageButtons/iconSave.png";
 import iconDetail from "../../assets/imageButtons/iconDetail.png";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import Table from "../../components/Table";
 import "./roomDetail.css";
 import SeatDetail from "../SeatDetail";
@@ -79,6 +80,11 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   //handle seats
@@ -289,7 +295,18 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     setCodeRap(codeRap);
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa phòng");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm phòng");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const room = {
       code: code,
       name: name,
@@ -347,10 +364,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
       <div className="room-detail-container">
         <div className="room-detail-header">
           <div className="room-detail-header-edit">
-            <div
-              className="room-detail-header-edit-save"
-              onClick={onClickHandleSave}
-            >
+            <div className="room-detail-header-edit-save" onClick={onClickSave}>
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
             </div>
@@ -384,6 +398,13 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
           <div className="room-detail-content-left">
             {showAlert && (
               <Alert message={message} onClose={handleCloseAlert} />
+            )}
+            {showConfirmAlert && (
+              <ConfirmAlert
+                message={message}
+                onClose={handleCloseConfirmAlert}
+                onHandle={onClickHandleSave}
+              />
             )}
             <div className="room-detail-input">
               <label>Mã phòng</label>

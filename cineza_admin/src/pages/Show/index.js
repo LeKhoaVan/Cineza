@@ -45,6 +45,11 @@ const ShowTime = () => {
   const [openModelAdd, setOpenModelAdd] = useState(false);
   const [code, setCode] = useState("");
 
+  const [movieName, setMovieName] = useState("");
+  const onChangeHandleMovieName = (text) => {
+    setMovieName(text.target.value);
+  };
+
   const onHandleSelect = (row) => {
     // console.log(row);
     setCode(row);
@@ -72,6 +77,43 @@ const ShowTime = () => {
   useEffect(() => {
     getData();
   }, [openModelAdd]);
+
+  //lọc theo tên phim
+  useEffect(() => {
+    const findShow = async () => {
+      const result = await axios.get(
+        `http://localhost:9000/cineza/api/v1/show/get-all?movieName=${movieName}`
+      );
+      if (result.status == 200) {
+        const dataResult = result.data.map((item) => {
+          const inputDateTime = new Date(item.showDate);
+          const day = inputDateTime.getDate();
+          const month = inputDateTime.getMonth() + 1;
+          const year = inputDateTime.getFullYear();
+          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${
+            month < 10 ? "0" : ""
+          }${month}-${year}`;
+
+          const inputTime = new Date(item.showStart);
+          const hour = inputTime.getHours();
+          const minute = inputTime.getMinutes();
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
+            minute < 10 ? "0" : ""
+          }${minute}`;
+
+          return {
+            ...item,
+            showDate: formattedDateTime,
+            showStart: minuteResult,
+          };
+        });
+        setContext(dataResult);
+      } else {
+        console.error("error get ticket :");
+      }
+    };
+    findShow();
+  }, [movieName]);
 
   const getData = async () => {
     try {
@@ -134,7 +176,7 @@ const ShowTime = () => {
               id="find"
               className="showing-input-find"
               placeholder="Tên phim"
-              // onChange={onChangeHandleFind}
+              onChange={onChangeHandleMovieName}
             />
             <img
               className="showing-button-img"
@@ -168,7 +210,7 @@ const ShowTime = () => {
             </FormControl>
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             marginLeft: "-20px",
             paddingRight: "8%",
@@ -176,12 +218,13 @@ const ShowTime = () => {
             height: 5,
             borderBottom: "10px solid rgb(228, 228, 228)",
           }}
-        ></div>
+        ></div> */}
         <div
           style={{
             width: "100%",
-            height: "82%",
+            height: "85%",
             boxShadow: "2px 5px 5px #575353",
+            overflowY: "auto",
           }}
         >
           <div className="table-all-show">

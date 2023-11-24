@@ -17,8 +17,9 @@ const { getByCodeService } = require("../services/movieService");
 const { INTEGER } = require("sequelize");
 
 const getAllShowController = async (req, res) => {
+  const { movieName } = req.query;
   try {
-    const allShow = await getAllShowService();
+    const allShow = await getAllShowService(movieName);
     res.status(200).send(allShow);
   } catch (error) {
     res.status(500).send("error get all show controller: " + error);
@@ -92,7 +93,7 @@ const createShowController = async (req, res) => {
     //   newShowStart.toISOString()
     // );
 
-    const hours = Math.floor(parseInt(movie.movieTime) / 60)
+    const hours = Math.floor(parseInt(movie.movieTime) / 60);
     const minues = parseInt(movie.movieTime) % 60;
 
     // set thoi gian ket thuc showingdsadsa
