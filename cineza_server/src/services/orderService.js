@@ -69,15 +69,19 @@ const getOrderByUserService = async (codeUser) => {
   return dataOrders;
 };
 
-const getAllOrderService = async () => {
+const getAllOrderService = async (datePay) => {
   const query = `select *
-  from cineza.order as o 
-  order by datePay desc;`;
-
-  const dataOrders = await db.sequelize.query(query, {
-    type: QueryTypes.SELECT,
-  });
-  return dataOrders;
+    from cineza.order 
+    where datePay LIKE '%${datePay}%'`;
+  if (datePay) {
+    const dataOrders = await db.sequelize.query(query, {
+      type: QueryTypes.SELECT,
+    });
+    return dataOrders;
+  } else {
+    const dataOrders = await db.Order.findAll();
+    return dataOrders;
+  }
 };
 
 module.exports = {

@@ -17,7 +17,7 @@ const Movie = () => {
   const handleOnClick = (movie) => {
     console.log(movie);
     setMovie(movie);
-    setOpenDetailAdd(false)
+    setOpenDetailAdd(false);
     setOpenDetail(true);
   };
   const handleOnClickCloseP = () => {
@@ -26,7 +26,7 @@ const Movie = () => {
     setOpenDetail(false);
   };
   const handleOnClickAdd = () => {
-    setOpenDetail(false)
+    setOpenDetail(false);
     setOpenDetailAdd(true);
   };
 
@@ -48,7 +48,6 @@ const Movie = () => {
     };
     findMovie();
   }, [search]);
-
 
   // get all movie
   const getAllMovie = async () => {
@@ -81,6 +80,7 @@ const Movie = () => {
           <input
             id="find"
             className="movie-input-find"
+            placeholder="tên phim"
             onChange={onChangeHandleFind}
           />
           <img

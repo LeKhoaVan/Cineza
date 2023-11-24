@@ -110,7 +110,7 @@ const VTDLLevel = () => {
             />
           </div>
 
-          <div
+          {/* <div
             style={{
               marginLeft: "-20px",
               paddingRight: "8%",
@@ -118,11 +118,11 @@ const VTDLLevel = () => {
               height: 5,
               borderBottom: "10px solid rgb(228, 228, 228)",
             }}
-          ></div>
+          ></div> */}
           <div
             style={{
               width: "100%",
-              height: "82%",
+              height: "85%",
               boxShadow: "2px 5px 5px #575353",
             }}
           >

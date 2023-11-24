@@ -4,6 +4,7 @@ import iconDelete from "../../assets/imageButtons/iconDelete.png";
 import iconClose from "../../assets/imageButtons/iconClose.png";
 import iconSave from "../../assets/imageButtons/iconSave.png";
 import Alert from "../../components/Alert";
+import ConfirmAlert from "../../components/ConfirmAlert";
 import "./userDetail.css";
 
 import { useCallback, useEffect, useState } from "react";
@@ -78,6 +79,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const handleCloseConfirmAlert = () => {
+    setShowConfirmAlert(false);
   };
 
   const handleChangeComboboxStatus = (event) => {
@@ -404,7 +410,18 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setTypeUser("Người sử dụng");
   };
 
+  const onClickSave = async () => {
+    if (update) {
+      setShowConfirmAlert(true);
+      setMessage("Chỉnh sửa người dùng");
+    } else {
+      setShowConfirmAlert(true);
+      setMessage("Thêm người dùng");
+    }
+  };
+
   const onClickHandleSave = async () => {
+    setShowConfirmAlert(false);
     const user = {
       code: codeUser,
       type: "user",
@@ -495,10 +512,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       <div className="user-detail-container">
         <div className="user-detail-header">
           <div className="user-detail-header-edit">
-            <div
-              className="user-detail-header-edit-save"
-              onClick={onClickHandleSave}
-            >
+            <div className="user-detail-header-edit-save" onClick={onClickSave}>
               <img className="icon-save" src={iconSave} alt="update" />
               <p>Lưu</p>
             </div>
@@ -532,6 +546,13 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           <div className="user-detail-content-left">
             {showAlert && (
               <Alert message={message} onClose={handleCloseAlert} />
+            )}
+            {showConfirmAlert && (
+              <ConfirmAlert
+                message={message}
+                onClose={handleCloseConfirmAlert}
+                onHandle={onClickHandleSave}
+              />
             )}
             <div className="user-detail-input">
               <label>Mã người dùng</label>
