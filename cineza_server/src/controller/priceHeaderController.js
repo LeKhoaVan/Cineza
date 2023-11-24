@@ -5,6 +5,8 @@ const {
   createPriceHeaderService,
   getValuePriceHeaderByCodeService,
   updatePriceHeaderService,
+  checkTimePriceHeader,
+  updateStatusAllService
 } = require("../services/priceHeaderService");
 
 const getAllPriceHeaderController = async (req, res) => {
@@ -73,9 +75,31 @@ const updatePriceHeaderController = async (req, res) => {
   }
 };
 
+const checkTimePriceHeaderController = async (req, res) => {
+  const { startDay } = req.params;
+  try {
+    const dataCheck = await checkTimePriceHeader(startDay);
+    res.status(200).send(dataCheck);
+  } catch (error) {
+    res.status(200).send("error check time price header: " + error);
+  }
+}
+
+const updateStatusAllController = async (req, res) => {
+  const { startDay } = req.params;
+  try {
+    const dataCheck = await updateStatusAllService(startDay);
+    res.status(200).send(dataCheck);
+  } catch (error) {
+    res.status(200).send("error update all time price header: " + error);
+  }
+}
+
 module.exports = {
   getAllPriceHeaderController,
   createPriceHeaderController,
   getPriceHeaderByCodeController,
   updatePriceHeaderController,
+  checkTimePriceHeaderController,
+  updateStatusAllController
 };

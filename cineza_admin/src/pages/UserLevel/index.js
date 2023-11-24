@@ -29,14 +29,9 @@ const dataColumn = [
     level: "ADMIN",
   },
   {
-    code: "VIP",
-    fullName: "Khách VIP",
-    level: "VIP",
-  },
-  {
-    code: "COMUNITY",
-    fullName: "Khách Thường",
-    level: "COMUNITY ",
+    code: "USER",
+    fullName: "Khách hàng",
+    level: "USER",
   },
 ];
 

@@ -16,6 +16,8 @@ import Header from "../Header/Header";
 import axios from "axios";
 import { formatDateHandle, formatTimeHandle } from "../../util";
 import config from "../../config";
+import moment from 'moment';
+
 
 const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
   //Custom Component for the Expandable List
@@ -177,13 +179,13 @@ function MovieSelected({ route }) {
         <Header />
         <View style={{ paddingVertical: 10, backgroundColor: "#d1d1cf" }} />
         <CalendarStrip
-          // numDaysInWeek={7}
           scrollable
           style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
-          minDate={startMovie}
+          minDate={moment().toDate()}
+          startingDate={moment()}
           maxDate={endMovie}
           scrollToOnSetSelectedDate={false}
-          selectedDate={showDate ? showDate : "2023-12-12"}
+          selectedDate={showDate ? showDate : `${moment(new Date()).format('YYYY-MM-DD')}`}
           onDateSelected={handleOnClickDay}
           datesWhitelist={datesWhitelist}
           calendarColor={"black"}

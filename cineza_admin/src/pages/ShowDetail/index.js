@@ -272,9 +272,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           const day = asiaTime.getDate();
           const month = asiaTime.getMonth() + 1;
           const year = asiaTime.getFullYear();
-          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${
-            month < 10 ? "0" : ""
-          }${month}-${year}`;
+          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${month < 10 ? "0" : ""
+            }${month}-${year}`;
           setShowDate(formattedDateTime);
 
           setCodeMovie(result.data.codeMovie);
@@ -636,7 +635,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 height: 20,
                 alignItems: "center",
                 justifyContent: "center",
-                borderBottom: "20px solid black",
+                borderBottom: "10px solid black",
               }}
             >
               <h4
@@ -651,10 +650,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               {dataSeatThuong?.map((seat, index) => (
                 <div
                   key={index}
-                  className={`seat-show ${
-                    seat?.booked ? "occupied-show" : "seat-thuong"
-                  }`}
-                  // onClick={() => toggleSeat(index, seat)}
+                  className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
+                    }`}
+                // onClick={() => toggleSeat(index, seat)}
                 >
                   Ghế {seat?.position}
                 </div>
@@ -663,10 +661,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               {dataSeatVip?.map((seat, index) => (
                 <div
                   key={index}
-                  className={`seat-show ${
-                    seat?.booked ? "occupied-show" : "seat-vip"
-                  }`}
-                  // onClick={() => toggleSeat(index, seat)}
+                  className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
+                    }`}
+                // onClick={() => toggleSeat(index, seat)}
                 >
                   Ghế {seat?.position}
                 </div>
@@ -687,12 +684,12 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               <p>Rạp: {rapName}</p>
               <p>Phòng: {roomName}</p>
               <p>Phim: {movieName}</p>
-              <p>Ngày chiếu: {showDate.toString()}</p>
+              <p>Ngày chiếu: {showDate == "" ? "" : showDate.toString()}</p>
               <p>
-                Giờ chiếu: {showStart.getHours()}:{showStart.getMinutes()}
+                Giờ chiếu: {showStart == "" ? "" : showStart.getHours()}:{showStart == "" ? "" : showStart.getMinutes()}
               </p>
               <p>
-                Giờ kết thúc: {showEnd.getHours()}:{showEnd.getMinutes()}
+                Giờ kết thúc: {showEnd == "" ? "" : showEnd.getHours()}:{showEnd == "" ? "" : showEnd.getMinutes()}
               </p>
               <p>Tổng số ghế: {totalSeat}</p>
               <p>Tổng số ghế được đặt: {totalBook}</p>
@@ -736,10 +733,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               {dataSeatTicketThuong?.map((seat, index) => (
                 <div
                   key={index}
-                  className={`seat-show ${
-                    seat?.booked ? "occupied-show" : "seat-thuong"
-                  }`}
-                  // onClick={() => toggleSeat(index, seat)}
+                  className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
+                    }`}
+                // onClick={() => toggleSeat(index, seat)}
                 >
                   Ghế {seat?.position}
                 </div>
@@ -748,10 +744,9 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               {dataSeatTicketVip?.map((seat, index) => (
                 <div
                   key={index}
-                  className={`seat-show ${
-                    seat?.booked ? "occupied-show" : "seat-vip"
-                  }`}
-                  // onClick={() => toggleSeat(index, seat)}
+                  className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
+                    }`}
+                // onClick={() => toggleSeat(index, seat)}
                 >
                   Ghế {seat?.position}
                 </div>
@@ -811,36 +806,32 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                     <p>Chỉnh sửa</p>
                   </div>
 
-                  <div
-                    className="show-detail-header-edit-update"
-                    onClick={onClickHandleNew}
-                  >
-                    <img
-                      className="iconNew"
-                      src={iconCreateNew}
-                      alt="create new"
-                    />
-                    <p>Tạo mới</p>
-                  </div>
-
-                  <div
-                    className="show-detail-header-edit-show-room"
-                    onClick={onClickHandleShowRoom}
-                  >
-                    <img className="iconDetail" src={iconRoom} alt="update" />
-                    <p>Phòng chiếu</p>
-                  </div>
-                  <div className="show-detail-header-close">
-                    <img
-                      className="iconClose"
-                      onClick={onClickHandleClose}
-                      src={iconClose}
-                      alt="close"
-                    />
-                  </div>
+                <div
+                  className="show-detail-header-edit-update"
+                  onClick={onClickHandleNew}
+                >
+                  <img
+                    className="iconNew"
+                    src={iconCreateNew}
+                    alt="create new"
+                  />
+                  <p>Tạo mới</p>
                 </div>
-                <div className="show-detail-header-name">
-                  <span>{code} </span>
+
+                <div
+                  className="show-detail-header-edit-show-room"
+                  onClick={onClickHandleShowRoom}
+                >
+                  <img className="iconDetail" src={iconRoom} alt="update" />
+                  <p>Phòng chiếu</p>
+                </div>
+                <div className="show-detail-header-close">
+                  <img
+                    className="iconClose"
+                    onClick={onClickHandleClose}
+                    src={iconClose}
+                    alt="close"
+                  />
                 </div>
               </div>
               <div className="show-detail-content">
@@ -875,217 +866,218 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                       )}
                     </div>
                   </div>
+                </div>
 
-                  <div className="show-detail-input">
-                    <label>Thời gian chiếu</label>
-                    <div className="show-detail-input-dem"></div>
-                    <div className="input-show-detail-container">
-                      <TimePicker
-                        format="hh:mm a"
-                        openClockOnFocus={false}
-                        value={showStart}
-                        onChange={(text) => onChangeHandleShowStart(text)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="show-detail-input">
-                    <label>Trạng thái</label>
-                    <div className="show-detail-input-dem"></div>
-                    <div className="input-show-detail-container">
-                      <FormControl
-                        sx={{ width: "52%", marginRight: "80px" }}
-                        size="small"
-                      >
-                        {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={status}
-                          // label="Status"
-                          onChange={handleChangeComboboxStatus}
-                          onFocus={onHandleFocusStatus}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
-                        >
-                          {dataStatus.map((st, index) => {
-                            return (
-                              <MenuItem key={index} value={st.id}>
-                                {st.value}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                      </FormControl>
-                      {isValidStatus && (
-                        <p style={{ color: "red" }}>Không được bỏ trống</p>
-                      )}
-                    </div>
+                <div className="show-detail-input">
+                  <label>Thời gian chiếu</label>
+                  <div className="show-detail-input-dem"></div>
+                  <div className="input-show-detail-container">
+                    <TimePicker
+                      format="hh:mm a"
+                      openClockOnFocus={false}
+                      value={showStart}
+                      onChange={(text) => onChangeHandleShowStart(text)}
+                    />
                   </div>
                 </div>
 
-                <div className="show-detail-content-right">
-                  <div className="show-detail-input">
-                    <label>Tên phim</label>
-                    <div className="show-detail-input-dem"></div>
-                    <div className="input-show-detail-container">
-                      <FormControl
-                        sx={{ width: "52%", marginRight: "80px" }}
-                        size="small"
+                <div className="show-detail-input">
+                  <label>Trạng thái</label>
+                  <div className="show-detail-input-dem"></div>
+                  <div className="input-show-detail-container">
+                    <FormControl
+                      sx={{ width: "52%", marginRight: "80px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">Status</InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={status}
+                        // label="Status"
+                        onChange={handleChangeComboboxStatus}
+                        onFocus={onHandleFocusStatus}
+                        readOnly={!edit}
+                        style={
+                          edit ? {} : { background: "rgb(196, 196, 196)" }
+                        }
                       >
-                        {/* <InputLabel id="demo-select-small-label">
+                        {dataStatus.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.id}>
+                              {st.value}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    {isValidStatus && (
+                      <p style={{ color: "red" }}>Không được bỏ trống</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="show-detail-content-right">
+                <div className="show-detail-input">
+                  <label>Tên phim</label>
+                  <div className="show-detail-input-dem"></div>
+                  <div className="input-show-detail-container">
+                    <FormControl
+                      sx={{ width: "52%", marginRight: "80px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">
                           Tên phim
                         </InputLabel> */}
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={codeMovie}
-                          // label="Tên phim"
-                          onChange={handleChangeComboboxCodeMovie}
-                          onFocus={onHandleFocusCodeMovie}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
-                        >
-                          {dataMovie.map((st, index) => {
-                            return (
-                              <MenuItem key={index} value={st.code}>
-                                {st.movieName}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                      </FormControl>
-                      {isValidCodeMovie && (
-                        <p style={{ color: "red" }}>Không được bỏ trống</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="show-detail-input">
-                    <label>Ngày chiếu</label>
-                    <div className="show-detail-input-dem"></div>
-                    <div className="input-show-detail-container">
-                      <FormControl
-                        sx={{ width: "52%", marginRight: "80px" }}
-                        size="small"
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={codeMovie}
+                        // label="Tên phim"
+                        onChange={handleChangeComboboxCodeMovie}
+                        onFocus={onHandleFocusCodeMovie}
+                        readOnly={!edit}
+                        style={
+                          edit ? {} : { background: "rgb(196, 196, 196)" }
+                        }
                       >
-                        {/* <InputLabel id="demo-select-small-label">
+                        {dataMovie.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.code}>
+                              {st.movieName}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    {isValidCodeMovie && (
+                      <p style={{ color: "red" }}>Không được bỏ trống</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="show-detail-input">
+                  <label>Ngày chiếu</label>
+                  <div className="show-detail-input-dem"></div>
+                  <div className="input-show-detail-container">
+                    <FormControl
+                      sx={{ width: "52%", marginRight: "80px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">
                           Ngày chiếu
                         </InputLabel> */}
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={showDate}
-                          // label="Ngày chiếu"
-                          onChange={handleChangeComboboxShowDate}
-                          onFocus={onHandleFocusShowDate}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
-                        >
-                          {dates.map((st, index) => {
-                            return (
-                              <MenuItem key={index} value={st}>
-                                {st}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                      </FormControl>
-                      {isValidShowDate && (
-                        <p style={{ color: "red" }}>Không được bỏ trống</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="show-detail-input">
-                    <label>Mã rạp</label>
-                    <div className="show-detail-input-dem"></div>
-                    <div className="input-show-detail-container">
-                      <FormControl
-                        sx={{ width: "52%", marginRight: "80px" }}
-                        size="small"
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={showDate}
+                        // label="Ngày chiếu"
+                        onChange={handleChangeComboboxShowDate}
+                        onFocus={onHandleFocusShowDate}
+                        readOnly={!edit}
+                        style={
+                          edit ? {} : { background: "rgb(196, 196, 196)" }
+                        }
                       >
-                        {/* <InputLabel id="demo-select-small-label">mã rạp</InputLabel> */}
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={codeRap}
-                          // label="mã rạp"
-                          onChange={handleChangeComboboxCodeRap}
-                          onFocus={onHandleFocusCodeRap}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
-                        >
-                          {dataRap.map((st, index) => {
-                            return (
-                              <MenuItem key={index} value={st.code}>
-                                {st.code}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                      </FormControl>
-                      {isValidCodeRap && (
-                        <p style={{ color: "red" }}>Không được bỏ trống</p>
-                      )}
-                    </div>
+                        {dates.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st}>
+                              {st}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    {isValidShowDate && (
+                      <p style={{ color: "red" }}>Không được bỏ trống</p>
+                    )}
                   </div>
+                </div>
 
-                  <div className="show-detail-input">
-                    <label>Mã phòng</label>
-                    <div className="show-detail-input-dem"></div>
-                    <div className="input-show-detail-container">
-                      <FormControl
-                        sx={{ width: "52%", marginRight: "80px" }}
-                        size="small"
+                <div className="show-detail-input">
+                  <label>Mã rạp</label>
+                  <div className="show-detail-input-dem"></div>
+                  <div className="input-show-detail-container">
+                    <FormControl
+                      sx={{ width: "52%", marginRight: "80px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">mã rạp</InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={codeRap}
+                        // label="mã rạp"
+                        onChange={handleChangeComboboxCodeRap}
+                        onFocus={onHandleFocusCodeRap}
+                        readOnly={!edit}
+                        style={
+                          edit ? {} : { background: "rgb(196, 196, 196)" }
+                        }
                       >
-                        {/* <InputLabel id="demo-select-small-label">mã phòng</InputLabel> */}
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={codeRoom}
-                          // label="mã phòng"
-                          onChange={handleChangeComboboxCodeRoom}
-                          onFocus={onHandleFocusCodeRoom}
-                          readOnly={!edit}
-                          style={
-                            edit ? {} : { background: "rgb(196, 196, 196)" }
-                          }
-                        >
-                          {dataRoom.map((st, index) => {
-                            return (
-                              <MenuItem key={index} value={st.code}>
-                                {st.code}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                      </FormControl>
-                      {isValidCodeRoom && (
-                        <p style={{ color: "red" }}>Không được bỏ trống</p>
-                      )}
-                    </div>
+                        {dataRap.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.code}>
+                              {st.code}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    {isValidCodeRap && (
+                      <p style={{ color: "red" }}>Không được bỏ trống</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="show-detail-input">
+                  <label>Mã phòng</label>
+                  <div className="show-detail-input-dem"></div>
+                  <div className="input-show-detail-container">
+                    <FormControl
+                      sx={{ width: "52%", marginRight: "80px" }}
+                      size="small"
+                    >
+                      {/* <InputLabel id="demo-select-small-label">mã phòng</InputLabel> */}
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={codeRoom}
+                        // label="mã phòng"
+                        onChange={handleChangeComboboxCodeRoom}
+                        onFocus={onHandleFocusCodeRoom}
+                        readOnly={!edit}
+                        style={
+                          edit ? {} : { background: "rgb(196, 196, 196)" }
+                        }
+                      >
+                        {dataRoom.map((st, index) => {
+                          return (
+                            <MenuItem key={index} value={st.code}>
+                              {st.code}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    {isValidCodeRoom && (
+                      <p style={{ color: "red" }}>Không được bỏ trống</p>
+                    )}
                   </div>
                 </div>
               </div>
-              <h3>Danh sách vé</h3>
-              <div className="show-detail-table-content">
-                <TableInPage
-                  data={dataTicket}
-                  column={column}
-                  onClickRow={handleOnClickRow}
-                />
-              </div>
             </div>
-          )}
+            <h3>Danh sách vé</h3>
+            <div className="show-detail-table-content">
+              <TableInPage
+                data={dataTicket}
+                column={column}
+                onClickRow={handleOnClickRow}
+              />
+            </div>
+          </div>
+        )}
     </div>
   );
 };

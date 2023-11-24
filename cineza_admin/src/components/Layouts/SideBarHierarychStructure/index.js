@@ -37,14 +37,13 @@ const SidebarHierarchyStructure = () => {
       </div>
       {titleButton.map((ct, index) => {
         return (
-          <div
+          <div key={index}
             className={
               selectedButtons === ct.text ? "selected" : "none-selected"
             }
             onClick={() => handleButtonClick(ct.text)}
           >
             <ButtonSidebar
-              key={index}
               text={ct.text}
               image={ct.image}
               href={ct.href}

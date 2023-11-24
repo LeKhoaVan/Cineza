@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./Style_Register";
@@ -78,84 +78,81 @@ function Register() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerText}>
-        <Text style={{ fontSize: 20, textAlign: "center", color: "#fff" }}>
-          Vui lòng nhập Email và mật khẩu {"\n"} để đăng ký tài khoản
-        </Text>
-      </View>
-      <View style={styles.containerInput}>
-        <View style={styles.item}>
-          <TextInput
-            placeholder="Vui lòng nhập tên"
-            style={styles.textInput}
-            value={name}
-            onChangeText={setName}
-          />
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.containerText}>
+          <Text style={{ fontSize: 20, textAlign: "center", color: "#fff" }}>
+            Vui lòng nhập Email và mật khẩu {"\n"} để đăng ký tài khoản
+          </Text>
         </View>
-        <Text style={styles.error}>{errors.name}</Text>
-        <View style={styles.item}>
-          <TextInput
-            placeholder="Vui lòng nhập số điện thoại"
-            style={styles.textInput}
-          />
-        </View>
-        <Text style={styles.error}>{errors.phone}</Text>
-        <View style={styles.item}>
-          <TextInput
-            placeholder="Vui lòng nhập Email"
-            style={styles.textInput}
-            value={email}
-            onChangeText={setEmail}
-          />
-        </View>
-        <Text style={styles.error}>{errors.email}</Text>
-        <View style={styles.item}>
-          <TextInput
-            placeholder="Vui lòng nhập mật khẩu"
-            style={styles.textInput}
-            value={password}
-            onChangeText={setPassword}
-          />
-        </View>
-        <Text style={styles.error}>{errors.password}</Text>
-        <View style={styles.item}>
-          <TextInput
-            placeholder="Vui lòng nhập lại mật khẩu"
-            style={styles.textInput}
-            value={passwordAgain}
-            onChangeText={setPasswordAgain}
-          />
+        <View style={styles.containerInput}>
+          <View style={styles.item}>
+            <TextInput
+              placeholder="Vui lòng nhập tên"
+              style={styles.textInput}
+              value={name}
+              onChangeText={setName}
+            />
+          </View>
+          <Text style={styles.error}>{errors.name}</Text>
+          <View style={styles.item}>
+            <TextInput
+              placeholder="Vui lòng nhập số điện thoại"
+              style={styles.textInput}
+            />
+          </View>
+          <Text style={styles.error}>{errors.phone}</Text>
+          <View style={styles.item}>
+            <TextInput
+              placeholder="Vui lòng nhập Email"
+              style={styles.textInput}
+              value={email}
+              onChangeText={setEmail}
+            />
+          </View>
+          <Text style={styles.error}>{errors.email}</Text>
+          <View style={styles.item}>
+            <TextInput
+              placeholder="Vui lòng nhập mật khẩu"
+              style={styles.textInput}
+              value={password}
+              onChangeText={setPassword}
+            />
+          </View>
+          <Text style={styles.error}>{errors.password}</Text>
+          <View style={styles.item}>
+            <TextInput
+              placeholder="Vui lòng nhập lại mật khẩu"
+              style={styles.textInput}
+              value={passwordAgain}
+              onChangeText={setPasswordAgain}
+            />
+          </View>
+
+          <Text style={styles.error}>{errors.passwordAgain}</Text>
         </View>
 
-        <Text style={styles.error}>{errors.passwordAgain}</Text>
+        <View style={styles.btnRegister}>
+          <TouchableOpacity
+            style={styles.bottom}
+            disabled={!isFormValid}
+            onPress={handleRegister}
+          >
+            <Text style={{ fontSize: 22, color: "#fff", fontWeight: "bold" }}>
+              Đăng ký
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.containerBottom}>
+          <Text style={{ fontSize: 20 }}>Đã có tài khoản?</Text>
+          <TouchableOpacity onPress={hanldPressLogin}>
+            <Text style={{ fontSize: 22, color: "#F4A460", fontWeight: "bold" }}>
+              Đăng nhập
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <View style={styles.btnRegister}>
-        <TouchableOpacity
-          style={styles.bottom}
-          disabled={!isFormValid}
-          onPress={handleRegister}
-        >
-          <Text style={{ fontSize: 22, color: "#fff", fontWeight: "bold" }}>
-            Đăng ký
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.containerBottom}>
-        <Text style={{ fontSize: 20 }}>Đã có tài khoản?</Text>
-        <TouchableOpacity onPress={hanldPressLogin}>
-          <Text style={{ fontSize: 22, color: "#F4A460", fontWeight: "bold" }}>
-            Đăng nhập
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {/* {Object.values(errors).map((error, index) => (
-        <Text key={index} style={styles.error}>
-          {error}
-        </Text>
-      ))} */}
-    </View>
+    </ScrollView>
   );
 }
 

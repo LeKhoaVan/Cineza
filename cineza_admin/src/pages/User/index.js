@@ -6,16 +6,10 @@ import UserDetail from "../UserDetail";
 import { formatDateHandle } from "../../components/util/index";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
 import iconBack from "../../assets/imageButtons/iconBack.png";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./user.css";
 
 const columns = [
-  // dùng để sử dụng DataTable
-  // {
-  //     title: 'Code',
-  //     selector: row => row.code,
-  //     // sortable: true
-  // },
   {
     title: "Code",
     data: "code",
@@ -30,8 +24,8 @@ const columns = [
     data: "numberPhone",
   },
   {
-    title: "Level",
-    data: "level",
+    title: "Loại tài khoản",
+    data: "type",
   },
   {
     title: "Ngày sinh",
@@ -54,31 +48,35 @@ const User = () => {
   const levelUser = new URLSearchParams(location.search).get("level");
 
   const onHandleSelect = (row) => {
-    console.log(row);
     setCodeUser(row);
-    setOpenModalDetail(!openModalDetail);
+    setOpenModelAdd(false);
+    setOpenModalDetail(true);
   };
 
-  const onClickHandleCloseP = async () => {
-    window.location.href = "/cineza/admin/user-level?level=" + context[0].level;
+  const onClickHandleCloseP = () => {
+    // window.location.href = "/cineza/admin/user-level?level=" + context[0].level;
+    setOpenModelAdd(false)
     setOpenModalDetail(false);
   };
 
   const onClickHandleBtnAdd = () => {
+    setOpenModalDetail(false);
     setOpenModelAdd(true);
   };
 
+  const navigate = useNavigate();
   const onClickHandleBack = () => {
-    window.location.href = "http://localhost:3000/cineza/admin/users";
+    navigate("/users")
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
+  const getData = async () => {
+
+    try {
+      if (levelUser != null) {
         const result = await axios.get(
-          "http://localhost:9000/cineza/api/v1/value/user/get-by-level?level=" +
-            levelUser
+          `http://localhost:9000/cineza/api/v1/user/get-by-type/${levelUser}`
         );
+        console.log(result)
         if (result.status == 200) {
           const dataSetup = result.data.map((item) => {
             return {
@@ -88,13 +86,39 @@ const User = () => {
           });
           setContext(dataSetup);
         }
-      } catch (error) {
-        console.log("error get api all user " + error);
+      } else {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/user/get-by-type/${context[0].type}`
+        );
+        console.log(result)
+        if (result.status == 200) {
+          const dataSetup = result.data.map((item) => {
+            return {
+              ...item,
+              dateOfBirth: formatDateHandle(item.dateOfBirth),
+            };
+          });
+          setContext(dataSetup);
+        }
       }
-    };
+    } catch (error) {
+      console.log("error get api all user " + error);
+    }
+  };
 
+
+  useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [openModelAdd]);
+
+  useEffect(() => {
+    console.log("tesst", levelUser)
+    getData();
+  }, [openModalDetail]);
 
   return (
     <div className="user-wrapper">
