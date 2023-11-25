@@ -64,10 +64,10 @@ export default function App() {
           component={MovieSelected}></Stack.Screen>
         <Stack.Screen name={rapSelected} component={RapSelected}></Stack.Screen>
         <Stack.Screen name={movieDetail} component={MovieDetail}></Stack.Screen>
-        <Stack.Screen name={login} component={Login}></Stack.Screen>
-        <Stack.Screen name={register} component={Register}></Stack.Screen>
+        <Stack.Screen name={login} options={{ headerLeft: () => null }} component={Login}></Stack.Screen>
+        <Stack.Screen name={register} options={{ headerLeft: () => null }} component={Register}></Stack.Screen>
         <Stack.Screen name={conform} component={OTPAuthScreen}></Stack.Screen>
-        <Stack.Screen name={forget} component={ForgetPassword}></Stack.Screen>
+        <Stack.Screen name={forget} options={{ headerLeft: () => null }} component={ForgetPassword}></Stack.Screen>
         <Stack.Screen name={modify} component={ModifyPassword}></Stack.Screen>
         <Stack.Screen name={seatBook} component={SeatBook}></Stack.Screen>
         <Stack.Screen

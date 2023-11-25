@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import config from '../../config';
+import config from '../../config/configAPI';
 import { useNavigation } from "@react-navigation/native";
 
 import Header from '../Header/Header';
@@ -190,7 +190,7 @@ function PayScreen({ route }) {
             {dataSeat}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: '600', color: 'red' }}>
-            Tổng Thanh Toán: {total} đ
+            Tổng Thanh Toán: {total.toLocaleString('vi-VN')} VND
           </Text>
         </View>
       </View>
@@ -239,7 +239,7 @@ function PayScreen({ route }) {
               justifyContent: 'space-between',
             }}>
             <Text style={{ fontSize: 18, marginLeft: 5 }}>Tổng cộng</Text>
-            <Text style={{ fontSize: 18, marginRight: 5 }}>{total} đ</Text>
+            <Text style={{ fontSize: 18, marginRight: 5 }}>{total.toLocaleString('vi-VN')} VND</Text>
           </View>
           <View
             style={{
@@ -248,7 +248,7 @@ function PayScreen({ route }) {
               justifyContent: 'space-between',
             }}>
             <Text style={{ fontSize: 18, marginLeft: 5 }}>Thuế</Text>
-            {/* <Text style={{ fontSize: 18, marginRight: 5 }}>{data.voucher}</Text> */}
+            <Text style={{ fontSize: 18, marginRight: 5 }}>0 VND</Text>
           </View>
           <View
             style={{
@@ -257,7 +257,7 @@ function PayScreen({ route }) {
               justifyContent: 'space-between',
             }}>
             <Text style={{ fontSize: 18, marginLeft: 5 }}>Còn lại:</Text>
-            <Text style={{ fontSize: 18, marginRight: 5 }}>{total} đ</Text>
+            <Text style={{ fontSize: 18, marginRight: 5 }}>{total.toLocaleString('vi-VN')} VND</Text>
             {/* <Text style={{ fontSize: 18, marginRight: 5 }}>{data.final}</Text> */}
           </View>
         </View>

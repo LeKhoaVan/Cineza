@@ -12,7 +12,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { formatDayHandle } from '../../util';
-import config from '../../config';
+import config from '../../config/configAPI';
 
 const data = [
   { name: 'a1' },
@@ -54,25 +54,12 @@ function TicketHistory() {
   };
   //get ticket
   useEffect(() => {
-    // axios
-    //   .get(`http://${config.IPP4}:9000/cineza/api/v1/ticket/get-all/`, {
-    //     timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-    //   })
-    //   .then(res => {
-    //     setDataTicket(res.data);
-    //     console.log(res.data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    if (user != null) {
+    if (user.codeUser != undefined) {
       const getOrderHistory = async () => {
         console.log(user.codeUser)
         const orders = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/order/get-by-user/${user.codeUser}`);
         if (orders.status == 200) {
-
           setDataTicket(orders.data);
-
         } else {
           console.log("error get order history")
         }
@@ -93,7 +80,7 @@ function TicketHistory() {
                   {item.description}
                 </Text>
                 <Text style={styles.viewText}>
-                  {item.datePay != "" ? `${new Date(item.datePay).getHours()}:${new Date(item.datePay).getMinutes()} ` : ""} - {formatDayHandle(item.datePay)}              {item.priceTotal} VND
+                  {item.datePay != "" ? `${String(new Date(item.datePay).getHours()).padStart(2, '0')}:${String(new Date(item.datePay).getMinutes()).padStart(2, '0')} ` : ""} - {formatDayHandle(item.datePay)}              {item.priceTotal.toLocaleString('vi-VN')} VND
                 </Text>
               </View>
             </TouchableOpacity>

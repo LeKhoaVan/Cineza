@@ -13,7 +13,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { formatDayHandle } from '../../util';
-import config from '../../config';
+import config from '../../config/configAPI';
 
 function Order({ route }) {
   const [data, setData] = useState([]);
@@ -60,11 +60,11 @@ function Order({ route }) {
           <View style={{ display: "flex", flexDirection: "row", width: '100%' }}>
             <View style={{ display: "flex", flexDirection: "column", width: '66%' }}>
               <View style={styles.viewTicket}>
-                <Text style={{ fontSize: 20, paddingLeft: 15, fontWeight: 600 }}>
+                <Text style={{ fontSize: 20, paddingLeft: 15, fontWeight: 600, color: "black" }}>
                   Tên phim: {data.movieName}
                 </Text>
                 <Text style={styles.viewText}>Ngày chiếu: {formatDayHandle(data.showDate)}</Text>
-                <Text style={styles.viewText}>Giờ chiếu: {data.showStart != "" ? `${new Date(data.showStart).getHours()}:${new Date(data.showStart).getMinutes()}` : ""}</Text>
+                <Text style={styles.viewText}>Giờ chiếu: {data.showStart != "" ? `${String(new Date(data.showStart).getHours()).padStart(2, '0')}:${String(new Date(data.showStart).getMinutes()).padStart(2, '0')}` : ""}</Text>
               </View>
               <View style={styles.viewTicket}>
                 <Text style={styles.viewText1}>Rạp Cineza: {data.rapName}</Text>
@@ -90,14 +90,14 @@ function Order({ route }) {
                   marginRight: 40,
                 }}>
                 <Text style={styles.viewText1}></Text>
-                <Text style={styles.viewText}>Giá: {seat.value}</Text>
+                <Text style={styles.viewText}>Giá: {seat.value.toLocaleString('vi-VN')} VND</Text>
               </View>
             </View>
           ))}
 
           <View style={styles.viewTicket}>
             <Text style={styles.viewText1}>Tổng tiền</Text>
-            <Text style={styles.viewText}>Giá: {totalPrice} VND</Text>
+            <Text style={styles.viewText}>Giá: {totalPrice.toLocaleString('vi-VN')} VND</Text>
           </View>
         </View>
 
@@ -158,12 +158,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   viewText1: {
-    color: '#baa66e',
+    color: '#8D6E18',
     fontSize: 18,
     paddingLeft: 15,
   },
   viewText: {
     fontSize: 18,
+    color: 'black',
     paddingLeft: 15,
   },
 });

@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { formatDayHandle } from "../../util";
 
-import config from "../../config";
+import config from "../../config/configAPI";
 
 
 const Item = ({ item, handleClick }) => {

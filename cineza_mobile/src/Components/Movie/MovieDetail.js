@@ -12,7 +12,7 @@ import Header from "../Header/Header";
 import axios from "axios";
 import { formatDateHandle } from "../../util";
 
-import config from "../../config";
+import config from "../../config/configAPI";
 
 const data = {
   id: 1,

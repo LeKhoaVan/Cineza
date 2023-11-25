@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import config from "../../config";
+import config from "../../config/configAPI";
 
 const data = [
   {
