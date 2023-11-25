@@ -226,6 +226,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
         const checkTime = await axios.get(
           `http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`
         );
+        console.log(checkTime.data.length);
         if (checkTime.data.length === 0) {
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price-header/create`,

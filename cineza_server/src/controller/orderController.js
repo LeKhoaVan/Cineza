@@ -8,10 +8,10 @@ const {
 
 const createOrderController = async (req, res) => {
   try {
-    const { codeTicket, codeUser, description, priceTotal, status } = req.body;
+    const { codeTicket, codeUser, description, priceTotal } = req.body;
     const datePay = new Date();
     const newOrder = await createOrderService(
-      { datePay, codeUser, description, priceTotal, status },
+      { datePay, codeUser, description, priceTotal },
       { codeTicket }
     );
     res.status(201).send(newOrder);
