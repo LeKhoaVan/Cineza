@@ -85,17 +85,51 @@ const updateShowService = async (code, show) => {
 };
 
 const checkShow = async (codeRap, codeRoom, showDate, showStart) => {
-  // const date = moment(showDate).format("YYYY-MM-DD HH:mm:ss");
-  const start = moment(showStart).format("YYYY-MM-DD HH:mm:ss");
+  const newShowStart = new Date(showDate);
+  // console.log(showDate);
+  // console.log(newShowStart);
+  const timeShowStart = showStart.split(":");
+  // console.log(timeShowStart);
+  newShowStart.setHours(timeShowStart[0], timeShowStart[1], 0, 0);
+  // console.log(newShowStart);
+  const start = moment(newShowStart).format("YYYY-MM-DD hh:mm:ss");
+  // console.log(start);
   const query = `select s.code from cineza.showing as s
   where s.codeRap = '${codeRap}' 
   and s.codeRoom = '${codeRoom}' 
   and s.showDate like '%${showDate}%'
   and '${start}' < s.showEnd
-  and '${start}' > s.showStart;`;
+  and '${start}' > s.showStart
+  and s.status = 'Hoạt động';`;
 
   const [shows, metadata] = await db.sequelize.query(query);
   return shows;
+};
+
+const updateStatusShowService = async (
+  codeRap,
+  codeRoom,
+  showDate,
+  showStart
+) => {
+  const newShowStart = new Date(showDate);
+  const timeShowStart = showStart.split(":");
+  newShowStart.setHours(timeShowStart[0], timeShowStart[1], 0, 0);
+  const start = moment(newShowStart).format("YYYY-MM-DD hh:mm:ss");
+  const query = `
+  UPDATE cineza.showing as s
+  SET s.status = "Khóa tạm thời"
+  where s.codeRap = '${codeRap}' 
+  and s.codeRoom = '${codeRoom}' 
+  and s.showDate like '%${showDate}%'
+  and '${start}' < s.showEnd
+  and '${start}' > s.showStart
+  and s.status = 'Hoạt động';`;
+
+  const resultData = await db.sequelize.query(query, {
+    type: QueryTypes.UPDATE,
+  });
+  return resultData;
 };
 
 const getAllShowByMovieService = async (codeMovie) => {
@@ -138,6 +172,7 @@ module.exports = {
   getAllShowByMovieService,
   getAllShowByRapService,
   checkShow,
+  updateStatusShowService,
   getAllShowByMovieAndRapService,
   getShowByMovieAndDateService,
   getShowByRapAndDateService,

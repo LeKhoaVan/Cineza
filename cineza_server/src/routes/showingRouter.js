@@ -6,6 +6,7 @@ const {
   createShowController,
   updateShowController,
   checkShowController,
+  updateStatusShowController,
   getAllShowByMovieController,
   getAllShowByRapController,
   getAllShowByMovieAndRap,
@@ -23,6 +24,10 @@ showingRouter.put("/put/:code", updateShowController);
 showingRouter.get(
   "/check-show/:codeRap/:codeRoom/:showDate/:showStart",
   checkShowController
+);
+showingRouter.put(
+  "/update-status/:codeRap/:codeRoom/:showDate/:showStart",
+  updateStatusShowController
 );
 showingRouter.get("/get-all-by-movie/:codeMovie", getAllShowByMovieController);
 showingRouter.get("/get-all-by-rap/:codeRap", getAllShowByRapController);

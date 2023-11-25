@@ -29,13 +29,7 @@ const titleColumn = [
     title: "Mô tả",
     data: "description",
   },
-  {
-    title: "Trạng thái",
-    data: "status",
-  },
 ];
-
-const data = [{ code: "order01", description: "abcxyz", status: "Hoạt động" }];
 
 const Order = () => {
   const [context, setContext] = useState([]);
@@ -96,7 +90,9 @@ const Order = () => {
         const dataResult = result.data.map((item) => {
           return {
             ...item,
-            datePay: `${formatDateHandle(item.datePay)} ${new Date(item.datePay).getHours()}:${new Date(item.datePay).getMinutes()}`,
+            datePay: `${formatDateHandle(item.datePay)} ${new Date(
+              item.datePay
+            ).getHours()}:${new Date(item.datePay).getMinutes()}`,
           };
         });
         setContext(dataResult);
@@ -145,12 +141,6 @@ const Order = () => {
             fixedHeight="100%"
             portalId="root-portal"
             className="ticket-find-date"
-          /> */}
-          {/* <img
-            src={iconAdd}
-            alt="btn-add"
-            className="rap-btn-add"
-            onClick={onClickHandleBtnAdd}
           /> */}
         </div>
         {/* <div
