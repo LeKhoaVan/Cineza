@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import config from '../../config';
+import config from '../../config/configAPI';
 
 const OTPAuthScreen = ({ route }) => {
   const navigation = useNavigation();

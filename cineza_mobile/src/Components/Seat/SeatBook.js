@@ -17,7 +17,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-import config from '../../config';
+import config from '../../config/configAPI';
 
 function SeatBook({ route }) {
   const codeRoom = route.params.item.codeRoom;

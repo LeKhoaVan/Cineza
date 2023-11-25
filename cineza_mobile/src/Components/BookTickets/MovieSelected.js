@@ -9,13 +9,14 @@ import {
   UIManager,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
 import CalendarStrip from "react-native-calendar-strip";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../Header/Header";
 import axios from "axios";
 import { formatDateHandle, formatTimeHandle } from "../../util";
-import config from "../../config";
+import config from "../../config/configAPI";
 import moment from 'moment';
 
 
@@ -108,8 +109,23 @@ function MovieSelected({ route }) {
 
   const handleOnClickDay = (date) => {
     // Đánh dấu rằng bạn muốn cập nhật trạng thái
-    const day = formatDateHandle(date);
-    setShowDate(day);
+    if (moment(date).format("YYYY-MM-DD") >= moment(new Date()).format("YYYY-MM-DD")) {
+      const day = formatDateHandle(date);
+      setShowDate(day);
+
+    } else {
+      Alert.alert(
+        'Thông báo', // Tiêu đề
+        'Ngày đã chọn nhỏ hơn ngày hiện tại.', // Nội dung
+        [
+          { text: 'Đồng ý', onPress: () => console.log('Đã đồng ý') },
+          // Các nút tương tác khác có thể được thêm vào đây
+        ],
+        { cancelable: false }
+      );
+      setShowDate(new Date());
+    }
+
   };
 
   const handleClick = (item) => {
@@ -184,11 +200,11 @@ function MovieSelected({ route }) {
         <CalendarStrip
           scrollable
           style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
-          minDate={moment().toDate()}
-          startingDate={moment()}
+          minDate={new Date()}
+          startingDate={new Date()}
           maxDate={endMovie}
           scrollToOnSetSelectedDate={false}
-          selectedDate={showDate ? showDate : `${moment(new Date()).format('YYYY-MM-DD')}`}
+          selectedDate={showDate ? showDate : new Date()}
           onDateSelected={handleOnClickDay}
           datesWhitelist={datesWhitelist}
           calendarColor={"black"}

@@ -98,7 +98,7 @@ const OtherProduct = ({ route }) => {
           }}
         >
           <View>
-            <Text>Tổng tiền: {value} đ </Text>
+            <Text>Tổng tiền: {value.toLocaleString('vi-VN')} VND </Text>
           </View>
 
           <Pressable
