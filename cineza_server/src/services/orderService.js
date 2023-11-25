@@ -71,7 +71,7 @@ const getOrderByUserService = async (codeUser) => {
 };
 
 const getAllOrderService = async (datePay) => {
-  const query = `select o.datePay, o.description, o.priceTotal, o.status, o.codeUser, o.code, us.fullName, us.numberPhone
+  const query = `select o.datePay, o.description, o.priceTotal, o.codeUser, o.code, us.fullName, us.numberPhone
     from cineza.order as o
     join user as us on us.code = o.codeUser 
     where o.datePay LIKE '%${datePay}%'`;
@@ -81,8 +81,7 @@ const getAllOrderService = async (datePay) => {
     });
     return dataOrders;
   } else {
-
-    const query = `select o.datePay, o.description, o.priceTotal, o.status, o.codeUser, o.code, us.fullName, us.numberPhone
+    const query = `select o.datePay, o.description, o.priceTotal, o.codeUser, o.code, us.fullName, us.numberPhone
     from cineza.order as o
     join user as us on us.code = o.codeUser `;
 
