@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import styles from "./Style_Register";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import config from "../../config";
+import config from "../../config/configAPI";
 
 function Register() {
   const navigation = useNavigation();
