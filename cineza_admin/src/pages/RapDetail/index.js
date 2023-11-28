@@ -20,6 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { formatDateHandle } from "../../components/util/index";
+import { formatDayHandle } from "../../components/util/index";
 // import TimePicker from "rc-time-picker";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
@@ -87,9 +88,9 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [update, setUpdate] = useState(false);
   const [createNew, setCreateNew] = useState(false);
   const [errors, setErrors] = useState({});
-  const [editCity, setEditCity] = useState(false)
-  const [editDistrict, setEditDistrict] = useState(false)
-  const [editWard, setEditWard] = useState(false)
+  const [editCity, setEditCity] = useState(false);
+  const [editDistrict, setEditDistrict] = useState(false);
+  const [editWard, setEditWard] = useState(false);
 
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
@@ -107,6 +108,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
   const handleCloseConfirmAlert = () => {
     setShowConfirmAlert(false);
+  };
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const handleCancel = () => {
+    setIsOpenDialog(false);
   };
 
   //handle rooms
@@ -129,23 +135,22 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setOpenModalRapDetail(false);
   };
 
-
   const handleChangeComboboxStatus = (event) => {
     setStatus(event.target.value);
   };
   const handleChangeComboboxCountry = (event) => {
-    setCityId("")
-    setDistrictId("")
-    setWardId("")
-    setEditCity(true)
+    setCityId("");
+    setDistrictId("");
+    setWardId("");
+    setEditCity(true);
     setCountryId(event.target.value);
   };
   const handleChangeComboboxCity = (event) => {
-    setEditDistrict(true)
+    setEditDistrict(true);
     setCityId(event.target.value);
   };
   const handleChangeComboboxDistrict = (event) => {
-    setEditWard(true)
+    setEditWard(true);
     setDistrictId(event.target.value);
   };
   const handleChangeComboboxWard = (event) => {
@@ -356,44 +361,50 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     if (countryId != "") {
       const getCity = async () => {
-        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${countryId}`)
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-parent/${countryId}`
+        );
         if (response.status == 200) {
           setCity(response.data);
         } else {
-          console.log("error combobox city")
+          console.log("error combobox city");
         }
-      }
+      };
       getCity();
     }
-  }, [countryId])
+  }, [countryId]);
 
   useEffect(() => {
     if (cityId != "") {
       const getDistrict = async () => {
-        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${cityId}`)
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-parent/${cityId}`
+        );
         if (response.status == 200) {
           setDistrict(response.data);
         } else {
-          console.log("error combobox city")
+          console.log("error combobox city");
         }
-      }
+      };
       getDistrict();
     }
-  }, [cityId])
+  }, [cityId]);
 
   useEffect(() => {
     if (districtId != "") {
       const getDistrict = async () => {
-        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${districtId}`)
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-parent/${districtId}`
+        );
         if (response.status == 200) {
           setWard(response.data);
         } else {
-          console.log("error combobox city")
+          console.log("error combobox city");
         }
-      }
+      };
       getDistrict();
     }
-  }, [districtId])
+  }, [districtId]);
 
   //get phòng by code rạp
   const getRooms = async () => {
@@ -488,7 +499,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
       !isValidAddress
     ) {
       try {
-        console.log(rap);
+        // console.log(rap);
         if (editCode) {
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/rap/create`,
@@ -504,17 +515,40 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
             setShowAlert(true);
           }
         } else if (update) {
-          const response = await axios.put(
-            `http://localhost:9000/cineza/api/v1/rap/put/` + code,
-            rap
+          const getShow = await axios.get(
+            `http://localhost:9000/cineza/api/v1/show/get-all-by-rap/${code}`
           );
-          if (response.status === 200) {
-            console.log("save success");
-            setMessage("Cập nhật thành công");
-            setShowAlert(true);
+          const currentDate = new Date();
+          let newArray = [];
+
+          //formatDayHandle(currentDate) <= formatDayHandle(item.showDate)
+          getShow.data.forEach((item) => {
+            let date = `${new Date(item.showDate).getFullYear()}-${
+              new Date(item.showDate).getMonth() + 1
+            }-${new Date(item.showDate).getDate()}`;
+
+            if (formatDayHandle(currentDate) <= date) {
+              console.log(`Ngày chiếu: ${date}`);
+              newArray = { ...item };
+            }
+          });
+          if (newArray.length === 0) {
+            const response = await axios.put(
+              `http://localhost:9000/cineza/api/v1/rap/put/` + code,
+              rap
+            );
+            if (response.status === 200) {
+              console.log("save success");
+              setMessage("Cập nhật thành công");
+              setShowAlert(true);
+            } else {
+              setMessage("Cập thất bại");
+              setShowAlert(true);
+            }
           } else {
-            setMessage("Cập thất bại");
-            setShowAlert(true);
+            // console.log("co suất chiếu trung")
+            setMessage("Còn lịch chiếu. Không thể cập nhật trạng thái!");
+            setIsOpenDialog(true);
           }
         }
       } catch (error) {
@@ -579,6 +613,25 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                   onClose={handleCloseConfirmAlert}
                   onHandle={onClickHandleSave}
                 />
+              )}
+              {isOpenDialog && (
+                <div className="confirm-dialog-overlay">
+                  <div className="confirm-dialog">
+                    <div className="confirm-dialog-container">
+                      <div className="header-close">
+                        <img
+                          className="icon-close"
+                          src={iconClose}
+                          alt="close"
+                          onClick={handleCancel}
+                        />
+                      </div>
+                      <div className="confirm-dialog-body">
+                        <p>{message}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
 
               <div className="rap-detail-input">
@@ -768,7 +821,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                           onChange={handleChangeComboboxCity}
                           onFocus={onHandleFocusAddress}
                           readOnly={!edit || !editCity}
-                          style={(edit == false || editCity == false) ? { background: "rgb(196, 196, 196)" } : {}}
+                          style={
+                            edit == false || editCity == false
+                              ? { background: "rgb(196, 196, 196)" }
+                              : {}
+                          }
                         >
                           {city?.map((st, index) => {
                             return (
@@ -806,7 +863,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                           onChange={handleChangeComboboxDistrict}
                           onFocus={onHandleFocusAddress}
                           readOnly={!edit || !editDistrict}
-                          style={(edit == false || editDistrict == false) ? { background: "rgb(196, 196, 196)" } : {}}
+                          style={
+                            edit == false || editDistrict == false
+                              ? { background: "rgb(196, 196, 196)" }
+                              : {}
+                          }
                         >
                           {district?.map((st, index) => {
                             return (
@@ -843,7 +904,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                           onChange={handleChangeComboboxWard}
                           onFocus={onHandleFocusAddress}
                           readOnly={!edit || !editWard}
-                          style={(edit == false || editWard == false) ? { background: "rgb(196, 196, 196)" } : {}}
+                          style={
+                            edit == false || editWard == false
+                              ? { background: "rgb(196, 196, 196)" }
+                              : {}
+                          }
                         >
                           {ward?.map((st, index) => {
                             return (

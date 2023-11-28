@@ -20,7 +20,7 @@ const Login = () => {
       // } else {
       //   console.log("error check role user");
       // }
-      localStorage.setItem("userAdmin", { name: "ewr" })
+      localStorage.setItem("userAdmin", { name: "ewr" });
       window.location.href = "/cineza/admin/home";
     } catch (error) {
       console.log("error check role user: ", error);
@@ -35,10 +35,10 @@ const Login = () => {
 
   const handleOnChangePassword = (text) => {
     setPassword(text.target.value);
-  }
+  };
   const handleOnChangeEmail = (text) => {
     setEmail(text.target.value);
-  }
+  };
   return (
     <div className="container">
       <div style={{ height: 20 }}></div>
@@ -47,9 +47,17 @@ const Login = () => {
 
         <div className="row">
           <label>Email</label>
-          <input type="text" placeholder="Nhập email" onChange={handleOnChangeEmail} />
+          <input
+            type="text"
+            placeholder="Nhập email"
+            onChange={handleOnChangeEmail}
+          />
           <label>Mật khẩu</label>
-          <input type="text" placeholder="Nhập mật khẩu" onChange={handleOnChangePassword} />
+          <input
+            type="text"
+            placeholder="Nhập mật khẩu"
+            onChange={handleOnChangePassword}
+          />
           <button onClick={onClickLogin}>Đăng nhập</button>
         </div>
         <div className="forget">
@@ -57,9 +65,9 @@ const Login = () => {
         </div>
 
         <div className="row">
-          <div className="register" onClick={onClickRegister}>
+          {/* <div className="register" onClick={onClickRegister}>
             Đăng ký
-          </div>
+          </div> */}
         </div>
         <div id="alternativeLogin"></div>
       </div>

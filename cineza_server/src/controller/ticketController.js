@@ -2,6 +2,7 @@ const {
   getAllTicketService,
   getTicketByCodeService,
   getTicketByShowingService,
+  getTicketByMovieService,
   createTicketService,
   checkSeatBook,
   getAllSeatIsBookService,
@@ -68,6 +69,17 @@ const getTicketByShowingController = async (req, res) => {
   }
 };
 
+const getTicketByMovieController = async (req, res) => {
+  const { codeMovie } = req.params;
+  try {
+    // getTicketByMovieService
+    const tickets = await getTicketByMovieService(codeMovie);
+    res.status(200).send(tickets);
+  } catch (error) {
+    res.status(500).send("error get ticket by movie: " + error);
+  }
+};
+
 const getSeatIsBookController = async (req, res) => {
   const { codeShowing } = req.params;
   try {
@@ -104,6 +116,7 @@ module.exports = {
   getTicketByCodeController,
   createTicketController,
   getTicketByShowingController,
+  getTicketByMovieController,
   getSeatIsBookController,
   updateTicketController,
 };

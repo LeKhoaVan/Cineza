@@ -11,7 +11,7 @@ import ConfirmAlert from "../../components/ConfirmAlert";
 import Table from "../../components/Table";
 import "./roomDetail.css";
 import SeatDetail from "../SeatDetail";
-
+import { formatDayHandle } from "../../components/util";
 import { Link, useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
@@ -85,6 +85,11 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
   const handleCloseConfirmAlert = () => {
     setShowConfirmAlert(false);
+  };
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const handleCancel = () => {
+    setIsOpenDialog(false);
   };
 
   //handle seats
@@ -334,17 +339,36 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
             setShowAlert(true);
           }
         } else if (update) {
-          const response = await axios.put(
-            `http://localhost:9000/cineza/api/v1/room/put/` + code,
-            room
+          const getShow = await axios.get(
+            `http://localhost:9000/cineza/api/v1/show/get-all-by-room/${code}`
           );
-          if (response.status === 200) {
-            console.log("save success");
-            setMessage("Cập nhật thành công");
-            setShowAlert(true);
+          const currentDate = new Date();
+          let newArray = [];
+
+          getShow.data.forEach((item) => {
+            if (
+              formatDayHandle(currentDate) <= formatDayHandle(item.showDate)
+            ) {
+              newArray = { ...item };
+            }
+          });
+          if (newArray.length === 0) {
+            const response = await axios.put(
+              `http://localhost:9000/cineza/api/v1/room/put/` + code,
+              room
+            );
+            if (response.status === 200) {
+              console.log("save success");
+              setMessage("Cập nhật thành công");
+              setShowAlert(true);
+            } else {
+              setMessage("Cập thất bại");
+              setShowAlert(true);
+            }
           } else {
-            setMessage("Cập thất bại");
-            setShowAlert(true);
+            // console.log("co suất chiếu trung")
+            setMessage("Còn lịch chiếu. Không thể cập nhật trạng thái!");
+            setIsOpenDialog(true);
           }
         }
       } catch (error) {
@@ -406,6 +430,26 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                 onHandle={onClickHandleSave}
               />
             )}
+            {isOpenDialog && (
+              <div className="confirm-dialog-overlay">
+                <div className="confirm-dialog">
+                  <div className="confirm-dialog-container">
+                    <div className="header-close">
+                      <img
+                        className="icon-close"
+                        src={iconClose}
+                        alt="close"
+                        onClick={handleCancel}
+                      />
+                    </div>
+                    <div className="confirm-dialog-body">
+                      <p>{message}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="room-detail-input">
               <label>Mã phòng</label>
               <div className="room-detail-input-dem"></div>

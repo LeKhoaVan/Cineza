@@ -262,8 +262,11 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         );
         if (result.status === 200) {
           setCode(result.data.code);
-          setShowStart(new Date(result.data.showStart));
-          setShowEnd(new Date(result.data.showEnd));
+          let date = `${new Date(result.data.showStart).getHours()}:${new Date(
+            result.data.showStart
+          ).getMinutes()}`;
+          setShowStart(date);
+          setShowEnd(new Date(date));
 
           setStatus(result.data.status);
 
@@ -451,7 +454,6 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
   }, [codeRap]);
 
   const onClickHandleEdit = () => {
-    console.log(dataTicket);
     if (dataTicket.length == 0) {
       setUpdate(true);
       setCreateNew(false);
@@ -529,6 +531,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               show
             );
             if (response.status === 201) {
+              console.log(showStart);
               setMessage("Lưu thành công");
               setShowAlert(true);
 
@@ -544,9 +547,11 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
           }
         } else if (update) {
           const dateCheck = moment(showDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+          console.log(showStart);
           const checkTime = await axios.get(
             `http://localhost:9000/cineza/api/v1/show/check-show/${codeRap}/${codeRoom}/${dateCheck}/${showStart}`
           );
+          console.log(checkTime.data);
           if (checkTime.data.length === 0) {
             const response = await axios.put(
               `http://localhost:9000/cineza/api/v1/show/put/` + code,
@@ -926,7 +931,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                     <div className="show-detail-input-dem"></div>
                     <div className="input-show-detail-container">
                       <TimePicker
-                        format="hh:mm a"
+                        format="HH:mm" // Định dạng hiển thị 24 giờ
                         openClockOnFocus={false}
                         value={showStart}
                         onChange={(text) => onChangeHandleShowStart(text)}
