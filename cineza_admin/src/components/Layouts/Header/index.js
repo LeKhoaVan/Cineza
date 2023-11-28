@@ -7,14 +7,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-    const [user, setUser] = useState("");
-    useEffect(() => {
-        const getUser = async () => {
-            const dataUser = localStorage.getItem("userAdmin");
-            setUser(JSON.parse(dataUser));
-        };
-        getUser();
-    }, [])
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const getUser = async () => {
+      const dataUser = localStorage.getItem("userAdmin");
+      setUser(JSON.parse(dataUser));
+    };
+    getUser();
+  }, []);
+
 
     const navigate = useNavigate();
     const handleOnClickLogout = () => {
@@ -34,6 +35,7 @@ const Header = () => {
             </div>
         </div>
     );
+
 };
 
 export default Header;
