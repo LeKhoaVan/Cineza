@@ -263,7 +263,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             setMessage("Cập nhật thành công");
             setShowAlert(true);
           } else {
-            setMessage("Cập thất bại");
+            setMessage("Cập nhật thất bại");
             setShowAlert(true);
           }
         } else {
@@ -322,7 +322,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             setMessage("Cập nhật thành công");
             setShowAlert(true);
           } else {
-            setMessage("Cập thất bại");
+            setMessage("Cập nhật thất bại");
             setShowAlert(true);
           }
           setIsOpenDialog(false);
