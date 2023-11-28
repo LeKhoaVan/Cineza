@@ -68,9 +68,9 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidBirth, setIsValidBirth] = useState(false);
-  const [editCity, setEditCity] = useState(false)
-  const [editDistrict, setEditDistrict] = useState(false)
-  const [editWard, setEditWard] = useState(false)
+  const [editCity, setEditCity] = useState(false);
+  const [editDistrict, setEditDistrict] = useState(false);
+  const [editWard, setEditWard] = useState(false);
 
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
@@ -90,18 +90,18 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setStatus(event.target.value);
   };
   const handleChangeComboboxCountry = (event) => {
-    setCityId("")
-    setDistrictId("")
-    setWardId("")
-    setEditCity(true)
+    setCityId("");
+    setDistrictId("");
+    setWardId("");
+    setEditCity(true);
     setCountryId(event.target.value);
   };
   const handleChangeComboboxCity = (event) => {
-    setEditDistrict(true)
+    setEditDistrict(true);
     setCityId(event.target.value);
   };
   const handleChangeComboboxDistrict = (event) => {
-    setEditWard(true)
+    setEditWard(true);
     setDistrictId(event.target.value);
   };
   const handleChangeComboboxWard = (event) => {
@@ -256,7 +256,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
         setIsValidBirth(false);
       }
     }
-  }
+  };
 
   const onChangeHandleName = (text) => {
     setNameUser(text.target.value);
@@ -283,8 +283,8 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
         setEditCode(true);
         setEdit(true);
         setEditCity(false);
-        setEditDistrict(false)
-        setEditWard(false)
+        setEditDistrict(false);
+        setEditWard(false);
 
         setCodeUser("");
         setNameUser("");
@@ -298,7 +298,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
         setDistrictId("");
         setWardId("");
         setNumberHome("");
-        setDateOfBirthShow("")
+        setDateOfBirthShow("");
       } else {
         try {
           const response = await axios.get(
@@ -307,7 +307,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           if (response.status === 200) {
             setCodeUser(response.data.code);
             setNameUser(response.data.fullName);
-            setPassword(response.data.password)
+            setPassword(response.data.password);
             setPhoneUser(response.data.numberPhone);
             setDateOfBirthShow(new Date(Date.parse(response.data.dateOfBirth)));
             setDateOfBirth(response.data.dateOfBirth);
@@ -334,7 +334,6 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           console.log("error get user: " + error);
         }
       }
-
     };
 
     getUser();
@@ -419,44 +418,50 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   useEffect(() => {
     if (countryId != "") {
       const getCity = async () => {
-        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${countryId}`)
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-parent/${countryId}`
+        );
         if (response.status == 200) {
           setCity(response.data);
         } else {
-          console.log("error combobox city")
+          console.log("error combobox city");
         }
-      }
+      };
       getCity();
     }
-  }, [countryId])
+  }, [countryId]);
 
   useEffect(() => {
     if (cityId != "") {
       const getDistrict = async () => {
-        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${cityId}`)
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-parent/${cityId}`
+        );
         if (response.status == 200) {
           setDistrict(response.data);
         } else {
-          console.log("error combobox city")
+          console.log("error combobox city");
         }
-      }
+      };
       getDistrict();
     }
-  }, [cityId])
+  }, [cityId]);
 
   useEffect(() => {
     if (districtId != "") {
       const getDistrict = async () => {
-        const response = await axios.get(`http://localhost:9000/cineza/api/v1/address/get-by-parent/${districtId}`)
+        const response = await axios.get(
+          `http://localhost:9000/cineza/api/v1/address/get-by-parent/${districtId}`
+        );
         if (response.status == 200) {
           setWard(response.data);
         } else {
-          console.log("error combobox city")
+          console.log("error combobox city");
         }
-      }
+      };
       getDistrict();
     }
-  }, [districtId])
+  }, [districtId]);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -471,8 +476,8 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setEditCode(true);
     setEdit(true);
     setEditCity(false);
-    setEditDistrict(false)
-    setEditWard(false)
+    setEditDistrict(false);
+    setEditWard(false);
 
     setCodeUser("");
     setNameUser("");
@@ -486,7 +491,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setDistrictId("");
     setWardId("");
     setNumberHome("");
-    setDateOfBirthShow("")
+    setDateOfBirthShow("");
   };
 
   const onClickSave = async () => {
@@ -524,8 +529,15 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     onHandleFocusHome();
     onHandleFocusStatus();
     onHandleFocusAddress();
-    if (!isValidCode & !isValidName & !isValidPass & !isValidLevel & !isValidHome & !isValidPhone &
-      !isValidStatus & !isValidAddress
+    if (
+      !isValidCode &
+      !isValidName &
+      !isValidPass &
+      !isValidLevel &
+      !isValidHome &
+      !isValidPhone &
+      !isValidStatus &
+      !isValidAddress
     ) {
       try {
         console.log(user);
@@ -603,10 +615,13 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
               <img className="iconNew" src={iconCreateNew} alt="create new" />
               <p>Tạo mới</p>
             </div>
-            <div
-              className="user-detail-header-close"
-            >
-              <img className="iconClose" onClick={onClickHandleClose} src={iconClose} alt="close" />
+            <div className="user-detail-header-close">
+              <img
+                className="iconClose"
+                onClick={onClickHandleClose}
+                src={iconClose}
+                alt="close"
+              />
             </div>
           </div>
           <div className="user-detail-header-name">
@@ -746,7 +761,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandlePhone(text)}
-                // onFocus={onHandleFocusPhone}
+                  // onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -880,7 +895,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                         onChange={handleChangeComboboxCity}
                         onFocus={onHandleFocusAddress}
                         readOnly={!edit || !editCity}
-                        style={(edit == false || editCity == false) ? { background: "rgb(196, 196, 196)" } : {}}
+                        style={
+                          edit == false || editCity == false
+                            ? { background: "rgb(196, 196, 196)" }
+                            : {}
+                        }
                       >
                         {city?.map((st, index) => {
                           return (
@@ -918,7 +937,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                         onChange={handleChangeComboboxDistrict}
                         onFocus={onHandleFocusAddress}
                         readOnly={!edit || !editDistrict}
-                        style={(edit == false || editDistrict == false) ? { background: "rgb(196, 196, 196)" } : {}}
+                        style={
+                          edit == false || editDistrict == false
+                            ? { background: "rgb(196, 196, 196)" }
+                            : {}
+                        }
                       >
                         {district?.map((st, index) => {
                           return (
@@ -955,7 +978,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                         onChange={handleChangeComboboxWard}
                         onFocus={onHandleFocusAddress}
                         readOnly={!edit || !editWard}
-                        style={(edit == false || editWard == false) ? { background: "rgb(196, 196, 196)" } : {}}
+                        style={
+                          edit == false || editWard == false
+                            ? { background: "rgb(196, 196, 196)" }
+                            : {}
+                        }
                       >
                         {ward?.map((st, index) => {
                           return (
@@ -977,7 +1004,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
