@@ -67,6 +67,8 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
   const [status, setStatus] = useState(movieClick?.status);
   const [languageMovie, setLanguageMovie] = useState(movieClick?.language);
 
+  const [dataTicket, setDataTicket] = useState([]);
+
   const [edit, setEdit] = useState(false);
   const [editCode, setEditCode] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -143,6 +145,22 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
   //     }
   //   }
   // };
+
+  //get ticket by code movie
+  // useEffect(() => {
+  //   const getAllTicket = async () => {
+  //     const allTicket = await axios.get(
+  //       `http://localhost:9000/cineza/api/v1/ticket/get-by-movie/${movieClick?.code}`
+  //     );
+  //     if (allTicket.status === 200) {
+  //       setDataTicket(allTicket.data);
+  //     } else {
+  //       console.error("get all ticket in showing");
+  //     }
+  //   };
+
+  //   getAllTicket();
+  // }, []);
 
   useEffect(() => {
     if (addBtn) {

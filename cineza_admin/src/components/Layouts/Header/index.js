@@ -1,7 +1,7 @@
 import "./header.css";
-import logo from "../../../assets/image/logo.png"
-import avatarDefault from "../../../assets/image/avatarDefault.png"
-import iconMore from "../../../assets/imageButtons/more.png"
+import logo from "../../../assets/image/logo.png";
+import avatarDefault from "../../../assets/image/avatarDefault.png";
+import iconMore from "../../../assets/imageButtons/more.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,9 @@ const Header = () => {
                 <p className="action-logout" onClick={handleOnClickLogout}>Đăng xuất</p>
             </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default Header;

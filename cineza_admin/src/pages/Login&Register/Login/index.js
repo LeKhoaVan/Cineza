@@ -67,10 +67,10 @@ const Login = () => {
 
   const handleOnChangePassword = (text) => {
     setPassword(text.target.value);
-  }
+  };
   const handleOnChangeEmail = (text) => {
     setEmail(text.target.value);
-  }
+  };
   return (
     <div className="container">
       <div style={{ height: 20 }}></div>

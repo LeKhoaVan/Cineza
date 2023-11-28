@@ -78,6 +78,15 @@ const getTicketByShowingService = async (codeShowing) => {
   return ticket;
 };
 
+const getTicketByMovieService = async (codeMovie) => {
+  const query = `select * from cineza.ticket as t 
+	join cineza.showing as s on t.codeShowing = s.code
+	join cineza.movie as m on s.codeMovie = m.code 
+    where m.code='${codeMovie} and s.showDate >= "2023-11-26 00:00:00"'`;
+  const [ticket, metadata] = await db.sequelize.query(query);
+  return ticket;
+};
+
 const checkSeatBook = async (codeSeat, codeShowing) => {
   const query = `select t.id from ticket as t where t.codeSeat = '${codeSeat}' and t.codeShowing = '${codeShowing}';`;
   const [check, metadata] = await db.sequelize.query(query);
@@ -136,6 +145,7 @@ module.exports = {
   getAllTicketService,
   getTicketByCodeService,
   getTicketByShowingService,
+  getTicketByMovieService,
   createTicketService,
   checkSeatBook,
   getAllSeatIsBookService,

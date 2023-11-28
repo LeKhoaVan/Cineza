@@ -98,8 +98,8 @@ const checkShow = async (codeRap, codeRoom, showDate, showStart) => {
   where s.codeRap = '${codeRap}' 
   and s.codeRoom = '${codeRoom}' 
   and s.showDate like '%${showDate}%'
-  and '${start}' < s.showEnd
-  and '${start}' > s.showStart
+  and '${start}' <= s.showEnd
+  and '${start}' >= s.showStart
   and s.status = 'Hoạt động';`;
 
   const [shows, metadata] = await db.sequelize.query(query);
@@ -122,8 +122,8 @@ const updateStatusShowService = async (
   where s.codeRap = '${codeRap}' 
   and s.codeRoom = '${codeRoom}' 
   and s.showDate like '%${showDate}%'
-  and '${start}' < s.showEnd
-  and '${start}' > s.showStart
+  and '${start}' <= s.showEnd
+  and '${start}' >= s.showStart
   and s.status = 'Hoạt động';`;
 
   const resultData = await db.sequelize.query(query, {
@@ -154,6 +154,17 @@ const getAllShowByRapService = async (codeRap) => {
   return allShow;
 };
 
+const getAllShowByRoomService = async (codeRoom) => {
+  const query = `select s.code, s.codeMovie, s.codeRap, s.codeRoom, s.showDate , s.showStart, s.showEnd, s.status, m.movieName, r.name as nameRap,  ro.name as nameRoom
+     from cineza.showing as s 
+     join cineza.movie as m on s.codeMovie = m.code
+     join cineza.rap as r on s.codeRap = r.code
+     join cineza.room as ro on s.codeRoom = ro.code
+     where s.codeRoom = '${codeRoom}';`;
+  const [allShow, metadata] = await db.sequelize.query(query);
+  return allShow;
+};
+
 const getAllShowByMovieAndRapService = async (codeMovie, codeRap) => {
   const query = `select s.code, s.codeMovie, s.codeRap, s.codeRoom, s.showDate , s.showStart, s.showEnd, s.status, m.movieName, r.name as nameRap,  ro.name as nameRoom
      from showing as s 
@@ -171,6 +182,7 @@ module.exports = {
   updateShowService,
   getAllShowByMovieService,
   getAllShowByRapService,
+  getAllShowByRoomService,
   checkShow,
   updateStatusShowService,
   getAllShowByMovieAndRapService,
