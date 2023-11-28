@@ -33,9 +33,7 @@ const Header = () => {
                 <p className="action-logout" onClick={handleOnClickLogout}>Đăng xuất</p>
             </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Header;

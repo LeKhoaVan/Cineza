@@ -111,6 +111,7 @@ const createShowController = async (req, res) => {
   }
 };
 
+
 const updateShowController = async (req, res) => {
   const { code } = req.params;
   const { codeMovie, codeRap, codeRoom, showDate, showStart, status } =
@@ -161,9 +162,9 @@ const updateShowController = async (req, res) => {
 };
 
 const checkShowController = async (req, res) => {
-  const { codeRap, codeRoom, showDate, showStart } = req.params;
+  const { codeRap, codeRoom, showDate, showStart, showEnd } = req.params;
   try {
-    const dataCheck = await checkShow(codeRap, codeRoom, showDate, showStart);
+    const dataCheck = await checkShow(codeRap, codeRoom, showDate, showStart, showEnd);
     res.status(200).send(dataCheck);
   } catch (error) {
     res.status(200).send("error check show: " + error);
