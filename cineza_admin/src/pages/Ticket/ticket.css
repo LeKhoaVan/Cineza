@@ -45,17 +45,18 @@
 
 .ticket-input-find {
   width: 34%;
-  height: 20px;
-  padding: 1.5%;
+  /* height: 20px; */
+  padding: 2%;
   /* padding-right: 50px; */
   border-radius: 5px;
+  margin-top: 3%;
 }
 
 .ticket-button-img {
   position: absolute;
   width: 30px;
   height: 30px;
-  top: 15%;
+  top: 30%;
   right: 63%;
 }
 
