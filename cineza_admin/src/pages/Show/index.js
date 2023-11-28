@@ -21,6 +21,10 @@ const columns = [
     data: "showStart",
   },
   {
+    title: "Giờ kết thúc",
+    data: "showEnd",
+  },
+  {
     title: "Ngày chiếu",
     data: "showDate",
   },
@@ -90,21 +94,24 @@ const ShowTime = () => {
           const day = inputDateTime.getDate();
           const month = inputDateTime.getMonth() + 1;
           const year = inputDateTime.getFullYear();
-          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${
-            month < 10 ? "0" : ""
-          }${month}-${year}`;
+          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${month < 10 ? "0" : ""
+            }${month}-${year}`;
 
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
-            minute < 10 ? "0" : ""
-          }${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${minute < 10 ? "0" : ""}${minute}`;
+
+          const inputTimeEnd = new Date(item.showEnd);
+          const hourEnd = inputTimeEnd.getHours();
+          const minuteEnd = inputTimeEnd.getMinutes();
+          const minuteResultEnd = `${hourEnd < 10 ? "0" : ""}${hourEnd}:${minuteEnd < 10 ? "0" : ""}${minuteEnd}`;
 
           return {
             ...item,
             showDate: formattedDateTime,
             showStart: minuteResult,
+            showEnd: minuteResultEnd,
           };
         });
         setContext(dataResult);
@@ -126,21 +133,25 @@ const ShowTime = () => {
           const day = inputDateTime.getDate();
           const month = inputDateTime.getMonth() + 1;
           const year = inputDateTime.getFullYear();
-          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${
-            month < 10 ? "0" : ""
-          }${month}-${year}`;
+          const formattedDateTime = `${day < 10 ? "0" : ""}${day}-${month < 10 ? "0" : ""
+            }${month}-${year}`;
 
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
-            minute < 10 ? "0" : ""
-          }${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${minute < 10 ? "0" : ""
+            }${minute}`;
+
+          const inputTimeEnd = new Date(item.showEnd);
+          const hourEnd = inputTimeEnd.getHours();
+          const minuteEnd = inputTimeEnd.getMinutes();
+          const minuteResultEnd = `${hourEnd < 10 ? "0" : ""}${hourEnd}:${minuteEnd < 10 ? "0" : ""}${minuteEnd}`;
 
           return {
             ...item,
             showDate: formattedDateTime,
             showStart: minuteResult,
+            showEnd: minuteResultEnd,
           };
         });
         setContext(dataResult);
@@ -194,10 +205,10 @@ const ShowTime = () => {
                 id="demo-select-small"
                 // value={codeMovie}
                 label="Tên phim"
-                // onChange={handleChangeComboboxCodeMovie}
-                // onFocus={onHandleFocusCodeMovie}
-                // readOnly={!edit}
-                // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+              // onChange={handleChangeComboboxCodeMovie}
+              // onFocus={onHandleFocusCodeMovie}
+              // readOnly={!edit}
+              // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
               >
                 {[].map((st, index) => {
                   return (

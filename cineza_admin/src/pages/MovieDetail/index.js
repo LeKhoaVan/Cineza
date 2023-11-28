@@ -29,17 +29,11 @@ const dataStatus = [
   { id: "Hủy", value: "Hủy" },
 ];
 
-const dataLevel = [
-  { id: "ADMIN", value: "ADMIN" },
-  { id: "USER", value: "USER" },
-  { id: "COMUNITY", value: "COMUNITY" },
-  { id: "VIP", value: "VIP" },
-];
-// "TIENG VIET", "ANH", "TRUNG QUOC", "NHAT BAN"
+
 const dataLanguage = [
   { id: "TIENG VIET", value: "Tiếng Việt" },
 
-  { id: "ANH", value: "Tiếng Anh" },
+  { id: "TIENG ANH", value: "Tiếng Anh" },
 
   { id: "TRUNG QUOC", value: "Tiếng Trung" },
 
@@ -159,8 +153,8 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
       setPosterMovie("");
       setMovieType("");
       setMovieTime("");
-      setStartDate(new Date());
-      setEndDate(new Date());
+      setStartDate("");
+      setEndDate("");
       setDescription("");
       setActor("");
       setDirector("");
@@ -203,8 +197,8 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
     setPosterMovie("");
     setMovieType("");
     setMovieTime("");
-    setStartDate(new Date());
-    setEndDate(new Date());
+    setStartDate("");
+    setEndDate("");
     setDescription("");
     setActor("");
     setDirector("");
@@ -255,6 +249,25 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
           setShowAlert(true);
           setMessage("Lưu phim thành công");
           onClickHandleNew();
+        } else {
+          console.log("save movie error");
+          setShowAlert(true);
+          setMessage("Lỗi lưu phim");
+        }
+      } else if (update) {
+        const updateMovie = await axios.put(
+          `http://localhost:9000/cineza/api/v1/movie/update/${code}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (updateMovie.status == 200) {
+          console.log("save movie success");
+          setShowAlert(true);
+          setMessage("Lưu phim thành công");
         } else {
           console.log("save movie error");
           setShowAlert(true);
@@ -363,7 +376,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onFocus={onHandleFocusCode}
                 />
                 {/* {isValidCode && (
                   <p style={{ color: "red" }}>Mã không được bỏ trống</p>
@@ -381,7 +394,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleNameMovie(text)}
-                  //   onFocus={onHandleFocusName}
+                //   onFocus={onHandleFocusName}
                 />
                 {/* {isValidName && (
                   <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>
@@ -437,7 +450,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                       : { height: "50px", background: "rgb(196, 196, 196)" }
                   }
                   onChange={(text) => onChangeHandleDescription(text)}
-                  //   onFocus={onHandleFocusHome}
+                //   onFocus={onHandleFocusHome}
                 />
                 {/* {isValidHome && <p style={{ color: "red" }}>Không bỏ trống</p>} */}
               </div>
@@ -488,7 +501,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleDirector(text)}
-                  //   onFocus={onHandleFocusPhone}
+                //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -505,7 +518,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleActor(text)}
-                  //   onFocus={onHandleFocusPhone}
+                //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>

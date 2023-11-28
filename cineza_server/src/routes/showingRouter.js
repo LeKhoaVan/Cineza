@@ -23,7 +23,7 @@ showingRouter.get("/get-by-code/:code", getShowByCodeController);
 showingRouter.post("/create", createShowController);
 showingRouter.put("/put/:code", updateShowController);
 showingRouter.get(
-  "/check-show/:codeRap/:codeRoom/:showDate/:showStart",
+  "/check-show/:codeRap/:codeRoom/:showDate/:showStart/:showEnd",
   checkShowController
 );
 showingRouter.put(

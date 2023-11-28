@@ -12,7 +12,7 @@ movieRouter.get("/:movieCode", getByCodeMovie);
 movieRouter.get("/get-movie-by-date/:date", getMovieByDateController)
 movieRouter.get("/get-date/:codeMovie", getDateByMovieController)
 movieRouter.post("/create", handUploadFile, createMovie);
-movieRouter.put("/update/:movieCode", updateMovie);
+movieRouter.put("/update/:movieCode", handUploadFile, updateMovie);
 movieRouter.put("/change-status/:movieCode", updateStatusMovie);
 movieRouter.get("/get-all-for-user/:dateCheck", getAllMovieForUser);
 
