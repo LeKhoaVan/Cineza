@@ -184,8 +184,8 @@ const ShowTime = () => {
               alt="tìm kiếm"
               htmlFor="find"
             />
-            <FormControl
-              sx={{ width: "45%", marginLeft: "30px", marginRight: "10px" }}
+            {/* <FormControl
+              sx={{ width: "45%", marginLeft: "30px", marginTop: "2%" }}
               size="small"
             >
               <InputLabel id="demo-select-small-label">Tên Rạp</InputLabel>
@@ -207,7 +207,7 @@ const ShowTime = () => {
                   );
                 })}
               </Select>
-            </FormControl>
+            </FormControl> */}
           </div>
         </div>
         {/* <div
