@@ -16,26 +16,26 @@ const Header = () => {
     getUser();
   }, []);
 
-  const navigate = useNavigate();
-  const handleOnClickLogout = () => {
-    localStorage.removeItem("userAdmin");
-    navigate("/login");
-  };
-  return (
-    <div className="header-container">
-      <Link className="header-logo" to="/home">
-        <img className="logo-img" src={logo} />
-        <p className="logo-name">CINEZA</p>
-      </Link>
-      <div className="header-inform">
-        <img className="header-inform-avatar" src={avatarDefault} />
-        <p className="header-inform-name">{user.fullName}</p>
-        <p className="action-logout" onClick={handleOnClickLogout}>
-          Đăng xuất
-        </p>
-      </div>
-    </div>
-  );
+
+    const navigate = useNavigate();
+    const handleOnClickLogout = () => {
+        localStorage.removeItem("userAdmin");
+        navigate("/login");
+    }
+    return (
+        <div className="header-container">
+            <Link className="header-logo" to="/home">
+                <img className="logo-img" src={logo} />
+                <p className="logo-name">CINEZA</p>
+            </Link>
+            <div className="header-inform">
+                <img className="header-inform-avatar" src={avatarDefault} />
+                <p className="header-inform-name">{user.fullName}</p>
+                <p className="action-logout" onClick={handleOnClickLogout}>Đăng xuất</p>
+            </div>
+        </div>
+    );
+
 };
 
 export default Header;

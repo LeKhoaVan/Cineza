@@ -92,37 +92,39 @@ const createMovie = async (req, res) => {
 };
 
 const updateMovie = async (req, res) => {
-  const { movieCode } = req.params;
-  const {
-    movieName,
-    movieTime,
-    description,
-    director,
-    actor,
-    language,
-    startDate,
-    endDate,
-    movieType,
-    status,
-  } = req.body;
-  try {
-    const updateMovie = await updateMovieService(movieCode, {
-      movieName,
-      movieTime,
-      description,
-      director,
-      actor,
-      language,
-      startDate,
-      endDate,
-      movieType,
-      status,
-    });
-    res.status(200).send(updateMovie);
-  } catch (error) {
-    res.status(500).send("error update movie: " + error);
-  }
-};
+    const { file } = req;
+    let moviePoster = "";
+    if (file != undefined) {
+        const filePath = `http://localhost:9000/${file.path}`;
+        moviePoster = filePath;
+    }
+
+    const {
+        code, movieName, movieTime,
+        description, director, actor, language,
+        startDate, endDate, movieType, status } = req.body;
+    try {
+        let updateMovie
+        if (file != undefined) {
+            updateMovie = await updateMovieService(code, {
+                movieName, movieTime, moviePoster,
+                description, director, actor, language,
+                startDate, endDate, movieType, status
+            })
+        } else {
+            updateMovie = await updateMovieService(code, {
+                movieName, movieTime,
+                description, director, actor, language,
+                startDate, endDate, movieType, status
+            })
+        }
+
+        res.status(200).send(updateMovie);
+    } catch (error) {
+        res.status(500).send("error update movie: " + error)
+    }
+}
+
 
 const updateStatusMovie = async (req, res) => {
   const { movieCode } = req.params;

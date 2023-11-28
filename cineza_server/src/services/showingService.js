@@ -84,22 +84,26 @@ const updateShowService = async (code, show) => {
   return updateShow;
 };
 
-const checkShow = async (codeRap, codeRoom, showDate, showStart) => {
+const checkShow = async (codeRap, codeRoom, showDate, showStart, showEnd) => {
   const newShowStart = new Date(showDate);
-  // console.log(showDate);
-  // console.log(newShowStart);
+  const newShowEnd = new Date(showDate);
+
   const timeShowStart = showStart.split(":");
-  // console.log(timeShowStart);
+  const timeShowEnd = showEnd.split(":");
+
   newShowStart.setHours(timeShowStart[0], timeShowStart[1], 0, 0);
-  // console.log(newShowStart);
-  const start = moment(newShowStart).format("YYYY-MM-DD hh:mm:ss");
-  // console.log(start);
-  const query = `select s.code from cineza.showing as s
-  where s.codeRap = '${codeRap}' 
-  and s.codeRoom = '${codeRoom}' 
-  and s.showDate like '%${showDate}%'
+  newShowEnd.setHours(timeShowEnd[0], timeShowEnd[1], 0, 0)
+
+  const start = `${newShowStart.getFullYear()}-${newShowStart.getMonth() + 1}-${newShowStart.getDate()} ${newShowStart.getHours()}:${newShowStart.getMinutes()}:${newShowStart.getSeconds()}`
+  const end = `${newShowEnd.getFullYear()}-${newShowEnd.getMonth() + 1}-${newShowEnd.getDate()} ${newShowEnd.getHours()}:${newShowEnd.getMinutes()}:${newShowEnd.getSeconds()}`
+
+  const query = `select s.code, s.showDate
+  from cineza.showing as s
+  where s.codeRap = '${codeRap}'
+  and s.codeRoom = '${codeRoom}'
+  and s.showDate = '${showDate}'
   and '${start}' <= s.showEnd
-  and '${start}' >= s.showStart
+  and '${end}' >= s.showStart
   and s.status = 'Hoạt động';`;
 
   const [shows, metadata] = await db.sequelize.query(query);
