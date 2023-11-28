@@ -1,5 +1,5 @@
 
-const { movieCreateService, getAllMovieService, getByCodeService, updateMovieService, getMovieByDateService, getDateByMovieService } = require("../services/movieService")
+const { movieCreateService, getAllMovieService, getByCodeService, updateMovieService, getMovieByDateService, getDateByMovieService, getAllMovieForUserService } = require("../services/movieService")
 
 const getAllMovie = async (req, res) => {
     const { movieName } = req.query;
@@ -96,6 +96,16 @@ const updateStatusMovie = async (req, res) => {
 
 }
 
+const getAllMovieForUser = async (req, res) => {
+    const { dateCheck } = req.params;
+    try {
+        const allMovie = await getAllMovieForUserService(dateCheck);
+        res.status(200).send(allMovie);
+    } catch (error) {
+        res.status(200).send("error get all movie for user: " + error);
+    }
+}
+
 module.exports = {
     createMovie,
     getAllMovie,
@@ -103,5 +113,7 @@ module.exports = {
     updateMovie,
     updateStatusMovie,
     getMovieByDateController,
-    getDateByMovieController
+    getDateByMovieController,
+    getAllMovieForUser,
+
 }

@@ -9,21 +9,53 @@ import axios from "axios";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
+  const [disableLogin, setDisableLogin] = useState(false);
+
+  useEffect(() => {
+    const validateInput = () => {
+      let messengeError = {};
+
+      if (!email) {
+        messengeError.errorEmail = 'Email không được bỏ trống'
+      } else if (!/\S+@\S+\.\S+/.test(email)) {
+        messengeError.errorEmail = 'Email không đúng'
+      }
+
+      if (!password) {
+        messengeError.errorPassword = 'Mật khẩu không được bỏ trống'
+      } else if (password.length < 6) {
+        messengeError.errorPassword = 'Mật khẩu ít nhất 6 ký tự'
+      }
+
+      setErrors(messengeError);
+      setDisableLogin(Object.keys(messengeError).length === 0);
+    }
+    validateInput();
+  }, [email, password])
+
 
   const onClickLogin = async () => {
-    try {
-      // const result = await axios.get("");
-      // if (result.status == 200) {
-      //   if (result.data.type == "ADMIN") {
-      //     localStorage.setItem("userAdmin", result.data);
-      //   }
-      // } else {
-      //   console.log("error check role user");
-      // }
-      localStorage.setItem("userAdmin", { name: "ewr" });
-      window.location.href = "/cineza/admin/home";
-    } catch (error) {
-      console.log("error check role user: ", error);
+    if (disableLogin) {
+      try {
+        console.log(email, password)
+        const result = await axios.get(`http://localhost:9000/cineza/api/v1/user/login/${email}/${password}`);
+        console.log(result.data)
+        if (result.data != "") {
+          if (result.data.type == "ADMIN") {
+            console.log(result.data)
+            localStorage.setItem("userAdmin", JSON.stringify(result.data));
+            window.location.href = "/cineza/admin/home";
+          } else {
+            setErrors({ ...errors, errorType: 'Không có quyền truy cập' })
+          }
+        } else {
+          setErrors({ ...errors, errorType: 'Sai tài khoản hoặc mật khẩu' })
+        }
+
+      } catch (error) {
+        console.log("error check role user: ", error);
+      }
     }
   };
   const onClickForget = async () => {
@@ -46,29 +78,24 @@ const Login = () => {
         <h2 id="headerTitle">Đăng nhập</h2>
 
         <div className="row">
+          <span style={{ color: "red" }}>{errors.errorType}</span>
           <label>Email</label>
-          <input
-            type="text"
-            placeholder="Nhập email"
-            onChange={handleOnChangeEmail}
-          />
+          <input type="text" placeholder="Nhập email" onChange={handleOnChangeEmail} />
+          <span style={{ paddingBottom: "20px", color: "red" }}>{errors.errorEmail}</span>
           <label>Mật khẩu</label>
-          <input
-            type="text"
-            placeholder="Nhập mật khẩu"
-            onChange={handleOnChangePassword}
-          />
-          <button onClick={onClickLogin}>Đăng nhập</button>
+          <input type="text" placeholder="Nhập mật khẩu" onChange={handleOnChangePassword} />
+          <span style={{ color: "red" }}>{errors.errorPassword}</span>
+          <button onClick={onClickLogin} style={disableLogin ? {} : { background: "rgb(160, 160, 160)" }}>Đăng nhập</button>
         </div>
         <div className="forget">
           <div onClick={onClickForget}>Quên mật khẩu?</div>
         </div>
 
-        <div className="row">
-          {/* <div className="register" onClick={onClickRegister}>
+        {/* <div className="row">
+          <div className="register" onClick={onClickRegister}>
             Đăng ký
-          </div> */}
-        </div>
+          </div>
+        </div> */}
         <div id="alternativeLogin"></div>
       </div>
     </div>
