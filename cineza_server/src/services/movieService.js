@@ -1,4 +1,4 @@
-const { Op, where } = require("sequelize");
+const { Op, where, QueryTypes } = require("sequelize");
 
 const { db } = require("../models/index")
 
@@ -95,11 +95,20 @@ const updateMovieService = async (movieCode, movie) => {
     }
 }
 
+const getAllMovieForUserService = async (dateCheck) => {
+    const query = `select m.code, m.movieName, m.moviePoster, m.movieTime, m.description, m.director, m.actor, m.language, m.startDate, 
+    m.endDate, m.status, m.movieType
+    from movie as m
+    where m.status = "Hoạt động" and m.endDate >= "${dateCheck}";`;
+    const dataAllMovie = db.sequelize.query(query, { type: QueryTypes.SELECT });
+    return dataAllMovie;
+}
 module.exports = {
     movieCreateService,
     getByCodeService,
     getAllMovieService,
     updateMovieService,
     getMovieByDateService,
-    getDateByMovieService
+    getDateByMovieService,
+    getAllMovieForUserService,
 }

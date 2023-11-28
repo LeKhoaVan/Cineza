@@ -12,8 +12,10 @@ import {
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import moment from 'moment';
 
 import configAPI from '../../config/configAPI';
+import config from '../../config/configAPI';
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = SLIDER_WIDTH * 0.68;
@@ -123,10 +125,12 @@ function Slider_Movie() {
 
   useEffect(() => {
     axios
-      .get(`http://${configAPI.IPP4}:9000/cineza/api/v1/movie/get-all`, {
+      .get(`http://${config.IPP4}:9000/cineza/api/v1/movie/get-all-for-user/${moment().format("YYYY-MM-DD")}`, {
+        // .get(`http://${configAPI.IPP4}:9000/cineza/api/v1/movie/get-all`, {
         timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
       })
       .then(res => {
+        console.log(res.data)
         const originalDataArray = res.data;
         const correctedDataArray = originalDataArray.map(item => {
           const originalImagePath = item.moviePoster;

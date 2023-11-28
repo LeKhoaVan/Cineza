@@ -3,8 +3,24 @@ import logo from "../../../assets/image/logo.png"
 import avatarDefault from "../../../assets/image/avatarDefault.png"
 import iconMore from "../../../assets/imageButtons/more.png"
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const [user, setUser] = useState("");
+    useEffect(() => {
+        const getUser = async () => {
+            const dataUser = localStorage.getItem("userAdmin");
+            setUser(JSON.parse(dataUser));
+        };
+        getUser();
+    }, [])
+
+    const navigate = useNavigate();
+    const handleOnClickLogout = () => {
+        localStorage.removeItem("userAdmin");
+        navigate("/login");
+    }
     return (
         <div className="header-container">
             <Link className="header-logo" to="/home">
@@ -13,10 +29,8 @@ const Header = () => {
             </Link>
             <div className="header-inform">
                 <img className="header-inform-avatar" src={avatarDefault} />
-                <p className="header-inform-name">Luxius Akashi</p>
-                <div className="header-inform-action">
-                    <button className="button-more"><img className="action-icon" src={iconMore} /></button>
-                </div>
+                <p className="header-inform-name">{user.fullName}</p>
+                <p className="action-logout" onClick={handleOnClickLogout}>Đăng xuất</p>
             </div>
         </div>
     )

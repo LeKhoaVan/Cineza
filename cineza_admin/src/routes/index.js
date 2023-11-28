@@ -22,6 +22,7 @@ import Show from "../pages/Show";
 import Ticket from "../pages/Ticket";
 import TicketBook from "../pages/TicketBook";
 import Order from "../pages/Order";
+import Statistics from "../pages/Statistics";
 
 const publicRouter = [
   // { path: "/login", componet: Login, layout: DefaultLayout, sidebar: Sidebar },
@@ -130,6 +131,12 @@ const publicRouter = [
     layout: DefaultLayout,
     sidebar: Sidebar,
   },
+  {
+    path: "/statistics",
+    componet: Statistics,
+    layout: DefaultLayout,
+    sidebar: Sidebar,
+  }
 ];
 
 const privateRouter = [];

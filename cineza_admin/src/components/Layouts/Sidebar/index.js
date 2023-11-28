@@ -29,7 +29,7 @@ const Sidebar = () => {
     { text: "Quản lý bảng giá", image: iconPriceList, href: "/price" },
     { text: "Quản lý suất chiếu", image: iconShow, href: "/show" },
     { text: "Quản lý hóa đơn", image: iconOrder, href: "/order" },
-    { text: "Thống kê", image: iconThongKe, href: "#" },
+    { text: "Thống kê", image: iconThongKe, href: "/statistics" },
   ];
 
   // quản lý trạng thái button

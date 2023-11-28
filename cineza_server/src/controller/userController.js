@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 
 const { getAllUserService, getUserByCodeService, getUserByTypeService, createNewUserService,
-    updateUserService, login } = require("../services/userService");
+    updateUserService, login, findUserByName } = require("../services/userService");
 
 const getAllUserController = async (req, res) => {
     try {
@@ -125,6 +125,16 @@ const loginController = async (req, res) => {
     }
 }
 
+const findUserByNameController = async (req, res) => {
+    const { fullName } = req.params;
+    try {
+        const users = await findUserByName(fullName);
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(200).send("find user by name error :" + error);
+    }
+}
+
 
 module.exports = {
     getAllUserController,
@@ -134,5 +144,6 @@ module.exports = {
     updateUserController,
     sendEmailOTP,
     verifyEmail,
-    loginController
+    loginController,
+    findUserByNameController
 }
