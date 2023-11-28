@@ -23,6 +23,7 @@ const ticketRouter = require("./ticketRouter")
 const orderRouter = require("./orderRouter");
 const userRouter = require("./userRouter");
 const addressRouter = require("./addressRouter")
+const statisticsRouter = require("./statisticsRouter");
 
 const rootRouter = express.Router();
 
@@ -44,6 +45,7 @@ rootRouter.use("/ticket", ticketRouter);
 rootRouter.use("/order", orderRouter);
 rootRouter.use("/address", addressRouter);
 rootRouter.use("/user", userRouter);
+rootRouter.use("/statistics", statisticsRouter);
 
 
 let dataAppTransId = "";

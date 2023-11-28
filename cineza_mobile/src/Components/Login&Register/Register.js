@@ -49,7 +49,7 @@ function Register() {
     // Validate mật khẩu
     if (!password) {
       errors.password = "Mật khẩu không được để trống";
-    } else if (password.length < 8) {
+    } else if (password.length < 6) {
       errors.password = "Mật khẩu ít nhất phải 8 ký tự";
     }
 

@@ -71,11 +71,26 @@ const login = async (numberPhone, password) => {
     return dataUser;
 }
 
+const findUserByName = async (fullName) => {
+    const query = `select u.code, u.type, u.fullName, u.numberPhone, u.dateOfBirth, u.password, u.countryAddress, u.cityAddress, u.districtAddress,
+    u.wardAddress, u.numberHome, u.status, ct.code as codeCountry, ct.fullName as nameCountry, cit.code as codeCity, cit.fullName as nameCity,
+    dt.code as codeDistrict, dt.fullName as nameDistrict, wd.code as codeWard, wd.fullName as nameWard
+    from user as u
+    left join address as ct on u.countryAddress = ct.code
+    left join address as cit on u.cityAddress = cit.code
+    left join address as dt on u.districtAddress = dt.code
+    left join address as wd on u.wardAddress = wd.code
+    where u.fullName like '%${fullName}%';`
+    const dataUser = await db.sequelize.query(query, { type: QueryTypes.SELECT });
+    return dataUser;
+}
+
 module.exports = {
     getAllUserService,
     getUserByCodeService,
     getUserByTypeService,
     createNewUserService,
     updateUserService,
-    login
+    login,
+    findUserByName,
 }
