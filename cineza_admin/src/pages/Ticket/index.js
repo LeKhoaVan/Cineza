@@ -127,8 +127,9 @@ const Ticket = () => {
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${minute < 10 ? "0" : ""
-            }${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
+            minute < 10 ? "0" : ""
+          }${minute}`;
           return {
             ...item,
             showStart: minuteResult,
@@ -158,8 +159,9 @@ const Ticket = () => {
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${minute < 10 ? "0" : ""
-            }${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
+            minute < 10 ? "0" : ""
+          }${minute}`;
           return {
             ...item,
             showStart: minuteResult,
@@ -267,16 +269,6 @@ const Ticket = () => {
                   alt="tìm kiếm"
                   htmlFor="find"
                 />
-                {/* <DatePicker
-                  dateFormat="yyyy-MM-dd"
-                  placeholderText="Lọc ngày"
-                  selected={datePay}
-                  // selected={dateOfBirthShow}
-                  // readOnly={!edit}
-                  onChange={(date) => onChangeHandleDate(date)}
-                  fixedHeight="100%"
-                  portalId="root-portal"
-                  className="ticket-find-date" />*/}
                 <FormControl
                   sx={{ width: "30%", marginLeft: "5%" }}
                   size="small"
@@ -284,40 +276,17 @@ const Ticket = () => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                  // value={codeMovie}
-                  // label="Tên phim"
-                  // onChange={handleChangeComboboxCodeMovie}
-                  // onFocus={onHandleFocusCodeMovie}
-                  // readOnly={!edit}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                    // value={codeMovie}
+                    // label="Tên phim"
+                    // onChange={handleChangeComboboxCodeMovie}
+                    // onFocus={onHandleFocusCodeMovie}
+                    // readOnly={!edit}
+                    // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {dataRap?.map((st, index) => {
                       return (
                         <MenuItem key={index} value={st.rapName}>
                           {st.rapName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                <FormControl
-                  sx={{ width: "30%", marginLeft: "5%" }}
-                  size="small"
-                >
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    // value={showDate}
-                    // label="Ngày chiếu"
-                    // onChange={handleChangeComboboxShowDate}
-                    // onFocus={onHandleFocusShowDate}
-                    readOnly={false}
-                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
-                  >
-                    {dataShowDate.map((st, index) => {
-                      return (
-                        <MenuItem key={index} value={st.showDate}>
-                          {st.showDate}
                         </MenuItem>
                       );
                     })}

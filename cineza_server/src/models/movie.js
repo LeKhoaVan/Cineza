@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isIn: [["TIENG VIET", "ANH", "TRUNG QUOC", "NHAT BAN"]],
+          isIn: [["TIENG VIET", "TIENG ANH", "TRUNG QUOC", "NHAT BAN"]],
         },
       },
       startDate: {

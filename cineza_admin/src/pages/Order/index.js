@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Table from "../../components/Table";
 import OrderDetail from "../OrderDetail";
 import iconAdd from "../../assets/imageButtons/iconAdd.png";
@@ -40,6 +41,9 @@ const Order = () => {
 
   const [datePay, setDatePay] = useState("");
   const onChangeHandleDate = (text) => {
+    // const dateCheck = moment(text.target.value, "DD-MM-YYYY").format(
+    //   "YYYY-MM-DD"
+    // );
     setDatePay(text.target.value);
   };
 

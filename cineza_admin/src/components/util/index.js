@@ -13,6 +13,21 @@ const formatDateHandle = (inputDate) => {
   return formattedDate;
 };
 
+const formatDayHandle = (inputDate) => {
+  // Create a new Date object from the input date string
+  const date = new Date(inputDate);
+
+  // Get day, month, and year components
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  const year = date.getUTCFullYear();
+
+  // Format the date as dd-MM-yyyy
+  const formattedDate = `${year}-${month}-${day}`;
+
+  return formattedDate;
+};
+
 const formatFromObjectToDate = (inputDate) => {
   const date = new Date(inputDate);
   const day = String(date.getUTCDate()).padStart(2, "0");
@@ -44,6 +59,7 @@ const formatTimeHandle = (inputDate) => {
 
 module.exports = {
   formatDateHandle,
+  formatDayHandle,
   formatFromObjectToDate,
   formatTimeHandle,
   // formatFromDatetoObject

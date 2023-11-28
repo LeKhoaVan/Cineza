@@ -38,24 +38,26 @@ const updatePriceHeaderService = async (code, priceHeader) => {
   return updatePriceHeader;
 };
 
-const checkTimePriceHeader = async (startDay) => {
+const checkTimePriceHeader = async (startDay, endDay) => {
   const query = `select * from priceheader as ph
-  where "${startDay}" < ph.endDay and ph.status = "Hoạt động";`
-  const resultData = await db.sequelize.query(query, { type: QueryTypes.SELECT });
+  where "${startDay}" < ph.endDay and "${endDay}" > ph.startDay and ph.status = "Hoạt động";`;
+  const resultData = await db.sequelize.query(query, {
+    type: QueryTypes.SELECT,
+  });
   return resultData;
-}
+};
 
-const updateStatusAllService = async (startDay) => {
+const updateStatusAllService = async (startDay, endDay) => {
   const query = `
   UPDATE priceheader as ph
   SET status = "Khóa tạm thời"
-  WHERE "${startDay}" < ph.endDay;`;
+  WHERE "${startDay}" < ph.endDay and "${endDay}" > ph.startDay;`;
 
-  const resultData = await db.sequelize.query(query, { type: QueryTypes.UPDATE });
+  const resultData = await db.sequelize.query(query, {
+    type: QueryTypes.UPDATE,
+  });
   return resultData;
-}
-
-
+};
 
 module.exports = {
   getAllPriceHeaderService,

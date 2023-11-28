@@ -222,9 +222,10 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     try {
       console.log(priceHeader);
       if (editCode) {
-        const dateCheck = moment(startDayShow).format("YYYY-MM-DD");
+        const checkStartDay = moment(startDayShow).format("YYYY-MM-DD");
+        const checkEndDay = moment(endDayShow).format("YYYY-MM-DD");
         const checkTime = await axios.get(
-          `http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`
+          `http://localhost:9000/cineza/api/v1/price-header/check-time/${checkStartDay}/${checkEndDay}`
         );
         console.log(checkTime.data.length);
         if (checkTime.data.length === 0) {
@@ -247,9 +248,10 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           setIsOpenDialog(true);
         }
       } else if (update) {
-        const dateCheck = moment(startDayShow).format("YYYY-MM-DD");
+        const checkStartDay = moment(startDayShow).format("YYYY-MM-DD");
+        const checkEndDay = moment(endDayShow).format("YYYY-MM-DD");
         const checkTime = await axios.get(
-          `http://localhost:9000/cineza/api/v1/price-header/check-time/${dateCheck}`
+          `http://localhost:9000/cineza/api/v1/price-header/check-time/${checkStartDay}/${checkEndDay}`
         );
         if (checkTime.data.length === 0) {
           const response = await axios.put(
@@ -281,9 +283,10 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     if (editCode) {
       try {
         if (dataPriceTam != null) {
-          const dateCheck = moment(dataPriceTam.startDay).format("YYYY-MM-DD");
+          const checkStartDay = moment(startDayShow).format("YYYY-MM-DD");
+          const checkEndDay = moment(endDayShow).format("YYYY-MM-DD");
           const dataUpdate = await axios.put(
-            `http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`
+            `http://localhost:9000/cineza/api/v1/price-header/update-all/${checkStartDay}/${checkEndDay}`
           );
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price-header/create`,
@@ -305,9 +308,10 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     } else if (update) {
       try {
         if (dataPriceTam != null) {
-          const dateCheck = moment(dataPriceTam.startDay).format("YYYY-MM-DD");
+          const checkStartDay = moment(startDayShow).format("YYYY-MM-DD");
+          const checkEndDay = moment(endDayShow).format("YYYY-MM-DD");
           const dataUpdate = await axios.put(
-            `http://localhost:9000/cineza/api/v1/price-header/update-all/${dateCheck}`
+            `http://localhost:9000/cineza/api/v1/price-header/update-all/${checkStartDay}/${checkEndDay}`
           );
           const response = await axios.put(
             `http://localhost:9000/cineza/api/v1/price-header/put/` + code,

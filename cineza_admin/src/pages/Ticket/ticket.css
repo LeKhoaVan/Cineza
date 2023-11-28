@@ -46,9 +46,9 @@
 .ticket-input-find {
   width: 34%;
   height: 20px;
-  padding: 10px;
+  padding: 1.5%;
   /* padding-right: 50px; */
-  border-radius: 20px 0px 20px 0px;
+  border-radius: 5px;
 }
 
 .ticket-button-img {
@@ -56,7 +56,7 @@
   width: 30px;
   height: 30px;
   top: 15%;
-  right: 65%;
+  right: 63%;
 }
 
 .ticket-find-date {

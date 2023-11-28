@@ -6,6 +6,7 @@ const {
   updateShowService,
   getAllShowByMovieService,
   getAllShowByRapService,
+  getAllShowByRoomService,
   checkShow,
   updateStatusShowService,
   getAllShowByMovieAndRapService,
@@ -204,6 +205,16 @@ const getAllShowByRapController = async (req, res) => {
   }
 };
 
+const getAllShowByRoomController = async (req, res) => {
+  const { codeRoom } = req.params;
+  try {
+    const allShow = await getAllShowByRoomService(codeRoom);
+    res.status(200).send(allShow);
+  } catch (error) {
+    res.status(500).send("error get show by rap: " + error);
+  }
+};
+
 const getAllShowByMovieAndRap = async (req, res) => {
   const { codeMovie, codeRap } = req.params;
   try {
@@ -223,6 +234,7 @@ module.exports = {
   updateStatusShowController,
   getAllShowByMovieController,
   getAllShowByRapController,
+  getAllShowByRoomController,
   getAllShowByMovieAndRap,
   getShowByMovieAndDateController,
   getShowByRapAndDateController,
