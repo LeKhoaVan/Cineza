@@ -493,32 +493,35 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
             <div className="price-header-detail-input">
               <label>Ngày bắt đầu</label>
               <div className="price-header-detail-input-dem"></div>
-              <DatePicker
-                locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={startDayShow}
-                readOnly={!edit}
-                onChange={(date) => onChangeHandleStartDate(date)}
-                fixedHeight="60px"
-                portalId="root-portal"
-                className="date-picker"
-              />
+              <div className="input-price-header-detail-container">
+                <DatePicker
+                  locale="vi"
+                  dateFormat="dd-MM-yyyy"
+                  selected={startDayShow}
+                  readOnly={!edit}
+                  onChange={(date) => onChangeHandleStartDate(date)}
+                  fixedHeight="60px"
+                  portalId="root-portal"
+                  className="price-header-detail-date-picker"
+                />
+              </div>
             </div>
 
             <div className="price-header-detail-input">
               <label>Ngày Kết thúc</label>
               <div className="price-header-detail-input-dem"></div>
-
-              <DatePicker
-                locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={endDayShow}
-                readOnly={!edit}
-                onChange={(date) => onChangeHandleEndDate(date)}
-                fixedHeight="60px"
-                portalId="root-portal"
-                className="date-picker"
-              />
+              <div className="input-price-header-detail-container">
+                <DatePicker
+                  locale="vi"
+                  dateFormat="dd-MM-yyyy"
+                  selected={endDayShow}
+                  readOnly={!edit}
+                  onChange={(date) => onChangeHandleEndDate(date)}
+                  fixedHeight="60px"
+                  portalId="root-portal"
+                  className="price-header-detail-date-picker"
+                />
+              </div>
             </div>
           </div>
           <div className="price-header-detail-content-right">
