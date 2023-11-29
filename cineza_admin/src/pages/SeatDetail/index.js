@@ -325,8 +325,8 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   value={codeRoom}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCodeRap(text)}
-                  // onFocus={onHandleFocusPosition}
+                // onChange={(text) => onChangeHandleCodeRap(text)}
+                // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
@@ -342,8 +342,8 @@ const SeatDetail = ({ codeSeat, onClickHandleClose, addBtn }) => {
                   value={codeType}
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCodeRap(text)}
-                  // onFocus={onHandleFocusPosition}
+                // onChange={(text) => onChangeHandleCodeRap(text)}
+                // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>

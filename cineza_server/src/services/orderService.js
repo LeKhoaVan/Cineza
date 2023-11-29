@@ -5,7 +5,7 @@ const createOrderService = async (order, codeTicket) => {
   const newOrder = await db.Order.create(order);
   let checkSaveOrderDetail = true;
   codeTicket.codeTicket.forEach(async (ct) => {
-    const orderDetail = { codeOder: newOrder.code, codeTicket: ct };
+    const orderDetail = { codeOder: newOrder.code, codeTicket: ct.codeTicket, priceItemOrder: ct.priceTicket };
     const newOrderDetail = await db.OrderDetail.create(orderDetail);
     if (newOrderDetail != undefined) {
       checkSaveOrderDetail = false;
@@ -18,20 +18,17 @@ const createOrderService = async (order, codeTicket) => {
 };
 
 const getOrderServiceByCode = async (codeOrder) => {
-  const query = `select ord.codeOder, sh.showDate, sh.showStart, sh.showEnd, s.code, s.position, p.value, m.movieName, r.name as rapName, ro.name as roomName, o.datePay, o.description, us.code as codeUser, us.fullName
+  const query = `select ord.codeOder, ord.priceItemOrder , sh.showDate, sh.showStart, sh.showEnd, s.code, s.position, m.movieName, r.name as rapName, ro.name as roomName, o.datePay, o.description, us.code as codeUser, us.fullName
 from orderdetail as ord
 join cineza.order as o on o.code = ord.codeOder
 join user as us on us.code = o.codeUser
 join ticket as t on t.code = ord.codeTicket
 join showing as sh on t.codeShowing = sh.code
 join seat as s on s.code = t.codeSeat
-join typeseat as ts on ts.code = s.codeTypeSeat
-join price as p on p.codeTypeSeat = ts.code
-join priceheader as ph on ph.code = p.codeHeader
 join movie as m on m.code = sh.codeMovie
 join rap as r on r.code = sh.codeRap
 join room as ro on ro.code = sh.codeRoom
-where ord.codeOder = "${codeOrder}" and ph.status = "Hoạt động"  and p.status = "Hoạt động";`;
+where ord.codeOder = "${codeOrder}";`;
 
   const dataOrder = await db.sequelize.query(query, {
     type: QueryTypes.SELECT,

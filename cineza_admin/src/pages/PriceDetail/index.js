@@ -482,8 +482,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onChange={(text) => onChangeHandleCode(text)}
+                // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>

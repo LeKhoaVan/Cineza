@@ -219,7 +219,7 @@ function SeatBook({ route }) {
     let tickets = [];
 
     seatSelected.forEach(async seat => {
-      tickets = [...tickets, { codeShowing: route.params.item.code, codeSeat: seat.code, codeUser: user.codeUser, status: 'Hoạt động' }]
+      tickets = [...tickets, { codeShowing: route.params.item.code, codeSeat: seat.code, priceTicket: seat.value, codeUser: user.codeUser, status: 'Hoạt động' }]
     })
 
     if (seatSelected.length === 0) {

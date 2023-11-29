@@ -523,9 +523,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
           //formatDayHandle(currentDate) <= formatDayHandle(item.showDate)
           getShow.data.forEach((item) => {
-            let date = `${new Date(item.showDate).getFullYear()}-${
-              new Date(item.showDate).getMonth() + 1
-            }-${new Date(item.showDate).getDate()}`;
+            let date = `${new Date(item.showDate).getFullYear()}-${new Date(item.showDate).getMonth() + 1
+              }-${new Date(item.showDate).getDate()}`;
 
             if (formatDayHandle(currentDate) <= date) {
               console.log(`Ngày chiếu: ${date}`);

@@ -78,7 +78,7 @@ const User = () => {
         );
         console.log(result)
         if (result.status == 200) {
-          const dataSetup = result.data.map((item) => {
+          const dataSetup = result?.data.map((item) => {
             return {
               ...item,
               dateOfBirth: formatDateHandle(item.dateOfBirth),
@@ -92,7 +92,7 @@ const User = () => {
         );
         console.log(result)
         if (result.status == 200) {
-          const dataSetup = result.data.map((item) => {
+          const dataSetup = result?.data.map((item) => {
             return {
               ...item,
               dateOfBirth: formatDateHandle(item.dateOfBirth),
