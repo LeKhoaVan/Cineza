@@ -29,7 +29,6 @@ const dataStatus = [
   { id: "Hủy", value: "Hủy" },
 ];
 
-
 const dataLanguage = [
   { id: "TIENG VIET", value: "Tiếng Việt" },
 
@@ -376,7 +375,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
-                // onFocus={onHandleFocusCode}
+                  // onFocus={onHandleFocusCode}
                 />
                 {/* {isValidCode && (
                   <p style={{ color: "red" }}>Mã không được bỏ trống</p>
@@ -394,7 +393,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleNameMovie(text)}
-                //   onFocus={onHandleFocusName}
+                  //   onFocus={onHandleFocusName}
                 />
                 {/* {isValidName && (
                   <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>
@@ -450,7 +449,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                       : { height: "50px", background: "rgb(196, 196, 196)" }
                   }
                   onChange={(text) => onChangeHandleDescription(text)}
-                //   onFocus={onHandleFocusHome}
+                  //   onFocus={onHandleFocusHome}
                 />
                 {/* {isValidHome && <p style={{ color: "red" }}>Không bỏ trống</p>} */}
               </div>
@@ -501,7 +500,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleDirector(text)}
-                //   onFocus={onHandleFocusPhone}
+                  //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -518,7 +517,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleActor(text)}
-                //   onFocus={onHandleFocusPhone}
+                  //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -546,31 +545,35 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
             <div className="movie-detail-input">
               <label>Ngày phát hành</label>
               <div className="movie-detail-input-dem"></div>
-              <DatePicker
-                locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={startDate}
-                readOnly={!edit}
-                onChange={(date) => onChangeHandleStartDate(date)}
-                fixedHeight="60px"
-                portalId="root-portal"
-                className="movie-detail-date-picker"
-              />
+              <div className="input-movie-container">
+                <DatePicker
+                  locale="vi"
+                  dateFormat="dd-MM-yyyy"
+                  selected={startDate}
+                  readOnly={!edit}
+                  onChange={(date) => onChangeHandleStartDate(date)}
+                  fixedHeight="60px"
+                  portalId="root-portal"
+                  className="movie-detail-date-picker"
+                />
+              </div>
             </div>
 
             <div className="movie-detail-input">
               <label>Ngày kết thúc</label>
               <div className="movie-detail-input-dem"></div>
-              <DatePicker
-                locale="vi"
-                dateFormat="dd-MM-yyyy"
-                selected={endDate}
-                readOnly={!edit}
-                onChange={(date) => onChangeHandleEndDate(date)}
-                fixedHeight="60px"
-                portalId="root-portal"
-                className="movie-detail-date-picker"
-              />
+              <div className="input-movie-container">
+                <DatePicker
+                  locale="vi"
+                  dateFormat="dd-MM-yyyy"
+                  selected={endDate}
+                  readOnly={!edit}
+                  onChange={(date) => onChangeHandleEndDate(date)}
+                  fixedHeight="60px"
+                  portalId="root-portal"
+                  className="movie-detail-date-picker"
+                />
+              </div>
             </div>
 
             <div className="movie-detail-input">

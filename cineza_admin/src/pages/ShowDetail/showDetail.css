@@ -310,10 +310,15 @@
   padding-top: 50px;
 }
 
-.date-picker {
+/* .date-picker {
   height: 29px;
   padding-left: 17px;
   margin-right: 230px;
+} */
+
+.show-detail-time-picker {
+  width: 103%;
+  /* padding-right: 100px; */
 }
 
 .show-detail-table-content {
