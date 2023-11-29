@@ -139,7 +139,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusName = () => {
     if (editCode || edit) {
-      const regex = /^[a-zA-Z]{3,}$/;
+      const regex = /^.*(?:[a-zA-ZÀ-ỹĂ-ỹĐ-đƯ-ư].*){3}.*$/;
       if (!regex.test(nameUser)) {
         setIsValidName(true);
       } else {
@@ -192,13 +192,13 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
   };
 
   useEffect(() => {
-    onHandleFocusPhone();
+    onHandleFocusEmail();
   }, [phoneUser]);
 
-  const onHandleFocusPhone = () => {
+  const onHandleFocusEmail = () => {
     if (editCode || edit) {
-      const regex = /((09|03|07|08|05)+([0-9]{8})\b)/;
-      if (!regex.test(phoneUser) || phoneUser.trim().length == 0) {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(phoneUser) || phoneUser.trim().length == 0) {
         setIsValidPhone(true);
       } else {
         setIsValidPhone(false);
@@ -375,7 +375,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       }
     };
     getAllCountry();
-  }, []);
+  }, [codeUser]);
 
   //combobox district
   useEffect(() => {
@@ -525,7 +525,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     onHandleFocusName();
     onHandleFocusPass();
     onHandleFocusLevel();
-    onHandleFocusPhone();
+    onHandleFocusEmail();
     onHandleFocusHome();
     onHandleFocusStatus();
     onHandleFocusAddress();
@@ -761,11 +761,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandlePhone(text)}
-                  // onFocus={onHandleFocusPhone}
+                  onFocus={onHandleFocusEmail}
                 />
-                {/* {isValidPhone && (
-                  <p style={{ color: "red" }}>Số điện thoại không đúng</p>
-                )} */}
+                {isValidPhone && (
+                  <p style={{ color: "red" }}>địa chỉ mail không đúng</p>
+                )}
               </div>
             </div>
 

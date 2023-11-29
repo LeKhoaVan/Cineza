@@ -57,7 +57,7 @@ const titleColumn = [
   },
   {
     title: "Giá vé",
-    data: "value",
+    data: "priceItemOrder",
   },
   {
     title: "Ngày thanh toán",

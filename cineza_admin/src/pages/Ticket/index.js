@@ -127,9 +127,8 @@ const Ticket = () => {
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
-            minute < 10 ? "0" : ""
-          }${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${minute < 10 ? "0" : ""
+            }${minute}`;
           return {
             ...item,
             showStart: minuteResult,
@@ -159,9 +158,8 @@ const Ticket = () => {
           const inputTime = new Date(item.showStart);
           const hour = inputTime.getHours();
           const minute = inputTime.getMinutes();
-          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${
-            minute < 10 ? "0" : ""
-          }${minute}`;
+          const minuteResult = `${hour < 10 ? "0" : ""}${hour}:${minute < 10 ? "0" : ""
+            }${minute}`;
           return {
             ...item,
             showStart: minuteResult,
@@ -276,12 +274,12 @@ const Ticket = () => {
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
-                    // value={codeMovie}
-                    // label="Tên phim"
-                    // onChange={handleChangeComboboxCodeMovie}
-                    // onFocus={onHandleFocusCodeMovie}
-                    // readOnly={!edit}
-                    // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
+                  // value={codeMovie}
+                  // label="Tên phim"
+                  // onChange={handleChangeComboboxCodeMovie}
+                  // onFocus={onHandleFocusCodeMovie}
+                  // readOnly={!edit}
+                  // style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   >
                     {dataRap?.map((st, index) => {
                       return (
@@ -356,10 +354,9 @@ const Ticket = () => {
                   {dataSeatTicketThuong?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-thuong"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-thuong"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>
@@ -368,10 +365,9 @@ const Ticket = () => {
                   {dataSeatTicketVip?.map((seat, index) => (
                     <div
                       key={index}
-                      className={`seat-show ${
-                        seat?.booked ? "occupied-show" : "seat-vip"
-                      }`}
-                      // onClick={() => toggleSeat(index, seat)}
+                      className={`seat-show ${seat?.booked ? "occupied-show" : "seat-vip"
+                        }`}
+                    // onClick={() => toggleSeat(index, seat)}
                     >
                       Ghế {seat?.position}
                     </div>

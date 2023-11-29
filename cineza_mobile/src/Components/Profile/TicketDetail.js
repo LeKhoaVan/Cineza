@@ -40,8 +40,8 @@ function TicketDetail({ route }) {
           let itemOrder = [];
           let total = 0;
           for (const item of resultOrder.data) {
-            itemOrder = [...itemOrder, { position: item.position, value: item.value }];
-            total += item.value;
+            itemOrder = [...itemOrder, { position: item.position, priceItemOrder: item.priceItemOrder }];
+            total += item.priceItemOrder;
           }
 
           setDataSeat(itemOrder);
@@ -91,7 +91,7 @@ function TicketDetail({ route }) {
                   marginRight: 40,
                 }}>
                 <Text style={styles.viewText1}></Text>
-                <Text style={styles.viewText}>Giá: {seat.value.toLocaleString('vi-VN')} VND</Text>
+                <Text style={styles.viewText}>Giá: {seat.priceItemOrder.toLocaleString('vi-VN')} VND</Text>
               </View>
             </View>
           ))}

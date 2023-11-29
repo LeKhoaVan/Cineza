@@ -494,8 +494,8 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                   value={codeRap}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCodeRap(text)}
-                  // onFocus={onHandleFocusPosition}
+                // onChange={(text) => onChangeHandleCodeRap(text)}
+                // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
@@ -602,7 +602,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                  // onClick={handleSeatClick(item)}
+                // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

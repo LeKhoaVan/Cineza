@@ -88,7 +88,7 @@ const VTDL = () => {
   const [levelOfAddress, setLevelOfAddress] = useState("");
   const [context, setContext] = useState("");
   const [openModalAdd, setOpenModelAdd] = useState(false);
-  const onClickHandleRow = () => {};
+  const onClickHandleRow = () => { };
   const onClickHandleBtnAdd = () => {
     setOpenModelAdd(true);
   };
