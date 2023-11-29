@@ -312,7 +312,7 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
       try {
         const response = await axios.get(
           `http://localhost:9000/cineza/api/v1/promotion-line/get-by-code/` +
-            codePromotion
+          codePromotion
         );
 
         if (response.status === 200) {
@@ -332,7 +332,7 @@ const PromotionDetail = ({ codePromotion, onClickHandleClose, addBtn }) => {
 
           const responseDetail = await axios.get(
             `http://localhost:9000/cineza/api/v1/promotion-detail/get-all/` +
-              response.data.code
+            response.data.code
           );
           console.log(responseDetail);
 

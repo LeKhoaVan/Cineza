@@ -1,3 +1,4 @@
+const moment = require("moment/moment");
 const { db } = require("../models/index");
 
 const getAllSeatService = async () => {
@@ -21,22 +22,27 @@ const getAllSeatByCodeRoomService = async (codeRoom) => {
 };
 
 const getAllSeatByCodeRoomAndCodeTypeService = async (codeRoom, codeType) => {
+  const datePay = moment().format("YYYY-MM-DD")
   const query = `select s.code, s.codeTypeSeat, s.position, s.codeRoom, s.status, s.isBook , r.name as nameRoom, ts.type as typeSeat, p.value
   from seat as s
   join room as r on r.code = s.codeRoom
   join typeSeat as ts on ts.code = s.codeTypeSeat
   join price as p on p.codeTypeSeat = ts.code
   join priceheader as ph on ph.code = p.codeHeader
-    where s.codeRoom = '${codeRoom}' and s.codeTypeSeat = '${codeType}' and ph.status="Hoạt động" and p.status = "Hoạt động"
+    where s.codeRoom = '${codeRoom}' and s.codeTypeSeat = '${codeType}' and ph.status="Hoạt động" 
+    and p.status = "Hoạt động" and ph.startDay <= '${datePay}' and ph.endDay >= '${datePay}'
     order by s.position asc`;
   const [allSeat, setAllSeat] = await db.sequelize.query(query);
   return allSeat;
 };
 
 const getPriceSeatService = async (codeTypeSeat) => {
+  const datePay = moment().format("YYYY-MM-DD")
+
   const query = `select p.value, p.codeTypeSeat, ph.status from price as p
   join priceheader as ph on ph.code = p.codeHeader
-  where p.codeTypeSeat = '${codeTypeSeat}' and ph.status = 'Hoạt động'  and p.status = "Hoạt động"`;
+  where p.codeTypeSeat = '${codeTypeSeat}' and ph.status = 'Hoạt động'  and p.status = "Hoạt động"
+  and ph.startDay <= '${datePay}' and ph.endDay >= '${datePay}'`;
   const [price, metadata] = await db.sequelize.query(query);
   return price[0];
 };
