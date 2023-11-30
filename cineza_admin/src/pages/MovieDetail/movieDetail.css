@@ -215,11 +215,11 @@
 
 .movie-detail-date-picker {
   /* height: 29px; */
-  padding-left: 17px;
+  /* padding-left: 17px; */
   /* margin-right: 214px; */
-  width: 100px;
-  flex-direction: column;
-  margin-left: 95px;
+  /* width: 100px; */
+  /*flex-direction: column;
+  margin-left: 95px; */
 }
 
 .movie-detail-poster {

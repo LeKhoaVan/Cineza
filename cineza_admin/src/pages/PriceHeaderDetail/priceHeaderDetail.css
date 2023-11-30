@@ -235,10 +235,11 @@
   padding-top: 50px;
 }
 
-.date-picker {
-  height: 29px;
+.price-header-detail-date-picker {
+  /* height: 29px;
   padding-left: 17px;
-  margin-right: 230px;
+  margin-right: 230px; */
+  /* padding-right: 50px; */
 }
 
 .price-detail-container-page {
