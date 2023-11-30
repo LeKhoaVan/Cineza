@@ -4,12 +4,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "6%",
-    backgroundColor: "#fff",
+    backgroundColor: "#0c0736",
   },
   containerUser: {
     left: "5%",
     top: "20%",
-    width: "6%",
+    width: "8%",
     height: "65%",
     borderRadius: 50,
     backgroundColor: "#1b4d8f",

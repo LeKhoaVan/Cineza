@@ -20,7 +20,7 @@ function Login() {
   const handleLogin = async () => {
     const user = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/user/login/${email}/${password}`);
     if (user.data != null) {
-      await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: user.data.code, userName: user.data.fullName }));
+      await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: user.data.code, userName: user.data.fullName, numberPhone: user.data.numberPhone }));
       navigation.navigate("Home")
     }
 

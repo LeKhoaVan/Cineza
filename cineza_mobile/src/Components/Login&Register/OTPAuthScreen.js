@@ -43,7 +43,7 @@ const OTPAuthScreen = ({ route }) => {
             "status": "Hoạt động"
           })
         if (newUser.status === 201) {
-          await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: newUser.data.code, userName: newUser.data.fullName }));
+          await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: newUser.data.code, userName: newUser.data.fullName, numberPhone: email }));
           navigation.navigate("Home")
         }
 

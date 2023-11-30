@@ -36,13 +36,17 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
   useEffect(() => {
     const getDataShow = async () => {
       console.log(newItem)
-      const date = `${new Date(newItem.showStart).getFullYear()}-${new Date(newItem.showStart).getMonth() + 1}-${new Date(newItem.showStart).getDate()}`
+      const year = `${new Date(newItem.showStart).getFullYear()}`
+      const month = `${String(new Date(newItem.showStart).getMonth() + 1).padStart(2, '0')}`
+      const day = `${String(new Date(newItem.showStart).getDate()).padStart(2, '0')}`
+      const date = `${year}-${month}-${day}`
       console.log(date)
       const response = await axios.get(
         `http://${config.IPP4}:9000/cineza/api/v1/show/get-by-rap-movie-data/${newItem.codeRap
         }/${newItem.codeMovie}/${date}`
       );
       console.log("te", response.data)
+      console.log(newItem.codeRap, newItem.codeMovie, date)
       if (response.status === 200) {
         setDataShow(response.data);
       } else {

@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 import {
   Image,
   View,
@@ -7,25 +9,36 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 function ProfileDetail() {
   const navigation = useNavigation();
+  const [user, setUser] = useState("")
+  useEffect(() => {
+    const getUser = async () => {
+      const userInfoString = await AsyncStorage.getItem('userInfo');
+
+      if (userInfoString !== null) {
+        setUser(JSON.parse(userInfoString))
+      }
+    }
+    getUser();
+  }, [])
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.content}>
-        <Text style={{fontSize: 18, paddingLeft: 5, color: '#8c8f67'}}>
+        <Text style={{ fontSize: 18, paddingLeft: 5, color: '#8c8f67' }}>
           Tài khoản Email
         </Text>
       </View>
-      <View style={{padding: 10}}>
-        <Text style={{fontSize: 20, fontWeight: 600, paddingLeft: 5}}>
-          toduchieu1245@gmail.com
+      <View style={{ padding: 10 }}>
+        <Text style={{ fontSize: 20, fontWeight: 600, paddingLeft: 5 }}>
+          {user.numberPhone}
         </Text>
       </View>
       <View style={styles.content}>
-        <Text style={{fontSize: 18, paddingLeft: 5, color: '#8c8f67'}}>
+        <Text style={{ fontSize: 18, paddingLeft: 5, color: '#8c8f67' }}>
           Thông tin thêm
         </Text>
       </View>
@@ -34,20 +47,20 @@ function ProfileDetail() {
           <View style={styles.item}>
             <Text style={styles.viewText}>Họ tên</Text>
             <TextInput
-              style={{fontSize: 18, paddingRight: 15}}
-              value="Tô Đức Hiếu"></TextInput>
+              style={{ fontSize: 18, paddingRight: 15 }}
+              value={user.userName}></TextInput>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={styles.item}>
             <Text style={styles.viewText}>Ngày sinh</Text>
             <TextInput
-              style={{fontSize: 18, paddingRight: 15}}
-              value="20/10/2001"></TextInput>
+              style={{ fontSize: 18, paddingRight: 15 }}
+              value={moment(user.dateOfBirth).format("DD-MM-YYYY")}></TextInput>
           </View>
         </TouchableOpacity>
         <View style={styles.content}>
-          <Text style={{fontSize: 18, paddingLeft: 5, color: '#8c8f67'}}>
+          <Text style={{ fontSize: 18, paddingLeft: 5, color: '#8c8f67' }}>
             Liên hệ
           </Text>
         </View>
@@ -55,20 +68,20 @@ function ProfileDetail() {
           <View style={styles.item}>
             <Text style={styles.viewText}>Số điện thoại</Text>
             <TextInput
-              style={{fontSize: 18, paddingRight: 15}}
-              value="0372460109"></TextInput>
+              style={{ fontSize: 18, paddingRight: 15 }}
+              value="null"></TextInput>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <View style={styles.item}>
             <Text style={styles.viewText}>Tỉnh/thành</Text>
-            <Text style={{fontSize: 18, paddingRight: 15}}>Hồ Chí Minh</Text>
+            <Text style={{ fontSize: 18, paddingRight: 15 }}>{user.cityAddress}</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View>
         <TouchableOpacity style={styles.bottom}>
-          <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+          <Text style={{ fontSize: 22, color: '#fff', fontWeight: 'bold' }}>
             Cập nhật thông tin
           </Text>
         </TouchableOpacity>
