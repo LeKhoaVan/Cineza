@@ -77,6 +77,8 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const [dataPriceTam, setDataPriceTam] = useState(null);
 
   const [isValidCode, setIsValidCode] = useState(false);
+  const [isValidStartDayShow, setIsValidStartDayShow] = useState(false);
+  const [isValidEndDayShow, setIsValidEndDayShow] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidDescription, setIsValidDescription] = useState(false);
 
@@ -122,7 +124,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
   const onChangeHandleStartDate = (text) => {
     setStartDay(text);
     setStartDayShow(text);
-    console.log(startDay);
   };
   const onChangeHandleEndDate = (text) => {
     setEndDay(text);
@@ -146,6 +147,34 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
         setIsValidCode(true);
       } else {
         setIsValidCode(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusStartDay();
+  }, [startDayShow]);
+
+  const onHandleFocusStartDay = () => {
+    if (editCode || edit) {
+      if (startDayShow == undefined || startDayShow.length <= 0) {
+        setIsValidStartDayShow(true);
+      } else {
+        setIsValidStartDayShow(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusEndDay();
+  }, [endDayShow, startDayShow]);
+
+  const onHandleFocusEndDay = () => {
+    if (editCode || edit) {
+      if (endDayShow <= startDayShow) {
+        setIsValidEndDayShow(true);
+      } else {
+        setIsValidEndDayShow(false);
       }
     }
   };
@@ -194,8 +223,8 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setCode("");
     setDescription("");
     setStatus("");
-    setStartDayShow(new Date());
-    setEndDayShow(new Date());
+    setStartDayShow("");
+    setEndDayShow("");
     setStartDay(new Date());
     setEndDay(new Date());
   };
@@ -345,8 +374,8 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
       setCode("");
       setDescription("");
       setStatus("");
-      setStartDayShow(new Date());
-      setEndDayShow(new Date());
+      setStartDayShow("");
+      setEndDayShow("");
       setStartDay(new Date());
       setEndDay(new Date());
     }
@@ -500,10 +529,14 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                   selected={startDayShow}
                   readOnly={!edit}
                   onChange={(date) => onChangeHandleStartDate(date)}
+                  onFocus={onHandleFocusStartDay}
                   fixedHeight="60px"
                   portalId="root-portal"
                   className="price-header-detail-date-picker"
                 />
+                {isValidStartDayShow && (
+                  <p style={{ color: "red" }}>Chưa chọn ngày bắt đầu</p>
+                )}
               </div>
             </div>
 
@@ -517,10 +550,16 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
                   selected={endDayShow}
                   readOnly={!edit}
                   onChange={(date) => onChangeHandleEndDate(date)}
+                  onFocus={onHandleFocusEndDay}
                   fixedHeight="60px"
                   portalId="root-portal"
                   className="price-header-detail-date-picker"
                 />
+                {isValidEndDayShow && (
+                  <p style={{ color: "red" }}>
+                    Ngày kết thúc phải lớn hơn ngày bắt đầu
+                  </p>
+                )}
               </div>
             </div>
           </div>
