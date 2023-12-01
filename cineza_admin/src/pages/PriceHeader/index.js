@@ -61,16 +61,14 @@ const PriceHeader = () => {
           const dayStart = inputStartDay.getDate();
           const monthStart = inputStartDay.getMonth() + 1;
           const yearStart = inputStartDay.getFullYear();
-          const formattedStartDay = `${dayStart < 10 ? "0" : ""}${dayStart}-${
-            monthStart < 10 ? "0" : ""
-          }${monthStart}-${yearStart}`;
+          const formattedStartDay = `${dayStart < 10 ? "0" : ""}${dayStart}-${monthStart < 10 ? "0" : ""
+            }${monthStart}-${yearStart}`;
           const inputEndDay = new Date(item.endDay);
           const dayEnd = inputEndDay.getDate();
           const monthEnd = inputEndDay.getMonth() + 1;
           const yearEnd = inputEndDay.getFullYear();
-          const formattedEndDay = `${dayEnd < 10 ? "0" : ""}${dayEnd}-${
-            monthEnd < 10 ? "0" : ""
-          }${monthEnd}-${yearEnd}`;
+          const formattedEndDay = `${dayEnd < 10 ? "0" : ""}${dayEnd}-${monthEnd < 10 ? "0" : ""
+            }${monthEnd}-${yearEnd}`;
           return {
             ...item,
             startDay: formattedStartDay,

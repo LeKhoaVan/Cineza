@@ -15,16 +15,16 @@ function Header() {
         onPress={() => navigation.navigate('Thành viên')}
         style={styles.containerUser}>
         {/* <FontAwesome5 name="user-tie" size={24} color="white" /> */}
-        <Image source={iconUser} style={{ width: 20, height: 20 }} />
+        <Image source={iconUser} style={{ width: 20, height: 20, tintColor: "white", left: 4 }} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.containerLogo}>
-        <Text>Cineza App</Text>
+        <Text style={{ color: "white" }}>Cineza App</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigation.navigate('Menu')}
         style={styles.containerIcon}>
         {/* <Entypo name="menu" size={25} color="black" /> */}
-        <Image source={iconMenu} style={{ width: 20, height: 20 }} />
+        <Image source={iconMenu} style={{ width: 20, height: 20, tintColor: "white" }} />
       </TouchableOpacity>
     </View>
   );

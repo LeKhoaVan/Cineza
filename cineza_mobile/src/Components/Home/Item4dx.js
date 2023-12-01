@@ -19,60 +19,25 @@ function Item4dx() {
       />
       <View style={{ overflow: "hidden", alignItems: "flex-start" }}>
         <Text style={styles.text}>
-          4DX®, một định dạng điện ảnh hoàn toàn mới đánh thức mọi giác quan của
-          khán giả mang đến những trải nghiệm điện ảnh tuyệt đỉnh bằng công nghệ
-          hiện đại nhất trên thế giới.
+          Với dịch vụ vé thường, Rạp Chiếu Phim cam kết mang lại trải nghiệm xem phim đầy đủ, thoải mái và truyền cảm hứng cho khán giả.
+          Dưới đây là mô tả chi tiết về dịch vụ vé thường mà chúng tôi cung cấp
         </Text>
         <View style={{ height: 10 }} />
-        <Text style={styles.text}>Đặc Trưng Nổi Bật Của 4DX® </Text>
+        <Text style={styles.text}>Đặc Trưng Nổi Bật Của Vé Thường</Text>
         <Text style={styles.text}>
-          - 4DX® mang đến cho khán giả hai loại hiệu ứng: hiệu ứng ghế chuyển
-          động đa chiều và hiệu ứng môi trường tương tác xung quanh.
+          - Đa dạng lựa chọn phim: Với danh sách phim đa dạng và đầy đủ thể loại, khán giả vé thường có cơ hội
+          lựa chọn giữa nhiều bộ phim mới nhất và các tác phẩm kinh điển.
         </Text>
         <Text style={styles.text}>
-          - Ghế 4D bao gồm 3 kiểu chuyển động cơ bản: Xoay, rung lắc và nâng.
-          Các chuyển động này được kết hợp để tạo ra cảm giác sống động vượt
-          trội.{" "}
-        </Text>
-        <View style={{ height: 10 }} />
-        <Text style={styles.text}>Các Hiệu Ứng Đặc Trưng Của 4DX® </Text>
-        <Text style={styles.text}>
-          - Chuyển động: Ghế chuyển động đa chiều cho phản ứng chân thực với các
-          tác động từ màn ảnh.{" "}
+          - Giờ chiếu linh hoạt: Lịch chiếu phong phú, phù hợp với nhiều thời điểm khác nhau trong ngày, từ buổi sáng sớm đến khuya muộn,
+          tạo thuận lợi cho khán giả có thời gian linh động..{" "}
         </Text>
         <Text style={styles.text}>
-          - Nước: Thiết bị phun nước đặc biệt mang lại những trải nghiệm điện
-          ảnh sống động.{" "}
+          - Giá cả hợp lý: Vé thường được thiết kế với giá cả hợp lý, giúp mọi người dễ dàng tiếp cận và thưởng thức trải nghiệm xem phim mà
+          không làm ảnh hưởng đến ngân sách cá nhân.
         </Text>
         <Text style={styles.text}>
-          - Gió: Hệ thống “Phun khí cổ” được cài đặt trên ghế thổi luồng gió
-          trực tiếp lên cổ.{" "}
-        </Text>
-        <Text style={styles.text}>
-          - Mùi Hương: Chìm đắm vào không gian trong mỗi cảnh phim với trải
-          nghiệm mùi Hương chân thật.{" "}
-        </Text>
-        <Text style={styles.text}>
-          - Ánh sáng: Hiệu ứng ánh sáng đặc biệt tạo tia chớp được lắp đặt ngay
-          bên trên trần khán phòng.
-        </Text>
-        <View style={{ height: 10 }} />
-        <Text style={styles.text}>
-          Những Điều Cần Biết Khi Thưởng Thức 4DX®{" "}
-        </Text>
-        <Text style={styles.text}>
-          - Trẻ em dưới 4 tuổi hoặc cao dưới 1 mét không được sử dụng ghế 4DX®.
-          Trẻ em dưới 7 tuổi phải có bố mẹ hoặc người lớn đi kèm.{" "}
-        </Text>
-        <Text style={styles.text}>
-          - Phụ nữ đang mang thai, người già, người có thể chất và thần kinh yếu
-          không nên sử dụng ghế 4DX®.{" "}
-        </Text>
-        <Text style={styles.text}>
-          - Không để trẻ nhỏ ngồi ghế nâng hoặc ngồi chung với bố mẹ. 4DX®.{" "}
-        </Text>
-        <Text style={styles.text}>
-          - Không để trẻ nhỏ ngồi ghế nâng hoặc ngồi chung với bố mẹ.
+          - Hệ thống âm thanh ánh sáng
         </Text>
       </View>
     </SafeAreaView>

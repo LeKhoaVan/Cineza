@@ -28,6 +28,7 @@ import TicketDetail from './src/Components/Profile/TicketDetail';
 import Order from './src/Components/Order/Order';
 import Item4dx from './src/Components/Home/Item4dx';
 import OTPAuthScreen from "./src/Components/Login&Register/OTPAuthScreen"
+import SweetBoxPage from "./src/Components/Home/SweetBoxPage"
 export default function App() {
   const home = 'Home';
   const menu = 'Menu';
@@ -48,7 +49,8 @@ export default function App() {
   const profileDetail = 'Thông tin tài khoản';
   const ticketHistory = 'Lịch sử vé';
   const ticketDetail = 'Chi tiết vé';
-  const item4dx = '4DX';
+  const item4dx = 'Vé Thường';
+  const sweetBox = "Vé VIP";
   const order = 'Hóa đơn';
   const conform = "Xác thực";
   return (
@@ -87,6 +89,7 @@ export default function App() {
           name={ticketDetail}
           component={TicketDetail}></Stack.Screen>
         <Stack.Screen name={item4dx} component={Item4dx}></Stack.Screen>
+        <Stack.Screen name={sweetBox} component={SweetBoxPage}></Stack.Screen>
         <Stack.Screen name={order} component={Order}
           options={({ navigation }) => ({
             headerLeft: () => (

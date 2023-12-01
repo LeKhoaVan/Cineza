@@ -74,6 +74,10 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
   const [message, setMessage] = useState("");
   const handleCloseAlert = () => {
     setShowAlert(false);
+    if (message == "Lưu phim thành công") {
+      onClickHandleClose();
+    }
+
   };
 
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
@@ -231,7 +235,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
     formData.append("endDate", endDate);
     formData.append("movieType", movieType);
     formData.append("status", status);
-
+    console.log(posterMovie, code, movieName, movieTime, description, director, actor, languageMovie, startDate, endDate, movieType, status)
     try {
       if (editCode) {
         const newMovie = await axios.post(
@@ -247,7 +251,6 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
           console.log("save movie success");
           setShowAlert(true);
           setMessage("Lưu phim thành công");
-          onClickHandleNew();
         } else {
           console.log("save movie error");
           setShowAlert(true);
@@ -266,7 +269,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
         if (updateMovie.status == 200) {
           console.log("save movie success");
           setShowAlert(true);
-          setMessage("Lưu phim thành công");
+          setMessage("Cập nhật phim thành công");
         } else {
           console.log("save movie error");
           setShowAlert(true);
@@ -375,7 +378,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!editCode}
                   style={editCode ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onFocus={onHandleFocusCode}
                 />
                 {/* {isValidCode && (
                   <p style={{ color: "red" }}>Mã không được bỏ trống</p>
@@ -393,7 +396,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleNameMovie(text)}
-                  //   onFocus={onHandleFocusName}
+                //   onFocus={onHandleFocusName}
                 />
                 {/* {isValidName && (
                   <p style={{ color: "red" }}>"Tên tối thiểu 3 ký tự chữ"</p>
@@ -449,7 +452,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                       : { height: "50px", background: "rgb(196, 196, 196)" }
                   }
                   onChange={(text) => onChangeHandleDescription(text)}
-                  //   onFocus={onHandleFocusHome}
+                //   onFocus={onHandleFocusHome}
                 />
                 {/* {isValidHome && <p style={{ color: "red" }}>Không bỏ trống</p>} */}
               </div>
@@ -500,7 +503,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleDirector(text)}
-                  //   onFocus={onHandleFocusPhone}
+                //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
@@ -517,7 +520,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   readOnly={!edit}
                   style={edit ? {} : { background: "rgb(196, 196, 196)" }}
                   onChange={(text) => onChangeHandleActor(text)}
-                  //   onFocus={onHandleFocusPhone}
+                //   onFocus={onHandleFocusPhone}
                 />
                 {/* {isValidPhone && (
                   <p style={{ color: "red" }}>Số điện thoại không đúng</p>
