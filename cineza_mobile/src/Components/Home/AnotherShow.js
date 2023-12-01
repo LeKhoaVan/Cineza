@@ -14,12 +14,12 @@ import config from "../../config/configAPI";
 
 const data = [
   {
-    key: "4DX",
+    key: "Vé thường",
     urlImg:
       "https://techbike.vn/attachments/cong-nghe-chieu-phim-4dx-jpg.3149/",
   },
   {
-    key: "SWEETBOX",
+    key: "Vé VIP",
     urlImg:
       "https://cdn.alongwalker.info/img/2020/8/7/3dca380686bd347c9dcc91b322d2e612.jpg",
   },
@@ -27,8 +27,13 @@ const data = [
 
 const AnotherShow = () => {
   const navigation = useNavigation();
-  const handleClick = () => {
-    navigation.navigate("4DX");
+  const handleClick = (item) => {
+
+    if (item.key == "Vé thường") {
+      navigation.navigate("Vé Thường");
+    } else if (item.key == "Vé VIP") {
+      navigation.navigate("Vé VIP")
+    }
   };
 
 
@@ -40,7 +45,7 @@ const AnotherShow = () => {
         renderItem={({ item }) => {
           return (
             <View style={styles.item}>
-              <TouchableOpacity onPress={handleClick}>
+              <TouchableOpacity onPress={() => handleClick(item)}>
                 <Image
                   style={{
                     width: 70,
@@ -73,6 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 190,
+    color: "white",
   },
 });
 
