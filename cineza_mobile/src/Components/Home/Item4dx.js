@@ -14,7 +14,7 @@ function Item4dx() {
   return (
     <SafeAreaView style={styles.container}>
       <Image
-        src="https://ocwckgy6c1obj.vcdn.cloud/media/imax/4DX_2.png"
+        src="https://gscvietnam.com/wp-content/uploads/2023/09/Beta-Cinema-Tan-Uyen-dau-tu-6-ghe-xem-phim-doi.jpg"
         style={styles.image}
       />
       <View style={{ overflow: "hidden", alignItems: "flex-start" }}>

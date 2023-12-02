@@ -45,6 +45,16 @@ const styles = StyleSheet.create({
     // paddingRight: 10,
     marginTop: 20,
   },
+  btnRegisterError: {
+    width: "90%",
+    height: 60,
+    backgroundColor: "gray",
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
+    marginLeft: 10,
+  },
   bottom: {
     // flex: 1,
     width: "90%",

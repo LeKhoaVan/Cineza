@@ -195,7 +195,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     } else {
       const getRoom = async () => {
         const result = await axios.get(
-          `http://13.212.32.129:9000/cineza/api/v1/room/get-by-code/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/room/get-by-code/${codeRoom}`
         );
         if (result.status === 200) {
           setCode(result.data.code);
@@ -213,7 +213,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
   //   const getAllRap = async () => {
   //     try {
   //       const allRap = await axios.get(
-  //         "http://13.212.32.129:9000/cineza/api/v1/rap/get-all"
+  //         "http://localhost:9000/cineza/api/v1/rap/get-all"
   //       );
   //       if (allRap.status === 200) {
   //         setDataRap(allRap.data);
@@ -232,7 +232,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://13.212.32.129:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room/${codeRoom}`
         );
         if (result.status === 200) {
           setSeats(result.data);
@@ -250,7 +250,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://13.212.32.129:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts01/${codeRoom}`
         );
         if (result.status === 200) {
           setComunitySeats(result.data);
@@ -268,7 +268,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     const getSeats = async () => {
       try {
         const result = await axios.get(
-          `http://13.212.32.129:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/${codeRoom}`
+          `http://localhost:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/${codeRoom}`
         );
         if (result.status === 200) {
           setVipSeats(result.data);
@@ -326,7 +326,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
         console.log(room);
         if (editCode) {
           const response = await axios.post(
-            `http://13.212.32.129:9000/cineza/api/v1/room/create`,
+            `http://localhost:9000/cineza/api/v1/room/create`,
             room
           );
           if (response.status === 201) {
@@ -340,7 +340,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
           }
         } else if (update) {
           const getShow = await axios.get(
-            `http://13.212.32.129:9000/cineza/api/v1/show/get-all-by-room/${code}`
+            `http://localhost:9000/cineza/api/v1/show/get-all-by-room/${code}`
           );
           const currentDate = new Date();
           let newArray = [];
@@ -371,7 +371,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
           console.log(newArray.length);
           if (newArray.length === 0) {
             const response = await axios.put(
-              `http://13.212.32.129:9000/cineza/api/v1/room/put/` + code,
+              `http://localhost:9000/cineza/api/v1/room/put/` + code,
               room
             );
             if (response.status === 200) {
@@ -511,8 +511,8 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                   value={codeRap}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCodeRap(text)}
-                  // onFocus={onHandleFocusPosition}
+                // onChange={(text) => onChangeHandleCodeRap(text)}
+                // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
@@ -619,7 +619,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                  // onClick={handleSeatClick(item)}
+                // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

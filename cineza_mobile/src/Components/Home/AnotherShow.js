@@ -16,7 +16,7 @@ const data = [
   {
     key: "Vé thường",
     urlImg:
-      "https://techbike.vn/attachments/cong-nghe-chieu-phim-4dx-jpg.3149/",
+      "https://evoseating.com.vn/wp-content/uploads/2022/11/evo-5605vn-1.jpg",
   },
   {
     key: "Vé VIP",
@@ -55,7 +55,7 @@ const AnotherShow = () => {
                   }}
                   source={{ uri: item.urlImg }}
                 ></Image>
-                <Text style={{ textAlign: "center" }}>{item.key}</Text>
+                <Text style={{ textAlign: "center", color: "white" }}>{item.key}</Text>
               </TouchableOpacity>
             </View>
           );
