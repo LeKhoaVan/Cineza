@@ -344,14 +344,31 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
           );
           const currentDate = new Date();
           let newArray = [];
+          let dataShow = getShow.data.map((s) => {
+            let newDate = new Date(s.showDate);
 
-          getShow.data.forEach((item) => {
-            if (
-              formatDayHandle(currentDate) <= formatDayHandle(item.showDate)
-            ) {
-              newArray = { ...item };
-            }
+            s.showDate = `${newDate.getFullYear()}-${String(
+              newDate.getMonth() + 1
+            ).padStart(2, "0")}-${String(newDate.getDate()).padStart(2, "0")}`;
+
+            return s;
           });
+          dataShow.forEach((item) => {
+            if (
+              formatDayHandle(currentDate) < formatDayHandle(item.showDate) ||
+              formatDayHandle(currentDate) == formatDayHandle(item.showDate)
+            ) {
+              newArray = [...newArray, item];
+            }
+
+            console.log(
+              formatDayHandle(currentDate),
+              formatDayHandle(item.showDate),
+              formatDayHandle(currentDate) == formatDayHandle(item.showDate)
+            );
+          });
+
+          console.log(newArray.length);
           if (newArray.length === 0) {
             const response = await axios.put(
               `http://13.212.32.129:9000/cineza/api/v1/room/put/` + code,
@@ -494,8 +511,8 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                   value={codeRap}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                // onChange={(text) => onChangeHandleCodeRap(text)}
-                // onFocus={onHandleFocusPosition}
+                  // onChange={(text) => onChangeHandleCodeRap(text)}
+                  // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
@@ -602,7 +619,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                // onClick={handleSeatClick(item)}
+                  // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

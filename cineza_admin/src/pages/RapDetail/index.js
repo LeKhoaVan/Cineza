@@ -95,6 +95,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
   const [isValidCode, setIsValidCode] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
   const [isValidNumberRap, setIsValidNumberRap] = useState(false);
+  const [isValidOpenTime, setIsValidOpenTime] = useState(false);
+  const [isValidCloseTime, setIsValidCloseTime] = useState(false);
   const [isValidStatus, setIsValidStatus] = useState(false);
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
@@ -199,6 +201,34 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
         setIsValidName(true);
       } else {
         setIsValidName(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusOpenTime();
+  }, [openTime]);
+
+  const onHandleFocusOpenTime = () => {
+    if (editCode || edit) {
+      if (openTime == undefined || openTime.length <= 0) {
+        setIsValidOpenTime(true);
+      } else {
+        setIsValidOpenTime(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onHandleFocusCloseTime();
+  }, [closeTime, openTime]);
+
+  const onHandleFocusCloseTime = () => {
+    if (editCode || edit) {
+      if (closeTime <= openTime) {
+        setIsValidCloseTime(true);
+      } else {
+        setIsValidCloseTime(false);
       }
     }
   };
@@ -488,12 +518,16 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     };
     onHandleFocusCode();
     onHandleFocusName();
+    onChangeHandleOpenTime();
+    onChangeHandleCloseTime();
     onHandleFocusNumberRap();
     onHandleFocusStatus();
     onHandleFocusAddress();
     if (
       !isValidCode &
       !isValidName &
+      !isValidOpenTime &
+      !isValidCloseTime &
       !isValidNumberRap &
       !isValidStatus &
       !isValidAddress
@@ -523,8 +557,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
           //formatDayHandle(currentDate) <= formatDayHandle(item.showDate)
           getShow.data.forEach((item) => {
-            let date = `${new Date(item.showDate).getFullYear()}-${new Date(item.showDate).getMonth() + 1
-              }-${new Date(item.showDate).getDate()}`;
+            let date = `${new Date(item.showDate).getFullYear()}-${String(
+              new Date(item.showDate).getMonth() + 1
+            ).padStart(2, "0")}-${String(
+              new Date(item.showDate).getDate()
+            ).padStart(2, "0")}`;
 
             if (formatDayHandle(currentDate) <= date) {
               console.log(`Ngày chiếu: ${date}`);
@@ -664,7 +701,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                     onFocus={onHandleFocusName}
                   />
                   {isValidName && (
-                    <p style={{ color: "red" }}>"Không để trống"</p>
+                    <p style={{ color: "red" }}>Không để trống</p>
                   )}
                 </div>
               </div>
@@ -681,7 +718,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                     onFocus={onHandleFocusNumberRap}
                   />
                   {isValidNumberRap && (
-                    <p style={{ color: "red" }}>"Không để trống"</p>
+                    <p style={{ color: "red" }}>Không để trống</p>
                   )}
                 </div>
               </div>
@@ -697,10 +734,15 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                 <div className="input-rap-container">
                   <TimePicker
                     format="hh:mm a"
+                    disabled={!edit}
                     openClockOnFocus={false}
                     value={openTime}
                     onChange={(text) => onChangeHandleOpenTime(text)}
+                    onFocus={onHandleFocusOpenTime}
                   />
+                  {isValidOpenTime && (
+                    <p style={{ color: "red" }}>Chưa chọn thời gian mở</p>
+                  )}
                 </div>
               </div>
               <div className="rap-detail-input">
@@ -710,9 +752,16 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                   <TimePicker
                     format="hh:mm a"
                     value={closeTime}
+                    disabled={!edit}
                     openClockOnFocus={false}
                     onChange={(e) => onChangeHandleCloseTime(e)}
+                    onFocus={onHandleFocusCloseTime}
                   />
+                  {isValidCloseTime && (
+                    <p style={{ color: "red" }}>
+                      Thời gian đóng phải lớn hơn thời gian mở
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="rap-detail-input">

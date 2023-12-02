@@ -99,8 +99,9 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
   }, [value]);
 
   const onHandleFocusValue = () => {
+    const regex = /^\d*$/;
     if (editCode || edit) {
-      if (value == undefined || value.length <= 0) {
+      if (value == undefined || value.length <= 0 || !regex.test(value)) {
         setIsValidValue(true);
       } else {
         setIsValidValue(false);
@@ -430,7 +431,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   onFocus={onHandleFocusValue}
                 />
                 {isValidValue && (
-                  <p style={{ color: "red" }}>Không được bỏ trống</p>
+                  <p style={{ color: "red" }}>Giá phải lớn hơn 0</p>
                 )}
               </div>
             </div>
@@ -482,8 +483,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                // onChange={(text) => onChangeHandleCode(text)}
-                // onFocus={onHandleFocusCode}
+                  // onChange={(text) => onChangeHandleCode(text)}
+                  // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>

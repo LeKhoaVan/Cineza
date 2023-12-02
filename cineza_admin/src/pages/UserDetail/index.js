@@ -778,11 +778,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   dateFormat="dd-MM-yyyy"
                   selected={dateOfBirthShow}
                   readOnly={!edit}
-                  onFocus={onHandleForcusDate}
                   onChange={(date) => onChangeHandleDate(date)}
+                  onFocus={onHandleForcusDate}
                   fixedHeight="60px"
                   portalId="root-portal"
-                  className="date-picker"
+                  // className="date-picker"
                 />
                 {isValidBirth && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
