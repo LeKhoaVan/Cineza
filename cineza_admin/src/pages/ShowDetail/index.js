@@ -757,7 +757,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             const dateObject = new Date(showEndTam);
 
             const hours1 = dateObject.getHours();
-            const minutes1 = dateObject.getMinutes();
+            const minutes1 = dateObject.getMinutes() + 15;
             const timeEnd1 = `${hours1}:${minutes1}`;
 
             console.log(timeEnd1);

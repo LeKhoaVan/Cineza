@@ -557,9 +557,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
           //formatDayHandle(currentDate) <= formatDayHandle(item.showDate)
           getShow.data.forEach((item) => {
-            let date = `${new Date(item.showDate).getFullYear()}-${
+            let date = `${new Date(item.showDate).getFullYear()}-${String(
               new Date(item.showDate).getMonth() + 1
-            }-${new Date(item.showDate).getDate()}`;
+            ).padStart(2, "0")}-${String(
+              new Date(item.showDate).getDate()
+            ).padStart(2, "0")}`;
 
             if (formatDayHandle(currentDate) <= date) {
               console.log(`Ngày chiếu: ${date}`);
@@ -732,6 +734,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                 <div className="input-rap-container">
                   <TimePicker
                     format="hh:mm a"
+                    disabled={!edit}
                     openClockOnFocus={false}
                     value={openTime}
                     onChange={(text) => onChangeHandleOpenTime(text)}
@@ -749,6 +752,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
                   <TimePicker
                     format="hh:mm a"
                     value={closeTime}
+                    disabled={!edit}
                     openClockOnFocus={false}
                     onChange={(e) => onChangeHandleCloseTime(e)}
                     onFocus={onHandleFocusCloseTime}
