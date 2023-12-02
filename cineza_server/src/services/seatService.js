@@ -1,4 +1,5 @@
 const { db } = require("../models/index");
+const moment = require("moment");
 
 const getAllSeatService = async () => {
   const query = `select s.code, s.codeTypeSeat, s.position, s.codeRoom, s.status, s.isBook , r.name as nameRoom, ts.type as typeSeat
@@ -21,7 +22,7 @@ const getAllSeatByCodeRoomService = async (codeRoom) => {
 };
 
 const getAllSeatByCodeRoomAndCodeTypeService = async (codeRoom, codeType) => {
-  const datePay = moment().format("YYYY-MM-DD")
+  const datePay = moment().format("YYYY-MM-DD");
   const query = `select s.code, s.codeTypeSeat, s.position, s.codeRoom, s.status, s.isBook , r.name as nameRoom, ts.type as typeSeat, p.value
   from Seat as s
   join Room as r on r.code = s.codeRoom
@@ -36,7 +37,7 @@ const getAllSeatByCodeRoomAndCodeTypeService = async (codeRoom, codeType) => {
 };
 
 const getPriceSeatService = async (codeTypeSeat) => {
-  const datePay = moment().format("YYYY-MM-DD")
+  const datePay = moment().format("YYYY-MM-DD");
 
   const query = `select p.value, p.codeTypeSeat, ph.status from Price as p
   join PriceHeader as ph on ph.code = p.codeHeader
@@ -45,7 +46,6 @@ const getPriceSeatService = async (codeTypeSeat) => {
   const [price, metadata] = await db.sequelize.query(query);
   return price[0];
 };
-
 
 const getAllSeatByCodeService = async (code) => {
   const query = `select s.code, s.codeTypeSeat, s.position, s.codeRoom, s.status, s.isBook , r.name as nameRoom, ts.type as typeSeat

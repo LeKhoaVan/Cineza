@@ -247,11 +247,11 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
   //validate ngày kết thúc
   useEffect(() => {
     onHandleFocusEndDate();
-  }, [endDate]);
+  }, [endDate, startDate]);
 
   const onHandleFocusEndDate = () => {
     if (editCode || edit) {
-      if (endDate == undefined || endDate.length <= 0) {
+      if (endDate == undefined || endDate.length <= 0 || endDate <= startDate) {
         setIsValidEndDate(true);
       } else {
         setIsValidEndDate(false);
@@ -757,7 +757,9 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
                   className="movie-detail-date-picker"
                 />
                 {isValidEndDate && (
-                  <p style={{ color: "red" }}>Chưa chọn ngày kết thúc</p>
+                  <p style={{ color: "red" }}>
+                    Ngày kết thúc lớn hơn ngày phát hành
+                  </p>
                 )}
               </div>
             </div>
