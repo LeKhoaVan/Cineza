@@ -562,7 +562,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             );
 
             const dateObject = new Date(showEnd);
-
+            dateObject.setMinutes(dateObject.getMinutes() + 15)
             const hours1 = dateObject.getHours();
             const minutes1 = dateObject.getMinutes();
             const timeEnd1 = `${hours1}:${minutes1}`;
@@ -615,16 +615,13 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             );
 
             const dateObject = new Date(showEnd);
-
+            dateObject.setMinutes(dateObject.getMinutes() + 15)
             const hours1 = dateObject.getHours();
             const minutes1 = dateObject.getMinutes();
             const timeEnd1 = `${hours1}:${minutes1}`;
 
-            console.log("-------------test show end-----------");
-            console.log(showStart);
-            console.log(timeEnd1);
             const checkTime = await axios.get(
-              `http://localhost:9000/cineza/api/v1/show/check-show/${codeRap}/${codeRoom}/${dateCheck}/${showStart}/${timeEnd1}`
+              `http://localhost:9000/cineza/api/v1/show/check-show/${codeRap}/${codeRoom}/${dateCheck}/${showStart}/${timeEnd1}?codeShow=${codeShow}`
             );
 
             if (checkTime.data.length === 0) {
@@ -752,9 +749,10 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
             );
 
             const dateObject = new Date(showEndTam);
+            dateObject.setMinutes(dateObject.getMinutes() + 15);
 
             const hours1 = dateObject.getHours();
-            const minutes1 = dateObject.getMinutes() + 15;
+            const minutes1 = dateObject.getMinutes();
             const timeEnd1 = `${hours1}:${minutes1}`;
 
             console.log(timeEnd1);
@@ -805,7 +803,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 height: 20,
                 alignItems: "center",
                 justifyContent: "center",
-                borderBottom: "10px solid black",
+                borderBottom: "5px solid black",
               }}
             >
               <h4
@@ -856,7 +854,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               <p>Phim: {movieName}</p>
               <p>Ngày chiếu: {showDate == "" ? "" : showDate.toString()}</p>
               <p>
-                Giờ chiếu: {showStart == "" ? "" : showStart}
+                Giờ chiếu: {showStart == "" ? "" : String(showStart).padStart(2, '0')}
                 {/* {showStart == "" ? "" : showStart.getMinutes()} */}
               </p>
               <p>
@@ -890,7 +888,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
                 height: 20,
                 alignItems: "center",
                 justifyContent: "center",
-                borderBottom: "20px solid black",
+                borderBottom: "5px solid black",
               }}
             >
               <h4
@@ -940,8 +938,8 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
               <p>Phim: {ticket.movieName}</p>
               <p>Ngày chiếu: {formatDateHandle(new Date(ticket.showDate))}</p>
               <p>
-                Giờ chiếu: {new Date(ticket.showStart).getHours()}:
-                {new Date(ticket.showStart).getMinutes()}{" "}
+                Giờ chiếu: {String(new Date(ticket.showStart).getHours()).padStart(2, '0')}:
+                {String(new Date(ticket.showStart).getMinutes()).padStart(2, '0')}{" "}
               </p>
               <p>Rạp: {ticket.rapName}</p>
               <p>Phòng: {ticket.roomName}</p>

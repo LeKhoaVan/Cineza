@@ -267,7 +267,7 @@ const Ticket = () => {
                   alt="tìm kiếm"
                   htmlFor="find"
                 />
-                <FormControl
+                {/* <FormControl
                   sx={{ width: "30%", marginLeft: "5%" }}
                   size="small"
                 >
@@ -289,7 +289,7 @@ const Ticket = () => {
                       );
                     })}
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </div>
             </div>
             {/* <div
@@ -392,8 +392,8 @@ const Ticket = () => {
                     {formatDateHandle(new Date(selectTicket.showDate))}
                   </p>
                   <p>
-                    Giờ chiếu: {new Date(selectTicket.showStart).getHours()}:
-                    {new Date(selectTicket.showStart).getMinutes()}{" "}
+                    Giờ chiếu: {String(new Date(selectTicket.showStart).getHours()).padStart(2, '0')}:
+                    {String(new Date(selectTicket.showStart).getMinutes()).padStart(2, '0')}{" "}
                   </p>
                   <p>Rạp: {selectTicket.rapName}</p>
                   <p>Phòng: {selectTicket.roomName}</p>

@@ -298,6 +298,9 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
     setName("");
     setStatus("");
     setCodeRap(codeRap);
+    setSeats([])
+    setComunitySeats([])
+    setVipSeats([])
   };
 
   const onClickSave = async () => {
@@ -425,7 +428,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
             </div>
             <div
               className="room-detail-header-close"
-              onClick={onClickHandleClose}
+              onClick={() => onClickHandleClose(codeRap)}
             >
               <img className="iconClose" src={iconClose} alt="close" />
             </div>

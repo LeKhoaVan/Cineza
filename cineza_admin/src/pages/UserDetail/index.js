@@ -226,16 +226,16 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusAddress = () => {
     if (editCode || edit) {
-      if (countryId.length == 0) {
+      if (countryId == null || countryId.length == 0) {
         setErrorAddress("Không bỏ trống Quốc Gia");
         setIsValidAddress(true);
-      } else if (cityId.length == 0) {
+      } else if (cityId == null || cityId.length == 0) {
         setErrorAddress("Không bỏ trống tỉnh/thành phố");
         setIsValidAddress(true);
-      } else if (districtId.length == 0) {
+      } else if (districtId == null || districtId.length == 0) {
         setErrorAddress("Không bỏ trống quận/huyện");
         setIsValidAddress(true);
-      } else if (wardId.length == 0) {
+      } else if (wardId == null || wardId.length == 0) {
         setErrorAddress("Không bỏ trống phường/xã");
         setIsValidAddress(true);
       } else {
