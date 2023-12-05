@@ -12,11 +12,11 @@ const getRapByCodeService = async (code) => {
 };
 const getAllRapService = async () => {
   const query = `select r.code, r.name, r.openTime, r.closeTime, r.countryAddress, r.cityAddress, r.districtAddress, r.wardAddress, r.status, r.numberRap, px.fullName as nameWard, qh.fullName as nameDistrict, ttp.fullName as nameCity, qg.fullName as nameCountry from rap as r
-        join Address as px on r.wardAddress = px.code
-        join Address as qh on r.districtAddress = qh.code
-        join Address as ttp on r.cityAddress = ttp.code
-        join Address as qg on r.countryAddress = qg.code
-        where r.status="Hoạt động" || r.status="Khóa hoạt động"`;
+  join Address as px on r.wardAddress = px.code
+  join Address as qh on r.districtAddress = qh.code
+  join Address as ttp on r.cityAddress = ttp.code
+  join Address as qg on r.countryAddress = qg.code
+  where r.status = "Hoạt động" or r.status = "Khóa tạm thời";`;
   const [allRap, metadata] = await db.sequelize.query(query);
   return allRap;
 };

@@ -125,11 +125,26 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     setOpenModalRoomDetail(true);
   };
 
-  const onClickHandleCloseP = async () => {
+  const onClickHandleCloseP = async (codeRap) => {
     // window.location.href = "/cineza/admin/rap";
     setOpenModalRoomDetail(false);
     setOpenModalRapDetail(true);
     setOpenModelAdd(false);
+
+    if (codeRap != null) {
+      try {
+        const result = await axios.get(
+          `http://localhost:9000/cineza/api/v1/room/get-all-by-code/${codeRap}`
+        );
+        if (result.status === 200) {
+          setRooms(result.data);
+          // console.log(result.data);
+        }
+      } catch (error) {
+        console.error("error get all room by rap: " + error);
+      }
+    }
+
   };
 
   const onClickHandleBtnAdd = () => {
@@ -457,13 +472,13 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     getRooms();
   }, []);
 
-  useEffect(() => {
-    getRooms();
-  }, [openModelAdd]);
+  // useEffect(() => {
+  //   getRooms();
+  // }, [openModelAdd]);
 
-  useEffect(() => {
-    getRooms();
-  }, [openModalRoomDetail]);
+  // useEffect(() => {
+  //   getRooms();
+  // }, [openModalRoomDetail]);
 
   const onClickHandleEdit = () => {
     setUpdate(true);
@@ -518,8 +533,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
     };
     onHandleFocusCode();
     onHandleFocusName();
-    onChangeHandleOpenTime();
-    onChangeHandleCloseTime();
     onHandleFocusNumberRap();
     onHandleFocusStatus();
     onHandleFocusAddress();
@@ -543,7 +556,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
             setMessage("Lưu thành công");
             setShowAlert(true);
 
-            onClickHandleNew();
+            // onClickHandleNew();
           } else {
             setMessage("Lưu thất bại");
             setShowAlert(true);

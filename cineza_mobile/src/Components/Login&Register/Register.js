@@ -50,7 +50,7 @@ function Register() {
     if (!password) {
       errors.password = "Mật khẩu không được để trống";
     } else if (password.length < 6) {
-      errors.password = "Mật khẩu ít nhất phải 8 ký tự";
+      errors.password = "Mật khẩu ít nhất phải 6 ký tự";
     }
 
     // Validate nhập lại mật khẩu
@@ -69,11 +69,19 @@ function Register() {
     if (isFormValid) {
       // Form is valid, perform the submission logic
       try {
-        const resutl = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/user/send-email-otp`, { email });
-        console.log(resutl.data)
-        if (resutl.data == true) {
-          navigation.navigate("Xác thực", { email, name, password })
+        const checkEmail = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/user/check-email/${email}`);
+        if (checkEmail.data == "") {
+          const resutl = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/user/send-email-otp`, { email });
+          console.log(resutl.data)
+          if (resutl.data == true) {
+            navigation.navigate("Xác thực", { email, name, password })
+          }
+        } else {
+          let errors = {}
+          errors.email = "Email đã được đăng ký";
+          setErrors(errors)
         }
+
       } catch (error) {
         console.log("error send email otp: " + error)
       }
@@ -138,7 +146,7 @@ function Register() {
 
         <View style={styles.btnRegister}>
           <TouchableOpacity
-            style={styles.bottom}
+            style={isFormValid ? styles.bottom : styles.btnRegisterError}
             disabled={!isFormValid}
             onPress={handleRegister}
           >

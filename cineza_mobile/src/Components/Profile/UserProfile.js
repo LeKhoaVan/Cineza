@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Image, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import * as ImagePicker from "expo-image-picker";
 
 import iconCamera from '../../assets/imageButton/iconCamera.png';
 import iconCard from '../../assets/imageButton/iconCard.png';
 import iconHistory from '../../assets/imageButton/iconHistory.png';
 import iconUnlock from '../../assets/imageButton/iconUnlock.png';
-// import { AntDesign } from "@expo/vector-icons";
-// import { Entypo } from "@expo/vector-icons";
-// import { FontAwesome5 } from "@expo/vector-icons";
-// import { FontAwesome } from "@expo/vector-icons";
+
 
 function UserProfile() {
   const navigation = useNavigation();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("https://inkythuatso.com/uploads/thumbnails/800/2023/03/8-anh-dai-dien-trang-inkythuatso-03-15-26-54.jpg");
   const [user, setUser] = useState("");
   useEffect(() => {
     const getUser = async () => {
@@ -43,15 +39,22 @@ function UserProfile() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <View style={{ alignItems: 'center', marginTop: 20 }}>
         <View style={{ width: 150, height: 150, borderRadius: 80 }}>
-          {image && (
+          {/* {image && (
             <Image
               source={{ uri: image }}
               style={{ width: 150, height: 150, borderRadius: 80 }}
             />
-          )}
+          )} */}
+          <Image
+            source={{ uri: image }}
+            style={{
+              width: 150, height: 150, borderRadius: 80, borderColor: 'gray',
+              borderWidth: 1,
+            }}
+          />
         </View>
         <View style={{ position: 'relative' }}>
           <TouchableOpacity onPress={pickImage} style={styles.iconCamera}>

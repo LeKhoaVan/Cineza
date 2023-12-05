@@ -368,7 +368,7 @@ function Statistics() {
                             <div className='statistics-infor-order'>
                                 <h4>Thống kê doanh thu:</h4>
                                 <p>Tổng doanh thu: {totalOrder.toLocaleString('vi-VN')} VND</p>
-                                <p>Từ ngày: {startDate == "" ? "01-01-2023" : moment(startDate).format("DD-MM-YYYY")} đến ngày {endDate == "" ? "Hiện tại" : moment(endDate).format("DD-MM-YYYY")} có:</p>
+                                <p>Từ ngày: {startDate == "" ? "01-01-2021" : moment(startDate).format("DD-MM-YYYY")} đến ngày {endDate == "" ? "Hiện tại" : moment(endDate).format("DD-MM-YYYY")} có:</p>
                                 <p> - Tổng doanh thu: {totalOrderByFilter.toLocaleString('vi-VN')} VND</p>
                             </div>
                             <div className='statistics-chart-order' style={{ maxHeight: "100%" }}>
