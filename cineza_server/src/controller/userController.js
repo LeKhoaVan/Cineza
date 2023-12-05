@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 
 const { getAllUserService, getUserByCodeService, getUserByTypeService, createNewUserService,
-    updateUserService, login, findUserByName } = require("../services/userService");
+    updateUserService, login, findUserByName, checkEmail } = require("../services/userService");
 
 const getAllUserController = async (req, res) => {
     try {
@@ -88,7 +88,7 @@ const sendEmailOTP = async (req, res) => {
         from: 'cineza_email@gmail.com',
         to: email,
         subject: 'CINEZA gửi xác thực OTP',
-        text: `Mã OTP của bạn là: ${otp}`,
+        text: `Mã OTP của bạn là: ${otp}, mã chỉ có hiệu lực trong 10 phút.`,
     };
 
     // Gửi email
@@ -97,6 +97,10 @@ const sendEmailOTP = async (req, res) => {
             console.log(error)
             return res.status(200).send(false);
         }
+
+        setTimeout(() => {
+            delete otpData[email];
+        }, 10 * 60 * 1000);
 
         res.status(200).send(true);
     });
@@ -135,6 +139,16 @@ const findUserByNameController = async (req, res) => {
     }
 }
 
+const checkEmailController = async (req, res) => {
+    const { email } = req.params;
+    try {
+        const user = await checkEmail(email);
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(200).send("error check email: " + error);
+    }
+}
+
 
 module.exports = {
     getAllUserController,
@@ -145,5 +159,6 @@ module.exports = {
     sendEmailOTP,
     verifyEmail,
     loginController,
-    findUserByNameController
+    findUserByNameController,
+    checkEmailController
 }
