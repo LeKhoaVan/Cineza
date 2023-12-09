@@ -22,17 +22,19 @@ import config from '../../config/configAPI';
 function SeatBook({ route }) {
   const codeRoom = route.params.item.codeRoom;
   const codeShow = route.params.item.code;
+  const movieName = route.params.item.movieName;
+  const rapName = route.params.item.rapName;
+  const roomName = route.params.item.roomName;
+  const dateShow = route.params.item.showDate;
+  const startTime = route.params.item.showStart;
   const show = route.params.item;
   const poster = route.params.poster;
-
-  const [dataTicket, setDataTicket] = useState([]);
 
   const [dataVipSeatFormat, setDataVipSeatFormat] = useState([]);
   const [dataComunitySeatFormat, setDataComunitySeatFormat] = useState([]);
   const [price, setPrice] = useState(0);
 
   const [seatSelected, setSeatSelected] = useState([]);
-  const [checkSave, setCheckSave] = useState(true);
 
   const navigation = useNavigation();
 
@@ -93,27 +95,6 @@ function SeatBook({ route }) {
   useEffect(() => {
     const getAll = async () => {
       let dataSeat;
-      // axios
-      //   .get(
-      //     `http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/VIP/` +
-      //     codeRoom,
-      //     {
-      //       timeout: 10000, // Tăng thời gian chờ lên 10 giây (mặc định là 5 giây)
-      //     },
-      //   )
-      //   .then(res => {
-      //     // setDataVipSeat(res.data);
-      //     const newData = res.data?.map(item => ({
-      //       ...item,
-      //       selectedUI: false,
-      //     }));
-      //     setDataVipSeatFormat(newData);
-      //     dataSeat = newData;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-
       const res = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/seat/get-all-by-room-type/ts02/` +
         codeRoom,
         {
@@ -236,13 +217,23 @@ function SeatBook({ route }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <Header />
+
       <View style={{ marginVertical: 10, width: '100%' }}>
-        <Text style={{ textAlign: 'center', fontSize: 18 }}>
-          {route.params.item.roomName}
+        <Text style={{ textAlign: 'center', fontSize: 18, color: 'white' }}>
+          Màn hình
         </Text>
       </View>
+
+      <View style={{
+        marginTop: '2%',
+        marginBottom: '2%',
+        width: '100%', // Chiều rộng của đường kẻ
+        height: 15, // Chiều cao của đường kẻ
+        backgroundColor: 'white',
+      }} />
+
       <View>
         <FlatList
           numColumns={8}
@@ -265,11 +256,12 @@ function SeatBook({ route }) {
                     paddingTop: 7,
                     width: '100%',
                     height: '100%',
+                    color: 'black'
                   }}>
                   {item.position}
                 </Text>
               ) : (
-                <Text>{item?.position}</Text>
+                <Text style={item.isBook === 'SELECTED' ? { color: 'black' } : { color: 'white' }}>{item?.position}</Text>
               )}
             </Pressable>
           )}
@@ -300,14 +292,15 @@ function SeatBook({ route }) {
                   {item.position}
                 </Text>
               ) : (
-                <Text>{item?.position}</Text>
+                <Text style={item.isBook === 'SELECTED' ? { color: "black" } : { color: "white" }}>{item?.position}</Text>
               )}
             </Pressable>
           )}
         />
       </View>
+
       <View style={styles.sign}>
-        <View>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
           <View
             style={{
               width: 20,
@@ -317,23 +310,23 @@ function SeatBook({ route }) {
               backgroundColor: '#bfbca3',
             }}
           />
-          <Text>Thường</Text>
+          <Text style={{ color: 'white' }}>Thường</Text>
         </View>
 
-        <View>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
           <View
             style={{
               width: 20,
               height: 20,
               textAlign: 'center',
               marginBottom: 4,
-              backgroundColor: "#f52749",
+              backgroundColor: "#941833",
             }}
           />
-          <Text>VIP</Text>
+          <Text style={{ color: 'white' }}>VIP</Text>
         </View>
 
-        <View>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
           <View
             style={{
               width: 20,
@@ -343,11 +336,10 @@ function SeatBook({ route }) {
               backgroundColor: '#ffc40c',
             }}
           />
-          <Text>Đang chọn</Text>
+          <Text style={{ color: 'white' }}>Đang chọn</Text>
         </View>
 
-        <View>
-
+        <View style={{ display: 'flex', alignItems: 'center' }}>
           <View
             style={{
               width: 20,
@@ -357,16 +349,45 @@ function SeatBook({ route }) {
               backgroundColor: '#e8e6e6',
             }}
           />
-          <Text>Đã đặt</Text>
+          <Text style={{ color: 'white' }}>Đã đặt</Text>
         </View>
       </View>
+
+      <View style={{
+        display: 'flex',
+        paddingTop: '4%',
+        justifyContent: 'center',
+        height: '25%',
+        backgroundColor: "white"
+      }}>
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row',
+          padding: '2%',
+          justifyContent: 'space-between'
+        }}>
+          <Text style={{ fontWeight: '500' }}>{rapName}</Text>
+          <Text style={{ fontWeight: '500' }} >{roomName}</Text>
+        </View>
+
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row',
+          padding: '2%',
+          justifyContent: 'space-between'
+        }}>
+          <Text style={{ fontWeight: '500' }}>{movieName}</Text>
+          <Text style={{ fontWeight: '500' }}>{String(new Date(dateShow).getDate()).padStart(2, '0')}-{String(new Date(dateShow).getMonth() + 1).padStart(2, '0')}-{String(new Date(dateShow).getFullYear())} {String(new Date(startTime).getHours()).padStart(2, '0')}:{String(new Date(startTime).getMinutes()).padStart(2, '0')}</Text>
+        </View>
+      </View>
+
+
       <Pressable
         style={{
           backgroundColor: '#fff',
-          padding: 20,
+          padding: 10,
           position: 'absolute',
           bottom: 5,
-
           width: '100%',
         }}>
         <View
@@ -376,7 +397,7 @@ function SeatBook({ route }) {
             justifyContent: 'space-between',
           }}>
           <View>
-            <Text> {price} đ</Text>
+            <Text style={{ fontWeight: '500' }}> {price.toLocaleString('vi-VN')} VND</Text>
           </View>
 
           <Pressable onPress={() => onClickHandleSave()}>
@@ -399,7 +420,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   listComunitySeat: {
-    margin: 7,
+    margin: '2.2%',
     backgroundColor: '#bfbca3',
     borderColor: 'gray',
     borderWidth: 0.5,
@@ -410,7 +431,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   listVipSeat: {
-    margin: 7,
+    margin: '2.2%',
     backgroundColor: '#941833',
     borderColor: 'gray',
     borderWidth: 0.5,
@@ -419,13 +440,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
+    color: 'white', // Thêm màu chữ màu trắng
   },
   sign: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
     paddingHorizontal: 30,
-    backgroundColor: '#D8D8D8',
+    backgroundColor: 'black',
     padding: 10,
     alignContent: 'space-between',
     justifyContent: 'space-between',
@@ -433,5 +455,6 @@ const styles = StyleSheet.create({
   bookedSeat: {
     backgroundColor: '#e8e6e6',
     borderColor: 'transparent',
+    color: "black"
   },
 });
