@@ -144,7 +144,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
         console.error("error get all room by rap: " + error);
       }
     }
-
   };
 
   const onClickHandleBtnAdd = () => {
@@ -240,7 +239,11 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
 
   const onHandleFocusCloseTime = () => {
     if (editCode || edit) {
-      if (closeTime <= openTime) {
+      if (
+        closeTime == undefined ||
+        closeTime.length <= 0 ||
+        closeTime <= openTime
+      ) {
         setIsValidCloseTime(true);
       } else {
         setIsValidCloseTime(false);
@@ -607,7 +610,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
       }
     } else {
       console.log("lưu sai");
-      setMessage("Vui lòng nhập đầy đủ");
+      setMessage("Chưa nhập đầy đủ thông tin hoặc thông tin nhập chưa đúng!");
       setShowAlert(true);
     }
   };

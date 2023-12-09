@@ -575,7 +575,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       }
     } else {
       console.log("lưu sai");
-      setMessage("Vui lòng nhập đầy đủ");
+      setMessage("Chưa nhập đầy đủ thông tin hoặc thông tin nhập chưa đúng!");
       setShowAlert(true);
     }
   };
@@ -782,7 +782,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   onFocus={onHandleForcusDate}
                   fixedHeight="60px"
                   portalId="root-portal"
-                // className="date-picker"
+                  // className="date-picker"
                 />
                 {isValidBirth && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
