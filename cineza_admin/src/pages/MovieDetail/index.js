@@ -409,50 +409,68 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
       movieType,
       status
     );
-    try {
-      if (editCode) {
-        const newMovie = await axios.post(
-          `http://localhost:9000/cineza/api/v1/movie/create`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+    if (
+      !isValidCode &
+      !isValidMovieName &
+      !isValidActor &
+      !isValidDirector &
+      !isValidDescription &
+      !isValidEndDate &
+      !isValidStartDate &
+      !isValidMovieTime &
+      !isValidMovieType &
+      !isValidLanguageMovie &
+      !isValidStatus
+    ) {
+      try {
+        if (editCode) {
+          const newMovie = await axios.post(
+            `http://localhost:9000/cineza/api/v1/movie/create`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          if (newMovie.status == 201) {
+            console.log("save movie success");
+            setShowAlert(true);
+            setMessage("Lưu phim thành công");
+          } else {
+            console.log("save movie error");
+            setShowAlert(true);
+            setMessage("Lỗi lưu phim");
           }
-        );
-        if (newMovie.status == 201) {
-          console.log("save movie success");
-          setShowAlert(true);
-          setMessage("Lưu phim thành công");
-        } else {
-          console.log("save movie error");
-          setShowAlert(true);
-          setMessage("Lỗi lưu phim");
-        }
-      } else if (update) {
-        const updateMovie = await axios.put(
-          `http://localhost:9000/cineza/api/v1/movie/update/${code}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+        } else if (update) {
+          const updateMovie = await axios.put(
+            `http://localhost:9000/cineza/api/v1/movie/update/${code}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          if (updateMovie.status == 200) {
+            console.log("save movie success");
+            setShowAlert(true);
+            setMessage("Cập nhật phim thành công");
+          } else {
+            console.log("save movie error");
+            setShowAlert(true);
+            setMessage("Lỗi lưu phim");
           }
-        );
-        if (updateMovie.status == 200) {
-          console.log("save movie success");
-          setShowAlert(true);
-          setMessage("Cập nhật phim thành công");
-        } else {
-          console.log("save movie error");
-          setShowAlert(true);
-          setMessage("Lỗi lưu phim");
         }
+      } catch (error) {
+        console.log("error svae movie: " + error);
+        setShowAlert(true);
+        setMessage("Lỗi lưu phim");
       }
-    } catch (error) {
-      console.log("error svae movie: " + error);
+    } else {
+      console.log("lưu sai");
+      setMessage("Chưa nhập đầy đủ thông tin hoặc thông tin nhập chưa đúng!");
       setShowAlert(true);
-      setMessage("Lỗi lưu phim");
     }
   };
 

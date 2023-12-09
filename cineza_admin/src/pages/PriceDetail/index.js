@@ -227,12 +227,7 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
       codeTypeSeat: codeTypeSeat,
       status: status,
     };
-    if (
-      !isValidCode &
-      !isValidValue &
-      !isValidCodeTypeSeat &
-      !isValidStatus
-    ) {
+    if (!isValidCode & !isValidValue & !isValidCodeTypeSeat & !isValidStatus) {
       try {
         console.log(price);
         if (editCode) {
@@ -287,10 +282,9 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
       }
     } else {
       console.log("lưu sai");
-      setMessage("Vui lòng nhập đầy đủ");
+      setMessage("Chưa nhập đầy đủ thông tin hoặc thông tin nhập chưa đúng!");
       setShowAlert(true);
     }
-
   };
 
   const handleConfirm = async () => {
@@ -494,8 +488,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                // onChange={(text) => onChangeHandleCode(text)}
-                // onFocus={onHandleFocusCode}
+                  // onChange={(text) => onChangeHandleCode(text)}
+                  // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>
