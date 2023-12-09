@@ -236,7 +236,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setEndDayShow("");
     setStartDay(new Date());
     setEndDay(new Date());
-    setPrices([])
+    setPrices([]);
   };
 
   const onClickSave = async () => {
@@ -325,10 +325,9 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
       }
     } else {
       console.log("lưu sai");
-      setMessage("Vui lòng nhập đầy đủ");
+      setMessage("Chưa nhập đầy đủ thông tin hoặc thông tin nhập chưa đúng!");
       setShowAlert(true);
     }
-
   };
 
   const handleConfirm = async () => {
@@ -506,13 +505,26 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           </div>
           <div className="price-header-detail-name">
             <p>
-              {code}: Từ ngày {startDayShow == "" ? "" :
-                `${String(new Date(startDayShow).getDate()).padStart(2, '0')}-${String(new Date(startDayShow).getMonth() + 1).padStart(2, '0')}-${String(new Date(startDayShow).getFullYear())}`
-              }  {" "}
+              {code}: Từ ngày{" "}
+              {startDayShow == ""
+                ? ""
+                : `${String(new Date(startDayShow).getDate()).padStart(
+                    2,
+                    "0"
+                  )}-${String(new Date(startDayShow).getMonth() + 1).padStart(
+                    2,
+                    "0"
+                  )}-${String(new Date(startDayShow).getFullYear())}`}{" "}
               Đến ngày{" "}
-              {endDayShow == "" ? "" :
-                `${String(new Date(endDayShow).getDate()).padStart(2, '0')}-${String(new Date(endDayShow).getMonth() + 1).padStart(2, '0')}-${String(new Date(endDayShow).getFullYear())}`
-              }
+              {endDayShow == ""
+                ? ""
+                : `${String(new Date(endDayShow).getDate()).padStart(
+                    2,
+                    "0"
+                  )}-${String(new Date(endDayShow).getMonth() + 1).padStart(
+                    2,
+                    "0"
+                  )}-${String(new Date(endDayShow).getFullYear())}`}
             </p>
           </div>
         </div>
