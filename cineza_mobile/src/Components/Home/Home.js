@@ -7,7 +7,7 @@ import Slider_Movie from "../SliderMovie/SliderMovie";
 import AnotherShow from "./AnotherShow";
 function Home() {
   return (
-    <View style={{ flex: 1, backgroundColor: "#0c0736" }}>
+    <View style={{ flex: 1, backgroundColor: "#120b4a" }}>
       <Header />
       <Slider_Movie />
       <AnotherShow />

@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../Header/Header";
@@ -13,19 +14,6 @@ import axios from "axios";
 import { formatDateHandle } from "../../util";
 
 import config from "../../config/configAPI";
-
-const data = {
-  id: 1,
-  title: "Beetlejuice",
-  year: "1988",
-  runtime: "92",
-  genres: ["Comedy", "Fantasy"],
-  director: "Tim Burton",
-  actors: "Alec Baldwin, Geena Davis, Annie McEnroe, Maurice Page",
-  plot: 'A couple of recently deceased ghosts contract the services of a "bio-exorcist" in order to remove the obnoxious new owners of their house.',
-  posterUrl:
-    "https://images-na.ssl-images-amazon.com/images/M/MV5BMTMzODU0NTkxMF5BMl5BanBnXkFtZTcwMjQ4MzMzMw@@._V1_SX300.jpg",
-};
 
 const MovieDetail = ({ route }) => {
   const codeMovie = route.params.item.code;
@@ -40,15 +28,6 @@ const MovieDetail = ({ route }) => {
     axios
       .get(`http://${config.IPP4}:9000/cineza/api/v1/movie/${codeMovie}`)
       .then((res) => {
-        // const originalDataArray = res.data;
-        // const correctedDataArray = originalDataArray.map((item) => {
-        //   const originalImagePath = item.moviePoster;
-        //   const correctedImagePath = originalImagePath
-        //     .replace(/\\/g, "/")
-        //     .replace("localhost", "192.168.1.8");
-        //   item.moviePoster = correctedImagePath;
-        //   return item;
-        // });
         let resultData = res.data;
         resultData.moviePoster = res.data.moviePoster.replace(/\\/g, "/").replace("localhost", config.IPP4);
         setDataMovie(resultData);
@@ -61,70 +40,85 @@ const MovieDetail = ({ route }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Header />
-      <View>
-        {dataMovie == "" ? "" : (<Image style={styles.image} source={{ uri: dataMovie?.moviePoster, }}
-          alt="movie poster"
-        />)}
-      </View>
-      <View style={styles.content}>
-        <Text
-          style={{
-            width: "100%",
-            textAlign: "center",
-            fontSize: 24,
-            fontWeight: '600',
-            marginBottom: 20,
-          }}
-        >
-          {dataMovie.movieName}
-        </Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Header />
         <View>
+          {dataMovie == "" ? "" : (<Image style={styles.image} source={{ uri: dataMovie?.moviePoster, }}
+            alt="movie poster"
+          />)}
+        </View>
+        <View style={styles.content}>
           <Text
             style={{
               width: "100%",
-              fontSize: 18,
-              fontWeight: '400',
+              textAlign: "center",
+              fontSize: 24,
+              fontWeight: '600',
+              marginBottom: 20,
             }}
           >
-            {dataMovie.description}
+            {dataMovie.movieName}
           </Text>
+          <View style={styles.viewContent}>
+            <Text style={styles.viewText}>Ngày phát hành: </Text>
+            <Text style={styles.viewTextData}>
+              {String(new Date(dataMovie.startDate).getDate()).padStart(2, '0')}-{String(new Date(dataMovie.startDate).getMonth()).padStart(2, '0')}-{String(new Date(dataMovie.startDate).getFullYear())}
+            </Text>
+          </View>
+
+          <View style={styles.viewContent}>
+            <Text style={styles.viewText}>Thời lượng: </Text>
+            <Text style={styles.viewTextData}>
+              {dataMovie.movieTime} phút
+            </Text>
+          </View>
+
+
+          <View style={styles.viewContent}>
+            <Text style={styles.viewText}>Đạo diễn: </Text>
+            <Text style={styles.viewTextData}>{dataMovie.director}</Text>
+          </View>
+          <View style={styles.viewContent}>
+            <Text style={styles.viewText}>Diễn viên: </Text>
+            <Text style={styles.viewTextData}>{dataMovie.actor}</Text>
+          </View>
+
+          <View style={styles.viewContent}>
+            <Text style={styles.viewText}>Ngôn ngữ: </Text>
+            <Text style={styles.viewTextData}>
+              {dataMovie.language}
+            </Text>
+          </View>
+
+          <View style={styles.viewContent}>
+            <Text style={styles.viewText}>Mô tả: </Text>
+            <Text style={styles.viewTextData}>
+              {dataMovie.description}
+            </Text>
+
+          </View>
         </View>
-        <View style={styles.viewContent}>
-          <Text style={styles.viewText}>Ngày phát hành: </Text>
-          <Text style={styles.viewTextData}>
-            {formatDateHandle(dataMovie.startDate)}
-          </Text>
-        </View>
-        <View style={styles.viewContent}>
-          <Text style={styles.viewText}>Đạo diễn: </Text>
-          <Text style={styles.viewTextData}>{dataMovie.director}</Text>
-        </View>
-        <View style={styles.viewContent}>
-          <Text style={styles.viewText}>Diễn viên: </Text>
-          <Text style={styles.viewTextData}>{dataMovie.actor}</Text>
-        </View>
-      </View>
-      <Pressable
-        style={{
-          position: "absolute",
-          bottom: 5,
-          width: "100%",
-        }}
-      >
-        <View
+        <Pressable
           style={{
-            alignItems: "flex-end",
-            marginBottom: 10,
+            position: "absolute",
+            bottom: 5,
+            width: "100%",
           }}
         >
-          <TouchableOpacity onPress={handleClick}>
-            <Text style={styles.buttonBookTicket}>Đặt vé</Text>
-          </TouchableOpacity>
-        </View>
-      </Pressable>
-    </View>
+          <View
+            style={{
+              alignItems: "flex-end",
+              marginBottom: 10,
+            }}
+          >
+            <TouchableOpacity onPress={handleClick}>
+              <Text style={styles.buttonBookTicket}>Đặt vé</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -137,7 +131,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   image: {
-    width: 380,
+    width: "100%",
     height: 320,
   },
   content: {
