@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import CalendarStrip from "react-native-calendar-strip";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from "../Header/Header";
 import axios from "axios";
 import { formatDateHandle, formatTimeHandle } from "../../util";
@@ -22,31 +23,28 @@ import moment from 'moment';
 
 const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
   //Custom Component for the Expandable List
-  const [layoutHeight, setLayoutHeight] = useState(0);
+  const [layoutHeight, setLayoutHeight] = useState(null);
   const [dataShow, setDataShow] = useState([]);
   const navigation = useNavigation();
-  useEffect(() => {
-    if (newItem.isExpanded) {
-      setLayoutHeight(null);
-    } else {
-      setLayoutHeight(0);
-    }
-  }, [newItem.isExpanded]);
+  // useEffect(() => {
+  //   if (true) {
+  //     setLayoutHeight(null);
+  //   } else {
+  //     setLayoutHeight(0);
+  //   }
+  // }, []);
+
 
   useEffect(() => {
     const getDataShow = async () => {
-      console.log(newItem)
       const year = `${new Date(newItem.showStart).getFullYear()}`
       const month = `${String(new Date(newItem.showStart).getMonth() + 1).padStart(2, '0')}`
       const day = `${String(new Date(newItem.showStart).getDate()).padStart(2, '0')}`
       const date = `${year}-${month}-${day}`
-      console.log(date)
       const response = await axios.get(
         `http://${config.IPP4}:9000/cineza/api/v1/show/get-by-rap-movie-data/${newItem.codeRap
         }/${newItem.codeMovie}/${date}`
       );
-      console.log("te", response.data)
-      console.log(newItem.codeRap, newItem.codeMovie, date)
       if (response.status === 200) {
         setDataShow(response.data);
       } else {
@@ -56,8 +54,34 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
     getDataShow();
   }, []);
 
+
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const getUser = async () => {
+      const userInfoString = await AsyncStorage.getItem('userInfo');
+
+      if (userInfoString !== null) {
+        setUser(JSON.parse(userInfoString))
+      }
+    }
+    getUser();
+  }, [])
+
+
   const handleOnClick = (item) => {
-    navigation.navigate("Chọn ghế", { item, poster });
+    if (user != "") {
+      navigation.navigate("Chọn ghế", { item, poster });
+    } else {
+      Alert.alert(
+        'Thông báo', // Tiêu đề
+        'Khách hàng chưa đăng nhập. Hãy đăng nhập để sử dụng chức năng đặt vé', // Nội dung
+        [
+          { text: 'Đồng ý', onPress: () => console.log('Đã đồng ý') },
+          // Các nút tương tác khác có thể được thêm vào đây
+        ],
+        { cancelable: false }
+      );
+    }
   }
 
   return (
@@ -82,7 +106,7 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
             onPress={() => handleOnClick(newItem)}
           >
             <Text style={styles.text}>
-              {formatTimeHandle(newItem.showStart)}
+              {String(new Date(newItem.showStart).getHours()).padStart(2, '0')}:{String(new Date(newItem.showStart).getMinutes()).padStart(2, '0')} - {String(new Date(newItem.showEnd).getHours()).padStart(2, '0')}:{String(new Date(newItem.showEnd).getMinutes()).padStart(2, '0')}
             </Text>
             {/* <View style={styles.separator} /> */}
           </TouchableOpacity>
@@ -127,7 +151,7 @@ function MovieSelected({ route }) {
         ],
         { cancelable: false }
       );
-      setShowDate(new Date());
+
     }
 
   };
@@ -140,12 +164,12 @@ function MovieSelected({ route }) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
-  const updateLayout = (index) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const array = [...listDataSource];
-    array[index]["isExpanded"] = !array[index]["isExpanded"];
-    setListDataSource(array);
-  };
+  // const updateLayout = (index) => {
+  //   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  //   const array = [...listDataSource];
+  //   array[index]["isExpanded"] = !array[index]["isExpanded"];
+  //   setListDataSource(array);
+  // };
   // Get movie by code
   useEffect(() => {
     axios
@@ -201,6 +225,10 @@ function MovieSelected({ route }) {
       <View style={styles.container}>
         <Header />
         <View style={{ paddingVertical: 10, backgroundColor: "#d1d1cf" }} />
+        <View style={{ width: '100%', height: '10%', backgroundColor: "white", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+          <Text style={{ fontWeight: "600", fontSize: 20 }}>Tên phim: Long sat hang do</Text>
+        </View>
+
         <CalendarStrip
           scrollable
           style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
@@ -208,7 +236,7 @@ function MovieSelected({ route }) {
           startingDate={new Date()}
           maxDate={endMovie}
           scrollToOnSetSelectedDate={false}
-          selectedDate={showDate ? showDate : new Date()}
+          selectedDate={showDate ? showDate : ''}
           onDateSelected={handleOnClickDay}
           datesWhitelist={datesWhitelist}
           calendarColor={"black"}
@@ -230,14 +258,15 @@ function MovieSelected({ route }) {
           {listDataSource?.map((item, key) => (
             <ExpandableComponent
               key={item.rapName}
-              onClickFunction={() => {
-                updateLayout(key);
-              }}
+              // onClickFunction={() => {
+              //   updateLayout(key);
+              // }}
               newItem={item}
               poster={poster}
             />
           ))}
         </ScrollView>
+
       </View>
     </SafeAreaView>
   );
@@ -271,102 +300,20 @@ const styles = StyleSheet.create({
   text: {
     backgroundColor: "#fff",
     fontSize: 16,
+    width: 'auto',
     color: "#606070",
     padding: 10,
     margin: 5,
-    width: 70,
     height: "auto",
     textAlign: "center",
   },
   content: {
     paddingLeft: 10,
     paddingRight: 10,
+    marginBottom: "1%",
     backgroundColor: "#e3e1dc",
     alignContent: "center",
     alignItems: "center",
   },
 });
 
-const data = [
-  {
-    category_name: "CGV Vincom Gò Vấp",
-    subcategory: [
-      { id: 1, val: "18:00" },
-      { id: 2, val: "19:00" },
-      { id: 3, val: "20:00" },
-      { id: 4, val: "21:00" },
-      { id: 5, val: "22:00" },
-    ],
-  },
-  {
-    category_name: "CGV Hoàng Văn Thụ",
-    subcategory: [
-      { id: 6, val: "18:00" },
-      { id: 7, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Pandora City",
-    subcategory: [
-      { id: 8, val: "18:00" },
-      { id: 9, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Aeon Tân Phú",
-    subcategory: [
-      { id: 10, val: "18:00" },
-      { id: 11, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Lam Sơn Square",
-    subcategory: [
-      { id: 12, val: "18:00" },
-      { id: 13, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Sense City",
-    subcategory: [
-      { id: 14, val: "18:00" },
-      { id: 15, val: "19:00" },
-      { id: 16, val: "20:00" },
-    ],
-  },
-  {
-    category_name: "CGV Vĩnh Trung Plaza",
-    subcategory: [
-      { id: 17, val: "18:00" },
-      { id: 18, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Pearl Plaza",
-    subcategory: [
-      { id: 19, val: "18:00" },
-      { id: 20, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Aeon Hà Đông",
-    subcategory: [
-      { id: 21, val: "18:00" },
-      { id: 22, val: "19:00" },
-    ],
-  },
-  {
-    category_name: "CGV Vincom Ocean Park",
-    subcategory: [
-      { id: 23, val: "17:00" },
-      { id: 24, val: "18:00" },
-      { id: 25, val: "19:00" },
-      { id: 26, val: "20:00" },
-      { id: 27, val: "22:00" },
-    ],
-  },
-  {
-    category_name: "CGV Sun Grand Lương Yên",
-    subcategory: [{ id: 28, val: "19:00" }],
-  },
-];
