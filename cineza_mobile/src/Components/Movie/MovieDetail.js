@@ -40,9 +40,9 @@ const MovieDetail = ({ route }) => {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Header />
+    <View style={styles.container}>
+      <Header />
+      <ScrollView>
         <View>
           {dataMovie == "" ? "" : (<Image style={styles.image} source={{ uri: dataMovie?.moviePoster, }}
             alt="movie poster"
@@ -60,6 +60,19 @@ const MovieDetail = ({ route }) => {
           >
             {dataMovie.movieName}
           </Text>
+
+          <View style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            marginTop: 10,
+          }}>
+            <Text style={styles.viewText}>Mô tả: </Text>
+            <Text style={[styles.viewTextData, { width: "70%" }]}>
+              {dataMovie.description}
+            </Text>
+          </View>
+
+
           <View style={styles.viewContent}>
             <Text style={styles.viewText}>Ngày phát hành: </Text>
             <Text style={styles.viewTextData}>
@@ -73,7 +86,6 @@ const MovieDetail = ({ route }) => {
               {dataMovie.movieTime} phút
             </Text>
           </View>
-
 
           <View style={styles.viewContent}>
             <Text style={styles.viewText}>Đạo diễn: </Text>
@@ -91,19 +103,15 @@ const MovieDetail = ({ route }) => {
             </Text>
           </View>
 
-          <View style={styles.viewContent}>
-            <Text style={styles.viewText}>Mô tả: </Text>
-            <Text style={styles.viewTextData}>
-              {dataMovie.description}
-            </Text>
 
-          </View>
         </View>
         <Pressable
           style={{
             position: "absolute",
-            bottom: 5,
+            top: '92%',
+            right: '0%',
             width: "100%",
+            zIndex: 2,
           }}
         >
           <View
@@ -117,8 +125,8 @@ const MovieDetail = ({ route }) => {
             </TouchableOpacity>
           </View>
         </Pressable>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -133,6 +141,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 320,
+    resizeMode: 'cover',
   },
   content: {
     marginTop: 10,

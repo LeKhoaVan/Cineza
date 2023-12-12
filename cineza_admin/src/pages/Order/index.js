@@ -94,9 +94,8 @@ const Order = () => {
         const dataResult = result.data.map((item) => {
           return {
             ...item,
-            datePay: `${formatDateHandle(item.datePay)} ${new Date(
-              item.datePay
-            ).getHours()}:${new Date(item.datePay).getMinutes()}`,
+            datePay: `${formatDateHandle(item.datePay)} ${new Date(item.datePay).getHours()}:${new Date(item.datePay).getMinutes()}`,
+            priceTotal: item.priceTotal.toLocaleString('vi-VN')
           };
         });
         setContext(dataResult);
