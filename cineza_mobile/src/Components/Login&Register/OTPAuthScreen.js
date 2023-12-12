@@ -18,33 +18,26 @@ const OTPAuthScreen = ({ route }) => {
       const resultData = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/user/verify-otp`,
         { email: email, otp: otp })
       if (resultData.data) {
-        //   {
-        //     "code" : "user01",
-        //     "type" : "USER",
-        //     "fullName" : "Văn",
-        //     "numberPhone" : "0123456589",
-        //     "password" : "one32343",
-        //     "dateOfBirth" : "2023-09-23",
-        //     "countryAddress" : "qg02",
-        //     "cityAddress": "tp01", 
-        //     "districtAddress" : "qh01", 
-        //     "wardAddress" : "xp01", 
-        //     "numberHome": "256 Dương Quảng Hàm",
-        //     "status" : "Hoạt động"
-        // }
         const newUser = await axios.post(`http://${config.IPP4}:9000/cineza/api/v1/user/create`,
           {
             "type": "USER",
             "fullName": name,
             "numberPhone": email,
             "password": password,
-            "dateOfBirth": "2023-09-23",
-            "numberHome": "256 Dương Quảng Hàm",
+            "dateOfBirth": "2001-09-23",
+            "numberHome": "null",
             "status": "Hoạt động"
           })
         if (newUser.status === 201) {
+          const dataMovieSelect = await AsyncStorage.getItem('movieSelect');
           await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: newUser.data.code, userName: newUser.data.fullName, numberPhone: email }));
-          navigation.navigate("Home")
+
+          if (dataMovieSelect != null) {
+            navigation.navigate("Chọn rạp", { codeMovie: dataMovieSelect.codeMovie, poster: dataMovieSelect.poster, fladLG: "1" })
+          } else {
+            navigation.navigate("Home")
+          }
+
         }
 
       }

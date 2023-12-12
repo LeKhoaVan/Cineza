@@ -61,8 +61,6 @@ const AnotherShow = () => {
           );
         }}
       />
-
-
     </View>
 
   );
@@ -70,9 +68,11 @@ const AnotherShow = () => {
 
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+
+  },
   item: {
-    padding: 10,
+    padding: 20,
     fontSize: 18,
     textAlign: "center",
     justifyContent: "center",

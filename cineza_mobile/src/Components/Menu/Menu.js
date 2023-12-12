@@ -9,16 +9,6 @@ import iconTicket from '../../assets/imageButton/iconTicket.png';
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
-// import { Entypo } from "@expo/vector-icons";
-// import { Feather } from "@expo/vector-icons";
-// import { MaterialCommunityIcons } from "@expo/vector-icons";
-// import { MaterialIcons } from "@expo/vector-icons";
-// import { FontAwesome } from "@expo/vector-icons";
-// import { Foundation } from "@expo/vector-icons";
-// import { Fontisto } from "@expo/vector-icons";
-// import { Octicons } from "@expo/vector-icons";
-// import { FontAwesome5 } from "@expo/vector-icons";
-
 
 function Menu() {
   const navigation = useNavigation();
@@ -98,34 +88,16 @@ function Menu() {
           <Text style={{ color: 'white' }}>Vé của tôi</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
-          style={styles.item}
-          // onPress={() => navigation.navigate("BookByRap")}
-        >
-          <Fontisto name="shopping-store" size={30} color="white" />
-          <Text style={{color: 'white'}}>Cineza Store</Text>
-        </TouchableOpacity> */}
 
-        {/* <TouchableOpacity
-          style={styles.item}
-          // onPress={() => navigation.navigate("BookByRap")}
-        >
-          <Octicons name="credit-card" size={30} color="white" />
-          <Text style={{color: 'white'}}>Cineza eGift</Text>
-        </TouchableOpacity> */}
-
-        {/* <TouchableOpacity
-          style={styles.item}
-          // onPress={() => navigation.navigate("BookByRap")}
-        >
-          <FontAwesome5 name="stack-exchange" size={30} color="white" />
-          <Text style={{color: 'white'}}>Đổi ưu đãi</Text>
-        </TouchableOpacity> */}
       </View>
       {user != "" ?
         (
           <View>
-            <TouchableOpacity onPress={async () => { navigation.navigate('Đăng nhập'), await AsyncStorage.removeItem('userInfo'); }}>
+            <TouchableOpacity onPress={async () => {
+              await AsyncStorage.removeItem('userInfo');
+              await AsyncStorage.removeItem('movieSelect');
+              navigation.navigate('Đăng nhập');
+            }}>
               <Text style={styles.bookTicket}>Đăng xuất</Text>
               <View style={styles.separator}></View>
             </TouchableOpacity>

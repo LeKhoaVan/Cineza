@@ -67,7 +67,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
     setCode(text.target.value);
   };
   const onChangeHandleValue = (text) => {
-    setValue(text.target.value);
+    const test = text.target.value
+    setValue(test);
   };
   const handleChangeComboboxCodeTypeSeat = (text) => {
     setCodeTypeSeat(text.target.value);
@@ -488,8 +489,8 @@ const PriceDetail = ({ headerCode, codePrice, onClickHandleClose, addBtn }) => {
                   value={codeHeader}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCode(text)}
-                  // onFocus={onHandleFocusCode}
+                // onChange={(text) => onChangeHandleCode(text)}
+                // onFocus={onHandleFocusCode}
                 />
               </div>
             </div>

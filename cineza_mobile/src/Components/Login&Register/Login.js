@@ -11,17 +11,34 @@ import axios from 'axios';
 import config from '../../config/configAPI';
 
 function Login() {
+
   //Navigation
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("");
 
+  const [messageError, setMessageError] = useState("")
+  const [isValidateInput, setIsvalidateInput] = useState(false)
+
+
   const handleLogin = async () => {
+
     const user = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/user/login/${email}/${password}`);
-    if (user.data != null) {
+    if (user.data != "") {
       await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: user.data.code, userName: user.data.fullName, numberPhone: user.data.numberPhone }));
-      navigation.navigate("Home")
+      console.log(user.data)
+      const dataMovieSelect = await AsyncStorage.getItem('movieSelect');
+      if (dataMovieSelect != null) {
+        navigation.navigate("Chọn rạp", { codeMovie: dataMovieSelect.codeMovie, poster: dataMovieSelect.poster, fladLG: "1" })
+      } else {
+        navigation.navigate("Home")
+      }
+
+    } else {
+      let message = {};
+      message.errorLogin = 'Sai mật khẩu hoặc địa chỉ email chưa đứng'
+      setMessageError(message);
     }
 
   }
@@ -32,9 +49,6 @@ function Login() {
   const hanldPressForget = () => {
     navigation.navigate('Quên mật khẩu');
   };
-
-  const [messageError, setMessageError] = useState("")
-  const [isValidateInput, setIsvalidateInput] = useState(false)
 
 
   useEffect(() => {
@@ -60,6 +74,16 @@ function Login() {
             Vui lòng nhập Email và mật khẩu {'\n'} để đăng nhập
           </Text>
         </View>
+
+        <View style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          height: 50
+        }}>
+          <Text style={styles.error}>{messageError.errorLogin}</Text>
+        </View>
+
         <View style={styles.containerInput}>
           <View
             style={{

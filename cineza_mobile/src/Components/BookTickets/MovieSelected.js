@@ -21,19 +21,11 @@ import config from "../../config/configAPI";
 import moment from 'moment';
 
 
-const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
+const ExpandableComponent = ({ newItem, onClickFunction, poster, fladLG }) => {
   //Custom Component for the Expandable List
   const [layoutHeight, setLayoutHeight] = useState(null);
   const [dataShow, setDataShow] = useState([]);
   const navigation = useNavigation();
-  // useEffect(() => {
-  //   if (true) {
-  //     setLayoutHeight(null);
-  //   } else {
-  //     setLayoutHeight(0);
-  //   }
-  // }, []);
-
 
   useEffect(() => {
     const getDataShow = async () => {
@@ -65,7 +57,7 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
       }
     }
     getUser();
-  }, [])
+  }, [fladLG])
 
 
   const handleOnClick = (item) => {
@@ -119,16 +111,26 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster }) => {
 function MovieSelected({ route }) {
   const codeMovie = route.params.codeMovie;
   const poster = route.params.poster;
+  const fladLG = route.params.fladLG;
   // console.log(codeMovie);
 
+  const [movieName, setMovieName] = useState("")
   const [startMovie, setStartMovie] = useState("");
   const [endMovie, setEndMovie] = useState("");
   const [showDate, setShowDate] = useState("");
   const [showStart, setShowStart] = useState("");
 
   const [listDataSource, setListDataSource] = useState([]);
+  const [movieSelect, setMovieSelect] = useState("")
   const navigation = useNavigation();
 
+
+  useEffect(() => {
+    const getMovieSelect = async () => {
+      await AsyncStorage.setItem('movieSelect', JSON.stringify({ codeMovie: codeMovie, poster: poster }));
+    }
+    getMovieSelect();
+  }, [])
 
   const [isUpdating, setIsUpdating] = useState(false);
   useEffect(() => {
@@ -156,9 +158,6 @@ function MovieSelected({ route }) {
 
   };
 
-  const handleClick = (item) => {
-    // navigation.navigate("Chọn ghế", { item, poster });
-  };
 
   if (Platform.OS === "android") {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -179,6 +178,7 @@ function MovieSelected({ route }) {
       .then((res) => {
         setStartMovie(res.data.startDate);
         setEndMovie(res.data.endDate);
+        setMovieName(res.data.movieName)
       })
       .catch((err) => {
         console.log(err);
@@ -226,7 +226,7 @@ function MovieSelected({ route }) {
         <Header />
         <View style={{ paddingVertical: 10, backgroundColor: "#d1d1cf" }} />
         <View style={{ width: '100%', height: '10%', backgroundColor: "white", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
-          <Text style={{ fontWeight: "600", fontSize: 20 }}>Tên phim: Long sat hang do</Text>
+          <Text style={{ fontWeight: "600", fontSize: 20 }}>Tên phim: {movieName}</Text>
         </View>
 
         <CalendarStrip
@@ -261,6 +261,7 @@ function MovieSelected({ route }) {
               // onClickFunction={() => {
               //   updateLayout(key);
               // }}
+              fladLG={fladLG}
               newItem={item}
               poster={poster}
             />
