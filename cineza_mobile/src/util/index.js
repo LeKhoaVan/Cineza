@@ -3,10 +3,10 @@ const formatDateHandle = (inputDate) => {
   const date = new Date(inputDate);
 
   // Get day, month, and year components
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
-  const year = date.getUTCFullYear();
-  const hour = String(date.getUTCHours()).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  const year = date.getFullYear();
+  const hour = String(date.getHours()).padStart(2, "0");
 
   // Format the date as dd-MM-yyyy
   const formattedDate = `${year}-${month}-${day}`;
@@ -19,10 +19,10 @@ const formatDayHandle = (inputDate) => {
   const date = new Date(inputDate);
 
   // Get day, month, and year components
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
-  const year = date.getUTCFullYear();
-  const hour = String(date.getUTCHours()).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  const year = date.getFullYear();
+  const hour = String(date.getHours()).padStart(2, "0");
 
   // Format the date as dd-MM-yyyy
   const formattedDate = `${day}-${month}-${year}`;
@@ -60,9 +60,9 @@ const formatTimeHandle = (inputDate) => {
 
 const formatFromObjectToDate = (inputDate) => {
   const date = new Date(inputDate);
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-  const year = date.getUTCFullYear();
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
   return formattedDate;
 };

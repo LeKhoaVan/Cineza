@@ -68,7 +68,7 @@ function TicketDetail({ route }) {
                 <Text style={styles.viewText}>Giờ chiếu: {data.showStart != "" ? `${String(new Date(data.showStart).getHours()).padStart(2, '0')}:${String(new Date(data.showStart).getMinutes()).padStart(2, '0')}` : ""}</Text>
               </View>
               <View style={styles.viewTicket}>
-                <Text style={styles.viewText1}>Rạp Cineza: {data.rapName}</Text>
+                <Text style={styles.viewText}>Rạp Cineza: {data.rapName}</Text>
                 <Text style={styles.viewText}>Tên phòng: {data.roomName}</Text>
               </View>
             </View>
@@ -106,7 +106,7 @@ function TicketDetail({ route }) {
           style={{
             // borderBottomWidth: 2,
             // borderColor: "black",
-            height: 200,
+            height: 100,
             marginTop: 20,
             flexDirection: 'column',
             justifyContent: 'space-between',

@@ -157,6 +157,7 @@ const OrderDetail = ({ codeOrder, onClickHandleClose }) => {
             return {
               ...item,
               datePay: `${formatDateHandle(item.datePay)} ${new Date(item.datePay).getHours()}:${new Date(item.datePay).getMinutes()}`,
+              priceItemOrder: item.priceItemOrder.toLocaleString('vi-VN')
             };
           });
           setOrders(dataResult);

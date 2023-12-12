@@ -116,7 +116,11 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
         `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codeHeader}`
       );
       if (result.status == 200) {
-        setPrices(result.data);
+        const dataPriceDetail = result.data.map(price => {
+          price.value = price.value.toLocaleString('vi-VN');
+          return price
+        })
+        setPrices(dataPriceDetail);
       }
     }
   };
@@ -125,7 +129,6 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
     setOpenModelAdd(true);
     console.log(openModelAdd);
   };
-  ////////////////////////////////////////////////////
 
   const onChangeHandleCode = (text) => {
     setCode(text.target.value);
@@ -434,7 +437,11 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           `http://localhost:9000/cineza/api/v1/price/get-all-by-header/${codePriceHeader}`
         );
         if (result.status == 200) {
-          setPrices(result.data);
+          const dataPriceDetail = result.data.map(price => {
+            price.value = price.value.toLocaleString('vi-VN');
+            return price
+          })
+          setPrices(dataPriceDetail);
         }
       }
     } catch (error) {
@@ -509,22 +516,22 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               {startDayShow == ""
                 ? ""
                 : `${String(new Date(startDayShow).getDate()).padStart(
-                    2,
-                    "0"
-                  )}-${String(new Date(startDayShow).getMonth() + 1).padStart(
-                    2,
-                    "0"
-                  )}-${String(new Date(startDayShow).getFullYear())}`}{" "}
+                  2,
+                  "0"
+                )}-${String(new Date(startDayShow).getMonth() + 1).padStart(
+                  2,
+                  "0"
+                )}-${String(new Date(startDayShow).getFullYear())}`}{" "}
               Đến ngày{" "}
               {endDayShow == ""
                 ? ""
                 : `${String(new Date(endDayShow).getDate()).padStart(
-                    2,
-                    "0"
-                  )}-${String(new Date(endDayShow).getMonth() + 1).padStart(
-                    2,
-                    "0"
-                  )}-${String(new Date(endDayShow).getFullYear())}`}
+                  2,
+                  "0"
+                )}-${String(new Date(endDayShow).getMonth() + 1).padStart(
+                  2,
+                  "0"
+                )}-${String(new Date(endDayShow).getFullYear())}`}
             </p>
           </div>
         </div>

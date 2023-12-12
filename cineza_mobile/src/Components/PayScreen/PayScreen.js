@@ -100,6 +100,7 @@ function PayScreen({ route }) {
                   );
                   if (response.status === 201) {
                     codeTicket.push({ codeTicket: response.data.code, priceTicket: t.priceTicket });
+                    await AsyncStorage.removeItem('movieSelect');
                     console.log('Lưu ticket thành công');
                   } else {
                     console.log('Lưu thất bại');

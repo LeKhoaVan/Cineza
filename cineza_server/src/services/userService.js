@@ -66,7 +66,7 @@ const login = async (numberPhone, password) => {
     left join Address as cit on u.cityAddress = cit.code
     left join Address as dt on u.districtAddress = dt.code
     left join Address as wd on u.wardAddress = wd.code
-    where u.numberPhone = '${numberPhone}' and u.password = "${password}";`
+    where u.numberPhone = '${numberPhone}' and u.password = "${password}" and u.status = 'Hoạt động';`
     const [dataUser, metadata] = await db.sequelize.query(query, { type: QueryTypes.SELECT });
     return dataUser;
 }
