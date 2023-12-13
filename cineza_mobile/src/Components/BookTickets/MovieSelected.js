@@ -21,7 +21,7 @@ import config from "../../config/configAPI";
 import moment from 'moment';
 
 
-const ExpandableComponent = ({ newItem, onClickFunction, poster, fladLG }) => {
+const ExpandableComponent = ({ newItem, onClickFunction, poster, fladLG, day }) => {
   //Custom Component for the Expandable List
   const [layoutHeight, setLayoutHeight] = useState(null);
   const [dataShow, setDataShow] = useState([]);
@@ -29,10 +29,10 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster, fladLG }) => {
 
   useEffect(() => {
     const getDataShow = async () => {
-      const year = `${new Date(newItem.showStart).getFullYear()}`
-      const month = `${String(new Date(newItem.showStart).getMonth() + 1).padStart(2, '0')}`
-      const day = `${String(new Date(newItem.showStart).getDate()).padStart(2, '0')}`
-      const date = `${year}-${month}-${day}`
+      const year = `${new Date(day).getFullYear()}`
+      const month = `${String(new Date(day).getMonth() + 1).padStart(2, '0')}`
+      const day1 = `${String(new Date(day).getDate()).padStart(2, '0')}`
+      const date = `${year}-${month}-${day1}`
       const response = await axios.get(
         `http://${config.IPP4}:9000/cineza/api/v1/show/get-by-rap-movie-data/${newItem.codeRap
         }/${newItem.codeMovie}/${date}`
@@ -44,7 +44,7 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster, fladLG }) => {
       }
     };
     getDataShow();
-  }, []);
+  }, [day]);
 
 
   const [user, setUser] = useState("");
@@ -68,7 +68,8 @@ const ExpandableComponent = ({ newItem, onClickFunction, poster, fladLG }) => {
         'Thông báo', // Tiêu đề
         'Khách hàng chưa đăng nhập. Hãy đăng nhập để sử dụng chức năng đặt vé', // Nội dung
         [
-          { text: 'Đồng ý', onPress: () => console.log('Đã đồng ý') },
+          { text: 'Hủy', onPress: () => console.log('Đã đồng ý') },
+          { text: 'Đăng nhập', onPress: () => navigation.navigate('Đăng nhập') },
           // Các nút tương tác khác có thể được thêm vào đây
         ],
         { cancelable: false }
@@ -123,7 +124,6 @@ function MovieSelected({ route }) {
   const [listDataSource, setListDataSource] = useState([]);
   const [movieSelect, setMovieSelect] = useState("")
   const navigation = useNavigation();
-
 
   useEffect(() => {
     const getMovieSelect = async () => {
@@ -264,6 +264,7 @@ function MovieSelected({ route }) {
               fladLG={fladLG}
               newItem={item}
               poster={poster}
+              day={showDate}
             />
           ))}
         </ScrollView>

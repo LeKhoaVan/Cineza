@@ -258,7 +258,7 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
             setShowAlert(true);
             onClickHandleNew();
           } else {
-            setMessage("Lưu thất bại");
+            setMessage("Lưu thất bại. Mã đã tồn tại");
             setShowAlert(true);
           }
         } else if (update) {
@@ -429,8 +429,8 @@ const VTDLDetail = ({ levelAr, codeAddressBy, onClickHandleClose, addBtn }) => {
                   readOnly={true}
                   value={levelAddress}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(code) => onChangeNameAddress(code)}
-                  // onFocus={onHandleFocusNameAddress}
+                // onChange={(code) => onChangeNameAddress(code)}
+                // onFocus={onHandleFocusNameAddress}
                 />
               </div>
             </div>

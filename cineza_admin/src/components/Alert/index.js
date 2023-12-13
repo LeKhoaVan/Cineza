@@ -7,7 +7,7 @@ const Alert = ({ message, onClose }) => {
     <div className="alert-overlay">
       <div className="alert">
         <p>{message}</p>
-        <button style={{ marginTop: 30, width: "70%" }} onClick={onClose}>
+        <button style={{ marginTop: 30, width: "80%" }} onClick={onClose}>
           Đóng
         </button>
       </div>

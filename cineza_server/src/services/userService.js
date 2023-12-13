@@ -10,7 +10,8 @@ const getAllUserService = async () => {
     left join Address as ct on u.countryAddress = ct.code
     left join Address as cit on u.cityAddress = cit.code
     left join Address as dt on u.districtAddress = dt.code
-    left join Address as wd on u.wardAddress = wd.code`
+    left join Address as wd on u.wardAddress = wd.code
+    order by u.fullName ASC;`
     const dataUser = await db.sequelize.query(query, { type: QueryTypes.SELECT });
     return dataUser;
 }
@@ -38,7 +39,8 @@ const getUserByTypeService = async (typeUser) => {
     left join Address as cit on u.cityAddress = cit.code
     left join Address as dt on u.districtAddress = dt.code
     left join Address as wd on u.wardAddress = wd.code
-    where u.type = '${typeUser}';`
+    where u.type = '${typeUser}'
+    order by u.fullName DESC;;`
     const [dataUser, metadata] = await db.sequelize.query(query);
     return dataUser;
 }

@@ -492,6 +492,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
     setWardId("");
     setNumberHome("");
     setDateOfBirthShow("");
+    setPassword("")
   };
 
   const onClickSave = async () => {
@@ -540,8 +541,12 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
       !isValidAddress
     ) {
       try {
-        console.log(user);
         if (editCode) {
+          let errorCreate = "";
+          const checkEmail = await axios.get(`http://localhost:9000/cineza/api/v1/user/check-email/${phoneUser}`)
+          if (checkEmail.data != "") {
+            errorCreate = "Email đã tồn tại";
+          }
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/user/create`,
             user
@@ -551,7 +556,11 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
             setShowAlert(true);
             onClickHandleNew();
           } else {
-            setMessage("Lưu thất bại");
+            if (errorCreate === "") {
+              setMessage("Lưu thất bại. Mã người dùng đã tồn tại");
+            } else {
+              setMessage(`Lưu thất bại. ${errorCreate}`);
+            }
             setShowAlert(true);
           }
         } else if (update) {
@@ -782,7 +791,7 @@ const UserDetail = ({ codeUserBy, onClickHandleClose, addBtn }) => {
                   onFocus={onHandleForcusDate}
                   fixedHeight="60px"
                   portalId="root-portal"
-                  // className="date-picker"
+                // className="date-picker"
                 />
                 {isValidBirth && (
                   <p style={{ color: "red" }}>Không được bỏ trống</p>
