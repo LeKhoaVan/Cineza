@@ -339,14 +339,15 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
         if (dataPriceTam != null) {
           const checkStartDay = moment(startDayShow).format("YYYY-MM-DD");
           const checkEndDay = moment(endDayShow).format("YYYY-MM-DD");
-          const dataUpdate = await axios.put(
-            `http://localhost:9000/cineza/api/v1/price-header/update-all/${checkStartDay}/${checkEndDay}`
-          );
+
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/price-header/create`,
             dataPriceTam
           );
           if (response.status === 201) {
+            const dataUpdate = await axios.put(
+              `http://localhost:9000/cineza/api/v1/price-header/update-all/${checkStartDay}/${checkEndDay}`
+            );
             setMessage("Lưu thành công");
             setShowAlert(true);
             // onClickHandleNew();
@@ -357,6 +358,8 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
           setIsOpenDialog(false);
         }
       } catch (error) {
+        setMessage("Lưu thất bại. Mã đã tồn tại");
+        setShowAlert(true);
         console.log("error save price header check: " + error);
       }
     } else if (update) {
