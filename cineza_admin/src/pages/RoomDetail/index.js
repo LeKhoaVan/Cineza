@@ -338,7 +338,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
 
             onClickHandleNew();
           } else {
-            setMessage("Lưu thất bại");
+            setMessage("Lưu thất bại. Mã đã tồn tại");
             setShowAlert(true);
           }
         } else if (update) {
@@ -393,7 +393,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
         }
       } catch (error) {
         console.log("save room fail: " + error);
-        setMessage("Lưu thất bại");
+        setMessage("Lưu thất bại. Mã đã tồn tại");
         setShowAlert(true);
       }
     } else {
@@ -514,8 +514,8 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
                   value={codeRap}
                   readOnly={true}
                   style={{ background: "rgb(196, 196, 196)" }}
-                  // onChange={(text) => onChangeHandleCodeRap(text)}
-                  // onFocus={onHandleFocusPosition}
+                // onChange={(text) => onChangeHandleCodeRap(text)}
+                // onFocus={onHandleFocusPosition}
                 />
               </div>
             </div>
@@ -622,7 +622,7 @@ const RoomDetail = ({ rapCode, codeRoom, onClickHandleClose, addBtn }) => {
               renderItem={(item) => (
                 <div
                   className="room-detail-container-page-right-vip"
-                  // onClick={handleSeatClick(item)}
+                // onClick={handleSeatClick(item)}
                 >
                   <b>{item.position}</b>
                 </div>

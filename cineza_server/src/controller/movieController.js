@@ -150,7 +150,6 @@ const getAllMovieForUser = async (req, res) => {
 
 const findMovieForUserController = async (req, res) => {
   const { movieName } = req.query;
-  console.log(movieName)
   try {
     const allMovie = await findMovieForUserService(movieName);
     res.status(200).send(allMovie);

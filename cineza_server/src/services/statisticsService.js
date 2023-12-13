@@ -179,7 +179,6 @@ const statisticsPriceService = async (year, month) => {
         const dateCurrent = moment().format("YYYY-MM-DD")
         query = `select sum(o.priceTotal) as totalPrice,  YEAR(o.datePay) as title
         from cineza.Order as o
-        where datePay >= '2000-01-01' and datePay < '${dateCurrent}'
         group by title
         order by title
         LIMIT 5;`

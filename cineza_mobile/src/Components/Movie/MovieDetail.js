@@ -61,17 +61,6 @@ const MovieDetail = ({ route }) => {
             {dataMovie.movieName}
           </Text>
 
-          <View style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            marginTop: 10,
-          }}>
-            <Text style={styles.viewText}>Mô tả: </Text>
-            <Text style={[styles.viewTextData, { width: "70%" }]}>
-              {dataMovie.description}
-            </Text>
-          </View>
-
 
           <View style={styles.viewContent}>
             <Text style={styles.viewText}>Ngày phát hành: </Text>
@@ -103,29 +92,27 @@ const MovieDetail = ({ route }) => {
             </Text>
           </View>
 
+          <View style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            marginTop: 10,
+            paddingBottom: '25%'
+          }}>
+            <Text style={styles.viewText}>Mô tả: </Text>
+            <Text style={[styles.viewTextData, { width: "70%" }]}>
+              {dataMovie.description}
+            </Text>
+          </View>
 
         </View>
-        <Pressable
-          style={{
-            position: "absolute",
-            top: '92%',
-            right: '0%',
-            width: "100%",
-            zIndex: 2,
-          }}
-        >
-          <View
-            style={{
-              alignItems: "flex-end",
-              marginBottom: 10,
-            }}
-          >
-            <TouchableOpacity onPress={handleClick}>
-              <Text style={styles.buttonBookTicket}>Đặt vé</Text>
-            </TouchableOpacity>
-          </View>
-        </Pressable>
+
       </ScrollView>
+
+      <View style={styles.fixedButtonContainer}>
+        <TouchableOpacity onPress={handleClick}>
+          <Text style={styles.buttonBookTicket}>Đặt vé</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -167,5 +154,21 @@ const styles = StyleSheet.create({
     marginRight: 20,
     fontSize: 18,
     backgroundColor: "red",
+  },
+
+  fixedButtonContainer: {
+    position: 'absolute',
+    width: '93%',
+    bottom: 20,
+    right: 20,
+  },
+  buttonBookTicket: {
+    textAlign: 'center',
+    fontSize: 17,
+    width: '100%',
+    color: 'white',
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 20,
   },
 });

@@ -287,7 +287,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
               setShowAlert(true);
               // onClickHandleNew();
             } else {
-              setMessage("Lưu thất bại");
+              setMessage("Lưu thất bại. Mã đã tồn tại");
               setShowAlert(true);
             }
           } else {
@@ -323,7 +323,7 @@ const PriceHeaderDetail = ({ codePriceHeader, onClickHandleClose, addBtn }) => {
         }
       } catch (error) {
         console.log("save price header fail: " + error);
-        setMessage("Lưu thất bại");
+        setMessage("Lưu thất bại. Mã đã tồn tại");
         setShowAlert(true);
       }
     } else {

@@ -438,9 +438,8 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
             setShowAlert(true);
             setMessage("Lưu phim thành công");
           } else {
-            console.log("save movie error");
             setShowAlert(true);
-            setMessage("Lỗi lưu phim");
+            setMessage("Lỗi lưu phim. Mã đã tồn tại");
           }
         } else if (update) {
           const updateMovie = await axios.put(
@@ -465,7 +464,7 @@ const MovieDetail = ({ onClickHandleClose, addBtn, movieClick }) => {
       } catch (error) {
         console.log("error svae movie: " + error);
         setShowAlert(true);
-        setMessage("Lỗi lưu phim");
+        setMessage("Lỗi lưu phim. Mã đã tồn tại");
       }
     } else {
       console.log("lưu sai");

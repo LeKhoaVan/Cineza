@@ -31,9 +31,9 @@ const OTPAuthScreen = ({ route }) => {
         if (newUser.status === 201) {
           const dataMovieSelect = await AsyncStorage.getItem('movieSelect');
           await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: newUser.data.code, userName: newUser.data.fullName, numberPhone: email }));
-
+          const dataMS = JSON.parse(dataMovieSelect)
           if (dataMovieSelect != null) {
-            navigation.navigate("Chọn rạp", { codeMovie: dataMovieSelect.codeMovie, poster: dataMovieSelect.poster, fladLG: "1" })
+            navigation.navigate("Chọn rạp", { codeMovie: dataMS.codeMovie, poster: dataMS.poster, fladLG: "1" })
           } else {
             navigation.navigate("Home")
           }

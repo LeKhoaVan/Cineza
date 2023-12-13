@@ -97,7 +97,7 @@ function Statistics() {
                         }),
                         backgroundColor: 'rgba(75,192,192,1)',
                         borderColor: 'rgba(0,0,0,1)',
-                        barThickness: 30, // Đặt kích thước của các cột
+                        barThickness: 50, // Đặt kích thước của các cột
                     }]
                 };
                 setDataChartMovie(newData);
@@ -233,6 +233,7 @@ function Statistics() {
                     <div className='statistics-title'>
                         <p style={{ padding: 10 }}>Tổng vé: <br /> </p>
                         <p style={{ paddingLeft: 10, fontSize: 20 }}>{parseFloat(totalTicket).toLocaleString('vi-VN')} Vé</p>
+                        <p style={{ padding: 10, paddingTop: 20 }}>Biểu đồ top 5 phim có số vé cao nhất:<br /> </p>
                     </div>
 
                     <div className='statistics-chart-value'>

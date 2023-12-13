@@ -585,7 +585,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
 
                 onClickHandleNew();
               } else {
-                setMessage("Lưu thất bại");
+                setMessage("Lưu thất bại. Mã đã tồn tại");
                 setShowAlert(true);
               }
             } else {
@@ -647,7 +647,7 @@ const ShowDetail = ({ codeShow, onClickHandleClose, addBtn }) => {
         }
       } catch (error) {
         console.log("save fail: " + error);
-        setMessage("Lưu thất bại");
+        setMessage("Lưu thất bại. Mã đã tồn tại");
         setShowAlert(true);
       }
     } else {
