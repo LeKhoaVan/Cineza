@@ -549,7 +549,6 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
       !isValidAddress
     ) {
       try {
-        // console.log(rap);
         if (editCode) {
           const response = await axios.post(
             `http://localhost:9000/cineza/api/v1/rap/create`,
@@ -558,10 +557,8 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
           if (response.status === 201) {
             setMessage("Lưu thành công");
             setShowAlert(true);
-
-            // onClickHandleNew();
           } else {
-            setMessage("Lưu thất bại");
+            setMessage("Lưu thất bại. Mã đã tồn tại");
             setShowAlert(true);
           }
         } else if (update) {
@@ -605,7 +602,7 @@ const RapDetail = ({ codeRapBy, onClickHandleClose, addBtn }) => {
         }
       } catch (error) {
         console.log("save address fail: " + error);
-        setMessage("Lưu thất bại");
+        setMessage("Lưu thất bại. Mã đã tồn tại");
         setShowAlert(true);
       }
     } else {

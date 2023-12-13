@@ -27,10 +27,11 @@ function Login() {
     const user = await axios.get(`http://${config.IPP4}:9000/cineza/api/v1/user/login/${email}/${password}`);
     if (user.data != "") {
       await AsyncStorage.setItem('userInfo', JSON.stringify({ codeUser: user.data.code, userName: user.data.fullName, numberPhone: user.data.numberPhone }));
-      console.log(user.data)
+
       const dataMovieSelect = await AsyncStorage.getItem('movieSelect');
+      const dataMS = JSON.parse(dataMovieSelect)
       if (dataMovieSelect != null) {
-        navigation.navigate("Chọn rạp", { codeMovie: dataMovieSelect.codeMovie, poster: dataMovieSelect.poster, fladLG: "1" })
+        navigation.navigate("Chọn rạp", { codeMovie: dataMS.codeMovie, poster: dataMS.poster, fladLG: "1" })
       } else {
         navigation.navigate("Home")
       }

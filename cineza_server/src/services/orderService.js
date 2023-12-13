@@ -74,7 +74,8 @@ const getAllOrderService = async (datePay) => {
   const query = `select o.datePay, o.description, o.priceTotal, o.codeUser, o.code, us.fullName, us.numberPhone
     from cineza.Order as o
     join User as us on us.code = o.codeUser 
-    where o.datePay LIKE '%${datePay}%'`;
+    where o.datePay LIKE '%${datePay}%'
+    order by o.datePay DESC;`;
   if (datePay) {
     const dataOrders = await db.sequelize.query(query, {
       type: QueryTypes.SELECT,
@@ -83,7 +84,8 @@ const getAllOrderService = async (datePay) => {
   } else {
     const query = `select o.datePay, o.description, o.priceTotal, o.codeUser, o.code, us.fullName, us.numberPhone
     from cineza.Order as o
-    join User as us on us.code = o.codeUser `;
+    join User as us on us.code = o.codeUser
+    order by o.datePay DESC;`;
 
     const dataOrders = await db.sequelize.query(query, {
       type: QueryTypes.SELECT,
